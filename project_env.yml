@@ -1,0 +1,52 @@
+name: swegetter
+channels:
+  - conda-forge
+dependencies:
+  # Core scientific python
+  - numpy
+  - pandas
+  - matplotlib
+  - python=3.6
+  - pyqt
+  - seaborn
+  - scikit-image
+
+  # Geo stuff
+  - rasterstats
+  - geopy
+  - cartopy
+  - geopandas
+  - rasterio
+  - contextily
+  - pysal
+  - pyproj
+  - folium
+  - scikit-image
+  - gdal
+  - geocoder
+  - geojson
+  - affine
+
+  # NCO Stuff
+  - pynco
+  - netcdf4
+
+  # Deep Learning
+  - Tensorflow
+  - keras
+
+  # Jupyter Environment
+  - notebook
+  - ipython
+  - jupyter_contrib_nbextensions
+  - nb_conda
+  - jupyterlab
+
+  - pip:
+      # Utilities
+      - nbgrader
+      - nbclean
+      - sklearn
+      - tqdm
+      - mapboxgl
+      - git+https://github.com/geopandas/geopandas.git
