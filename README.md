@@ -3,7 +3,7 @@ Currently this script is not supported in Windows due to pynco only supporting M
 Requires python 3.6 and Anaconda 3
 
 # 1. Setup Earthdata Login
-Create an Earthdata account to be able to download data - https://urs.earthdata.nasa.gov/  
+Create an Earthdata account to be able to download data: https://urs.earthdata.nasa.gov/  
 Setup your username and password in a .netrc file  
 Run this command in the directory you will be working in
 
