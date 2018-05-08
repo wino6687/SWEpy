@@ -43,16 +43,22 @@ https://conda-forge.org/docs/conda-forge_gotchas.html#using-multiple-channels
 # Function Summaries
 Descriptions of included functions
 ## scrape(dates, path, path_data)
-scrape
+Parameters: date range,  
 ## get_xy(ll_ul, ll_lr)
-convert
+Parameters: lists of latitude/longitude upper left, latitude/longitude lower right
+Uses NSIDC scripts to convert user inputted lat/lon into Ease grid 2.0 coordinates
 ## subset(list6, path)
+Parameters:
 subset
 ## concatenate(path, outfile_19, outfile_37, final=False)
+Parameters: path, output file, output file, final(optional)
 The concatenate function 
 ## file_setup(path)
+Parameters: 
 setup files
 ## scrape_all(start, end, list3, path=None)
+Parameters: start date, end date, list, path(optional)
 Comp function
 ## plot_a_day(file1, file2, path, token)
+Parameters: 
 Plots a day in Mapbox
