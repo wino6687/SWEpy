@@ -92,7 +92,7 @@ nD.download_range(sensor="SSMIS", date=[datetime(2014,01,01), datetime(2015,01,0
 
 * Authentication will work if the user/pass combo is saved in `~/.netrc`, or if it is passed in the nsidcDownloader instance
 
-* The whole class basically formats the following string:
+* The class formats the following string:
 
 ```
  "{protocol}://{server}/{datapool}/{dataset}.{version}/{date:%Y.%m.%d}" \
