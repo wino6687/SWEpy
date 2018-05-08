@@ -1,12 +1,15 @@
+# Disclaimer
+Currently this script is not supported in Windows due to pynco only supporting Mac OS or Unix. 
+Requires python 3.6 and Anaconda 3
+
 # 1. Setup Earthdata Login
 Create an Earthdata account to be able to download data - https://urs.earthdata.nasa.gov/
 Setup your username and password in a .netrc file
+Run this command in the directory you will be working in
 
 	echo "machine urs.earthdata.nasa.gov login <uid> password <password>" >> ~/.netrc
 	chmod 0600 ~/.netrc
 <uid> is your Earthdata username. Do not include the brackets <>.
-
-
 
 https://nsidc.org/support/faq/what-options-are-available-bulk-downloading-data-https-earthdata-login-enabled
 
