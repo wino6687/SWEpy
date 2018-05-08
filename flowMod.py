@@ -1,9 +1,10 @@
 import datetime
 
-import subprocess
-import shlex
-from subprocess import call
-
+#import subprocess
+#import shlex
+#from subprocess import call
+import requests
+from nsidcDownloader import nsidcDownloader
 import numpy as np
 from netCDF4 import Dataset
 from skimage.measure import block_reduce
@@ -117,7 +118,9 @@ def subset(list6, path):
 ## ['/folder/file1.nc','/folder/file2.nc']
 def concatenate(path, outfile_19, outfile_37, final=False):
     '''Function to concatenate files in the subsetted data
-    folders.'''
+    folders. Takes working directory path, the desired outfile
+    names, and whether or not this is a final pass in the subet_all
+    function as input.'''
     os.chdir(path + '/data' + '/Subsetted_19H')
     if final: # final we want to take diff file names
         list19 = glob.glob('19H*nc')
@@ -174,12 +177,44 @@ def scrape_all(start, end, list3, path=None):
     if path is None:   # if no directory path provided, find one
         path = os.getcwd()
     os.chdir(path)
+    path19, path37, wget = file_setup(path)
+    nD = nsidcDownloader(folder = wget)     #instantiate downloading class
+    sensors = {1992: 'F11', 1993: 'F11', 1994: 'F11', 1995: 'F11', 1996: 'F13', 1997: 'F13', 1998: 'F13',
+                1999: 'F13', 2000: 'F13', 2001: 'F13', 2002: 'F13', 2003: 'F15', 2004: 'F15', 2005: 'F15', 2006: 'F15',
+                2007: 'F15', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
+                2015: 'F19'}
+    if path is None:   # if no directory path provided, find one
+        path = os.getcwd()
+    os.chdir(path)
     outfile19 = 'all_days_19H.nc'
     outfile37 = 'all_days_37H.nc'
-    path19, path37, wget = file_setup(path)
     dates = pd.date_range(start, end)
     if len(dates) <= 133:
-        scrape(dates, path, wget)
+        for date in dates:
+            temp = date
+            # Store the year of the current date, convert to day of year
+            year = temp.year
+            sensor = sensors[year]
+            if sensor in ['F16', 'F17', 'F18', 'F19']:
+                ssmi_s = "SSMIS"
+            else:
+                ssmi_s = "SSMI"
+            file19 = {
+                "resolution": "6.25km",
+                "platform": sensors[year],
+                "sensor": ssmi_s,
+                "date": date,
+                "channel": "19H"
+            }
+            file37 = {
+                "resolution": "3.125km",
+                "platform": sensors[year],
+                "sensor": ssmi_s,
+                "date": date,
+                "channel": "37H"
+            }
+            nD.download_file(**file19)
+            nD.download_file(**file37)
         subset(list3, path)
         return concatenate(path, outfile19, outfile37)
     else:
@@ -189,7 +224,32 @@ def scrape_all(start, end, list3, path=None):
             tempfile19 = '19H' + str(temp) + 'temp.nc'
             tempfile37 = '37H' + str(temp) + 'temp.nc'
             temp += 1
-            scrape(subList, path, wget)
+            for date in subList:
+                temp = date
+                # Store the year of the current date, convert to day of year
+                year = temp.year
+                sensor = sensors[year]
+                if sensor in ['F16', 'F17', 'F18', 'F19']:
+                    ssmi_s = "SSMIS"
+                else:
+                    ssmi_s = "SSMI"
+                file19 = {
+                    "resolution": "6.25km",
+                    "platform": sensors[year],
+                    "sensor": ssmi_s,
+                    "date": date,
+                    "channel": "19H"
+                }
+                file37 = {
+                    "resolution": "3.125km",
+                    "platform": sensors[year],
+                    "sensor": ssmi_s,
+                    "date": date,
+                    "channel": "37H"
+                }
+                nD.download_file(**file19)
+                nD.download_file(**file37)
+            #scrape(subList, path, wget)
             subset(list3, path)
             concatenate(path, tempfile19, tempfile37)
         return concatenate(path, outfile19, outfile37, final=True)
@@ -221,7 +281,7 @@ def plot_a_day(file1, file2, path, token):
     one_day = tb[0,:,:]
     df = pd.DataFrame(columns = ['lat', 'lon', 'swe'])
     for i in range(len(one_day[:,1])):
-        for j in range(1,:):
+        for j in range(len(one_day[1,:])):
             df = df.append({'lat': lats[i][j], 'lon': lons[i][j], 'swe':one_day[i][j]}, ignore_index = True)
     df_to_geojson(df, filename = 'swe_1day.geojson',properties = ['swe'],lat = 'lat', lon = 'lon')
     measure = 'swe'
