@@ -69,6 +69,9 @@ Descriptions of included functions
 * Returns: interactive map of inputted data
 
 ## Web Scraper Example Use
+
+* Note: Web scraper is enabled automatically in the scrape_all workflow, however it can also be used as a stanalone function!
+
 ```{python}
 from nsidcDownloader import nsidcDownloader
 
