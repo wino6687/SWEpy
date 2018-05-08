@@ -43,26 +43,26 @@ https://conda-forge.org/docs/conda-forge_gotchas.html#using-multiple-channels
 # Function Summaries
 Descriptions of included functions
 ## get_xy(ll_ul, ll_lr)
-Parameters: lists of latitude/longitude upper left, latitude/longitude lower right
-Uses NSIDC scripts to convert user inputted lat/lon into Ease grid 2.0 coordinates
+Parameters: lists of latitude/longitude upper left, latitude/longitude lower right  
+Uses NSIDC scripts to convert user inputted lat/lon into Ease grid 2.0 coordinates  
 Returns: Ease grid 2.0 coordinates of inputted lat/longs
 ## subset(list6, path)
-Parameters:
-subset
+Parameters:  
+subset  
 Returns: subsetted input files
 ## concatenate(path, outfile_19, outfile_37, final=False)
-Parameters: path, output file, output file, final(optional)
-The concatenate function 
+Parameters: path, output file, output file, final(optional)  
+The concatenate function   
 Returns: concatenated netCDF file
 ## file_setup(path)
-Parameters: current working directory
-setup files needed for other functions
+Parameters: current working directory  
+setup files needed for other functions  
 Returns:
 ## scrape_all(start, end, list3, path=None)
-Parameters: start date, end date, list, path(optional)
-Complete function that downloads, concatenates, and subsets data
+Parameters: start date, end date, list, path(optional)  
+Complete function that downloads, concatenates, and subsets data  
 Returns: 
 ## plot_a_day(file1, file2, path, token)
-Parameters: 19, 37, current working directory, mapbox token
-Plots a day of data using Mapbox Jupyter
+Parameters: 19, 37, current working directory, mapbox token  
+Plots a day of data using Mapbox Jupyter  
 Returns: interactive data of inputted data
