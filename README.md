@@ -67,3 +67,35 @@ Returns: file names of concatenated 19/37 time cubes
 Parameters: 19Ghz files, 37Ghz files, current working directory, mapbox token  
 Plots a day of data using Mapbox Jupyter  
 Returns: interactive map of inputted data
+
+## Web Scraper Example Use
+```{python}
+from nsidcDownloader import nsidcDownloader
+
+## Ways to instantiate nsidcDownloader
+nD = nsidcDownloader(username="user", password="pass", folder=".") ## user/pass combo and folder
+nD = nsidcDownloader(sensor="SSMIS") ## user/pass combo from .netrc and default folder, setting the default key of sensor
+
+## Download a file:
+
+file = {
+    "resolution": "3.125km",
+    "platform": "F17",
+    "sensor": "SSMIS",
+    "date": datetime(2015,10,10),
+    "channel": "37H"
+}
+
+nD.download_file(**file)
+nD.download_range(sensor="SSMIS", date=[datetime(2014,01,01), datetime(2015,01,01)])
+```
+
+* Authentication will work if the user/pass combo is saved in `~/.netrc`, or if it is passed in the nsidcDownloader instance
+
+* The whole class basically formats the following string:
+
+```
+ "{protocol}://{server}/{datapool}/{dataset}.{version}/{date:%Y.%m.%d}" \
+                    "/{dataset}-{projection}_{grid}{resolution}-{platform}_{sensor}" \
+                    "-{date:%Y%j}-{channel}-{pass}-{algorithm}-{input}-{dataversion}.nc"
+```
