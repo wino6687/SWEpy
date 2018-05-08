@@ -22,8 +22,8 @@ Using the yaml file (.yml) create a new conda environment
 
     conda env create -f environment.yml
 # 3. Install ipykernel (if using jupyter)
-	source activate myenv
-	python -m ipykernel install --user --name myenv --display-name "Python (myenv)"
+	source activate swepy_env
+	python -m ipykernel install --user --name swepy_env --display-name "Python (myenv)"
 # 4. Run Script
     source activate myenv
     python full_workflow.py
