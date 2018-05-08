@@ -44,29 +44,29 @@ https://conda-forge.org/docs/conda-forge_gotchas.html#using-multiple-channels
 # Function Summaries
 Descriptions of included functions
 ## get_xy(ll_ul, ll_lr)
-Parameters: lists of latitude/longitude upper left, latitude/longitude lower right  
-Uses NSIDC scripts to convert user inputted lat/lon into Ease grid 2.0 coordinates  
-Returns: Ease grid 2.0 coordinates of inputted lat/longs
+* Parameters: lists of latitude/longitude upper left, latitude/longitude lower right  
+* Uses NSIDC scripts to convert user inputted lat/lon into Ease grid 2.0 coordinates  
+* Returns: Ease grid 2.0 coordinates of inputted lat/longs
 ## subset(list6, path)
-Parameters: coordinates of area of interest, current working directory  
-Subset will get the files from wget directory and subset them geographically  
-Returns: subsetted files
+* Parameters: coordinates of area of interest, current working directory  
+* Subset will get the files from wget directory and subset them geographically  
+* Returns: subsetted files
 ## concatenate(path, outfile_19, outfile_37, final=False)
-Parameters: current working directory, output file for 19Ghz, output file for 37Ghz 
-The concatenate function merges all netCDF files into one large file  
-Returns: concatenated netCDF file
+* Parameters: current working directory, output file for 19Ghz, output file for 37Ghz 
+* The concatenate function merges all netCDF files into one large file  
+* Returns: concatenated netCDF file
 ## file_setup(path)
-Parameters: current working directory  
-setup files needed for other functions  
-Returns: create correct folders for use by other functions
+* Parameters: current working directory  
+* setup files needed for other functions  
+* Returns: create correct folders for use by other functions
 ## scrape_all(start, end, list3, path=None)
-Parameters: start date, end date, list, current working directory(optional)  
-Complete function that downloads, concatenates, and subsets data  
-Returns: file names of concatenated 19/37 time cubes
+* Parameters: start date, end date, list, current working directory(optional)  
+* Complete function that downloads, concatenates, and subsets data  
+* Returns: file names of concatenated 19/37 time cubes
 ## plot_a_day(file1, file2, path, token)
-Parameters: 19Ghz files, 37Ghz files, current working directory, mapbox token  
-Plots a day of data using Mapbox Jupyter  
-Returns: interactive map of inputted data
+* Parameters: 19Ghz files, 37Ghz files, current working directory, mapbox token  
+* Plots a day of data using Mapbox Jupyter  
+* Returns: interactive map of inputted data
 
 ## Web Scraper Example Use
 ```{python}
