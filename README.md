@@ -38,3 +38,21 @@ After saving this file, update conda:
     conda update all
 
 https://conda-forge.org/docs/conda-forge_gotchas.html#using-multiple-channels
+
+
+# Function Summaries
+Descriptions of included functions
+## scrape(dates, path, path_data)
+scrape
+## get_xy(ll_ul, ll_lr)
+convert
+## subset(list6, path)
+subset
+## concatenate(path, outfile_19, outfile_37, final=False)
+The concatenate function 
+## file_setup(path)
+setup files
+## scrape_all(start, end, list3, path=None)
+Comp function
+## plot_a_day(file1, file2, path, token)
+Plots a day in Mapbox
