@@ -1,19 +1,32 @@
-# Team_GISProg
+# 1. Setup Earthdata Logins
+Create an Earthdata account to be able to download data - https://urs.earthdata.nasa.gov/
 
-## Note:
+# 2. Build Conda Environment
+Using the yaml file (.yml) create a new conda environment
 
-I will be uploading data to google drive and share that with you guys. I need to go back and re-download the optimal sensors for years 2013-2016
+    conda env create -f environment.yml
+# 3. Install ipykernel
+	source activate myenv
+	python -m ipykernel install --user --name myenv
+     --display-name "Python (myenv)"
+# 4. Run Script
+    source activate myenv
+    python scriptname.py
+  
+# Troubleshooting
 
-The goals of this project are in development. We have daily SWE data from 1990 - 2016 for the arctic. My initial ideas involve comparing overall trends in SWE in different areas of the arctic, although there are lots of things we could do with this data
+If encountering ‘image not found’ errors then one possible fix is to add the
+conda-forge channel on top of the defaults in your .condarc file. This is a
+hidden file, show hidden files and then edit the .condarc file and
+make your file look like this:
 
-## Things we can focus on:
+    $ cat .condarc
+    channels:
+    - conda-forge
+    - defaults
 
+After saving this file, update conda:
 
-1. Develop Open Source Workflow
+    conda update all
 
-I think there is some potential for developing an open source workflow for web-scraping and subsetting netCDF files, maybe even with some kind of interface. 
-
-2. Focus on Analysis and Development of Neural Net Framework
-
-There is so much room for analysis of this data. I have a basic LSTM Neural Net built out for this, but a more advanced conv-lstm would work better. I think it would be cool to create some interactive graphs of SWE over the years, and we can have the last frames be predictions instead of true data. 
-
+https://conda-forge.org/docs/conda-forge_gotchas.html#using-multiple-channels
