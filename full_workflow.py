@@ -33,20 +33,24 @@ except:
     print("Wrong input type detected")
     sys.exit(1)
 try:
-    startY, startM = input("\nEnter starting year and month \n(comma seperated <2001, 5>): ").split(",")
+    startY, startM, startD = input("\nEnter starting year, month, and day \n(comma seperated <2001, 5, 1>): ").split(",")
     startY = str(startY)
     startY = startY.replace(" ", "").strip()
     startM = str(startM)
     startM = startM.replace(" ", "").strip()
+    startD = str(startD)
+    startD = startD.replace(" ", "").strip()
 except:
     print("Wrong input type detected")
     sys.exit(1)
 try:
-    endY, endM = input("\nEnter ending year and month \n(comma seperated <2005, 10>): ").split(",")
+    endY, endM, endD = input("\nEnter ending year, month, and day \n(comma seperated <2005, 10, 15>): ").split(",")
     endY = str(endY)
     endY = endY.replace(" ","").strip()
     endM = str(endM)
     endM = endM.replace(" ","").strip()
+    endD = str(endD)
+    endD = endD.replace(" ", "").strip()
 except:
     print("Wrong input type detected")
     sys.exit(1)
@@ -54,10 +58,9 @@ except:
 print(lat_ul, lon_ul, lat_lr, lon_lr, startY, startM, endY, endM)
 ul = [float(lat_ul), float(lon_ul)]
 lr = [float(lat_lr), float(lon_lr)]
-days = {1:31, 2:28, 3:31, 4:30, 5:31, 6:30, 7:31, 8:31, 9:30, 10:31, 11:30, 12:31}
 
-start = datetime.date(int(startY), int(startM), 1)
-end = datetime.date(int(endY), int(endM), days[int(endM)])
+start = datetime.date(int(startY), int(startM), int(startD))
+end = datetime.date(int(endY), int(endM), int(endD))
 #dates = pd.date_range(start, end)
 #dates = dates.strftime('%Y.%m.%d')
 #this correctly prints the dates! yay
