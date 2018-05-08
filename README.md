@@ -1,6 +1,6 @@
 # Disclaimer
 Currently this script is not supported in Windows due to pynco only supporting Mac OS or Unix   
-Web scrapping currently only working on northern hemisphere  
+Web scrapping currently only working on the northern hemisphere  
 Requires python 3.6 and Anaconda 3
 
 # 1. Setup Earthdata Login
@@ -23,7 +23,7 @@ Using the yaml file (.yml) create a new conda environment
 	python -m ipykernel install --user --name myenv --display-name "Python (myenv)"
 # 4. Run Script
     source activate myenv
-    python scriptname.py
+    python full_workflow.py
   
 # Troubleshooting
 
