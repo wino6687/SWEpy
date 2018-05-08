@@ -1,7 +1,10 @@
 # Disclaimer
-Currently this script is not supported in Windows due to pynco only supporting Mac OS or Unix   
-Web scrapping currently only working on the northern hemisphere  
-Requires python 3.6 and Anaconda 3
+
+* Currently this script is not supported in Windows due to pynco only supporting Mac OS or Unix   
+
+* Web scrapping currently only working on the northern hemisphere  
+
+* Requires python 3.6 and Anaconda 3
 
 # 1. Setup Earthdata Login
 Create an Earthdata account to be able to download data: https://urs.earthdata.nasa.gov/  
