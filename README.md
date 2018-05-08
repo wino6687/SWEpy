@@ -1,7 +1,7 @@
-# Requirements
+# Disclaimer
 Currently this script is not supported in Windows due to pynco only supporting Mac OS or Unix. 
 
-Requires python 3.6 and Anaconda 3
+# Requires python 3.6 and Anaconda 3
 
 # 1. Setup Earthdata Login
 Create an Earthdata account to be able to download data - https://urs.earthdata.nasa.gov/
