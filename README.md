@@ -20,8 +20,7 @@ Using the yaml file (.yml) create a new conda environment
     conda env create -f environment.yml
 # 3. Install ipykernel
 	source activate myenv
-	python -m ipykernel install --user --name myenv
-     --display-name "Python (myenv)"
+	python -m ipykernel install --user --name myenv --display-name "Python (myenv)"
 # 4. Run Script
     source activate myenv
     python scriptname.py
