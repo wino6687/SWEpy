@@ -1,11 +1,10 @@
 # Disclaimer
-Currently this script is not supported in Windows due to pynco only supporting Mac OS or Unix. 
-
+Currently this script is not supported in Windows due to pynco only supporting Mac OS or Unix  
 Requires python 3.6 and Anaconda 3
 
 # 1. Setup Earthdata Login
-Create an Earthdata account to be able to download data - https://urs.earthdata.nasa.gov/
-Setup your username and password in a .netrc file
+Create an Earthdata account to be able to download data - https://urs.earthdata.nasa.gov/  
+Setup your username and password in a .netrc file  
 Run this command in the directory you will be working in
 
 	echo "machine urs.earthdata.nasa.gov login <uid> password <password>" >> ~/.netrc
@@ -27,10 +26,7 @@ Using the yaml file (.yml) create a new conda environment
   
 # Troubleshooting
 
-If encountering ‘image not found’ errors then one possible fix is to add the
-conda-forge channel on top of the defaults in your .condarc file. This is a
-hidden file, show hidden files and then edit the .condarc file and
-make your file look like this:
+If encountering ‘image not found’ errors then one possible fix is to add theconda-forge channel on top of the defaults in your .condarc file. This is a hidden file, show hidden files and then edit the .condarc file and make your file look like this:
 
     $ cat .condarc
     channels:
