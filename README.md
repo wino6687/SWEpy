@@ -1,4 +1,4 @@
-# 1. Setup Earthdata Logins
+# 1. Setup Earthdata Login
 Create an Earthdata account to be able to download data - https://urs.earthdata.nasa.gov/
 
 # 2. Build Conda Environment
