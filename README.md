@@ -47,9 +47,9 @@ Parameters: lists of latitude/longitude upper left, latitude/longitude lower rig
 Uses NSIDC scripts to convert user inputted lat/lon into Ease grid 2.0 coordinates  
 Returns: Ease grid 2.0 coordinates of inputted lat/longs
 ## subset(list6, path)
-Parameters:  
-subset  
-Returns: subsetted input files
+Parameters: coordinates of area of interest, current working directory
+Subset will get the files from wget directory and subset them geographically  
+Returns: subsetted files
 ## concatenate(path, outfile_19, outfile_37, final=False)
 Parameters: path, output file, output file, final(optional)  
 The concatenate function   
@@ -61,7 +61,7 @@ Returns:
 ## scrape_all(start, end, list3, path=None)
 Parameters: start date, end date, list, path(optional)  
 Complete function that downloads, concatenates, and subsets data  
-Returns: 
+Returns: file names of concatenated 19/37 time cubes
 ## plot_a_day(file1, file2, path, token)
 Parameters: 19, 37, current working directory, mapbox token  
 Plots a day of data using Mapbox Jupyter  
