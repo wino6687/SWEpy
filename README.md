@@ -43,6 +43,8 @@ After saving this file, update conda:
 
 https://conda-forge.org/docs/conda-forge_gotchas.html#using-multiple-channels
 
+* If getting HDF5 errors, try deleting all the netCDF files in your directories.
+
 
 # Function Summaries
 Descriptions of included functions
