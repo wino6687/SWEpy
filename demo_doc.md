@@ -1,12 +1,15 @@
-# 1. Build Conda Environment
+# 1. Setup Earthdata Logins
+Create an Earthdata account to be able to download data - https://urs.earthdata.nasa.gov/
+
+# 2. Build Conda Environment
 Using the yaml file (.yml) create a new conda environment
 
     conda env create -f environment.yml
-# 2. Install ipykernel
+# 3. Install ipykernel
 	source activate myenv
 	python -m ipykernel install --user --name myenv
      --display-name "Python (myenv)"
-# 3. Run Script
+# 4. Run Script
     source activate myenv
     python scriptname.py
   
