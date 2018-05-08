@@ -1,8 +1,8 @@
 # 1. Setup Earthdata Login
 Create an Earthdata account to be able to download data - https://urs.earthdata.nasa.gov/
 Setup your username and password in a .netrc file
-    echo "machine urs.earthdata.nasa.gov login <uid> password <password>" >> ~/.netrc
-    chmod 0600 ~/.netrc
+	echo "machine urs.earthdata.nasa.gov login <uid> password <password>" >> ~/.netrc
+	chmod 0600 ~/.netrc
 
 https://nsidc.org/support/faq/what-options-are-available-bulk-downloading-data-https-earthdata-login-enabled
 
