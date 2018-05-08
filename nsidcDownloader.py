@@ -35,7 +35,7 @@ class nsidcDownloader():
         "input": "CSU",
         "dataversion": "v1.2"
     }
-    
+
     def __init__(self, username=None, password=None, folder=".", **kwargs):
         '''
         Snow Water Equivalence downloader.
@@ -47,7 +47,7 @@ class nsidcDownloader():
 
         ## Get formatting keys of url_template
         self.url_keys = [k[1] for k in Formatter().parse(self.url_template)]
-        
+
         ## Function to format URL
         self.format_url = partial(self.url_template.format)
 
@@ -65,12 +65,12 @@ class nsidcDownloader():
 
         ## Output
         self.folder = folder
-    
+
     def set_defaults(self, **kwargs):
         '''
         Set defaults for url template
         '''
-        
+
         for key in kwargs:
             if key in self.url_keys:
                 self.format_url.keywords[key] = kwargs[key]
@@ -87,7 +87,7 @@ class nsidcDownloader():
         (3) login at urs.earthdata.nasa.gov oauth
         (4) use oauth tokens from urs.earthdata.nasa.gov to request any download url
         '''
-        
+
         test_url = "{protocol}://{server}/SMAP/".format(**self.format_url.keywords)
 
         ## User / pass to use with auth.
@@ -105,18 +105,18 @@ class nsidcDownloader():
                                        allow_redirects = False)
         except requests.ConnectionError:
             pass
-                
+
         ## If the final request is 401 (Bad Auth), throw exception
         if req.status_code == 401:
             raise PermissionError("Bad NASA Earthdata Authentication!")
-        
+
     def download_file(self, folder=None, overwrite=False, **kwargs):
         '''
         Download a file of particular kwargs
         '''
 
         url = self.format_url(**kwargs)
-        
+
         ## Dict of all the keywords:vals going into URL
         all_keywords = {**kwargs, **self.format_url.keywords}
 
@@ -126,26 +126,27 @@ class nsidcDownloader():
 
         ## Prepare file system
         filename = url.split("/")[-1]
-        filepath = "{}/{}".format(folder, filename)        
+        filepath = "{}/{}".format(folder, filename)
         block_size = 1024
 
-        print("{}".format(filename))
-        
+        #print("{}".format(filename))
+
         if os.path.exists(filepath):
             if overwrite:
                 os.remove(filepath)
             else:
                 print(" ** (skipping...) **")
+                return
 
         ## Download the dang thing
         with self.session.get(url, stream=True) as r:
-        
+
             if r.status_code == 404:
                 raise FileNotFoundError("File Not Found: {}".format(url))
 
             ## Open file
             with open(filepath, 'wb') as f:
-            
+
                 pbar = tqdm(initial=0,
                             total=int(r.headers['content-length']),
                             unit='B',
@@ -154,7 +155,7 @@ class nsidcDownloader():
                 ## Create dest folder if not exist
                 if not os.path.exists(folder):
                     os.makedirs(folder)
-                
+
                 ## Stream content to file in chunks
                 for chunk in r.iter_content(block_size):
                     f.write(chunk)
@@ -163,12 +164,12 @@ class nsidcDownloader():
             pbar.close()
 
         return(filepath)
-    
+
     def download_range(self, date, **kwargs):
         '''
         Download a range of dates for a particular sensor
         '''
-        
+
         assert isinstance(date, list), "Range passed must be list of dates"
 
         for date in pd.date_range(date[0], date[1]):
