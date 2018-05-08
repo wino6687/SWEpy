@@ -1,5 +1,6 @@
 # Disclaimer
 Currently this script is not supported in Windows due to pynco only supporting Mac OS or Unix  
+Web scrapping currently only working on northern hemisphere
 Requires python 3.6 and Anaconda 3
 
 # 1. Setup Earthdata Login
@@ -47,22 +48,22 @@ Parameters: lists of latitude/longitude upper left, latitude/longitude lower rig
 Uses NSIDC scripts to convert user inputted lat/lon into Ease grid 2.0 coordinates  
 Returns: Ease grid 2.0 coordinates of inputted lat/longs
 ## subset(list6, path)
-Parameters: coordinates of area of interest, current working directory
+Parameters: coordinates of area of interest, current working directory  
 Subset will get the files from wget directory and subset them geographically  
 Returns: subsetted files
 ## concatenate(path, outfile_19, outfile_37, final=False)
-Parameters: path, output file, output file, final(optional)  
+Parameters: current working directory, output file for 19Ghz, output file for 37Ghz, final(optional)  
 The concatenate function   
 Returns: concatenated netCDF file
 ## file_setup(path)
 Parameters: current working directory  
 setup files needed for other functions  
-Returns:
+Returns: create correct folders for use by other functions
 ## scrape_all(start, end, list3, path=None)
 Parameters: start date, end date, list, path(optional)  
 Complete function that downloads, concatenates, and subsets data  
 Returns: file names of concatenated 19/37 time cubes
 ## plot_a_day(file1, file2, path, token)
-Parameters: 19, 37, current working directory, mapbox token  
+Parameters: 19Ghz files, 37Ghz files, current working directory, mapbox token  
 Plots a day of data using Mapbox Jupyter  
-Returns: interactive data of inputted data
+Returns: interactive map of inputted data
