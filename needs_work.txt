@@ -1,0 +1,18 @@
+Needs Work list:
+
+1. plot a day
+  - currently using a slow way to get data into lat/lon (needs to be vectorized)
+  -
+
+2. scrape all
+  - doing all of the file path building
+  - make this smarter, cleaner
+    - would a class work better?
+  - the code should be cleaner in general
+    - get rid of stray iterables, switch to enumerate
+
+3. nsidcDownloader
+  - working pretty well
+  - figure out how to automate SSMI/S inside scraper
+    - somehow in the class method?
+  - also automate the sensor by year inside the scraper 
