@@ -1,6 +1,4 @@
 import datetime
-
-import requests
 from nsidcDownloader import nsidcDownloader
 import numpy as np
 from netCDF4 import Dataset
@@ -31,7 +29,7 @@ def get_xy(ll_ul, ll_lr):
     return list_3
 
 ## take a path to .nc dataset to subset and the coordinates
-def subset(list6, path):
+def subset(geo_list, path):
     '''pass geo-coord list and directory path
     script will get the files from wget directory
     and subset them geographically'''
@@ -45,8 +43,8 @@ def subset(list6, path):
         outfile = path19 + file
         infile = wget + file
         opt = [
-            "-d x,%f,%f" % (list6[0],list6[2]),
-            "-d y,%f,%f" % (list6[3],list6[1]),
+            "-d x,%f,%f" % (geo_list[0],geo_list[2]),
+            "-d y,%f,%f" % (geo_list[3],geo_list[1]),
             "-v TB"
         ]
         nco.ncks(input=infile, output=outfile, options=opt)
@@ -56,8 +54,8 @@ def subset(list6, path):
         outfile = path37 + file
         infile = wget + file
         opt = [
-            "-d x,%f,%f" % (list6[0],list6[2]),
-            "-d y,%f,%f" % (list6[3],list6[1]),
+            "-d x,%f,%f" % (geo_list[0],geo_list[2]),
+            "-d y,%f,%f" % (geo_list[3],geo_list[1]),
             "-v TB"
         ]
         nco.ncks(input=infile, output=outfile, options=opt)
@@ -105,6 +103,9 @@ def concatenate(path, outfile_19, outfile_37, final=False):
 
 
 def file_setup(path):
+    '''Check for correct file hierarchy for scraping,
+        subsetting, and concatenating. If the dir's
+        don't exist then create them.'''
     os.chdir(path)
     wget = path + "/data/wget/"
     path19 = path + "/data/Subsetted_19H/"
@@ -119,32 +120,28 @@ def file_setup(path):
     return path19, path37, wget
 
 
-def scrape_all(start, end, list3, path=None):
+def scrape_all(start, end, geo_list, path=None):
     '''Function to ensure we subset
      and concatenate every year!
      Implements the whole workflow!'''
-    if path is None:   # if no directory path provided, find one
-        path = os.getcwd()
-    os.chdir(path)
-    path19, path37, wget = file_setup(path)
-    nD = nsidcDownloader(folder = wget)     #instantiate downloading class
     sensors = {1992: 'F11', 1993: 'F11', 1994: 'F11', 1995: 'F11', 1996: 'F13', 1997: 'F13', 1998: 'F13',
                 1999: 'F13', 2000: 'F13', 2001: 'F13', 2002: 'F13', 2003: 'F15', 2004: 'F15', 2005: 'F15', 2006: 'F15',
                 2007: 'F15', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
                 2015: 'F19'}
-    if path is None:   # if no directory path provided, find one
-        path = os.getcwd()
+    if path is None: path = os.getcwd()  # if no directory path provided, find one
     os.chdir(path)
+    path19, path37, wget = file_setup(path)
+    nD = nsidcDownloader(folder = wget)     #instantiate downloading class
     outfile19 = 'all_days_19H.nc'
     outfile37 = 'all_days_37H.nc'
     dates = pd.date_range(start, end)
     if len(dates) <= 133:
         for date in dates:
-            sensor = sensors[date.year]
+            ssmi_s = "SSMIS" if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else "SSMI"
             file19 = {
                 "resolution": "6.25km",
                 "platform": sensors[date.year],
-                "sensor": "SSMIS" if sensor in ['F16', 'F17', 'F18', 'F19'] else "SSMI",
+                "sensor": ssmi_s,
                 "date": date,
                 "channel": "19H",
                 "dataversion": 'v1.3' if date.year == 2015 else 'v1.2'
@@ -152,32 +149,22 @@ def scrape_all(start, end, list3, path=None):
             file37 = {
                 "resolution": "3.125km",
                 "platform": sensors[date.year],
-                "sensor": "SSMIS" if sensor in ['F16', 'F17', 'F18', 'F19'] else "SSMI",
+                "sensor": ssmi_s,
                 "date": date,
                 "channel": "37H",
                 "dataversion": 'v1.3' if date.year == 2015 else 'v1.2'
             }
             nD.download_file(**file19)
             nD.download_file(**file37)
-        subset(list3, path)
+        subset(geo_list, path)
         return concatenate(path, outfile19, outfile37)
     else:
         comp_list = [dates[x:x + 100] for x in range(0, len(dates), 100)]
-        #temp = 1
         for count, subList in enumerate(comp_list):
             tempfile19 = '19H' + str(count) + 'temp.nc'
             tempfile37 = '37H' + str(count) + 'temp.nc'
-            #temp += 1
             for date in subList:
-                #temp = date
-                # Store the year of the current date, convert to day of year
-                #year = date.year
-                sensor = sensors[date.year]
-                ssmi_s = "SSMIS" if sensor in ['F16', 'F17', 'F18', 'F19'] else "SSMI"
-                #if sensor in ['F16', 'F17', 'F18', 'F19']:
-                    #ssmi_s = "SSMIS"
-                #else:
-                    #ssmi_s = "SSMI"
+                ssmi_s = "SSMIS" if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else "SSMI"
                 file19 = {
                     "resolution": "6.25km",
                     "platform": sensors[date.year],
@@ -194,8 +181,7 @@ def scrape_all(start, end, list3, path=None):
                 }
                 nD.download_file(**file19)
                 nD.download_file(**file37)
-            #scrape(subList, path, wget)
-            subset(list3, path)
+            subset(geo_list, path)
             concatenate(path, tempfile19, tempfile37)
         return concatenate(path, outfile19, outfile37, final=True)
 
