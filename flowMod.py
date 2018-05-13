@@ -124,10 +124,6 @@ def scrape_all(start, end, geo_list, path=None):
     '''Function to ensure we subset
      and concatenate every year!
      Implements the whole workflow!'''
-    sensors = {1992: 'F11', 1993: 'F11', 1994: 'F11', 1995: 'F11', 1996: 'F13', 1997: 'F13', 1998: 'F13',
-                1999: 'F13', 2000: 'F13', 2001: 'F13', 2002: 'F13', 2003: 'F15', 2004: 'F15', 2005: 'F15', 2006: 'F15',
-                2007: 'F15', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
-                2015: 'F19'}
     if path is None: path = os.getcwd()  # if no directory path provided, find one
     os.chdir(path)
     path19, path37, wget = file_setup(path)
@@ -137,23 +133,8 @@ def scrape_all(start, end, geo_list, path=None):
     dates = pd.date_range(start, end)
     if len(dates) <= 133:
         for date in dates:
-            ssmi_s = "SSMIS" if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else "SSMI"
-            file19 = {
-                "resolution": "6.25km",
-                "platform": sensors[date.year],
-                "sensor": ssmi_s,
-                "date": date,
-                "channel": "19H",
-                "dataversion": 'v1.3' if date.year == 2015 else 'v1.2'
-            }
-            file37 = {
-                "resolution": "3.125km",
-                "platform": sensors[date.year],
-                "sensor": ssmi_s,
-                "date": date,
-                "channel": "37H",
-                "dataversion": 'v1.3' if date.year == 2015 else 'v1.2'
-            }
+            file19 = get_file(date, "19H")
+            file37 = get_file(date, "37H")
             nD.download_file(**file19)
             nD.download_file(**file37)
         subset(geo_list, path)
@@ -164,27 +145,30 @@ def scrape_all(start, end, geo_list, path=None):
             tempfile19 = '19H' + str(count) + 'temp.nc'
             tempfile37 = '37H' + str(count) + 'temp.nc'
             for date in subList:
-                ssmi_s = "SSMIS" if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else "SSMI"
-                file19 = {
-                    "resolution": "6.25km",
-                    "platform": sensors[date.year],
-                    "sensor": ssmi_s,
-                    "date": date,
-                    "channel": "19H"
-                }
-                file37 = {
-                    "resolution": "3.125km",
-                    "platform": sensors[date.year],
-                    "sensor": ssmi_s,
-                    "date": date,
-                    "channel": "37H"
-                }
+                file19 = get_file(date, "19H")
+                file37 = get_file(date, "37H")
                 nD.download_file(**file19)
                 nD.download_file(**file37)
             subset(geo_list, path)
             concatenate(path, tempfile19, tempfile37)
         return concatenate(path, outfile19, outfile37, final=True)
 
+def get_file(date, channel): # add more defaulting params
+    sensors = {1992: 'F11', 1993: 'F11', 1994: 'F11', 1995: 'F11', 1996: 'F13', 1997: 'F13', 1998: 'F13',
+            1999: 'F13', 2000: 'F13', 2001: 'F13', 2002: 'F13', 2003: 'F15', 2004: 'F15', 2005: 'F15', 2006: 'F15',
+            2007: 'F15', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
+            2015: 'F19'}
+    ssmi_s = "SSMIS" if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else "SSMI"
+    resolution = '6.25km' if channel == '19H' else '3.125km'
+    file = {
+        "resolution": resolution,
+        "platform": sensors[date.year],
+        "sensor": ssmi_s,
+        "date": date,
+        "channel": channel,
+        "dataversion": 'v1.3' if date.year == 2015 else 'v1.2'
+    }
+    return file
 
 
 def plot_a_day(file1, file2, path, token):
