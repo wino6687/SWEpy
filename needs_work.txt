@@ -31,5 +31,6 @@ Needs Work list:
   - Idea: use downloading script as generic downloder with multiple default templates
     - make flowMod object oriented and store optimal sensors and SSMI/S in class
       - should allow for cleaning up of scrape_all
-
-      
+  a) there should be a class member list of 19H files and 37H file_setup
+  b) need sensor dictionary to be a class member
+  c) class getters for getting proper sensor for the proper year 
