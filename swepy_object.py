@@ -140,22 +140,27 @@ def scrape_all(start, end, list3, path=None):
     dates = pd.date_range(start, end)
     if len(dates) <= 133:
         for date in dates:
-            sensor = sensors[date.year]
+            temp = date
+            # Store the year of the current date, convert to day of year
+            year = temp.year
+            sensor = sensors[year]
+            if sensor in ['F16', 'F17', 'F18', 'F19']:
+                ssmi_s = "SSMIS"
+            else:
+                ssmi_s = "SSMI"
             file19 = {
                 "resolution": "6.25km",
-                "platform": sensors[date.year],
-                "sensor": "SSMIS" if sensor in ['F16', 'F17', 'F18', 'F19'] else "SSMI",
+                "platform": sensors[year],
+                "sensor": ssmi_s,
                 "date": date,
-                "channel": "19H",
-                "dataversion": 'v1.3' if date.year == 2015 else 'v1.2'
+                "channel": "19H"
             }
             file37 = {
                 "resolution": "3.125km",
-                "platform": sensors[date.year],
-                "sensor": "SSMIS" if sensor in ['F16', 'F17', 'F18', 'F19'] else "SSMI",
+                "platform": sensors[year],
+                "sensor": ssmi_s,
                 "date": date,
-                "channel": "37H",
-                "dataversion": 'v1.3' if date.year == 2015 else 'v1.2'
+                "channel": "37H"
             }
             nD.download_file(**file19)
             nD.download_file(**file37)
@@ -163,31 +168,30 @@ def scrape_all(start, end, list3, path=None):
         return concatenate(path, outfile19, outfile37)
     else:
         comp_list = [dates[x:x + 100] for x in range(0, len(dates), 100)]
-        #temp = 1
-        for count, subList in enumerate(comp_list):
-            tempfile19 = '19H' + str(count) + 'temp.nc'
-            tempfile37 = '37H' + str(count) + 'temp.nc'
-            #temp += 1
+        temp = 1
+        for subList in comp_list:
+            tempfile19 = '19H' + str(temp) + 'temp.nc'
+            tempfile37 = '37H' + str(temp) + 'temp.nc'
+            temp += 1
             for date in subList:
-                #temp = date
+                temp = date
                 # Store the year of the current date, convert to day of year
-                #year = date.year
-                sensor = sensors[date.year]
-                ssmi_s = "SSMIS" if sensor in ['F16', 'F17', 'F18', 'F19'] else "SSMI"
-                #if sensor in ['F16', 'F17', 'F18', 'F19']:
-                    #ssmi_s = "SSMIS"
-                #else:
-                    #ssmi_s = "SSMI"
+                year = temp.year
+                sensor = sensors[year]
+                if sensor in ['F16', 'F17', 'F18', 'F19']:
+                    ssmi_s = "SSMIS"
+                else:
+                    ssmi_s = "SSMI"
                 file19 = {
                     "resolution": "6.25km",
-                    "platform": sensors[date.year],
+                    "platform": sensors[year],
                     "sensor": ssmi_s,
                     "date": date,
                     "channel": "19H"
                 }
                 file37 = {
                     "resolution": "3.125km",
-                    "platform": sensors[date.year],
+                    "platform": sensors[year],
                     "sensor": ssmi_s,
                     "date": date,
                     "channel": "37H"

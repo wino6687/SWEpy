@@ -20,9 +20,16 @@ Needs Work list:
 4. get_xy
   - decide if we need to do 3.125 and 6.25
   - simplify function if we only need one
+  - this is implemented right now, double check to make sure it is right!
 
 5. subset and concatenate
   - can I make it optional to pass a list of files instead of using glob.glob?
   - lists of files would work in more settings
     - could a class be used to maintain these lists between function calls?
-    
+
+6. restructure flowmod to be object oriented
+  - Idea: use downloading script as generic downloder with multiple default templates
+    - make flowMod object oriented and store optimal sensors and SSMI/S in class
+      - should allow for cleaning up of scrape_all
+
+      
