@@ -17,6 +17,12 @@ from tqdm import tqdm
 import glob
 nco = Nco()
 
+class swepy():
+    '''Class Members'''
+
+    def get_sensor(self, year):
+        
+
 
 def get_xy(ll_ul, ll_lr):
     '''Use NSIDC scripts to convert user inputted
