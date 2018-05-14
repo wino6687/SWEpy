@@ -2,25 +2,12 @@ Needs Work list:
 
 1. plot a day
   - currently using a slow way to get data into lat/lon (needs to be vectorized)
-  -
+    - try using np.flatten 
 
 2. scrape all
-  - doing all of the file path building
   - make this smarter, cleaner
     - would a class work better?
-  - the code should be cleaner in general
-    - get rid of stray iterables, switch to enumerate
 
-3. nsidcDownloader
-  - working pretty well
-  - figure out how to automate SSMI/S inside scraper
-    - somehow in the class method?
-  - also automate the sensor by year inside the scraper
-
-4. get_xy
-  - decide if we need to do 3.125 and 6.25
-  - simplify function if we only need one
-  - this is implemented right now, double check to make sure it is right!
 
 5. subset and concatenate
   - can I make it optional to pass a list of files instead of using glob.glob?
@@ -33,4 +20,13 @@ Needs Work list:
       - should allow for cleaning up of scrape_all
   a) there should be a class member list of 19H files and 37H file_setup
   b) need sensor dictionary to be a class member
-  c) class getters for getting proper sensor for the proper year 
+  c) class getters for getting proper sensor for the proper year
+
+Object oriented notes:
+- what is initialized in the __init__?
+  - The user could enter their date range and lat/long
+    - then the __init__ just initializes
+
+- the class should have lists for the files that have been subsetted
+  - then i can use those lists to concatenate and such
+  - hopefully no globbing needed
