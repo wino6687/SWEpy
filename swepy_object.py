@@ -20,8 +20,8 @@ nco = Nco()
 class swepy():
     '''Class Members'''
 
-    def get_sensor(self, year):
-        
+    def __init__(self, ):
+
 
 
 def get_xy(ll_ul, ll_lr):

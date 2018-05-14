@@ -28,7 +28,26 @@ def get_xy(ll_ul, ll_lr):
     list_3 = [x3ul, y3ul, x3lr, y3lr]
     return list_3
 
-## take a path to .nc dataset to subset and the coordinates
+def get_file(date, channel): # add more defaulting params
+    '''Function that uses date and channel to
+    find optimal file composition and return the
+    file params for the web scraper's use.'''
+    sensors = {1992: 'F11', 1993: 'F11', 1994: 'F11', 1995: 'F11', 1996: 'F13', 1997: 'F13', 1998: 'F13',
+            1999: 'F13', 2000: 'F13', 2001: 'F13', 2002: 'F13', 2003: 'F15', 2004: 'F15', 2005: 'F15', 2006: 'F15',
+            2007: 'F15', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
+            2015: 'F19'}
+    ssmi_s = "SSMIS" if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else "SSMI"
+    resolution = '6.25km' if channel == '19H' else '3.125km'
+    file = {
+        "resolution": resolution,
+        "platform": sensors[date.year],
+        "sensor": ssmi_s,
+        "date": date,
+        "channel": channel,
+        "dataversion": 'v1.3' if date.year == 2015 else 'v1.2'
+    }
+    return file
+
 def subset(geo_list, path):
     '''pass geo-coord list and directory path
     script will get the files from wget directory
@@ -61,7 +80,6 @@ def subset(geo_list, path):
         nco.ncks(input=infile, output=outfile, options=opt)
         os.remove(infile)
 
-## use list of paths as parameter to concatenate all paths in list
 ## ['/folder/file1.nc','/folder/file2.nc']
 def concatenate(path, outfile_19, outfile_37, final=False):
     '''Function to concatenate files in the subsetted data
@@ -83,7 +101,6 @@ def concatenate(path, outfile_19, outfile_37, final=False):
             os.remove(f)
     else:
         print("No 19Ghz Files to Concatenate")
-
     # Concatenate 37GHz files:
     os.chdir(path + '/data' + '/Subsetted_37H')
     if final:
@@ -153,22 +170,7 @@ def scrape_all(start, end, geo_list, path=None):
             concatenate(path, tempfile19, tempfile37)
         return concatenate(path, outfile19, outfile37, final=True)
 
-def get_file(date, channel): # add more defaulting params
-    sensors = {1992: 'F11', 1993: 'F11', 1994: 'F11', 1995: 'F11', 1996: 'F13', 1997: 'F13', 1998: 'F13',
-            1999: 'F13', 2000: 'F13', 2001: 'F13', 2002: 'F13', 2003: 'F15', 2004: 'F15', 2005: 'F15', 2006: 'F15',
-            2007: 'F15', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
-            2015: 'F19'}
-    ssmi_s = "SSMIS" if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else "SSMI"
-    resolution = '6.25km' if channel == '19H' else '3.125km'
-    file = {
-        "resolution": resolution,
-        "platform": sensors[date.year],
-        "sensor": ssmi_s,
-        "date": date,
-        "channel": channel,
-        "dataversion": 'v1.3' if date.year == 2015 else 'v1.2'
-    }
-    return file
+
 
 
 def plot_a_day(file1, file2, path, token):
