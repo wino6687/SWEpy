@@ -85,6 +85,25 @@ plot_a_day(file1, file2, path, token)
 * Plots a day of data using Mapbox Jupyter  
 * Returns: interactive map of inputted data
 
+# Object Oriented Functionality: (Added May 18, 2018)
+
+1. Instantiate the class with bounding coordinates, date range, and working directory
+
+```{python}
+upper_left = [float(lat_ul), float(lon_ul)]
+lower_right = [float(lat_lr), float(lon_lr)]
+
+start = datetime.date(int(startY), int(startM), int(startD))
+end = datetime.date(int(endY), int(endM), int(endD))
+
+path = os.getcwd()
+
+swepy = swepy(path, start, end, upper_left, lower_right)
+```
+2. Use desired functionailty:
+
+
+
 ## Web Scraper Example Use
 
 * Note: Web scraper is enabled automatically in the scrape_all workflow, however it can also be used as a stanalone function!
