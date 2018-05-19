@@ -100,9 +100,11 @@ path = os.getcwd()
 
 swepy = swepy(path, start, end, upper_left, lower_right)
 ```
-2. Use desired functionailty:
+2. Use desired functionality, either separate or individually:
 
-
+```{python}
+swepy.concatenate(swepy.subset(swepy.scrape()))
+```
 
 ## Web Scraper Example Use
 
