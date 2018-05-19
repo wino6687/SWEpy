@@ -2,7 +2,7 @@ Needs Work list:
 
 1. plot a day
   - currently using a slow way to get data into lat/lon (needs to be vectorized)
-    - try using np.flatten 
+    - try using np.flatten
 
 2. scrape all
   - make this smarter, cleaner
@@ -30,3 +30,10 @@ Object oriented notes:
 - the class should have lists for the files that have been subsetted
   - then i can use those lists to concatenate and such
   - hopefully no globbing needed
+
+
+
+Class:
+- instantiated with date range, working directory, and lat/lon bounding box
+- at that point, class knows the date range to build, user can call scrape_all or call the functions independently
+  - what if they want to enter the date range later?

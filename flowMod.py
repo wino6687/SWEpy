@@ -172,7 +172,6 @@ def scrape_all(start, end, geo_list, path=None):
 
 
 
-
 def plot_a_day(file1, file2, path, token):
     '''read tb,x,y data from final files,
     with the purpose of plotting.'''

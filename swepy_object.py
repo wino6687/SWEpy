@@ -19,195 +19,185 @@ nco = Nco()
 
 class swepy():
     '''Class Members'''
+    def __init__(self, working_dir, start, end, ul, lr,
+                outfile19 = 'all_days_19H.nc', outfile37 = 'all_days_37H.nc'):
+        '''User instantiates the class with working directory,
+        date ranges, and lat/lon bounding coords. constructor gets
+        the datetime list, x/y coords, and file directories'''
+        self.working_dir = working_dir
+        self.path19, self.path37, self.wget = self.get_directories(working_dir)
 
-    def __init__(self, ):
+        self.outfile_19 = outfile19
+        self.outfile_37 = outfile37
 
+        self.dates = pd.date_range(start, end)
+        self.geo_list = self.get_xy(ul, lr)
 
-
-def get_xy(ll_ul, ll_lr):
-    '''Use NSIDC scripts to convert user inputted
-    lat/lon into Ease grid 2.0 coordinates'''
-    N3 = e2.Ease2Transform("EASE2_N3.125km")
-    # get x,y for 3.125
-    row, col = N3.geographic_to_grid(ll_ul[0], ll_ul[1])
-    x3ul, y3ul = N3.grid_to_map(row, col)
-    row, col = N3.geographic_to_grid(ll_lr[0], ll_lr[1])
-    x3lr, y3lr = N3.grid_to_map(row, col)
-    list_3 = [x3ul, y3ul, x3lr, y3lr]
-    return list_3
-
-## take a path to .nc dataset to subset and the coordinates
-def subset(list6, path):
-    '''pass geo-coord list and directory path
-    script will get the files from wget directory
-    and subset them geographically'''
-    path19, path37, wget = file_setup(path)
-    os.chdir(wget)
-    # Make a list of the files to concatenate together for 19H
-    list19 = sorted(glob.glob("*19H-M-SIR*"))
-    # Make list for the 37GHz
-    list37 = sorted(glob.glob("*37H-M-SIR*"))
-    for file in tqdm(list19):
-        outfile = path19 + file
-        infile = wget + file
-        opt = [
-            "-d x,%f,%f" % (list6[0],list6[2]),
-            "-d y,%f,%f" % (list6[3],list6[1]),
-            "-v TB"
-        ]
-        nco.ncks(input=infile, output=outfile, options=opt)
-        os.remove(infile)
-
-    for file in tqdm(list37):
-        outfile = path37 + file
-        infile = wget + file
-        opt = [
-            "-d x,%f,%f" % (list6[0],list6[2]),
-            "-d y,%f,%f" % (list6[3],list6[1]),
-            "-v TB"
-        ]
-        nco.ncks(input=infile, output=outfile, options=opt)
-        os.remove(infile)
-
-## use list of paths as parameter to concatenate all paths in list
-## ['/folder/file1.nc','/folder/file2.nc']
-def concatenate(path, outfile_19, outfile_37, final=False):
-    '''Function to concatenate files in the subsetted data
-    folders. Takes working directory path, the desired outfile
-    names, and whether or not this is a final pass in the subet_all
-    function as input.'''
-    os.chdir(path + '/data' + '/Subsetted_19H')
-    if final: # final we want to take diff file names
-        list19 = glob.glob('19H*nc')
-        list19.sort()
-    else:
-        list19 = glob.glob('NSIDC*nc')
-        list19.sort()
-    # Concatenate 19GHz files:
-    if len(list19) != 0:
-        nco.ncrcat(input=list19, output = outfile_19, options=["-O"])
-        filelist = glob.glob('NSIDC*')
-        for f in filelist:
-            os.remove(f)
-    else:
-        print("No 19Ghz Files to Concatenate")
-
-    # Concatenate 37GHz files:
-    os.chdir(path + '/data' + '/Subsetted_37H')
-    if final:
-        list37 = glob.glob('37H*nc')
-        list37.sort()
-    else:
-        list37 = glob.glob('NSIDC*nc')
-        list37.sort()
-    if len(list37) != 0:
-        nco.ncrcat(input = list37, output = outfile_37, options = ["-O"])
-        filelist = glob.glob('NSIDC*')
-        for f in filelist:
-            os.remove(f)
-    else:
-        print("No 37Ghz Files to Concatenate")
-    return outfile_19, outfile_37
+        self.down19list = []
+        self.down37list = []
+        self.sub19list = []
+        self.sub37list = []
 
 
-def file_setup(path):
-    os.chdir(path)
-    wget = path + "/data/wget/"
-    path19 = path + "/data/Subsetted_19H/"
-    path37 = path + "/data/Subsetted_37H/"
+    def get_directories(self, path):
+        os.chdir(path)
+        wget = path + "/data/wget/"
+        path19 = path + "/data/Subsetted_19H/"
+        path37 = path + "/data/Subsetted_37H/"
 
-    if not os.path.exists(wget):
-        os.makedirs(wget)
-    if not os.path.exists(path19):
-        os.makedirs(path19)
-    if not os.path.exists(path37):
-        os.makedirs(path37)
-    return path19, path37, wget
+        if not os.path.exists(wget):
+            os.makedirs(wget)
+        if not os.path.exists(path19):
+            os.makedirs(path19)
+        if not os.path.exists(path37):
+            os.makedirs(path37)
+        return path19, path37, wget
 
 
-def scrape_all(start, end, list3, path=None):
-    '''Function to ensure we subset
-     and concatenate every year!
-     Implements the whole workflow!'''
-    if path is None:   # if no directory path provided, find one
-        path = os.getcwd()
-    os.chdir(path)
-    path19, path37, wget = file_setup(path)
-    nD = nsidcDownloader(folder = wget)     #instantiate downloading class
-    sensors = {1992: 'F11', 1993: 'F11', 1994: 'F11', 1995: 'F11', 1996: 'F13', 1997: 'F13', 1998: 'F13',
+    def get_xy(self, ll_ul, ll_lr):
+        '''Use NSIDC scripts to convert user inputted
+        lat/lon into Ease grid 2.0 coordinates'''
+        N3 = e2.Ease2Transform("EASE2_N3.125km")
+        # get x,y for 3.125
+        row, col = N3.geographic_to_grid(ll_ul[0], ll_ul[1])
+        x3ul, y3ul = N3.grid_to_map(row, col)
+        row, col = N3.geographic_to_grid(ll_lr[0], ll_lr[1])
+        x3lr, y3lr = N3.grid_to_map(row, col)
+        list_3 = [x3ul, y3ul, x3lr, y3lr]
+        return list_3
+
+
+    def subset(self):
+        '''pass geo-coord list and directory path
+        script will get the files from wget directory
+        and subset them geographically'''
+        os.chdir(self.wget)
+        for file in tqdm(self.down19list):
+            outfile = self.path19 + file
+            infile = self.wget + file
+            opt = [
+                "-d x,%f,%f" % (self.geo_list[0],self.geo_list[2]),
+                "-d y,%f,%f" % (self.geo_list[3],self.geo_list[1]),
+                "-v TB"
+            ]
+            nco.ncks(input=infile, output=outfile, options=opt)
+            self.sub19list.append(outfile)
+            os.remove(infile)
+
+        for file in tqdm(self.down37list):
+            outfile = self.path37 + file
+            infile = self.wget + file
+            opt = [
+                "-d x,%f,%f" % (self.geo_list[0],self.geo_list[2]),
+                "-d y,%f,%f" % (self.geo_list[3],self.geo_list[1]),
+                "-v TB"
+            ]
+            nco.ncks(input=infile, output=outfile, options=opt)
+            self.sub37list.append(outfile)
+            os.remove(infile)
+        # Empty the download lists
+        self.down19list = []
+        self.down37list = []
+        return
+
+    def scrape_all(self):
+        '''Function to ensure we subset
+         and concatenate every year!
+         Implements the whole workflow!'''
+        nD = nsidcDownloader(folder = self.wget)     #instantiate downloading class
+        outfile19 = 'all_days_19H.nc'
+        outfile37 = 'all_days_37H.nc'
+        if len(self.dates) <= 133:
+            for date in self.dates:
+                file19 = self.get_file(date, "19H")
+                file37 = self.get_file(date, "37H")
+                self.down19list.append(nD.download_file(**file19))
+                self.down37list.append(nD.download_file(**file37))
+            self.subset()
+            return self.concatenate()
+        else:
+            comp_list = [self.dates[x:x + 100] for x in range(0, len(self.dates), 100)]
+            for count, subList in enumerate(comp_list):
+                tempfile19 = '19H' + str(count) + 'temp.nc'
+                tempfile37 = '37H' + str(count) + 'temp.nc'
+                for date in subList:
+                    file19 = get_file(date, "19H")
+                    file37 = get_file(date, "37H")
+                    self.down19list.append(nD.download_file(**file19))
+                    self.down37list.append(nD.download_file(**file37))
+                self.subset()
+                #concatenate(self, tempfile19, tempfile37)
+            return self.concatenate()
+
+
+    def get_file(self, date, channel): # add more defaulting params
+        '''Function that uses date and channel to
+        find optimal file composition and return the
+        file params for the web scraper's use.'''
+        sensors = {1992: 'F11', 1993: 'F11', 1994: 'F11', 1995: 'F11', 1996: 'F13', 1997: 'F13', 1998: 'F13',
                 1999: 'F13', 2000: 'F13', 2001: 'F13', 2002: 'F13', 2003: 'F15', 2004: 'F15', 2005: 'F15', 2006: 'F15',
                 2007: 'F15', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
                 2015: 'F19'}
-    if path is None:   # if no directory path provided, find one
-        path = os.getcwd()
-    os.chdir(path)
-    outfile19 = 'all_days_19H.nc'
-    outfile37 = 'all_days_37H.nc'
-    dates = pd.date_range(start, end)
-    if len(dates) <= 133:
-        for date in dates:
-            temp = date
-            # Store the year of the current date, convert to day of year
-            year = temp.year
-            sensor = sensors[year]
-            if sensor in ['F16', 'F17', 'F18', 'F19']:
-                ssmi_s = "SSMIS"
-            else:
-                ssmi_s = "SSMI"
-            file19 = {
-                "resolution": "6.25km",
-                "platform": sensors[year],
-                "sensor": ssmi_s,
-                "date": date,
-                "channel": "19H"
-            }
-            file37 = {
-                "resolution": "3.125km",
-                "platform": sensors[year],
-                "sensor": ssmi_s,
-                "date": date,
-                "channel": "37H"
-            }
-            nD.download_file(**file19)
-            nD.download_file(**file37)
-        subset(list3, path)
-        return concatenate(path, outfile19, outfile37)
-    else:
-        comp_list = [dates[x:x + 100] for x in range(0, len(dates), 100)]
-        temp = 1
-        for subList in comp_list:
-            tempfile19 = '19H' + str(temp) + 'temp.nc'
-            tempfile37 = '37H' + str(temp) + 'temp.nc'
-            temp += 1
-            for date in subList:
-                temp = date
-                # Store the year of the current date, convert to day of year
-                year = temp.year
-                sensor = sensors[year]
-                if sensor in ['F16', 'F17', 'F18', 'F19']:
-                    ssmi_s = "SSMIS"
-                else:
-                    ssmi_s = "SSMI"
-                file19 = {
-                    "resolution": "6.25km",
-                    "platform": sensors[year],
-                    "sensor": ssmi_s,
-                    "date": date,
-                    "channel": "19H"
-                }
-                file37 = {
-                    "resolution": "3.125km",
-                    "platform": sensors[year],
-                    "sensor": ssmi_s,
-                    "date": date,
-                    "channel": "37H"
-                }
-                nD.download_file(**file19)
-                nD.download_file(**file37)
-            #scrape(subList, path, wget)
-            subset(list3, path)
-            concatenate(path, tempfile19, tempfile37)
-        return concatenate(path, outfile19, outfile37, final=True)
+        ssmi_s = "SSMIS" if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else "SSMI"
+        resolution = '6.25km' if channel == '19H' else '3.125km'
+        file = {
+            "resolution": resolution,
+            "platform": sensors[date.year],
+            "sensor": ssmi_s,
+            "date": date,
+            "channel": channel,
+            "dataversion": 'v1.3' if date.year == 2015 else 'v1.2'
+        }
+        return file
+
+    ## use list of paths as parameter to concatenate all paths in list
+    ## ['/folder/file1.nc','/folder/file2.nc']
+    def concatenate(self):
+        '''Function to concatenate files in the subsetted data
+        folders. Takes working directory path, the desired outfile
+        names, and whether or not this is a final pass in the subet_all
+        function as input.'''
+        os.chdir(self.path19)
+        # Concatenate 19GHz files:
+        if len(self.sub19list) != 0:
+            nco.ncrcat(input=self.sub19list, output = self.outfile_19, options=["-O"])
+        else:
+            print("No 19Ghz Files to Concatenate")
+        # Concatenate 37GHz files:
+        os.chdir(self.path37) # do i want to do this now? could put them somewhere else?
+        if len(self.sub37list) != 0:
+            nco.ncrcat(input = self.sub37list, output = self.outfile_37, options = ["-O"])
+        else:
+            print("No 37Ghz Files to Concatenate")
+
+        self.clear_sub_files() # clean out files that were concat
+
+        return self.outfile_19, self.outfile_37
+
+
+    def clear_sub_files(self):
+        os.chdir(self.path19)
+        filelist = glob.glob('NSIDC*')
+        for f in filelist:
+            os.remove(f)
+        os.chdir(self.path37)
+        filelist = glob.glob('NSIDC*')
+        for f in filelist:
+            os.remove(f)
+        return
+
+
+    def scrape(self, kwargs):
+        '''Wrapper function to allow more selective use of just the
+            web scraper'''
+        nD = nsidcDownloader(folder = self.wget)
+        for date in self.dates:
+            file19 = self.get_file(date, "19H")
+            file37 = self.get_file(date, "37H")
+            self.down19list.append(nD.download_file(**file19))
+            self.down37list.append(nD.download_file(**file37))
+
+
 
 
 
