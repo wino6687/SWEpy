@@ -67,7 +67,7 @@ class swepy():
         return list_3
 
 
-    def subset(self):
+    def subset(self, scrape = False):
         '''pass geo-coord list and directory path
         script will get the files from wget directory
         and subset them geographically'''
@@ -152,7 +152,7 @@ class swepy():
 
     ## use list of paths as parameter to concatenate all paths in list
     ## ['/folder/file1.nc','/folder/file2.nc']
-    def concatenate(self):
+    def concatenate(self, subset = False):
         '''Function to concatenate files in the subsetted data
         folders. Takes working directory path, the desired outfile
         names, and whether or not this is a final pass in the subet_all
@@ -187,7 +187,7 @@ class swepy():
         return
 
 
-    def scrape(self, kwargs):
+    def scrape(self):
         '''Wrapper function to allow more selective use of just the
             web scraper'''
         nD = nsidcDownloader(folder = self.wget)
@@ -196,6 +196,8 @@ class swepy():
             file37 = self.get_file(date, "37H")
             self.down19list.append(nD.download_file(**file19))
             self.down37list.append(nD.download_file(**file37))
+
+        return
 
 
 
