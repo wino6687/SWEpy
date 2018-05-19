@@ -128,7 +128,6 @@ class nsidcDownloader():
         filename = url.split("/")[-1]
         filepath = "{}/{}".format(folder, filename)
         block_size = 1024
-
         #print("{}".format(filename))
 
         if os.path.exists(filepath):
@@ -136,7 +135,7 @@ class nsidcDownloader():
                 os.remove(filepath)
             else:
                 print(" ** (skipping...) **")
-                return
+                return filename
 
         ## Download the dang thing
         with self.session.get(url, stream=True) as r:
@@ -163,7 +162,7 @@ class nsidcDownloader():
 
             pbar.close()
 
-        return(filepath)
+        return filename  ## changed to filename from filepath to fix another script
 
     def download_range(self, date, **kwargs):
         '''
