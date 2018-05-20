@@ -103,6 +103,10 @@ swepy = swepy(path, start, end, upper_left, lower_right)
 2. Use desired functionality, either separate or individually:
 
 ```{python}
+swepy.scrape()
+swepy.subset()
+swepy.concatenate()
+
 swepy.concatenate(swepy.subset(swepy.scrape()))
 ```
 

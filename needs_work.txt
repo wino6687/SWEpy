@@ -37,3 +37,9 @@ Class:
 - instantiated with date range, working directory, and lat/lon bounding box
 - at that point, class knows the date range to build, user can call scrape_all or call the functions independently
   - what if they want to enter the date range later?
+
+
+
+How to Mesh nsidcDownloader for use with individual use of sewpy functionality?
+  - scrape function? User inputs information they want to specify, and wrapper
+    function handles setting up the file
