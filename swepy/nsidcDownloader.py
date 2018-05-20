@@ -175,13 +175,13 @@ class nsidcDownloader():
             kwargs["date"] = date
             self.download_file(**kwargs)
 
-dl = nsidcDownloader(username="dale0007",
-                     password="SnowWater1")
+#dl = nsidcDownloader(username="dale0007",
+                     #="SnowWater1")
 
-dataset = {
-    "resolution": "3.125km",
-    "platform": "F17",
-    "sensor": "SSMIS",
-    "date": datetime(2015,10,10),
-    "channel": "37H"
-}
+#dataset = {
+    #"resolution": "3.125km",
+    #"platform": "F17",
+    #"sensor": "SSMIS",
+    #"date": datetime(2015,10,10),
+    #"channel": "37H"
+#}

@@ -1,5 +1,14 @@
 Needs Work list:
 
+
+NewList:
+1. Add way for users to pass login information through scrape and scrape_all
+
+2. remove my default username and password, in favor of looking for the .netrc file
+
+3. update the pypi upload once nsidc 0630 is up again 
+
+
 1. plot a day
   - currently using a slow way to get data into lat/lon (needs to be vectorized)
     - try using np.flatten
