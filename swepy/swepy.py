@@ -1,6 +1,7 @@
 import datetime
 
 import requests
+import nsidcDownloader
 from nsidcDownloader import nsidcDownloader
 import numpy as np
 from netCDF4 import Dataset

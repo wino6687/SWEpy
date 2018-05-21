@@ -1,6 +1,7 @@
 import datetime
 
 import requests
+import nsidcDownloader
 from nsidcDownloader import nsidcDownloader
 import numpy as np
 from netCDF4 import Dataset
@@ -20,7 +21,8 @@ nco = Nco()
 class swepy():
     '''Class Members'''
     def __init__(self, working_dir, start, end, ul, lr,
-                outfile19 = 'all_days_19H.nc', outfile37 = 'all_days_37H.nc'):
+                outfile19 = 'all_days_19H.nc', outfile37 = 'all_days_37H.nc',
+                username = 'wino6687', password = 'Desmo12@'):
         '''User instantiates the class with working directory,
         date ranges, and lat/lon bounding coords. constructor gets
         the datetime list, x/y coords, and file directories'''
@@ -29,6 +31,9 @@ class swepy():
 
         self.outfile_19 = outfile19
         self.outfile_37 = outfile37
+
+        self.username = username
+        self.password = password
 
         self.dates = pd.date_range(start, end)
         self.geo_list = self.get_xy(ul, lr)
@@ -190,7 +195,7 @@ class swepy():
     def scrape(self):
         '''Wrapper function to allow more selective use of just the
             web scraper'''
-        nD = nsidcDownloader(folder = self.wget)
+        nD = nsidcDownloader(folder = self.wget, username = self.username, password = self.password)
         for date in self.dates:
             file19 = self.get_file(date, "19H")
             file37 = self.get_file(date, "37H")

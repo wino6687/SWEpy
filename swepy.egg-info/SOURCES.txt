@@ -8,5 +8,5 @@ swepy.egg-info/PKG-INFO
 swepy.egg-info/SOURCES.txt
 swepy.egg-info/dependency_links.txt
 swepy.egg-info/top_level.txt
-swepy/nsdicDownloader/__init__.py
-swepy/nsdicDownloader/nsidcDownloader.py
+swepy/nsidcDownloader/__init__.py
+swepy/nsidcDownloader/nsidcDownloader.py

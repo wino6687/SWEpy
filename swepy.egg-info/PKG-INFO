@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: swepy
-Version: 0.0.2
+Version: 0.0.3
 Summary: A python package for obtaining and cleaning Tb files
 Home-page: https://github.com/wino6687/SWEpy
 Author: William Norris
@@ -28,7 +28,7 @@ Description: # Disclaimer
         # 2. Build Conda Environment
         Using the yaml file (.yml) create a new conda environment
         
-            conda env create -f environment.yml
+            conda env create -f swepy_env.yml
         # 3. Install ipykernel (if using jupyter)
         	source activate swepy_env
         	python -m ipykernel install --user --name swepy_env --display-name "Python (swepy_env)"
