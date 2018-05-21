@@ -1,8 +1,7 @@
 import datetime
 
 import requests
-import nsidcDownloader
-from nsidcDownloader import nsidcDownloader
+from swepy.nsidcDownloader import nsidcDownloader
 import numpy as np
 from netCDF4 import Dataset
 from skimage.measure import block_reduce
@@ -11,7 +10,7 @@ from mapboxgl.utils import *
 from mapboxgl.viz import *
 
 import pandas as pd
-import ease2conv as e2
+from swepy.Ease2Transform import Ease2Transform
 from nco import Nco
 import os
 from tqdm import tqdm
@@ -62,7 +61,7 @@ class swepy():
     def get_xy(self, ll_ul, ll_lr):
         '''Use NSIDC scripts to convert user inputted
         lat/lon into Ease grid 2.0 coordinates'''
-        N3 = e2.Ease2Transform("EASE2_N3.125km")
+        N3 = Ease2Transform.Ease2Transform("EASE2_N3.125km")
         # get x,y for 3.125
         row, col = N3.geographic_to_grid(ll_ul[0], ll_ul[1])
         x3ul, y3ul = N3.grid_to_map(row, col)
@@ -109,7 +108,7 @@ class swepy():
         '''Function to ensure we subset
          and concatenate every year!
          Implements the whole workflow!'''
-        nD = nsidcDownloader(folder = self.wget)     #instantiate downloading class
+        nD = nsidcDownloader.nsidcDownloader(folder = self.wget)     #instantiate downloading class
         outfile19 = 'all_days_19H.nc'
         outfile37 = 'all_days_37H.nc'
         if len(self.dates) <= 133:
@@ -195,7 +194,7 @@ class swepy():
     def scrape(self):
         '''Wrapper function to allow more selective use of just the
             web scraper'''
-        nD = nsidcDownloader(folder = self.wget, username = self.username, password = self.password)
+        nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = self.username, password = self.password)
         for date in self.dates:
             file19 = self.get_file(date, "19H")
             file37 = self.get_file(date, "37H")
