@@ -20,7 +20,7 @@ https://nsidc.org/support/faq/what-options-are-available-bulk-downloading-data-h
 # 2. Build Conda Environment
 Using the yaml file (.yml) create a new conda environment
 
-    conda env create -f environment.yml
+    conda env create -f swepy_env.yml
 # 3. Install ipykernel (if using jupyter)
 	source activate swepy_env
 	python -m ipykernel install --user --name swepy_env --display-name "Python (swepy_env)"

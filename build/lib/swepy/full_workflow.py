@@ -8,7 +8,7 @@ from nco import Nco
 import os
 from tqdm import tqdm
 import glob
-from swepy_object import swepy
+from swepy import swepy
 import sys
 nco = Nco()
 
