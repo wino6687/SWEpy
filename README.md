@@ -86,8 +86,12 @@ plot_a_day(file1, file2, path, token)
 * Returns: interactive map of inputted data
 
 # Object Oriented Functionality: (Added May 18, 2018)
+1. Import the Library:
+```{python}
+from swepy.swepy import swepy
+```
 
-1. Instantiate the class with bounding coordinates, date range, and working directory
+2. Instantiate the class with bounding coordinates, date range, and working directory
 
 ```{python}
 upper_left = [float(lat_ul), float(lon_ul)]
@@ -100,7 +104,7 @@ path = os.getcwd()
 
 swepy = swepy(path, start, end, upper_left, lower_right)
 ```
-2. Use desired functionality, either separate or individually:
+3. Use desired functionality, either separate or individually:
 
 ```{python}
 swepy.scrape()

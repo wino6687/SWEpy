@@ -1,12 +1,13 @@
 README.md
 setup.py
 swepy/__init__.py
-swepy/ease2conv.py
 swepy/full_workflow.py
 swepy/swepy.py
 swepy.egg-info/PKG-INFO
 swepy.egg-info/SOURCES.txt
 swepy.egg-info/dependency_links.txt
 swepy.egg-info/top_level.txt
+swepy/Ease2Transform/Ease2Transform.py
+swepy/Ease2Transform/__init__.py
 swepy/nsidcDownloader/__init__.py
 swepy/nsidcDownloader/nsidcDownloader.py
