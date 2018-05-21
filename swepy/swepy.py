@@ -1,8 +1,7 @@
 import datetime
 
 import requests
-import nsidcDownloader
-from nsidcDownloader import nsidcDownloader
+from swepy.nsidcDownloader import nsidcDownloader
 import numpy as np
 from netCDF4 import Dataset
 from skimage.measure import block_reduce
