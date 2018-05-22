@@ -1,14 +1,11 @@
 import datetime
-
 import requests
 from swepy.nsidcDownloader import nsidcDownloader
 import numpy as np
 from netCDF4 import Dataset
 from skimage.measure import block_reduce
-
 from mapboxgl.utils import *
 from mapboxgl.viz import *
-
 import pandas as pd
 from swepy.Ease2Transform import Ease2Transform
 from nco import Nco
