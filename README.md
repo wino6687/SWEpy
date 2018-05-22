@@ -2,12 +2,14 @@
 
 * Currently this script is not supported in Windows due to pynco only supporting Mac OS or Unix   
 
-* Web scrapping currently only working on the northern hemisphere  
+* Web scrapping currently only working on the northern hemisphere, fix coming soon
 
 * Requires python 3.6 and Anaconda 3
 
-# 1. Setup Earthdata Login
+# Setup Earthdata Login
 Create an Earthdata account to be able to download data: https://urs.earthdata.nasa.gov/  
+
+## Optional (.netrc file vs passing Username and Password):
 Setup your username and password in a .netrc file  
 Run this command in the directory you will be working in
 
@@ -17,34 +19,73 @@ Run this command in the directory you will be working in
 
 https://nsidc.org/support/faq/what-options-are-available-bulk-downloading-data-https-earthdata-login-enabled
 
-# 2. Build Conda Environment
-Using the yaml file (.yml) create a new conda environment
 
-    conda env create -f swepy_env.yml
-# 3. Install ipykernel (if using jupyter)
-	source activate swepy_env
-	python -m ipykernel install --user --name swepy_env --display-name "Python (swepy_env)"
-# 4. Run Script
-    source activate myenv
-    python full_workflow.py
+# Using SWEpy for analyzing SWE:
 
-# Troubleshooting
+1. Import the Library:
+```{python}
+from swepy.swepy import swepy
+```
 
-If encountering ‘image not found’ errors then one possible fix is to add theconda-forge channel on top of the defaults in your .condarc file. This is a hidden file, show hidden files and then edit the .condarc file and make your file look like this:
+2. Instantiate the class with bounding coordinates, date range, and working directory
 
-    $ cat .condarc
-    channels:
-    - conda-forge
-    - defaults
+```{python}
+upper_left = [float(lat_ul), float(lon_ul)]
+lower_right = [float(lat_lr), float(lon_lr)]
 
-After saving this file, update conda:
+start = datetime.date(int(startY), int(startM), int(startD))
+end = datetime.date(int(endY), int(endM), int(endD))
 
-    conda update all
+path = os.getcwd()
 
-https://conda-forge.org/docs/conda-forge_gotchas.html#using-multiple-channels
+swepy = swepy(path, start, end, upper_left, lower_right)
+```
+3. Use desired functionality, either separate or individually:
 
-* If getting HDF5 errors, try deleting all the netCDF files in your directories.
+```{python}
+swepy.scrape()
+swepy.subset()
+swepy.concatenate()
 
+swepy.concatenate(swepy.subset(swepy.scrape()))
+```
+
+## Using SWEpy's Web Scraper Alone:
+
+* Note: Web scraper is enabled automatically in the scrape_all workflow, however it can also be used as a stanalone function!
+
+```{python}
+from swepy.nsidcDownloader import nsidcDownloader
+
+## Ways to instantiate nsidcDownloader
+nD = nsidcDownloader.nsidcDownloader(username="user", password="pass", folder=".") ## user/pass combo and folder
+
+nD = nsidcDownloader(sensor="SSMIS") ## user/pass combo from .netrc and default folder, setting the default key of sensor
+
+## Download a file:
+
+file = {
+    "resolution": "3.125km",
+    "platform": "F17",
+    "sensor": "SSMIS",
+    "date": datetime(2015,10,10),
+    "channel": "37H"
+}
+
+nD.download_file(**file)
+
+nD.download_range(sensor="SSMIS", date=[datetime(2014,01,01), datetime(2015,01,01)])
+```
+
+* Authentication will work if the user/pass combo is saved in `~/.netrc`, or if it is passed in the nsidcDownloader instance
+
+* The class formats the following string:
+
+```
+ "{protocol}://{server}/{datapool}/{dataset}.{version}/{date:%Y.%m.%d}" \
+                    "/{dataset}-{projection}_{grid}{resolution}-{platform}_{sensor}" \
+                    "-{date:%Y%j}-{channel}-{pass}-{algorithm}-{input}-{dataversion}.nc"
+```
 
 # Function Summaries
 Descriptions of included functions
@@ -85,66 +126,22 @@ plot_a_day(file1, file2, path, token)
 * Plots a day of data using Mapbox Jupyter  
 * Returns: interactive map of inputted data
 
-# Object Oriented Functionality: (Added May 18, 2018)
-1. Import the Library:
-```{python}
-from swepy.swepy import swepy
-```
 
-2. Instantiate the class with bounding coordinates, date range, and working directory
+# Troubleshooting
 
-```{python}
-upper_left = [float(lat_ul), float(lon_ul)]
-lower_right = [float(lat_lr), float(lon_lr)]
+1. ‘image not found’ errors
+If encountering ‘image not found’ errors then one possible fix is to add theconda-forge channel on top of the defaults in your .condarc file. This is a hidden file, show hidden files and then edit the .condarc file and make your file look like this:
 
-start = datetime.date(int(startY), int(startM), int(startD))
-end = datetime.date(int(endY), int(endM), int(endD))
+    $ cat .condarc
+    channels:
+    - conda-forge
+    - defaults
 
-path = os.getcwd()
+After saving this file, update conda:
 
-swepy = swepy(path, start, end, upper_left, lower_right)
-```
-3. Use desired functionality, either separate or individually:
+    conda update all
 
-```{python}
-swepy.scrape()
-swepy.subset()
-swepy.concatenate()
+https://conda-forge.org/docs/conda-forge_gotchas.html#using-multiple-channels
 
-swepy.concatenate(swepy.subset(swepy.scrape()))
-```
-
-## Web Scraper Example Use
-
-* Note: Web scraper is enabled automatically in the scrape_all workflow, however it can also be used as a stanalone function!
-
-```{python}
-from nsidcDownloader import nsidcDownloader
-
-## Ways to instantiate nsidcDownloader
-nD = nsidcDownloader(username="user", password="pass", folder=".") ## user/pass combo and folder
-nD = nsidcDownloader(sensor="SSMIS") ## user/pass combo from .netrc and default folder, setting the default key of sensor
-
-## Download a file:
-
-file = {
-    "resolution": "3.125km",
-    "platform": "F17",
-    "sensor": "SSMIS",
-    "date": datetime(2015,10,10),
-    "channel": "37H"
-}
-
-nD.download_file(**file)
-nD.download_range(sensor="SSMIS", date=[datetime(2014,01,01), datetime(2015,01,01)])
-```
-
-* Authentication will work if the user/pass combo is saved in `~/.netrc`, or if it is passed in the nsidcDownloader instance
-
-* The class formats the following string:
-
-```
- "{protocol}://{server}/{datapool}/{dataset}.{version}/{date:%Y.%m.%d}" \
-                    "/{dataset}-{projection}_{grid}{resolution}-{platform}_{sensor}" \
-                    "-{date:%Y%j}-{channel}-{pass}-{algorithm}-{input}-{dataversion}.nc"
-```
+2. HDF5 errors:
+If getting HDF5 errors, try deleting all the netCDF files in your directories.

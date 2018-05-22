@@ -14,7 +14,6 @@ from swepy.Ease2Transform import Ease2Transform
 from nco import Nco
 import os
 from tqdm import tqdm
-import glob
 nco = Nco()
 
 class swepy():
@@ -42,6 +41,8 @@ class swepy():
         self.sub19list = []
         self.sub37list = []
 
+        self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
+        self.N3 = Ease2Transform.Ease2Transform("EASE2_N3.125km")
 
     def get_directories(self, path):
         os.chdir(path)
@@ -61,14 +62,13 @@ class swepy():
     def get_xy(self, ll_ul, ll_lr):
         '''Use NSIDC scripts to convert user inputted
         lat/lon into Ease grid 2.0 coordinates'''
-        N3 = Ease2Transform.Ease2Transform("EASE2_N3.125km")
         # get x,y for 3.125
-        row, col = N3.geographic_to_grid(ll_ul[0], ll_ul[1])
-        x3ul, y3ul = N3.grid_to_map(row, col)
-        row, col = N3.geographic_to_grid(ll_lr[0], ll_lr[1])
-        x3lr, y3lr = N3.grid_to_map(row, col)
-        list_3 = [x3ul, y3ul, x3lr, y3lr]
-        return list_3
+        row, col = self.N3.geographic_to_grid(ll_ul[0], ll_ul[1])
+        xul, yul = self.N3.grid_to_map(row, col)
+        row, col = self.N3.geographic_to_grid(ll_lr[0], ll_lr[1])
+        xlr, ylr = self.N3.grid_to_map(row, col)
+        geo_list = [xul, yul, xlr, ylr]
+        return geo_list
 
 
     def subset(self, scrape = False):
@@ -108,15 +108,14 @@ class swepy():
         '''Function to ensure we subset
          and concatenate every year!
          Implements the whole workflow!'''
-        nD = nsidcDownloader.nsidcDownloader(folder = self.wget)     #instantiate downloading class
         outfile19 = 'all_days_19H.nc'
         outfile37 = 'all_days_37H.nc'
         if len(self.dates) <= 133:
             for date in self.dates:
                 file19 = self.get_file(date, "19H")
                 file37 = self.get_file(date, "37H")
-                self.down19list.append(nD.download_file(**file19))
-                self.down37list.append(nD.download_file(**file37))
+                self.down19list.append(self.nD.download_file(**file19))
+                self.down37list.append(self.nD.download_file(**file37))
             self.subset()
             return self.concatenate()
         else:
@@ -127,8 +126,8 @@ class swepy():
                 for date in subList:
                     file19 = get_file(date, "19H")
                     file37 = get_file(date, "37H")
-                    self.down19list.append(nD.download_file(**file19))
-                    self.down37list.append(nD.download_file(**file37))
+                    self.down19list.append(self.nD.download_file(**file19))
+                    self.down37list.append(self.nD.download_file(**file37))
                 self.subset()
                 #concatenate(self, tempfile19, tempfile37)
             return self.concatenate()
@@ -194,13 +193,11 @@ class swepy():
     def scrape(self):
         '''Wrapper function to allow more selective use of just the
             web scraper'''
-        nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = self.username, password = self.password)
         for date in self.dates:
             file19 = self.get_file(date, "19H")
             file37 = self.get_file(date, "37H")
-            self.down19list.append(nD.download_file(**file19))
-            self.down37list.append(nD.download_file(**file37))
-
+            self.down19list.append(self.nD.download_file(**file19))
+            self.down37list.append(self.nD.download_file(**file37))
         return
 
 

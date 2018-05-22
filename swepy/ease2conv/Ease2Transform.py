@@ -1,4 +1,3 @@
-
 from affine import Affine   # noqa
 from osgeo import ogr, osr   # noqa
 import re   # noqa
