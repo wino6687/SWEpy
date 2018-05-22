@@ -6,7 +6,9 @@
 
 * Requires python 3.6 and Anaconda 3
 
-# Setup Earthdata Login
+# Setup:
+
+## Setup Earthdata Login
 Create an Earthdata account to be able to download data: https://urs.earthdata.nasa.gov/  
 
 ## Optional (.netrc file vs passing Username and Password):
@@ -15,10 +17,22 @@ Run this command in the directory you will be working in
 
 	echo "machine urs.earthdata.nasa.gov login <uid> password <password>" >> ~/.netrc
 	chmod 0600 ~/.netrc
-<uid> is your Earthdata username. Do not include the brackets <>.
+uid is your Earthdata username. Do not include the brackets <>.
 
 https://nsidc.org/support/faq/what-options-are-available-bulk-downloading-data-https-earthdata-login-enabled
 
+## 2. Setup conda environment from yaml:
+Using the yaml file (.yml) create a new conda environment
+```{python}
+conda env create -f swepy_env.yml
+```
+
+## 3. Install ipykernel (if using jupyter)
+
+```{python}
+source activate swepy_env
+python -m ipykernel install --user --name swepy_env --display-name "Python (swepy_env)"
+```
 
 # Using SWEpy for analyzing SWE:
 
@@ -27,18 +41,18 @@ https://nsidc.org/support/faq/what-options-are-available-bulk-downloading-data-h
 from swepy.swepy import swepy
 ```
 
-2. Instantiate the class with bounding coordinates, date range, and working directory
+2. Instantiate the class with working directory, date range, bounding coordinates, and earthdata username and password
 
 ```{python}
-upper_left = [float(lat_ul), float(lon_ul)]
-lower_right = [float(lat_lr), float(lon_lr)]
+upper_left = [lat_upleft, lon_upleft]
+lower_right = [lat_lowright, lon_lowright]
 
-start = datetime.date(int(startY), int(startM), int(startD))
-end = datetime.date(int(endY), int(endM), int(endD))
+start = datetime.date(startY, startM, startD)
+end = datetime.date(endY, endM, endD)
 
 path = os.getcwd()
 
-swepy = swepy(path, start, end, upper_left, lower_right)
+swepy = swepy(path, start, end, upper_left, lower_right, username, password)
 ```
 3. Use desired functionality, either separate or individually:
 
@@ -49,6 +63,12 @@ swepy.concatenate()
 
 swepy.concatenate(swepy.subset(swepy.scrape()))
 ```
+
+4. Or, use scrape_all to avoid massive file sizes:
+```{python}
+swepy.scrape_all()
+```
+This limits the number of full-size images on your disk at one time.
 
 ## Using SWEpy's Web Scraper Alone:
 

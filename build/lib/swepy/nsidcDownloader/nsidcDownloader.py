@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import os
 import requests
 
@@ -174,9 +172,6 @@ class nsidcDownloader():
         for date in pd.date_range(date[0], date[1]):
             kwargs["date"] = date
             self.download_file(**kwargs)
-
-#dl = nsidcDownloader(username="dale0007",
-                     #="SnowWater1")
 
 #dataset = {
     #"resolution": "3.125km",
