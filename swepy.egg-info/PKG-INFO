@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: swepy
-Version: 0.0.9
+Version: 0.0.11
 Summary: A python package for obtaining and cleaning Tb files
 Home-page: https://github.com/wino6687/SWEpy
 Author: William Norris
@@ -94,6 +94,9 @@ Description: # Disclaimer
         * Returns: interactive map of inputted data
         
         # Object Oriented Functionality: (Added May 18, 2018)
+        
+        ## Using SWEpy for analyzing SWE:
+        
         1. Import the Library:
         ```{python}
         from swepy.swepy import swepy
@@ -122,15 +125,16 @@ Description: # Disclaimer
         swepy.concatenate(swepy.subset(swepy.scrape()))
         ```
         
-        ## Web Scraper Example Use
+        ## Using SWEpy's Web Scraper Alone:
         
         * Note: Web scraper is enabled automatically in the scrape_all workflow, however it can also be used as a stanalone function!
         
         ```{python}
-        from nsidcDownloader import nsidcDownloader
+        from swepy.nsidcDownloader import nsidcDownloader
         
         ## Ways to instantiate nsidcDownloader
-        nD = nsidcDownloader(username="user", password="pass", folder=".") ## user/pass combo and folder
+        nD = nsidcDownloader.nsidcDownloader(username="user", password="pass", folder=".") ## user/pass combo and folder
+        
         nD = nsidcDownloader(sensor="SSMIS") ## user/pass combo from .netrc and default folder, setting the default key of sensor
         
         ## Download a file:
@@ -144,6 +148,7 @@ Description: # Disclaimer
         }
         
         nD.download_file(**file)
+        
         nD.download_range(sensor="SSMIS", date=[datetime(2014,01,01), datetime(2015,01,01)])
         ```
         

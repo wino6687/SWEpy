@@ -6,6 +6,7 @@ swepy/swepy.py
 swepy.egg-info/PKG-INFO
 swepy.egg-info/SOURCES.txt
 swepy.egg-info/dependency_links.txt
+swepy.egg-info/requires.txt
 swepy.egg-info/top_level.txt
 swepy/Ease2Transform/Ease2Transform.py
 swepy/Ease2Transform/__init__.py

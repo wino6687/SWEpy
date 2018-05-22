@@ -6,7 +6,6 @@ NewList:
 
 2. remove my default username and password, in favor of looking for the .netrc file
 
-3. update the pypi upload once nsidc 0630 is up again 
 
 
 1. plot a day
@@ -14,14 +13,11 @@ NewList:
     - try using np.flatten
 
 2. scrape all
-  - make this smarter, cleaner
-    - would a class work better?
+
 
 
 5. subset and concatenate
-  - can I make it optional to pass a list of files instead of using glob.glob?
-  - lists of files would work in more settings
-    - could a class be used to maintain these lists between function calls?
+
 
 6. restructure flowmod to be object oriented
   - Idea: use downloading script as generic downloder with multiple default templates
@@ -52,3 +48,26 @@ Class:
 How to Mesh nsidcDownloader for use with individual use of sewpy functionality?
   - scrape function? User inputs information they want to specify, and wrapper
     function handles setting up the file
+
+
+
+Testing Order:
+1. make new conda env with yml file
+2. install swepy via pip
+3. install ipykernel spec and open jupyter tqdm_notebook
+4. attempt to instantiate the class
+5. call the scape_all function
+
+Things to check functionality:
+1. do scrape and scrape all allow user entered username and password??
+2. make sure dependencies are properly installed
+    - eliminate need for yml file 
+
+
+
+Cleanup Notes:
+1. Downloader done
+
+2.  don't need the full_workflow files anymore
+  - move them to hold for now
+  -
