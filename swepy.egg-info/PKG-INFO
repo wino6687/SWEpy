@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: swepy
-Version: 0.0.14
+Version: 0.0.15
 Summary: A python package for obtaining and cleaning Tb files
 Home-page: https://github.com/wino6687/SWEpy
 Author: William Norris
@@ -14,7 +14,9 @@ Description: # Disclaimer
         
         * Requires python 3.6 and Anaconda 3
         
-        # Setup Earthdata Login
+        # Setup:
+        
+        ## Setup Earthdata Login
         Create an Earthdata account to be able to download data: https://urs.earthdata.nasa.gov/  
         
         ## Optional (.netrc file vs passing Username and Password):
@@ -26,6 +28,30 @@ Description: # Disclaimer
         uid is your Earthdata username. Do not include the brackets <>.
         
         https://nsidc.org/support/faq/what-options-are-available-bulk-downloading-data-https-earthdata-login-enabled
+        
+        ## 2. Setup conda environment from yaml (Optional):
+        Using the yaml file (.yml) create a new conda environment
+        ```{python}
+        conda env create -f swepy_env.yml
+        ```
+        
+        ## 3. Install ipykernel (if using jupyter)
+        
+        ```{python}
+        source activate swepy_env
+        python -m ipykernel install --user --name swepy_env --display-name "Python (swepy_env)"
+        ```
+        
+        # Main Dependencies:
+        - gdal
+        - affine
+        - requests
+        - scikit-image
+        - nco (pynco)
+        - netCDF4
+        - datetime
+        - tqdm 
+        - mapboxgl
         
         
         # Using SWEpy for analyzing SWE:
