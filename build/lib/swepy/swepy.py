@@ -1,14 +1,11 @@
 import datetime
-
 import requests
 from swepy.nsidcDownloader import nsidcDownloader
 import numpy as np
 from netCDF4 import Dataset
 from skimage.measure import block_reduce
-
 from mapboxgl.utils import *
 from mapboxgl.viz import *
-
 import pandas as pd
 from swepy.Ease2Transform import Ease2Transform
 from nco import Nco
@@ -27,6 +24,8 @@ class swepy():
         self.working_dir = working_dir
         self.path19, self.path37, self.wget = self.get_directories(working_dir)
 
+        self.N3 = Ease2Transform.Ease2Transform("EASE2_N3.125km")
+
         self.outfile_19 = outfile19
         self.outfile_37 = outfile37
 
@@ -42,7 +41,7 @@ class swepy():
         self.sub37list = []
 
         self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
-        self.N3 = Ease2Transform.Ease2Transform("EASE2_N3.125km")
+
 
     def get_directories(self, path):
         os.chdir(path)
@@ -219,7 +218,7 @@ def plot_a_day(file1, file2, path, token):
     tb= tb_19H  - tb_37H
     lats = np.zeros((len(y), len(x)), dtype=np.float64)
     lons = np.zeros((len(y), len(x)), dtype=np.float64)
-    grid = e2.Ease2Transform(gridname=fid_19H.variables["crs"].long_name)
+    grid = Ease2Transform.Ease2Transform(gridname=fid_19H.variables["crs"].long_name)
     for i, xi in enumerate(x):
         for j, yj in enumerate(y):
             row, col = grid.map_to_grid(xi, yj)

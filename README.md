@@ -21,7 +21,7 @@ uid is your Earthdata username. Do not include the brackets <>.
 
 https://nsidc.org/support/faq/what-options-are-available-bulk-downloading-data-https-earthdata-login-enabled
 
-## 2. Setup conda environment from yaml:
+## 2. Setup conda environment from yaml (Optional):
 Using the yaml file (.yml) create a new conda environment
 ```{python}
 conda env create -f swepy_env.yml
@@ -33,6 +33,19 @@ conda env create -f swepy_env.yml
 source activate swepy_env
 python -m ipykernel install --user --name swepy_env --display-name "Python (swepy_env)"
 ```
+
+# Main Dependencies:
+- gdal
+- affine
+- requests
+- scikit-image
+- nco (pynco)
+- netCDF4
+- datetime
+- tqdm
+- mapboxgl
+- pandas
+
 
 # Using SWEpy for analyzing SWE:
 
