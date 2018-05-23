@@ -45,6 +45,9 @@ class swepy():
 
 
     def get_directories(self, path):
+        '''Given a working directory, Check
+        for the proper sub-directories and
+        then make them if absent'''
         os.chdir(path)
         wget = path + "/data/wget/"
         path19 = path + "/data/Subsetted_19H/"
@@ -72,9 +75,9 @@ class swepy():
 
 
     def subset(self, scrape = False):
-        '''pass geo-coord list and directory path
-        script will get the files from wget directory
-        and subset them geographically'''
+        '''get the files from wget directory
+        and subset them geographically based on
+        coords from constructor'''
         os.chdir(self.wget)
         for file in tqdm(self.down19list):
             outfile = self.path19 + file
@@ -153,14 +156,10 @@ class swepy():
         }
         return file
 
-    ## use list of paths as parameter to concatenate all paths in list
-    ## ['/folder/file1.nc','/folder/file2.nc']
     def concatenate(self, subset = False):
         '''Function to concatenate files in the subsetted data
-        folders. Takes working directory path, the desired outfile
-        names, and whether or not this is a final pass in the subet_all
-        function as input.'''
-        #os.chdir(self.path19)
+        folders. Input parameter is simply to allow for nesting of
+        functions.'''
         # Concatenate 19GHz files:
         if len(self.sub19list) != 0:
             nco.ncrcat(input=self.sub19list, output = self.outfile_19, options=["-O"])
@@ -168,30 +167,19 @@ class swepy():
         else:
             print("No 19Ghz Files to Concatenate")
         # Concatenate 37GHz files:
-        #os.chdir(self.path37) # do i want to do this now? could put them somewhere else?
         if len(self.sub37list) != 0:
             nco.ncrcat(input = self.sub37list, output = self.outfile_37, options = ["-O"])
             self.concatlist[1] = self.outfile_37
         else:
             print("No 37Ghz Files to Concatenate")
 
-        #self.clear_sub_files() # clean out files that were concat
+        # clean out files that were concat
+        for file in self.sub19list: os.remove(file)
+        for file in self.sub37list: os.remove(file)
         self.sub19list = []
         self.sub37list = []
         return self.outfile_19, self.outfile_37
 
-        '''
-    def clear_sub_files(self):
-        os.chdir(self.path19)
-        filelist = glob.glob('NSIDC*')
-        for f in filelist:
-            os.remove(f)
-        os.chdir(self.path37)
-        filelist = glob.glob('NSIDC*')
-        for f in filelist:
-            os.remove(f)
-        return
-        '''
 
     def scrape(self):
         '''Wrapper function to allow more selective use of just the
