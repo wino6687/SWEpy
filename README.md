@@ -2,7 +2,7 @@
 
 * Currently this script is not supported in Windows due to pynco only supporting Mac OS or Unix   
 
-* Web scrapping currently only working on the northern hemisphere, fix coming soon
+* Web scrapping currently only working on the northern hemisphere, fix coming soon (Late May 2018)
 
 * Requires python 3.6 and Anaconda 3
 
@@ -22,6 +22,8 @@ uid is your Earthdata username. Do not include the brackets <>.
 https://nsidc.org/support/faq/what-options-are-available-bulk-downloading-data-https-earthdata-login-enabled
 
 ## 2. Setup conda environment from yaml (Optional):
+The libraries used in this analysis, namely pynco, can be finicky with the channels dependencies are installed with. Thus, using the provided yaml file to build an environment for this project will make your life simpler. You can add more packages on top of the provided environment as long as you install with the conda-forge channel. 	
+
 Using the yaml file (.yml) create a new conda environment
 ```{python}
 conda env create -f swepy_env.yml

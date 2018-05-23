@@ -39,6 +39,7 @@ class swepy():
         self.down37list = []
         self.sub19list = []
         self.sub37list = []
+        self.concatlist = [None, None]
 
         self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
 
@@ -120,8 +121,8 @@ class swepy():
         else:
             comp_list = [self.dates[x:x + 100] for x in range(0, len(self.dates), 100)]
             for count, subList in enumerate(comp_list):
-                tempfile19 = '19H' + str(count) + 'temp.nc'
-                tempfile37 = '37H' + str(count) + 'temp.nc'
+                #tempfile19 = '19H' + str(count) + 'temp.nc'
+                #tempfile37 = '37H' + str(count) + 'temp.nc'
                 for date in subList:
                     file19 = get_file(date, "19H")
                     file37 = get_file(date, "37H")
@@ -159,24 +160,27 @@ class swepy():
         folders. Takes working directory path, the desired outfile
         names, and whether or not this is a final pass in the subet_all
         function as input.'''
-        os.chdir(self.path19)
+        #os.chdir(self.path19)
         # Concatenate 19GHz files:
         if len(self.sub19list) != 0:
             nco.ncrcat(input=self.sub19list, output = self.outfile_19, options=["-O"])
+            self.concatlist[0] = self.outfile_19
         else:
             print("No 19Ghz Files to Concatenate")
         # Concatenate 37GHz files:
-        os.chdir(self.path37) # do i want to do this now? could put them somewhere else?
+        #os.chdir(self.path37) # do i want to do this now? could put them somewhere else?
         if len(self.sub37list) != 0:
             nco.ncrcat(input = self.sub37list, output = self.outfile_37, options = ["-O"])
+            self.concatlist[1] = self.outfile_37
         else:
             print("No 37Ghz Files to Concatenate")
 
-        self.clear_sub_files() # clean out files that were concat
-
+        #self.clear_sub_files() # clean out files that were concat
+        self.sub19list = []
+        self.sub37list = []
         return self.outfile_19, self.outfile_37
 
-
+        '''
     def clear_sub_files(self):
         os.chdir(self.path19)
         filelist = glob.glob('NSIDC*')
@@ -187,7 +191,7 @@ class swepy():
         for f in filelist:
             os.remove(f)
         return
-
+        '''
 
     def scrape(self):
         '''Wrapper function to allow more selective use of just the
@@ -202,46 +206,45 @@ class swepy():
 
 
 
+    def plot_a_day(self, token):
+        '''read tb,x,y data from final files,
+        with the purpose of plotting.'''
+        #os.chdir(path + '/data/Subsetted_19H')
+        fid_19H = Dataset(self.concatlist[0], "r", format="NETCDF4")
+        #os.chdir(path + '/data/Subsetted_37H')
+        fid_37H = Dataset(self.concatlist[1], "r", format="NETCDF4")
+        x = fid_19H.variables['x'][:]
+        y = fid_37H.variables['y'][:]
+        tb_19H = fid_19H.variables['TB'][:]
+        tb_37H = fid_37H.variables['TB'][:]
+        tb_37H = block_reduce(tb_37H, block_size = (1,2,2), func = np.mean)
+        tb= tb_19H  - tb_37H
+        lats = np.zeros((len(y), len(x)), dtype=np.float64)
+        lons = np.zeros((len(y), len(x)), dtype=np.float64)
+        grid = Ease2Transform.Ease2Transform(gridname=fid_19H.variables["crs"].long_name)
+        for i, xi in enumerate(x):
+            for j, yj in enumerate(y):
+                row, col = grid.map_to_grid(xi, yj)
+                lat, lon = grid.grid_to_geographic(row, col)
+                lats[j, i] = lat
+                lons[j, i] = lon
+        one_day = tb[0,:,:]
+        df = pd.DataFrame(columns = ['lat', 'lon', 'swe'])
+        for i in range(len(one_day[:,1])):
+            for j in range(len(one_day[1,:])):
+                df = df.append({'lat': lats[i][j], 'lon': lons[i][j], 'swe':one_day[i][j]}, ignore_index = True)
+        df_to_geojson(df, filename = 'swe_1day.geojson',properties = ['swe'],lat = 'lat', lon = 'lon')
+        measure = 'swe'
+        color_breaks = [round(df[measure].quantile(q=x*0.1), 2) for x in range(1,9)]
+        color_stops = create_color_stops(color_breaks, colors='YlGnBu')
 
-def plot_a_day(file1, file2, path, token):
-    '''read tb,x,y data from final files,
-    with the purpose of plotting.'''
-    os.chdir(path + '/data/Subsetted_19H')
-    fid_19H = Dataset(file1, "r", format="NETCDF4")
-    os.chdir(path + '/data/Subsetted_37H')
-    fid_37H = Dataset(file2, "r", format="NETCDF4")
-    x = fid_19H.variables['x'][:]
-    y = fid_37H.variables['y'][:]
-    tb_19H = fid_19H.variables['TB'][:]
-    tb_37H = fid_37H.variables['TB'][:]
-    tb_37H = block_reduce(tb_37H, block_size = (1,2,2), func = np.mean)
-    tb= tb_19H  - tb_37H
-    lats = np.zeros((len(y), len(x)), dtype=np.float64)
-    lons = np.zeros((len(y), len(x)), dtype=np.float64)
-    grid = Ease2Transform.Ease2Transform(gridname=fid_19H.variables["crs"].long_name)
-    for i, xi in enumerate(x):
-        for j, yj in enumerate(y):
-            row, col = grid.map_to_grid(xi, yj)
-            lat, lon = grid.grid_to_geographic(row, col)
-            lats[j, i] = lat
-            lons[j, i] = lon
-    one_day = tb[0,:,:]
-    df = pd.DataFrame(columns = ['lat', 'lon', 'swe'])
-    for i in range(len(one_day[:,1])):
-        for j in range(len(one_day[1,:])):
-            df = df.append({'lat': lats[i][j], 'lon': lons[i][j], 'swe':one_day[i][j]}, ignore_index = True)
-    df_to_geojson(df, filename = 'swe_1day.geojson',properties = ['swe'],lat = 'lat', lon = 'lon')
-    measure = 'swe'
-    color_breaks = [round(df[measure].quantile(q=x*0.1), 2) for x in range(1,9)]
-    color_stops = create_color_stops(color_breaks, colors='YlGnBu')
+        # Create the viz from the dataframe
+        viz = CircleViz('swe_1day.geojson',
+                        access_token=token,
+                        color_property = "swe",
+                        color_stops = color_stops,
+                        center = (-154, 67),
+                        zoom = 3,
+                        below_layer = 'waterway-label')
 
-    # Create the viz from the dataframe
-    viz = CircleViz('swe_1day.geojson',
-                    access_token=token,
-                    color_property = "swe",
-                    color_stops = color_stops,
-                    center = (-154, 67),
-                    zoom = 3,
-                    below_layer = 'waterway-label')
-
-    viz.show()
+        viz.show()

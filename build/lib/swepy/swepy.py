@@ -120,8 +120,8 @@ class swepy():
         else:
             comp_list = [self.dates[x:x + 100] for x in range(0, len(self.dates), 100)]
             for count, subList in enumerate(comp_list):
-                tempfile19 = '19H' + str(count) + 'temp.nc'
-                tempfile37 = '37H' + str(count) + 'temp.nc'
+                #tempfile19 = '19H' + str(count) + 'temp.nc'
+                #tempfile37 = '37H' + str(count) + 'temp.nc'
                 for date in subList:
                     file19 = get_file(date, "19H")
                     file37 = get_file(date, "37H")
@@ -159,24 +159,25 @@ class swepy():
         folders. Takes working directory path, the desired outfile
         names, and whether or not this is a final pass in the subet_all
         function as input.'''
-        os.chdir(self.path19)
+        #os.chdir(self.path19)
         # Concatenate 19GHz files:
         if len(self.sub19list) != 0:
             nco.ncrcat(input=self.sub19list, output = self.outfile_19, options=["-O"])
         else:
             print("No 19Ghz Files to Concatenate")
         # Concatenate 37GHz files:
-        os.chdir(self.path37) # do i want to do this now? could put them somewhere else?
+        #os.chdir(self.path37) # do i want to do this now? could put them somewhere else?
         if len(self.sub37list) != 0:
             nco.ncrcat(input = self.sub37list, output = self.outfile_37, options = ["-O"])
         else:
             print("No 37Ghz Files to Concatenate")
 
-        self.clear_sub_files() # clean out files that were concat
-
+        #self.clear_sub_files() # clean out files that were concat
+        self.sub19list = []
+        self.sub37list = []
         return self.outfile_19, self.outfile_37
 
-
+        '''
     def clear_sub_files(self):
         os.chdir(self.path19)
         filelist = glob.glob('NSIDC*')
@@ -187,7 +188,7 @@ class swepy():
         for f in filelist:
             os.remove(f)
         return
-
+        '''
 
     def scrape(self):
         '''Wrapper function to allow more selective use of just the
@@ -198,7 +199,6 @@ class swepy():
             self.down19list.append(self.nD.download_file(**file19))
             self.down37list.append(self.nD.download_file(**file37))
         return
-
 
 
 
