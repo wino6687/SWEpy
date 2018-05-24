@@ -22,7 +22,7 @@ uid is your Earthdata username. Do not include the brackets <>.
 https://nsidc.org/support/faq/what-options-are-available-bulk-downloading-data-https-earthdata-login-enabled
 
 ## 2. Setup conda environment from yaml (Optional):
-The libraries used in this analysis, namely pynco, can be finicky with the channels dependencies are installed with. Thus, using the provided yaml file to build an environment for this project will make your life simpler. You can add more packages on top of the provided environment as long as you install with the conda-forge channel. 	
+The libraries used in this analysis, namely pynco, can be finicky with the channels that dependencies are installed with. Thus, using the provided yaml file to build an environment for this project will make your life simpler. You can add more packages on top of the provided environment as long as you install with the conda-forge channel. 	
 
 Using the yaml file (.yml) create a new conda environment
 ```{python}

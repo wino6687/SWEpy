@@ -34,8 +34,7 @@ class swepy():
         self.password = password
 
         self.dates = pd.date_range(start, end)
-        #self.geo_list3 = []
-        #self.geo_list6 = []
+
         self.geo_list3, self.geo_list6 = self.get_xy(ul, lr)
 
         self.down19list = []
@@ -92,8 +91,8 @@ class swepy():
             outfile = self.path19 + file
             infile = self.wget + file
             opt = [
-                "-d x,%f,%f" % (self.geo_list6[0],self.geo_list6[2]),
-                "-d y,%f,%f" % (self.geo_list6[3],self.geo_list6[1]),
+                "-d x,%f,%f" % (self.geo_list3[0],self.geo_list3[2]),
+                "-d y,%f,%f" % (self.geo_list3[3],self.geo_list3[1]),
                 "-v TB"
             ]
             nco.ncks(input=infile, output=outfile, options=opt)
