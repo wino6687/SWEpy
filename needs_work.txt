@@ -24,7 +24,7 @@ Testing Order:
 Things to check functionality:
 1. do scrape and scrape all allow user entered username and password??
 2. any way to use conda-forge for dependencies?
-3. is my package installable with conda? 
+3. is my package installable with conda?
 
 
 
@@ -34,3 +34,6 @@ Cleanup Notes:
 2.  don't need the full_workflow files anymore
   - move them to hold for now
   -
+
+
+Current Bugs: 
