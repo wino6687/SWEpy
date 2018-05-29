@@ -21,6 +21,7 @@ class swepy():
         '''User instantiates the class with working directory,
         date ranges, and lat/lon bounding coords. constructor gets
         the datetime list, x/y coords, and file directories'''
+        self.center = [ul[1], ul[0]]
         self.working_dir = working_dir
         self.path19, self.path37, self.wget = self.get_directories(working_dir)
 
@@ -43,7 +44,7 @@ class swepy():
         self.sub37list = []
         self.concatlist = [None, None]
 
-        #self.grid = self.get_grid(ul[0], lr[0])
+        self.grid = self.get_grid(ul[0], lr[0])
 
         self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
 
@@ -51,14 +52,14 @@ class swepy():
     def get_grid(self, lat1, lat2):
         '''Function to check which regions the lats fall into,
         no idea what to do if they cross two regions......'''
-        if (lat1 and lat2 < 67) and (lat1 and lat2 > -67): # mid lat
+        if (lat1 and lat2 < 40) and (lat1 and lat2 > -40): # mid lat
             self.grid = "M"
-        elif (lat1 and lat2 > 67) and (lat1 and lat2 < 90): # north
+        elif (lat1 and lat2 > 40) and (lat1 and lat2 < 90): # north
             self.grid = "N"
-        elif (lat1 and lat2 < -67) and (lat1 and lat2 > -90): # South
+        elif (lat1 and lat2 < -40) and (lat1 and lat2 > -90): # South
             self.grid = "S"
         else:
-            print("SWEpy currently only supports study areas with a study area bounded by +-67 deg latitude")
+            print("SWEpy currently only supports study areas with a study area bounded by +-40 deg latitude")
         return self.grid
 
 
@@ -173,6 +174,7 @@ class swepy():
             "sensor": ssmi_s,
             "date": date,
             "channel": channel,
+            "grid": self.grid,
             "dataversion": 'v1.3' if date.year == 2015 else 'v1.2'
         }
         return file
@@ -236,15 +238,11 @@ class swepy():
     def plot_a_day(self, token):
         '''read tb,x,y data from final files,
         with the purpose of plotting.'''
-        #os.chdir(path + '/data/Subsetted_19H')
         fid_19H = Dataset(self.concatlist[0], "r", format="NETCDF4")
-        #os.chdir(path + '/data/Subsetted_37H')
         fid_37H = Dataset(self.concatlist[1], "r", format="NETCDF4")
-
 
         x = fid_19H.variables['x'][:]
         y = fid_19H.variables['y'][:]
-
 
         tb_19H = fid_19H.variables['TB'][:]
         tb_37H = fid_37H.variables['TB'][:]
@@ -252,10 +250,10 @@ class swepy():
 
         tb_19H, tb_37H = self.check_size(tb_19H, tb_37H)
         tb = tb_19H - tb_37H
+        
         lats = np.zeros((len(y), len(x)), dtype=np.float64)
         lons = np.zeros((len(y), len(x)), dtype=np.float64)
         grid = Ease2Transform.Ease2Transform(gridname=fid_19H.variables["crs"].long_name)
-        print(fid_19H.variables["crs"].long_name)
         for i, xi in enumerate(x):
             for j, yj in enumerate(y):
                 row, col = grid.map_to_grid(xi, yj)
@@ -267,6 +265,54 @@ class swepy():
         for i in range(len(one_day[:,1])):
             for j in range(len(one_day[1,:])):
                 df = df.append({'lat': lats[i][j], 'lon': lons[i][j], 'swe':one_day[i][j]}, ignore_index = True)
+        os.chdir(self.working_dir)
+        df_to_geojson(df, filename = 'swe_1day.geojson',properties = ['swe'],lat = 'lat', lon = 'lon')
+        measure = 'swe'
+        color_breaks = [round(df[measure].quantile(q=x*0.1), 2) for x in range(1,9)]
+        color_stops = create_color_stops(color_breaks, colors='YlGnBu')
+        # Create the viz from the dataframe
+        viz = CircleViz('swe_1day.geojson',
+                        access_token=token,
+                        color_property = "swe",
+                        color_stops = color_stops,
+                        center = (self.center),
+                        zoom = 3,
+                        below_layer = 'waterway-label')
+
+        viz.show()
+
+
+    def plot_a_day_fast(self, token):
+        '''read tb,x,y data from final files,
+        with the purpose of plotting.'''
+        fid_19H = Dataset(self.concatlist[0], "r", format="NETCDF4")
+        fid_37H = Dataset(self.concatlist[1], "r", format="NETCDF4")
+
+        x = fid_19H.variables['x'][:]
+        y = fid_19H.variables['y'][:]
+
+        tb_19H = fid_19H.variables['TB'][:]
+        tb_37H = fid_37H.variables['TB'][:]
+        tb_37H = block_reduce(tb_37H, block_size = (1,2,2), func = np.mean)
+
+        tb_19H, tb_37H = self.check_size(tb_19H, tb_37H)
+        tb = tb_19H - tb_37H
+        lats = np.zeros((len(y), len(x)), dtype=np.float64)
+        lons = np.zeros((len(y), len(x)), dtype=np.float64)
+        grid = Ease2Transform.Ease2Transform(gridname=fid_19H.variables["crs"].long_name)
+        print(fid_19H.variables["crs"].long_name)
+        one_day = tb[0,:,:]
+        df = pd.DataFrame(columns = ['lat', 'lon', 'swe'])
+        for i, xi in enumerate(x):
+            for j, yj in enumerate(y):
+                row, col = grid.map_to_grid(xi, yj)
+                lat, lon = grid.grid_to_geographic(row, col)
+                lats[j, i] = lat
+                lons[j, i] = lon
+                df = df.append({'lat': lats[i-1][j-1], 'lon': lons[i-1][j-1], 'swe':one_day[i-1][j-1]}, ignore_index = True)
+        #for i in range(len(one_day[:,1])):
+            #for j in range(len(one_day[1,:])):
+                #df = df.append({'lat': lats[i][j], 'lon': lons[i][j], 'swe':one_day[i][j]}, ignore_index = True)
         os.chdir(self.working_dir)
         df_to_geojson(df, filename = 'swe_1day.geojson',properties = ['swe'],lat = 'lat', lon = 'lon')
         measure = 'swe'
