@@ -216,6 +216,9 @@ class swepy():
         return
 
     def check_size(self, tb19, tb37):
+        '''Check size of each file, often the 19 and 37
+            files are one unit off of eachother. This will
+            chop the larger one to match the smaller one.'''
         shape1 = np.shape(tb19)
         shape2 = np.shape(tb37)
         s1 = [shape1[0], shape1[1], shape1[2]]
@@ -250,7 +253,7 @@ class swepy():
 
         tb_19H, tb_37H = self.check_size(tb_19H, tb_37H)
         tb = tb_19H - tb_37H
-        
+
         lats = np.zeros((len(y), len(x)), dtype=np.float64)
         lons = np.zeros((len(y), len(x)), dtype=np.float64)
         grid = Ease2Transform.Ease2Transform(gridname=fid_19H.variables["crs"].long_name)
