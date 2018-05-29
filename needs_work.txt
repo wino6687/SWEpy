@@ -63,4 +63,7 @@ plot a day not working:
 
 
 Orientation of the bounding box:
-- oriented with the prime meridian 
+- oriented with the prime meridian (in north grid)
+- still trying to figure out the southern grid
+  - no orientation seems to work properly!!!
+  
