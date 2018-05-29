@@ -2,7 +2,7 @@
 
 * Currently this script is not supported in Windows due to pynco only supporting Mac OS or Unix   
 
-* Web scrapping currently only working on the northern hemisphere, fix coming soon (Late May 2018)
+* Web scrapping now supports all grids (N,S,M), although subsetting and concatenating still only support Northern Grid. Fix coming Late May 2018
 
 * Requires python 3.6 and Anaconda 3
 

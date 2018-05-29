@@ -36,4 +36,31 @@ Cleanup Notes:
   -
 
 
-Current Bugs: 
+Current Bugs:
+
+
+
+New Instatiation Idea:
+- Need to add ability for user to choose coords in the M and S Hemi
+  - Need to either:
+    1. automatically use the entered coords to determine which region to use (do this one)
+    2. have user enter that (nahhhh)
+
+- Automagically determine which hemi to use based on the coordinates
+  - border lats are +- 67 deg
+
+
+
+
+plot a day not working:
+- always displaying data in a weird spot in alaska, regardless of ul, lr lat lon coordinates
+- seems shifted to the left....
+  - seems to be the correct projection
+  - correct lat/lon conversion
+  -
+
+
+
+
+Orientation of the bounding box:
+- oriented with the prime meridian 
