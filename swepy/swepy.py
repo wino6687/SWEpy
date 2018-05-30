@@ -15,7 +15,7 @@ nco = Nco()
 
 class swepy():
     '''Class Members'''
-    def __init__(self, working_dir, start, end, ul, lr,username, password,
+    def __init__(self, working_dir, start, end, ul, lr, username, password,
                 outfile19 = 'all_days_19H.nc', outfile37 = 'all_days_37H.nc'):
         '''User instantiates the class with working directory,
         date ranges, and lat/lon bounding coords. constructor gets
