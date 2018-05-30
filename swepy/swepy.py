@@ -25,8 +25,8 @@ class swepy():
         self.working_dir = working_dir
         self.path19, self.path37, self.wget = self.get_directories(working_dir)
 
-        self.N3 = Ease2Transform.Ease2Transform("EASE2_N3.125km")
-        self.N6 = Ease2Transform.Ease2Transform("EASE2_N6.25km")
+        #self.N3 = Ease2Transform.Ease2Transform("EASE2_N3.125km")
+        #self.N6 = Ease2Transform.Ease2Transform("EASE2_N6.25km")
 
         self.outfile_19 = outfile19
         self.outfile_37 = outfile37
@@ -35,6 +35,8 @@ class swepy():
         self.password = password
 
         self.dates = pd.date_range(start, end)
+
+        self.grid = self.get_grid(ul[0], lr[0])
 
         self.geo_list3, self.geo_list6 = self.get_xy(ul, lr)
 
@@ -50,14 +52,19 @@ class swepy():
 
 
     def get_grid(self, lat1, lat2):
-        '''Function to check which regions the lats fall into,
-        no idea what to do if they cross two regions......'''
+        '''Function to check which regions the lats fall into. based
+        on the grid, instantiate the ease grid conversion object.
+        no idea what to do if they cross two regions...'''
         if (lat1 and lat2 < 40) and (lat1 and lat2 > -40): # mid lat
             self.grid = "M"
         elif (lat1 and lat2 > 40) and (lat1 and lat2 < 90): # north
             self.grid = "N"
+            self.ease3 = Ease2Transform.Ease2Transform("EASE2_N3.125km")
+            self.ease6 = Ease2Transform.Ease2Transform("EASE2_N6.25km")
         elif (lat1 and lat2 < -40) and (lat1 and lat2 > -90): # South
             self.grid = "S"
+            self.ease3 = Ease2Transform.Ease2Transform("EASE2_S3.125km")
+            self.ease6 = Ease2Transform.Ease2Transform("EASE2_S6.25km")
         else:
             print("SWEpy currently only supports study areas with a study area bounded by +-40 deg latitude")
         return self.grid
@@ -84,15 +91,15 @@ class swepy():
     def get_xy(self, ll_ul, ll_lr):
         '''Use NSIDC scripts to convert user inputted
         lat/lon into Ease grid 2.0 coordinates'''
-        row, col = self.N3.geographic_to_grid(ll_ul[0], ll_ul[1])
-        xul3, yul3 = self.N3.grid_to_map(row, col)
-        row, col = self.N3.geographic_to_grid(ll_lr[0], ll_lr[1])
-        xlr3, ylr3 = self.N3.grid_to_map(row, col)
+        row, col = self.ease3.geographic_to_grid(ll_ul[0], ll_ul[1])
+        xul3, yul3 = self.ease3.grid_to_map(row, col)
+        row, col = self.ease3.geographic_to_grid(ll_lr[0], ll_lr[1])
+        xlr3, ylr3 = self.ease3.grid_to_map(row, col)
 
-        row, col = self.N3.geographic_to_grid(ll_ul[0], ll_ul[1])
-        xul6, yul6 = self.N3.grid_to_map(row, col)
-        row, col = self.N3.geographic_to_grid(ll_lr[0], ll_lr[1])
-        xlr6, ylr6 = self.N3.grid_to_map(row, col)
+        row, col = self.ease6.geographic_to_grid(ll_ul[0], ll_ul[1])
+        xul6, yul6 = self.ease6.grid_to_map(row, col)
+        row, col = self.ease6.geographic_to_grid(ll_lr[0], ll_lr[1])
+        xlr6, ylr6 = self.ease6.grid_to_map(row, col)
 
         geo_list3 = [xul3, yul3, xlr3, ylr3]
         geo_list6 = [xul6, yul6, xlr6, ylr6]
