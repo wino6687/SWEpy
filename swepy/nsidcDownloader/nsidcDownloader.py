@@ -144,10 +144,10 @@ class nsidcDownloader():
             ## Open file
             with open(filepath, 'wb') as f:
 
-                pbar = tqdm(initial=0,
+                '''pbar = tqdm(initial=0,
                             total=int(r.headers['content-length']),
                             unit='B',
-                            unit_scale=True)
+                            unit_scale=True)'''
 
                 ## Create dest folder if not exist
                 if not os.path.exists(folder):
@@ -156,9 +156,9 @@ class nsidcDownloader():
                 ## Stream content to file in chunks
                 for chunk in r.iter_content(block_size):
                     f.write(chunk)
-                    pbar.update(block_size)
+                    #pbar.update(block_size)
 
-            pbar.close()
+            #pbar.close()
 
         return filename  ## changed to filename from filepath to fix another script
 

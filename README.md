@@ -60,7 +60,7 @@ from swepy.swepy import swepy
 
 2. Instantiate the class with working directory, date range, bounding coordinates, and earthdata username and password
 
-* Reminder: Don't forget to orient your upper-left and lower-right bounding coordinates with the prime meridian. 
+* Reminder: Don't forget to orient your upper-left and lower-right bounding coordinates with the prime meridian.
 
 ```{python}
 upper_left = [lat_upleft, lon_upleft]
@@ -91,7 +91,7 @@ This limits the number of full-size images on your disk at one time.
 
 ## Using SWEpy's Web Scraper Alone:
 
-* Note: Web scraper is enabled automatically in the scrape_all workflow, however it can also be used as a stanalone function!
+* Note: Web scraper is enabled automatically in the scrape_all workflow, however it can also be used as a standalone function!
 
 ```{python}
 from swepy.nsidcDownloader import nsidcDownloader
@@ -118,13 +118,6 @@ nD.download_range(sensor="SSMIS", date=[datetime(2014,01,01), datetime(2015,01,0
 
 * Authentication will work if the user/pass combo is saved in `~/.netrc`, or if it is passed in the nsidcDownloader instance
 
-* The class formats the following string:
-
-```
- "{protocol}://{server}/{datapool}/{dataset}.{version}/{date:%Y.%m.%d}" \
-                    "/{dataset}-{projection}_{grid}{resolution}-{platform}_{sensor}" \
-                    "-{date:%Y%j}-{channel}-{pass}-{algorithm}-{input}-{dataversion}.nc"
-```
 
 # Function Summaries
 Descriptions of included functions
