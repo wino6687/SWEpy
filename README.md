@@ -1,8 +1,10 @@
 # Disclaimer
 
+* All study area boxes should use the prime meridian (oriented to the North) as a guide when choosing lower right and upper left bounding coordinates.
+
 * Currently this script is not supported in Windows due to pynco only supporting Mac OS or Unix   
 
-* Web scrapping now supports all grids (N,S,M), although subsetting and concatenating still only support Northern Grid. Fix coming Late May 2018
+* Full functionality supported in the N and S grids. Midlats untested, fix coming late May 2018.
 
 * Requires python 3.6 and Anaconda 3
 
@@ -57,6 +59,8 @@ from swepy.swepy import swepy
 ```
 
 2. Instantiate the class with working directory, date range, bounding coordinates, and earthdata username and password
+
+* Reminder: Don't forget to orient your upper-left and lower-right bounding coordinates with the prime meridian. 
 
 ```{python}
 upper_left = [lat_upleft, lon_upleft]

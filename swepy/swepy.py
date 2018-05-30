@@ -57,6 +57,8 @@ class swepy():
         no idea what to do if they cross two regions...'''
         if (lat1 and lat2 < 40) and (lat1 and lat2 > -40): # mid lat
             self.grid = "M"
+            self.ease3 = Ease2Transform.Ease2Transform("EASE2_M3.125km")
+            self.ease6 = Ease2Transform.Ease2Transform("EASE2_M6.25km")
         elif (lat1 and lat2 > 40) and (lat1 and lat2 < 90): # north
             self.grid = "N"
             self.ease3 = Ease2Transform.Ease2Transform("EASE2_N3.125km")
