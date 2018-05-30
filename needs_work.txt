@@ -22,9 +22,8 @@ Testing Order:
 5. call the scape_all function
 
 Things to check functionality:
-1. do scrape and scrape all allow user entered username and password??
 2. any way to use conda-forge for dependencies?
-3. is my package installable with conda?
+3. package not installable with conda yet
 
 
 
@@ -57,7 +56,6 @@ plot a day not working:
 - seems shifted to the left....
   - seems to be the correct projection
   - correct lat/lon conversion
-  -
 
 
 
@@ -66,4 +64,3 @@ Orientation of the bounding box:
 - oriented with the prime meridian (in north grid)
 - still trying to figure out the southern grid
   - no orientation seems to work properly!!!
-  
