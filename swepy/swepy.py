@@ -15,9 +15,8 @@ nco = Nco()
 
 class swepy():
     '''Class Members'''
-    def __init__(self, working_dir, start, end, ul, lr,
-                outfile19 = 'all_days_19H.nc', outfile37 = 'all_days_37H.nc',
-                username = 'wino6687', password = 'Desmo12@'):
+    def __init__(self, working_dir, start, end, ul, lr,username, password,
+                outfile19 = 'all_days_19H.nc', outfile37 = 'all_days_37H.nc'):
         '''User instantiates the class with working directory,
         date ranges, and lat/lon bounding coords. constructor gets
         the datetime list, x/y coords, and file directories'''
@@ -27,8 +26,6 @@ class swepy():
 
         self.ease3 = None
         self.ease6 = None
-        #self.N3 = Ease2Transform.Ease2Transform("EASE2_N3.125km")
-        #self.N6 = Ease2Transform.Ease2Transform("EASE2_N6.25km")
 
         self.outfile_19 = outfile19
         self.outfile_37 = outfile37
@@ -150,7 +147,7 @@ class swepy():
         outfile19 = 'all_days_19H.nc'
         outfile37 = 'all_days_37H.nc'
         if len(self.dates) <= 133:
-            for date in self.dates:
+            for date in tqdm(self.dates):
                 file19 = self.get_file(date, "19H")
                 file37 = self.get_file(date, "37H")
                 self.down19list.append(self.nD.download_file(**file19))
@@ -160,9 +157,9 @@ class swepy():
         else:
             comp_list = [self.dates[x:x + 100] for x in range(0, len(self.dates), 100)]
             for count, subList in enumerate(comp_list):
-                for date in subList:
-                    file19 = get_file(date, "19H")
-                    file37 = get_file(date, "37H")
+                for date in tqdm(subList):
+                    file19 = self.get_file(date, "19H")
+                    file37 = self.get_file(date, "37H")
                     self.down19list.append(self.nD.download_file(**file19))
                     self.down37list.append(self.nD.download_file(**file37))
                 self.subset()
@@ -220,7 +217,7 @@ class swepy():
     def scrape(self):
         '''Wrapper function to allow more selective use of just the
             web scraper'''
-        for date in self.dates:
+        for date in tqdm(self.dates):
             file19 = self.get_file(date, "19H")
             file37 = self.get_file(date, "37H")
             self.down19list.append(self.nD.download_file(**file19))
