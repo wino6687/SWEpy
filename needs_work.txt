@@ -2,9 +2,11 @@ Needs Work list:
 
 
 NewList:
-1. Add way for users to pass login information through scrape and scrape_all
+1. remove my default username and password, in favor of looking for the .netrc file
 
-2. remove my default username and password, in favor of looking for the .netrc file
+2. test swepy with M grid (between -40 and 40)
+
+3. Figure out what to do with the 'edge cases'
 
 3. Fix plot_a_day
     - it is integrated into the class, but not showing any data

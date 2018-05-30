@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: swepy
-Version: 0.0.20
+Version: 0.1.0
 Summary: A python package for obtaining and cleaning Tb files
 Home-page: https://github.com/wino6687/SWEpy
 Author: William Norris
@@ -8,9 +8,11 @@ Author-email: wino6687@colorado.edu
 License: UNKNOWN
 Description: # Disclaimer
         
+        * All study area boxes should use the prime meridian (oriented to the North) as a guide when choosing lower right and upper left bounding coordinates.
+        
         * Currently this script is not supported in Windows due to pynco only supporting Mac OS or Unix   
         
-        * Web scrapping currently only working on the northern hemisphere, fix coming soon (Late May 2018)
+        * Full functionality supported in the N and S grids. Midlats untested, fix coming late May 2018.
         
         * Requires python 3.6 and Anaconda 3
         
@@ -30,7 +32,7 @@ Description: # Disclaimer
         https://nsidc.org/support/faq/what-options-are-available-bulk-downloading-data-https-earthdata-login-enabled
         
         ## 2. Setup conda environment from yaml (Optional):
-        The libraries used in this analysis, namely pynco, can be finicky with the channels dependencies are installed with. Thus, using the provided yaml file to build an environment for this project will make your life simpler. You can add more packages on top of the provided environment as long as you install with the conda-forge channel. 	
+        The libraries used in this analysis, namely pynco, can be finicky with the channels that dependencies are installed with. Thus, using the provided yaml file to build an environment for this project will make your life simpler. You can add more packages on top of the provided environment as long as you install with the conda-forge channel. 	
         
         Using the yaml file (.yml) create a new conda environment
         ```{python}
@@ -65,6 +67,8 @@ Description: # Disclaimer
         ```
         
         2. Instantiate the class with working directory, date range, bounding coordinates, and earthdata username and password
+        
+        * Reminder: Don't forget to orient your upper-left and lower-right bounding coordinates with the prime meridian. 
         
         ```{python}
         upper_left = [lat_upleft, lon_upleft]
@@ -188,6 +192,11 @@ Description: # Disclaimer
         
         2. HDF5 errors:
         If getting HDF5 errors, try deleting all the netCDF files in your directories.
+        
+        # Known Bugs:
+        1. Depending on the bounding box coordinates, it is possible the 19 and 37Ghz files
+        		will have arrays of slightly different size and not line up.
+        		- working on a fix to just chop the larger one down to the smaller one
         
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3

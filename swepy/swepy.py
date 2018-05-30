@@ -25,6 +25,8 @@ class swepy():
         self.working_dir = working_dir
         self.path19, self.path37, self.wget = self.get_directories(working_dir)
 
+        self.ease3 = None
+        self.ease6 = None
         #self.N3 = Ease2Transform.Ease2Transform("EASE2_N3.125km")
         #self.N6 = Ease2Transform.Ease2Transform("EASE2_N6.25km")
 
@@ -55,10 +57,10 @@ class swepy():
         '''Function to check which regions the lats fall into. based
         on the grid, instantiate the ease grid conversion object.
         no idea what to do if they cross two regions...'''
-        if (lat1 and lat2 < 40) and (lat1 and lat2 > -40): # mid lat
-            self.grid = "M"
-            self.ease3 = Ease2Transform.Ease2Transform("EASE2_M3.125km")
-            self.ease6 = Ease2Transform.Ease2Transform("EASE2_M6.25km")
+        if (lat1 and lat2 < 50) and (lat1 and lat2 > -50): # mid lat
+            self.grid = "T"
+            self.ease3 = Ease2Transform.Ease2Transform("EASE2_T3.125km")
+            self.ease6 = Ease2Transform.Ease2Transform("EASE2_T6.25km")
         elif (lat1 and lat2 > 40) and (lat1 and lat2 < 90): # north
             self.grid = "N"
             self.ease3 = Ease2Transform.Ease2Transform("EASE2_N3.125km")
@@ -184,7 +186,8 @@ class swepy():
             "date": date,
             "channel": channel,
             "grid": self.grid,
-            "dataversion": 'v1.3' if date.year == 2015 else 'v1.2'
+            "dataversion": 'v1.3' if date.year == 2015 else 'v1.2',
+            "pass": "A" if self.grid == "T" else "M"
         }
         return file
 
