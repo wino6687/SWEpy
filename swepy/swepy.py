@@ -183,7 +183,7 @@ class swepy():
             "date": date,
             "channel": channel,
             "grid": self.grid,
-            "dataversion": 'v1.3' if date.year == 2015 else 'v1.2',
+            "dataversion": 'v1.3' if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else 'v1.2',
             "pass": "A" if self.grid == "T" else "M"
         }
         return file
@@ -240,10 +240,9 @@ class swepy():
             s2[2] = s1[2]
         elif s1[2] > s2[2]:
             s1[2] = s2[2]
-        print(s1[2]-1, s2[2]-1)
         tb19 = tb19[:, :s1[1]-1, :s1[2]-1]
         tb37 = tb37[:, :s2[1]-1, :s2[2]-1]
-        print(np.shape(tb19), np.shape(tb37))
+        #print(np.shape(tb19), np.shape(tb37))
         return tb19, tb37
 
 
@@ -262,7 +261,6 @@ class swepy():
 
         tb_19H, tb_37H = self.check_size(tb_19H, tb_37H)
         tb = tb_19H - tb_37H
-
         lats = np.zeros((len(y), len(x)), dtype=np.float64)
         lons = np.zeros((len(y), len(x)), dtype=np.float64)
         grid = Ease2Transform.Ease2Transform(gridname=fid_19H.variables["crs"].long_name)
@@ -274,7 +272,11 @@ class swepy():
                 lat, lon = grid.grid_to_geographic(row, col)
                 lats[j, i] = lat
                 lons[j, i] = lon
-                df = df.append({'lat': lats[j][i], 'lon': lons[j][i], 'swe':one_day[j-1][i-1]}, ignore_index = True)
+                #df = df.append({'lat': lats[j][i], 'lon': lons[j][i], 'swe':one_day[j-2][i-2]}, ignore_index = True)
+        for i in range(len(one_day[:,1])):
+            for j in range(len(one_day[1,:])):
+                df = df.append({'lat': lats[i][j], 'lon': lons[i][j], 'swe':one_day[i][j]}, ignore_index = True)
+        print(one_day)
         os.chdir(self.working_dir)
         df_to_geojson(df, filename = 'swe_1day.geojson',properties = ['swe'],lat = 'lat', lon = 'lon')
         measure = 'swe'
