@@ -71,6 +71,9 @@ end = datetime.date(endY, endM, endD)
 
 path = os.getcwd()
 
+username = <username>
+password = <password>
+
 swepy = swepy(path, start, end, upper_left, lower_right, username, password)
 ```
 3. Use desired functionality, either separate or individually:
