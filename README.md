@@ -122,34 +122,33 @@ nD.download_range(sensor="SSMIS", date=[datetime(2014,01,01), datetime(2015,01,0
 # Function Summaries
 Descriptions of included functions
 ```{python}
-get_xy(ll_ul, ll_lr)
+swepy = swepy(working_dir, start, end, ll_ul, ll_lr, username, password)
+```
+* Instantiate the class with the working directory path, the start date, the end date, the bounding coordinates, and your Earthdata username and password.
+* Once the class is instantiated, either call scrape_all or call scrape, then subset, then concatenate as desired.
+```{python}
+swepy.get_xy(latlon_ul, latlon_lr)
 ```
 * Parameters: lists of latitude/longitude upper left, latitude/longitude lower right  
 * Uses NSIDC scripts to convert user inputted lat/lon into Ease grid 2.0 coordinates  
 * Returns: Ease grid 2.0 coordinates of inputted lat/longs
 ```{python}
-subset(list6, path)
+swepy.subset()
 ```
-* Parameters: coordinates of area of interest, current working directory  
-* Subset will get the files from wget directory and subset them geographically  
+* Parameters: none, list of downloaded files stored in class from scrape() function
+* Subset will subset the files downloaded geographically to match study area inputed   
 * Returns: subsetted file
 ```{python}
-concatenate(path, outfile_19, outfile_37, final=False)
+swepy.concatenate()
 ```
 * Parameters: current working directory, output file for 19Ghz, output file for 37Ghz
 * The concatenate function merges all netCDF files into one large file  
 * Returns: concatenated netCDF file
 ```{python}
-file_setup(path)
+swepy.scrape_all()
 ```
-* Parameters: current working directory  
-* setup files needed for other functions  
-* Returns: create correct folders for use by other functions
-```{python}
-scrape_all(start, end, list3, path=None)
-```
-* Parameters: start date, end date, list, current working directory(optional)  
-* Complete function that downloads, concatenates, and subsets data  
+* Parameters: none, everything needed comes from class instantiation
+* Complete function that downloads, subsets, and concatenates the data  
 * Returns: file names of concatenated 19/37 time cubes
 ```{python}
 plot_a_day(file1, file2, path, token)
@@ -157,7 +156,12 @@ plot_a_day(file1, file2, path, token)
 * Parameters: 19Ghz files, 37Ghz files, current working directory, mapbox token  
 * Plots a day of data using Mapbox Jupyter  
 * Returns: interactive map of inputted data
-
+```{python}
+get_file(path, date, channel)
+```
+* Parameters: date of file path to get, and the channel (19GHz vs 37GHz)
+* get file path of file to download for specific day of SWE
+* Returns: framework for file to be downloaded based on date and channel for analyzing SWE
 
 # Troubleshooting
 
