@@ -151,13 +151,13 @@ swepy.scrape_all()
 * Complete function that downloads, subsets, and concatenates the data  
 * Returns: file names of concatenated 19/37 time cubes
 ```{python}
-plot_a_day(file1, file2, path, token)
+swepy.plot_a_day(token)
 ```
-* Parameters: 19Ghz files, 37Ghz files, current working directory, mapbox token  
+* Parameters: mapbox token, everything else comes from the stored concatenated file list  
 * Plots a day of data using Mapbox Jupyter  
 * Returns: interactive map of inputted data
 ```{python}
-get_file(path, date, channel)
+swepy.get_file(path, date, channel)
 ```
 * Parameters: date of file path to get, and the channel (19GHz vs 37GHz)
 * get file path of file to download for specific day of SWE
