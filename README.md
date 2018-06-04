@@ -1,6 +1,6 @@
 # Disclaimer
 
-* All study area boxes should use the prime meridian (oriented to the North) as a guide when choosing lower right and upper left bounding coordinates.
+* All study area boxes should be oriented to the North when choosing lower right and upper left bounding coordinates.
 
 * Currently this script is not supported in Windows due to pynco only supporting Mac OS or Unix
 
@@ -58,7 +58,7 @@ from swepy.swepy import swepy
 
 2. Instantiate the class with working directory, date range, bounding coordinates, and earthdata username and password
 
-* Reminder: Don't forget to orient your upper-left and lower-right bounding coordinates with the prime meridian.
+* Reminder: Don't forget to orient your upper-left and lower-right bounding coordinates to the North.
 
 ```{python}
 upper_left = [lat_upleft, lon_upleft]
