@@ -186,6 +186,6 @@ https://conda-forge.org/docs/conda-forge_gotchas.html#using-multiple-channels
 If getting HDF5 errors, try deleting all the netCDF files in your directories.
 
 # Known Bugs:
-1. Depending on the bounding box coordinates, it is possible the 19 and 37Ghz files
-		will have arrays of slightly different size and not line up.
-		- working on a fix to just chop the larger one down to the smaller one
+1. Missing data can cause plotting to error out.
+	- missing data is common in the mid-latitudes, so if your midlat study area errors out when plotting, this is likely the issue
+	
