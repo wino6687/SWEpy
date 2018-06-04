@@ -181,8 +181,10 @@ class swepy():
         ssmi_s = "SSMIS" if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else "SSMI"
         if self.high_res:
             resolution = '6.25km' if channel == '19H' else '3.125km'
+            algorithm = 'SIR'
         else:
             resolution = '25km'
+            algorithm = 'GRD'
         file = {
             "resolution": resolution,
             "platform": sensors[date.year],
@@ -191,7 +193,8 @@ class swepy():
             "channel": channel,
             "grid": self.grid,
             "dataversion": 'v1.3' if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else 'v1.2',
-            "pass": "A" if self.grid == "T" else "M"
+            "pass": "A" if self.grid == "T" else "M",
+            "algorithm": algorithm
         }
         return file
 
