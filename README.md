@@ -8,7 +8,7 @@
 
 # Setup:
 
-## Setup Earthdata Login
+## 1. Setup Earthdata Login
 Create an Earthdata account to be able to download data: https://urs.earthdata.nasa.gov/
 
 ## Optional (.netrc file vs passing Username and Password):
@@ -60,7 +60,7 @@ from swepy.swepy import swepy
 
 * Reminder: Don't forget to orient your upper-left and lower-right bounding coordinates to the North.
 
-* By default, the high_res parameter is set to True, meaning it will scrape high resolution images. If it is passed as 'False' then it will scrape 25km images instead of the 6.25km high resolution images. 
+* By default, the high_res parameter is set to True, meaning it will scrape high resolution images. If it is passed as 'False' then it will scrape 25km images instead of the 6.25km high resolution images.
 
 ```{python}
 upper_left = [lat_upleft, lon_upleft]
@@ -188,3 +188,5 @@ If getting HDF5 errors, try deleting all the netCDF files in your directories.
 # Known Bugs:
 1. Missing data can cause plotting to error out.
 	- missing data is common in the mid-latitudes, so if your midlat study area errors out when plotting, this is likely the issue
+2. There are some weird dates in the file paths of 25km data from 2003-2017.
+	- It is possible day like Jan-1-2003 will be represented as '2002365' when it should be '2003001'. Working on a fix, but am wondering if this will be fixed on the data product side. 
