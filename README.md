@@ -60,6 +60,8 @@ from swepy.swepy import swepy
 
 * Reminder: Don't forget to orient your upper-left and lower-right bounding coordinates to the North.
 
+* By default, the high_res parameter is set to True, meaning it will scrape high resolution images. If it is passed as 'False' then it will scrape 25km images instead of the 6.25km high resolution images. 
+
 ```{python}
 upper_left = [lat_upleft, lon_upleft]
 lower_right = [lat_lowright, lon_lowright]
@@ -72,7 +74,7 @@ path = os.getcwd()
 username = <username>
 password = <password>
 
-swepy = swepy(path, start, end, upper_left, lower_right, username, password)
+swepy = swepy(path, start, end, upper_left, lower_right, username, password, high_res = True)
 ```
 3. Use desired functionality, either separate or individually:
 
