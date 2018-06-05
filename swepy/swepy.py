@@ -193,7 +193,7 @@ class swepy():
             "date": date,
             "channel": channel,
             "grid": self.grid,
-            "dataversion": 'v1.3' if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else 'v1.2',
+            "dataversion": 'v1.3' if sensors[date.year] in ['F15','F16', 'F17', 'F18', 'F19'] else 'v1.2',
             "pass": "A" if self.grid == "T" else "M",
             "algorithm": algorithm
         }
