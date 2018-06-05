@@ -188,5 +188,5 @@ If getting HDF5 errors, try deleting all the netCDF files in your directories.
 # Known Bugs:
 1. Missing data can cause plotting to error out.
 	- missing data is common in the mid-latitudes, so if your midlat study area errors out when plotting, this is likely the issue
-2. There are some weird dates in the file paths of 25km data from 2003-2017.
-	- It is possible day like Jan-1-2003 will be represented as '2002365' when it should be '2003001'. Working on a fix, but am wondering if this will be fixed on the data product side. Update coming soon. 
+2. There are some weird dates in the file paths of 25km data from 2003-2017 causing web scraper to error out.
+	- It is possible day like Jan-1-2003 will be represented as '2002365' when it should be '2003001'. Working on a fix, but am wondering if this will be fixed on the data product side. Update coming soon.
