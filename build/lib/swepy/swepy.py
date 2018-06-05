@@ -15,9 +15,8 @@ nco = Nco()
 
 class swepy():
     '''Class Members'''
-    def __init__(self, working_dir, start, end, ul, lr,
-                outfile19 = 'all_days_19H.nc', outfile37 = 'all_days_37H.nc',
-                username = 'wino6687', password = 'Desmo12@'):
+    def __init__(self, working_dir, start, end, ul, lr, username, password,
+                outfile19 = 'all_days_19H.nc', outfile37 = 'all_days_37H.nc'):
         '''User instantiates the class with working directory,
         date ranges, and lat/lon bounding coords. constructor gets
         the datetime list, x/y coords, and file directories'''
@@ -27,8 +26,6 @@ class swepy():
 
         self.ease3 = None
         self.ease6 = None
-        #self.N3 = Ease2Transform.Ease2Transform("EASE2_N3.125km")
-        #self.N6 = Ease2Transform.Ease2Transform("EASE2_N6.25km")
 
         self.outfile_19 = outfile19
         self.outfile_37 = outfile37
@@ -150,7 +147,7 @@ class swepy():
         outfile19 = 'all_days_19H.nc'
         outfile37 = 'all_days_37H.nc'
         if len(self.dates) <= 133:
-            for date in self.dates:
+            for date in tqdm(self.dates):
                 file19 = self.get_file(date, "19H")
                 file37 = self.get_file(date, "37H")
                 self.down19list.append(self.nD.download_file(**file19))
@@ -160,9 +157,9 @@ class swepy():
         else:
             comp_list = [self.dates[x:x + 100] for x in range(0, len(self.dates), 100)]
             for count, subList in enumerate(comp_list):
-                for date in subList:
-                    file19 = get_file(date, "19H")
-                    file37 = get_file(date, "37H")
+                for date in tqdm(subList):
+                    file19 = self.get_file(date, "19H")
+                    file37 = self.get_file(date, "37H")
                     self.down19list.append(self.nD.download_file(**file19))
                     self.down37list.append(self.nD.download_file(**file37))
                 self.subset()
@@ -186,7 +183,7 @@ class swepy():
             "date": date,
             "channel": channel,
             "grid": self.grid,
-            "dataversion": 'v1.3' if date.year == 2015 else 'v1.2',
+            "dataversion": 'v1.3' if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else 'v1.2',
             "pass": "A" if self.grid == "T" else "M"
         }
         return file
@@ -220,7 +217,7 @@ class swepy():
     def scrape(self):
         '''Wrapper function to allow more selective use of just the
             web scraper'''
-        for date in self.dates:
+        for date in tqdm(self.dates):
             file19 = self.get_file(date, "19H")
             file37 = self.get_file(date, "37H")
             self.down19list.append(self.nD.download_file(**file19))
@@ -243,10 +240,8 @@ class swepy():
             s2[2] = s1[2]
         elif s1[2] > s2[2]:
             s1[2] = s2[2]
-        print(s1[2]-1, s2[2]-1)
         tb19 = tb19[:, :s1[1]-1, :s1[2]-1]
         tb37 = tb37[:, :s2[1]-1, :s2[2]-1]
-        print(np.shape(tb19), np.shape(tb37))
         return tb19, tb37
 
 
@@ -265,18 +260,18 @@ class swepy():
 
         tb_19H, tb_37H = self.check_size(tb_19H, tb_37H)
         tb = tb_19H - tb_37H
-
         lats = np.zeros((len(y), len(x)), dtype=np.float64)
         lons = np.zeros((len(y), len(x)), dtype=np.float64)
         grid = Ease2Transform.Ease2Transform(gridname=fid_19H.variables["crs"].long_name)
+        one_day = tb[0,:,:]
+        df = pd.DataFrame(columns = ['lat', 'lon', 'swe'])
         for i, xi in enumerate(x):
             for j, yj in enumerate(y):
                 row, col = grid.map_to_grid(xi, yj)
                 lat, lon = grid.grid_to_geographic(row, col)
                 lats[j, i] = lat
                 lons[j, i] = lon
-        one_day = tb[0,:,:]
-        df = pd.DataFrame(columns = ['lat', 'lon', 'swe'])
+                #df = df.append({'lat': lats[j][i], 'lon': lons[j][i], 'swe':one_day[j-2][i-2]}, ignore_index = True)
         for i in range(len(one_day[:,1])):
             for j in range(len(one_day[1,:])):
                 df = df.append({'lat': lats[i][j], 'lon': lons[i][j], 'swe':one_day[i][j]}, ignore_index = True)
@@ -291,55 +286,6 @@ class swepy():
                         color_property = "swe",
                         color_stops = color_stops,
                         center = (self.center),
-                        zoom = 3,
-                        below_layer = 'waterway-label')
-
-        viz.show()
-
-
-    def plot_a_day_fast(self, token):
-        '''read tb,x,y data from final files,
-        with the purpose of plotting.'''
-        fid_19H = Dataset(self.concatlist[0], "r", format="NETCDF4")
-        fid_37H = Dataset(self.concatlist[1], "r", format="NETCDF4")
-
-        x = fid_19H.variables['x'][:]
-        y = fid_19H.variables['y'][:]
-
-        tb_19H = fid_19H.variables['TB'][:]
-        tb_37H = fid_37H.variables['TB'][:]
-        tb_37H = block_reduce(tb_37H, block_size = (1,2,2), func = np.mean)
-
-        tb_19H, tb_37H = self.check_size(tb_19H, tb_37H)
-        tb = tb_19H - tb_37H
-        lats = np.zeros((len(y), len(x)), dtype=np.float64)
-        lons = np.zeros((len(y), len(x)), dtype=np.float64)
-        grid = Ease2Transform.Ease2Transform(gridname=fid_19H.variables["crs"].long_name)
-        print(fid_19H.variables["crs"].long_name)
-        one_day = tb[0,:,:]
-        df = pd.DataFrame(columns = ['lat', 'lon', 'swe'])
-        for i, xi in enumerate(x):
-            for j, yj in enumerate(y):
-                row, col = grid.map_to_grid(xi, yj)
-                lat, lon = grid.grid_to_geographic(row, col)
-                lats[j, i] = lat
-                lons[j, i] = lon
-                df = df.append({'lat': lats[i-1][j-1], 'lon': lons[i-1][j-1], 'swe':one_day[i-1][j-1]}, ignore_index = True)
-        #for i in range(len(one_day[:,1])):
-            #for j in range(len(one_day[1,:])):
-                #df = df.append({'lat': lats[i][j], 'lon': lons[i][j], 'swe':one_day[i][j]}, ignore_index = True)
-        os.chdir(self.working_dir)
-        df_to_geojson(df, filename = 'swe_1day.geojson',properties = ['swe'],lat = 'lat', lon = 'lon')
-        measure = 'swe'
-        color_breaks = [round(df[measure].quantile(q=x*0.1), 2) for x in range(1,9)]
-        color_stops = create_color_stops(color_breaks, colors='YlGnBu')
-
-        # Create the viz from the dataframe
-        viz = CircleViz('swe_1day.geojson',
-                        access_token=token,
-                        color_property = "swe",
-                        color_stops = color_stops,
-                        center = (0,0),
                         zoom = 3,
                         below_layer = 'waterway-label')
 
