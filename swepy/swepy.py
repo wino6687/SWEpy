@@ -24,6 +24,7 @@ class swepy():
             self.high_res = True
         else:
             self.high_res = False
+
         self.center = [ul[1], ul[0]]
         self.working_dir = working_dir
         self.path19, self.path37, self.wget = self.get_directories(working_dir)
