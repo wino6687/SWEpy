@@ -25,7 +25,7 @@ class swepy():
         else:
             self.high_res = False
 
-        self.center = [ul[1], ul[0]]
+
         self.working_dir = working_dir
         self.path19, self.path37, self.wget = self.get_directories(working_dir)
 
@@ -40,17 +40,26 @@ class swepy():
 
         self.dates = pd.date_range(start, end)
 
-        self.grid = self.get_grid(ul[0], lr[0])
-
-        self.geo_list3, self.geo_list6 = self.get_xy(ul, lr)
+        if ul == "N" and lr == "N":
+            self.grid = "N"
+            self.subBool = False
+        elif ul == "T" and lr == "T":
+            self.grid = "T"
+            self.subBool = False
+        elif ul == "S" and lr == "S":
+            self.grid = "S"
+            self.subBool = False
+        else:
+            self.subBool = True
+            self.grid = self.get_grid(ul[0], lr[0])
+            self.geo_list3, self.geo_list6 = self.get_xy(ul, lr)
+            self.center = [ul[1], ul[0]]
 
         self.down19list = []
         self.down37list = []
         self.sub19list = []
         self.sub37list = []
         self.concatlist = [None, None]
-
-        self.grid = self.get_grid(ul[0], lr[0])
 
         self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
 
@@ -152,21 +161,27 @@ class swepy():
         outfile19 = 'all_days_19H.nc'
         outfile37 = 'all_days_37H.nc'
         if len(self.dates) <= 133:
-            for date in tqdm(self.dates):
+            '''for date in tqdm(self.dates):
                 file19 = self.get_file(date, "19H")
                 file37 = self.get_file(date, "37H")
                 self.down19list.append(self.nD.download_file(**file19))
                 self.down37list.append(self.nD.download_file(**file37))
-            self.subset()
+            '''
+            self.scrape()   # use built in scrape function instead
+            if self.subBool:
+                self.subset()
             return self.concatenate()
         else:
             comp_list = [self.dates[x:x + 100] for x in range(0, len(self.dates), 100)]
             for count, subList in enumerate(comp_list):
+                """
                 for date in tqdm(subList):
                     file19 = self.get_file(date, "19H")
                     file37 = self.get_file(date, "37H")
                     self.down19list.append(self.nD.download_file(**file19))
                     self.down37list.append(self.nD.download_file(**file37))
+                """
+                self.scrape(subList)
                 self.subset()
             return self.concatenate()
 
@@ -204,6 +219,10 @@ class swepy():
         '''Function to concatenate files in the subsetted data
         folders. Input parameter is simply to allow for nesting of
         functions.'''
+        if self.subBool == False:
+            self.sub19list = self.down19list
+            self.sub37list = self.down37list
+            os.chdir(self.wget)
         # Concatenate 19GHz files:
         if len(self.sub19list) != 0:
             nco.ncrcat(input=self.sub19list, output = self.outfile_19, options=["-O"])
@@ -225,10 +244,12 @@ class swepy():
         return self.outfile_19, self.outfile_37
 
 
-    def scrape(self):
+    def scrape(self, dates = None):
         '''Wrapper function to allow more selective use of just the
             web scraper'''
-        for date in tqdm(self.dates):
+        if dates == None: # letting class choose all dates
+            dates = self.dates
+        for date in tqdm(dates):
             file19 = self.get_file(date, "19H")
             file37 = self.get_file(date, "37H")
             self.down19list.append(self.nD.download_file(**file19))
