@@ -247,7 +247,7 @@ class swepy():
     def scrape(self, dates = None):
         '''Wrapper function to allow more selective use of just the
             web scraper'''
-        if dates == None: # letting class choose all dates
+        if dates is None: # letting class choose all dates
             dates = self.dates
         for date in tqdm(dates):
             file19 = self.get_file(date, "19H")
