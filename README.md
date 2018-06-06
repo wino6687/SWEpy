@@ -36,18 +36,6 @@ source activate swepy_env
 python -m ipykernel install --user --name swepy_env --display-name "Python (swepy_env)"
 ```
 
-# Main Dependencies:
-- gdal
-- affine
-- requests
-- scikit-image
-- pynco
-- netCDF4
-- datetime
-- tqdm
-- mapboxgl
-- pandas
-
 
 # Using SWEpy for analyzing SWE:
 
@@ -177,6 +165,18 @@ swepy.get_file(path, date, channel)
 * get file path of file to download for specific day of SWE
 * Returns: framework for file to be downloaded based on date and channel for analyzing SWE
 
+# Main Dependencies:
+- gdal
+- affine
+- requests
+- scikit-image
+- pynco
+- netCDF4
+- datetime
+- tqdm
+- mapboxgl
+- pandas
+
 # Troubleshooting
 
 1. ‘image not found’ errors
@@ -201,3 +201,6 @@ If getting HDF5 errors, try deleting all the netCDF files in your directories.
 	- missing data is common in the mid-latitudes, so if your midlat study area errors out when plotting, this is likely the issue
 2. There are some weird dates in the file paths of 25km data from 2003-2017 causing web scraper to error out.
 	- It is possible day like Jan-1-2003 will be represented as '2002365' when it should be '2003001'. Working on a fix, but am wondering if this will be fixed on the data product side. Update coming soon.
+1. Long sessions of web scraping can time out
+	1. Not uncommon to have a several hour scraping session ruined hours in because of a seemingly random timeout error
+	2. Working no a fix that will either allow you to pick up where you left off, or that responds to the error by starting over on the current chunk of work being done. 
