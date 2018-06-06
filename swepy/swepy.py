@@ -159,10 +159,8 @@ class swepy():
         '''Function to ensure we subset
          and concatenate every year!
          Implements the whole workflow!'''
-        outfile19 = 'all_days_19H.nc'
-        outfile37 = 'all_days_37H.nc'
         if len(self.dates) <= 133:
-            self.scrape()   # use built in scrape function instead
+            self.scrape()
             if self.subBool:
                 self.subset()
             return self.concatenate()
