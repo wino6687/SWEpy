@@ -25,7 +25,6 @@ class swepy():
         else:
             self.high_res = False
 
-
         self.working_dir = working_dir
         self.path19, self.path37, self.wget = self.get_directories(working_dir)
 
@@ -161,12 +160,6 @@ class swepy():
         outfile19 = 'all_days_19H.nc'
         outfile37 = 'all_days_37H.nc'
         if len(self.dates) <= 133:
-            '''for date in tqdm(self.dates):
-                file19 = self.get_file(date, "19H")
-                file37 = self.get_file(date, "37H")
-                self.down19list.append(self.nD.download_file(**file19))
-                self.down37list.append(self.nD.download_file(**file37))
-            '''
             self.scrape()   # use built in scrape function instead
             if self.subBool:
                 self.subset()
@@ -174,13 +167,6 @@ class swepy():
         else:
             comp_list = [self.dates[x:x + 100] for x in range(0, len(self.dates), 100)]
             for count, subList in enumerate(comp_list):
-                """
-                for date in tqdm(subList):
-                    file19 = self.get_file(date, "19H")
-                    file37 = self.get_file(date, "37H")
-                    self.down19list.append(self.nD.download_file(**file19))
-                    self.down37list.append(self.nD.download_file(**file37))
-                """
                 self.scrape(subList)
                 self.subset()
             return self.concatenate()
