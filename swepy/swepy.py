@@ -11,6 +11,8 @@ from swepy.Ease2Transform import Ease2Transform
 from nco import Nco
 import os
 from tqdm import tqdm
+import glob
+
 nco = Nco()
 
 class swepy():
@@ -261,6 +263,21 @@ class swepy():
         tb19 = tb19[:, :s1[1]-1, :s1[2]-1]
         tb37 = tb37[:, :s2[1]-1, :s2[2]-1]
         return tb19, tb37
+
+    def clean_dirs(self):
+        os.chdir(self.wget)
+        files = glob.glob("*")
+        for f in files:
+            os.remove(f)
+        os.chdir(self.path19)
+        files = glob.glob("*")
+        for f in files:
+            os.remove(f)
+        os.chdir(self.path37)
+        files = glob.glob("*")
+        for f in files:
+            os.remove(f)
+        return
 
 
     def plot_a_day(self, token):
