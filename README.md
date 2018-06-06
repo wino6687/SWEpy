@@ -92,6 +92,17 @@ swepy.scrape_all()
 ```
 This limits the number of full-size images on your disk at one time.
 
+## If you would like a full grid file, with no subsetting, simply pass the grid id as your upper left and lower right bounding coordinates.
+
+* North = "N"
+* South = "S"
+* Equator = "T"
+
+```{python}
+upper_left = "N"
+lower_right = "N"
+```
+
 ## Using SWEpy's Web Scraper Alone:
 
 * Note: Web scraper is enabled automatically in the scrape_all workflow, however it can also be used as a standalone function!
