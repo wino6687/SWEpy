@@ -2,3 +2,6 @@ data
 swe_1day.geojson
 .ipynb_checkpoints
 .DS_Store
+swepy/.DS_Store
+.pypirc
+dist/
