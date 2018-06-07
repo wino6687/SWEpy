@@ -31,7 +31,7 @@ class nsidcDownloader():
         "pass": "M",
         "algorithm": "SIR",
         "input": "CSU",
-        "dataversion": "v1.2"
+        "dataversion": "v1.3"
     }
 
     def __init__(self, username=None, password=None, folder=".", **kwargs):
@@ -172,11 +172,3 @@ class nsidcDownloader():
         for date in pd.date_range(date[0], date[1]):
             kwargs["date"] = date
             self.download_file(**kwargs)
-
-#dataset = {
-    #"resolution": "3.125km",
-    #"platform": "F17",
-    #"sensor": "SSMIS",
-    #"date": datetime(2015,10,10),
-    #"channel": "37H"
-#}
