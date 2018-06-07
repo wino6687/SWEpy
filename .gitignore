@@ -5,3 +5,5 @@ swe_1day.geojson
 swepy/.DS_Store
 .pypirc
 dist/
+swepy.egg-info/
+
