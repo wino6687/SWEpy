@@ -16,10 +16,15 @@ nco = Nco()
 class swepy():
     '''Class Members'''
     def __init__(self, working_dir, start, end, ul, lr, username, password,
-                outfile19 = 'all_days_19H.nc', outfile37 = 'all_days_37H.nc'):
+                outfile19 = 'all_days_19H.nc', outfile37 = 'all_days_37H.nc', high_res = True):
         '''User instantiates the class with working directory,
         date ranges, and lat/lon bounding coords. constructor gets
         the datetime list, x/y coords, and file directories'''
+        if high_res:
+            self.high_res = True
+        else:
+            self.high_res = False
+
         self.center = [ul[1], ul[0]]
         self.working_dir = working_dir
         self.path19, self.path37, self.wget = self.get_directories(working_dir)
@@ -175,7 +180,12 @@ class swepy():
                 2007: 'F15', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
                 2015: 'F19'}
         ssmi_s = "SSMIS" if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else "SSMI"
-        resolution = '6.25km' if channel == '19H' else '3.125km'
+        if self.high_res:
+            resolution = '6.25km' if channel == '19H' else '3.125km'
+            algorithm = 'SIR'
+        else:
+            resolution = '25km'
+            algorithm = 'GRD'
         file = {
             "resolution": resolution,
             "platform": sensors[date.year],
@@ -184,7 +194,8 @@ class swepy():
             "channel": channel,
             "grid": self.grid,
             "dataversion": 'v1.3' if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else 'v1.2',
-            "pass": "A" if self.grid == "T" else "M"
+            "pass": "A" if self.grid == "T" else "M",
+            "algorithm": algorithm
         }
         return file
 
