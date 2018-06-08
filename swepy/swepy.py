@@ -238,8 +238,20 @@ class swepy():
         for date in tqdm(dates):
             file19 = self.get_file(date, "19H")
             file37 = self.get_file(date, "37H")
-            self.down19list.append(self.nD.download_file(**file19))
-            self.down37list.append(self.nD.download_file(**file37))
+            result1 = None
+            while result1 is None:
+                try:
+                    result1 = self.nD.download_file(**file19)
+                except:
+                    pass
+            result2 = None
+            while result2 is None:
+                try:
+                    result2 = self.nD.download_file(**file37)
+                except:
+                    pass
+            self.down19list.append(result1)
+            self.down37list.append(result2)
         return
 
     def check_size(self, tb19, tb37):
