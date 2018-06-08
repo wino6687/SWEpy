@@ -194,7 +194,7 @@ After saving this file, update conda:
 https://conda-forge.org/docs/conda-forge_gotchas.html#using-multiple-channels
 
 2. HDF5 errors:
-If getting HDF5 errors, try deleting all the netCDF files in your directories.
+If getting HDF5 errors, try deleting all the netCDF files in your directories and starting over. This usually occurs when there are already some files in the data directories before calling scrape_all and ncks gets confused on the subset step. 
 
 # Known Bugs:
 1. Missing data can cause plotting to error out.
