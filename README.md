@@ -205,4 +205,11 @@ If getting HDF5 errors, try deleting all the netCDF files in your directories.
 
 1. Long sessions of web scraping can time out
 	1. Occasionaly the scraping session times out, which is not good for several-hour long scraping sessions.
-	2. Working no a fix that will either allow you to pick up where you left off, or that responds to the error by starting over on the current chunk of work being done. 
+	2. Working no a fix that will either allow you to pick up where you left off, or that responds to the error by starting over on the current chunk of work being done.
+
+
+Citations:
+
+This library is designed to work with the MEaSUREs CETB dataset:
+
+Brodzik, M. J., D. G. Long, M. A. Hardman, A. Paget, and R. Armstrong. 2016. MEaSUREs Calibrated Enhanced-Resolution Passive Microwave Daily EASE-Grid 2.0 Brightness Temperature ESDR, Version 1. [Indicate subset used]. Boulder, Colorado USA. NASA National Snow and Ice Data Center Distributed Active Archive Center. doi: https://doi.org/10.5067/MEASURES/CRYOSPHERE/NSIDC-0630.001. [June 2018].
