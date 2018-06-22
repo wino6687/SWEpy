@@ -194,7 +194,7 @@ After saving this file, update conda:
 https://conda-forge.org/docs/conda-forge_gotchas.html#using-multiple-channels
 
 2. HDF5 errors:
-If getting HDF5 errors, try deleting all the netCDF files in your directories and starting over. This usually occurs when there are already some files in the data directories before calling scrape_all and ncks gets confused on the subset step. 
+If getting HDF5 errors, try deleting all the netCDF files in your directories and starting over. This usually occurs when there are already some files in the data directories before calling scrape_all and ncks gets confused on the subset step.
 
 # Known Bugs:
 1. Missing data can cause plotting to error out.
@@ -205,7 +205,7 @@ If getting HDF5 errors, try deleting all the netCDF files in your directories an
 
 1. Long sessions of web scraping can time out
 	1. Occasionaly the scraping session times out, which is not good for several-hour long scraping sessions.
-	2. Working no a fix that will either allow you to pick up where you left off, or that responds to the error by starting over on the current chunk of work being done.
+	2. As of v1.0.1, this issue should be resolved. The scraper will now reattempt to connect to the server if it disconnects and resume scraping.
 
 
 Citations:
