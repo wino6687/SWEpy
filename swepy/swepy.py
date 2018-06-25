@@ -185,6 +185,7 @@ class swepy():
         if self.high_res:
             resolution = '6.25km' if channel == '19H' else '3.125km'
             algorithm = 'SIR'
+            date2 = date
         else:
             resolution = '25km'
             algorithm = 'GRD'
