@@ -1,4 +1,4 @@
-import datetime
+from datetime import timedelta
 import requests
 from swepy.nsidcDownloader import nsidcDownloader
 import numpy as np
@@ -179,7 +179,7 @@ class swepy():
         sensors = {1992: 'F11', 1993: 'F11', 1994: 'F11', 1995: 'F11', 1996: 'F13', 1997: 'F13', 1998: 'F13',
                 1999: 'F13', 2000: 'F13', 2001: 'F13', 2002: 'F13', 2003: 'F15', 2004: 'F15', 2005: 'F15', 2006: 'F15',
                 2007: 'F15', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
-                2015: 'F19'}
+                2015: 'F19',2016: 'F19'}
         ssmi_s = "SSMIS" if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else "SSMI"
         if self.high_res:
             resolution = '6.25km' if channel == '19H' else '3.125km'
@@ -187,6 +187,7 @@ class swepy():
         else:
             resolution = '25km'
             algorithm = 'GRD'
+            date = date - timedelta(days = 1)
         file = {
             "resolution": resolution,
             "platform": sensors[date.year],
@@ -194,7 +195,7 @@ class swepy():
             "date": date,
             "channel": channel,
             "grid": self.grid,
-            "dataversion": 'v1.3' if sensors[date.year] in ['F15','F16', 'F17', 'F18', 'F19'] else 'v1.3',
+            "dataversion": 'v1.3',
             "pass": "A" if self.grid == "T" else "M",
             "algorithm": algorithm
         }
