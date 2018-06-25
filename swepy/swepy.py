@@ -180,6 +180,7 @@ class swepy():
                 1999: 'F13', 2000: 'F13', 2001: 'F13', 2002: 'F13', 2003: 'F15', 2004: 'F15', 2005: 'F15', 2006: 'F15',
                 2007: 'F15', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
                 2015: 'F19',2016: 'F19'}
+        sensor = sensors[date.year]
         ssmi_s = "SSMIS" if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else "SSMI"
         if self.high_res:
             resolution = '6.25km' if channel == '19H' else '3.125km'
@@ -187,12 +188,16 @@ class swepy():
         else:
             resolution = '25km'
             algorithm = 'GRD'
-            date = date - timedelta(days = 1)
+            if sensor not in ['F11', 'F13']:
+                date2 = date - timedelta(days = 1)
+            else:
+                date2 = date
         file = {
             "resolution": resolution,
-            "platform": sensors[date.year],
+            "platform": sensor,
             "sensor": ssmi_s,
-            "date": date,
+            "date1": date,
+            "date2": date2,
             "channel": channel,
             "grid": self.grid,
             "dataversion": 'v1.3',
@@ -255,7 +260,7 @@ class swepy():
             self.down37list.append(result2)
         return
 
-    def check_size(self, tb19, tb37):
+    def safe_subtract(self, tb19, tb37):
         '''Check size of each file, often the 19 and 37
             files are one unit off of eachother. This will
             chop the larger one to match the smaller one.'''
@@ -273,7 +278,8 @@ class swepy():
             s1[2] = s2[2]
         tb19 = tb19[:, :s1[1]-1, :s1[2]-1]
         tb37 = tb37[:, :s2[1]-1, :s2[2]-1]
-        return tb19, tb37
+        tb  = tb19 - tb37
+        return tb
 
     def clean_dirs(self):
         os.chdir(self.wget)
@@ -302,10 +308,11 @@ class swepy():
 
         tb_19H = fid_19H.variables['TB'][:]
         tb_37H = fid_37H.variables['TB'][:]
-        tb_37H = block_reduce(tb_37H, block_size = (1,2,2), func = np.mean)
+        if self.high_res == True:
+            tb_37H = block_reduce(tb_37H, block_size = (1,2,2), func = np.mean)
 
-        tb_19H, tb_37H = self.check_size(tb_19H, tb_37H)
-        tb = tb_19H - tb_37H
+        tb = self.safe_subtract(tb_19H, tb_37H)
+
         lats = np.zeros((len(y), len(x)), dtype=np.float64)
         lons = np.zeros((len(y), len(x)), dtype=np.float64)
         grid = Ease2Transform.Ease2Transform(gridname=fid_19H.variables["crs"].long_name)
