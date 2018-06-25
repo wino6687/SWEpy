@@ -200,10 +200,11 @@ If getting HDF5 errors, try deleting all the netCDF files in your directories an
 1. Missing data can cause plotting to error out.
 	- missing data is common in the mid-latitudes, so if your midlat study area errors out when plotting, this is likely the issue
 
-2. There are some weird dates in the file paths of 25km data from 2003-2017 causing web scraper to error out.
+2. <s>There are some weird dates in the file paths of 25km data from 2003-2017 causing web scraper to error out.</s>
 	- According to the NSIDC, this is because N and S grid images contain data from more than one single day, and thus the dating of certain data is slightly off. I am going to dig into the pattern more to find a fix on SWEpy's end.
+	- This should be fixed on SWEpy's end as of June 25, 2018.
 
-1. Long sessions of web scraping can time out
+1. <s>Long sessions of web scraping can time out</s>
 	1. Occasionaly the scraping session times out, which is not good for several-hour long scraping sessions.
 	2. As of v1.0.1, this issue should be resolved. The scraper will now reattempt to connect to the server if it disconnects and resume scraping.
 
