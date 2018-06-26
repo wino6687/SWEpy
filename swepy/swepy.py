@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 import requests
 from swepy.nsidcDownloader import nsidcDownloader
 import numpy as np
@@ -179,7 +179,7 @@ class swepy():
         sensors = {1992: 'F11', 1993: 'F11', 1994: 'F11', 1995: 'F11', 1996: 'F13', 1997: 'F13', 1998: 'F13',
                 1999: 'F13', 2000: 'F13', 2001: 'F13', 2002: 'F13', 2003: 'F15', 2004: 'F15', 2005: 'F15', 2006: 'F15',
                 2007: 'F15', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
-                2015: 'F19',2016: 'F19'}
+                2015: 'F19',2016: 'F18'}
         sensor = sensors[date.year]
         ssmi_s = "SSMIS" if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else "SSMI"
         if self.high_res:
@@ -189,7 +189,7 @@ class swepy():
         else:
             resolution = '25km'
             algorithm = 'GRD'
-            if sensor not in ['F11', 'F13']:
+            if datetime(2003,1,1) <= date < datetime(2004,4,9):
                 date2 = date - timedelta(days = 1)
             else:
                 date2 = date
@@ -250,6 +250,7 @@ class swepy():
                 try:
                     result1 = self.nD.download_file(**file19)
                 except:
+                    print('failing on {}'.format(date))
                     pass
             result2 = None
             while result2 is None:
@@ -311,9 +312,7 @@ class swepy():
         tb_37H = fid_37H.variables['TB'][:]
         if self.high_res == True:
             tb_37H = block_reduce(tb_37H, block_size = (1,2,2), func = np.mean)
-
         tb = self.safe_subtract(tb_19H, tb_37H)
-
         lats = np.zeros((len(y), len(x)), dtype=np.float64)
         lons = np.zeros((len(y), len(x)), dtype=np.float64)
         grid = Ease2Transform.Ease2Transform(gridname=fid_19H.variables["crs"].long_name)
