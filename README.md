@@ -35,7 +35,12 @@ conda env create -f swepy_env.yml
 source activate swepy_env
 python -m ipykernel install --user --name swepy_env --display-name "Python (swepy_env)"
 ```
-
+### Alternative: Install with pip:
+You can install swepy with pip:
+```{python}
+pip install swepy
+```
+However, swepy does not come with any auto-installed dependencies due to gdal and pynco needing to use conda-forge. It is important that all of your python libraries, except swepy, are installed on the conda-forge channel.
 
 # Using SWEpy for analyzing SWE:
 
@@ -202,11 +207,10 @@ If getting HDF5 errors, try deleting all the netCDF files in your directories an
 
 2. There are some weird dates in the file paths of 25km data from 2003-2017 causing web scraper to error out.
 	- According to the NSIDC, this is because N and S grid images contain data from more than one single day, and thus the dating of certain data is slightly off. I am going to dig into the pattern more to find a fix on SWEpy's end.
-	- There are still some issue days. April 9th, 2004 is missing all N25km-F15 files, while the day prior and next day have these files. This will cause the automated scraping to error out. 
+	- There are still some issue days. April 9th, 2004 is missing all N25km-F15 files, while the day prior and next day have these files. This will cause the automated scraping to stall and not finish.
 
-1. <s>Long sessions of web scraping can time out</s>
-	1. Occasionaly the scraping session times out, which is not good for several-hour long scraping sessions.
-	2. As of v1.0.1, this issue should be resolved. The scraper will now reattempt to connect to the server if it disconnects and resume scraping.
+3. 25km data will not plot properly in mapbox.
+	-
 
 
 Citations:
