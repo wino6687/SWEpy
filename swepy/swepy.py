@@ -246,12 +246,12 @@ class swepy():
         '''function to manage the final concatenation for scrape_all
         '''
         if len(self.concat19list) != 0:
-            nco.ncrcat(input=self.concat19list, output = self.outfile19, options=["-O"])
+            nco.ncrcat(input=self.concat19list, output = self.outfile_19, options=["-O"])
             self.concatlist[0] = self.outfile_19
         else:
             print("No 19Ghz Files to Concatenate")
         if len(self.concat37list) != 0:
-            nco.ncrcat(input = self.concat37list, output = self.outfile37, options = ["-O"])
+            nco.ncrcat(input = self.concat37list, output = self.outfile_37, options = ["-O"])
             self.concatlist[1] = self.outfile_37
         else:
             print("No 37Ghz Files to Concatenate")
