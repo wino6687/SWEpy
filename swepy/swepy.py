@@ -61,6 +61,8 @@ class swepy():
         self.sub19list = []
         self.sub37list = []
         self.concatlist = [None, None]
+        self.concat19list = []
+        self.concat37list = []
 
         self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
 
@@ -167,9 +169,12 @@ class swepy():
         else:
             comp_list = [self.dates[x:x + 100] for x in range(0, len(self.dates), 100)]
             for count, subList in enumerate(comp_list):
+                name19 = 'temp19_' + str(count) + '.nc'
+                name37 = 'temp37_' + str(count) + '.nc'
                 self.scrape(subList)
                 self.subset()
-            return self.concatenate()
+                self.concatenate(name19, name37, all = True)
+            return self.final_concat()
 
 
     def get_file(self, date, channel): # add more defaulting params
@@ -208,7 +213,7 @@ class swepy():
         return file
 
 
-    def concatenate(self, subset = False):
+    def concatenate(self, outname19 = None, outname37 = None, all = False):
         '''Function to concatenate files in the subsetted data
         folders. Input parameter is simply to allow for nesting of
         functions.'''
@@ -216,15 +221,37 @@ class swepy():
             self.sub19list = self.down19list
             self.sub37list = self.down37list
             os.chdir(self.wget)
+        outname19 = self.outfile_19 if outname19 is None else outname19
+        outname37 = self.outfile_37 if outname37 is None else outname37
         # Concatenate 19GHz files:
         if len(self.sub19list) != 0:
-            nco.ncrcat(input=self.sub19list, output = self.outfile_19, options=["-O"])
-            self.concatlist[0] = self.outfile_19
+            nco.ncrcat(input=self.sub19list, output = outname19, options=["-O"])
+            if all:
+                self.concat19list.append(outname19)
+            else:
+                self.concatlist[0] = outname19
         else:
             print("No 19Ghz Files to Concatenate")
         # Concatenate 37GHz files:
         if len(self.sub37list) != 0:
-            nco.ncrcat(input = self.sub37list, output = self.outfile_37, options = ["-O"])
+            nco.ncrcat(input = self.sub37list, output = outname37, options = ["-O"])
+            if all:
+                self.concat37list.append(outname37)
+            else:
+                self.concatlist[1] = outname37
+        else:
+            print("No 37Ghz Files to Concatenate")
+
+    def final_concat(self):
+        '''function to manage the final concatenation for scrape_all
+        '''
+        if len(self.concat19list) != 0:
+            nco.ncrcat(input=self.concat19list, output = self.outfile19, options=["-O"])
+            self.concatlist[0] = self.outfile_19
+        else:
+            print("No 19Ghz Files to Concatenate")
+        if len(self.concat37list) != 0:
+            nco.ncrcat(input = self.concat37list, output = self.outfile37, options = ["-O"])
             self.concatlist[1] = self.outfile_37
         else:
             print("No 37Ghz Files to Concatenate")
