@@ -161,13 +161,13 @@ class swepy():
         '''Function to ensure we subset
          and concatenate every year!
          Implements the whole workflow!'''
-        if len(self.dates) <= 133:
+        if len(self.dates) <= 300:
             self.scrape()
             if self.subBool:
                 self.subset()
             return self.concatenate()
         else:
-            comp_list = [self.dates[x:x + 100] for x in range(0, len(self.dates), 100)]
+            comp_list = [self.dates[x:x + 300] for x in range(0, len(self.dates), 300)]
             for count, subList in enumerate(comp_list):
                 name19 = 'temp19_' + str(count) + '.nc'
                 name37 = 'temp37_' + str(count) + '.nc'
