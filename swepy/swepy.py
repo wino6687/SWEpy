@@ -226,6 +226,8 @@ class swepy():
         # Concatenate 19GHz files:
         if len(self.sub19list) != 0:
             nco.ncrcat(input=self.sub19list, output = outname19, options=["-O"])
+            for file in self.sub19list: os.remove(file)
+            self.sub19list = []
             if all:
                 self.concat19list.append(outname19)
             else:
@@ -235,6 +237,8 @@ class swepy():
         # Concatenate 37GHz files:
         if len(self.sub37list) != 0:
             nco.ncrcat(input = self.sub37list, output = outname37, options = ["-O"])
+            for file in self.sub37list: os.remove(file)
+            self.sub37list = []
             if all:
                 self.concat37list.append(outname37)
             else:
