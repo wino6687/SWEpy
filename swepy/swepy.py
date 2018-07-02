@@ -16,7 +16,6 @@ import glob
 nco = Nco()
 
 class swepy():
-    '''Class Members'''
     def __init__(self, working_dir, start, end, ul, lr, username, password,
                 outfile19 = 'all_days_19H.nc', outfile37 = 'all_days_37H.nc', high_res = True):
         '''User instantiates the class with working directory,
@@ -261,10 +260,10 @@ class swepy():
             print("No 37Ghz Files to Concatenate")
 
         # clean out files that were concat
-        for file in self.sub19list: os.remove(file)
-        for file in self.sub37list: os.remove(file)
-        self.sub19list = []
-        self.sub37list = []
+        for file in self.concat19list: os.remove(file)
+        for file in self.concat37list: os.remove(file)
+        self.concat19list = []
+        self.concat37list = []
         return self.outfile_19, self.outfile_37
 
 
