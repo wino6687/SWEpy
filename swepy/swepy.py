@@ -7,11 +7,12 @@ from skimage.measure import block_reduce
 from mapboxgl.utils import *
 from mapboxgl.viz import *
 import pandas as pd
-from swepy.Ease2Transform import Ease2Transform
+#from swepy.Ease2Transform import Ease2Transform
 from nco import Nco
 import os
 from tqdm import tqdm
 import glob
+from cetbtools import ease2conv
 
 nco = Nco()
 
@@ -72,16 +73,16 @@ class swepy():
         no idea what to do if they cross two regions...'''
         if (lat1 and lat2 < 50) and (lat1 and lat2 > -50): # mid lat
             self.grid = "T"
-            self.ease3 = Ease2Transform.Ease2Transform("EASE2_T3.125km")
-            self.ease6 = Ease2Transform.Ease2Transform("EASE2_T6.25km")
+            self.ease3 = ease2conv.Ease2Transform("EASE2_T3.125km")
+            self.ease6 = ease2conv.Ease2Transform("EASE2_T6.25km")
         elif (lat1 and lat2 > 40) and (lat1 and lat2 < 90): # north
             self.grid = "N"
-            self.ease3 = Ease2Transform.Ease2Transform("EASE2_N3.125km")
-            self.ease6 = Ease2Transform.Ease2Transform("EASE2_N6.25km")
+            self.ease3 = ease2conv.Ease2Transform("EASE2_N3.125km")
+            self.ease6 = ease2conv.Ease2Transform("EASE2_N6.25km")
         elif (lat1 and lat2 < -40) and (lat1 and lat2 > -90): # South
             self.grid = "S"
-            self.ease3 = Ease2Transform.Ease2Transform("EASE2_S3.125km")
-            self.ease6 = Ease2Transform.Ease2Transform("EASE2_S6.25km")
+            self.ease3 = ease2conv.Ease2Transform("EASE2_S3.125km")
+            self.ease6 = ease2conv.Ease2Transform("EASE2_S6.25km")
         else:
             print("SWEpy currently only supports study areas with a study area bounded by +-40 deg latitude")
         return self.grid
@@ -345,7 +346,7 @@ class swepy():
         tb = self.safe_subtract(tb_19H, tb_37H)
         lats = np.zeros((len(y), len(x)), dtype=np.float64)
         lons = np.zeros((len(y), len(x)), dtype=np.float64)
-        grid = Ease2Transform.Ease2Transform(gridname=fid_19H.variables["crs"].long_name)
+        grid = ease2conv.Ease2Transform(gridname=fid_19H.variables["crs"].long_name)
         one_day = tb[0,:,:]
         df = pd.DataFrame(columns = ['lat', 'lon', 'swe'])
         for i, xi in enumerate(x):
