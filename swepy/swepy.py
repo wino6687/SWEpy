@@ -7,7 +7,6 @@ from skimage.measure import block_reduce
 from mapboxgl.utils import *
 from mapboxgl.viz import *
 import pandas as pd
-#from swepy.Ease2Transform import Ease2Transform
 from nco import Nco
 import os
 from tqdm import tqdm
