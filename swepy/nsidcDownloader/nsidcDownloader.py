@@ -16,9 +16,9 @@ except:
 
 class nsidcDownloader():
 
-    url_template = "{protocol}://{server}/{datapool}/{dataset}.{version}/{date:%Y.%m.%d}" \
+    url_template = "{protocol}://{server}/{datapool}/{dataset}.{version}/{date1:%Y.%m.%d}" \
                     "/{dataset}-{projection}_{grid}{resolution}-{platform}_{sensor}" \
-                    "-{date:%Y%j}-{channel}-{pass}-{algorithm}-{input}-{dataversion}.nc"
+                    "-{date2:%Y%j}-{channel}-{pass}-{algorithm}-{input}-{dataversion}.nc"
 
     defaults = {
         "protocol": "https",
@@ -114,7 +114,6 @@ class nsidcDownloader():
         '''
 
         url = self.format_url(**kwargs)
-
         ## Dict of all the keywords:vals going into URL
         all_keywords = {**kwargs, **self.format_url.keywords}
 
@@ -137,7 +136,6 @@ class nsidcDownloader():
 
         ## Download the dang thing
         with self.session.get(url, stream=True) as r:
-
             if r.status_code == 404:
                 raise FileNotFoundError("File Not Found: {}".format(url))
 
@@ -159,7 +157,6 @@ class nsidcDownloader():
                     #pbar.update(block_size)
 
             #pbar.close()
-
         return filename  ## changed to filename from filepath to fix another script
 
     def download_range(self, date, **kwargs):
