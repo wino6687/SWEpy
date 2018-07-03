@@ -8,5 +8,8 @@ dist/
 swepy.egg-info/
 __pycache__/
 swepy/__pycache__/
+meta.yaml
+build.sh
+bld.bat
 
 
