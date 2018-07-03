@@ -21,7 +21,14 @@ uid is your Earthdata username. Do not include the brackets <>.
 
 https://nsidc.org/support/faq/what-options-are-available-bulk-downloading-data-https-earthdata-login-enabled
 
-## 2. Setup conda environment from yaml (Optional/Recommended):
+## 2. Install SWEpy Using Conda (Recommended):
+SWEpy is available from anaconda, and will install all dependencies when installed.
+
+```{python}
+conda install -c wino6687 swepy
+```
+
+### Alternative: Setup conda environment from yaml
 The libraries used in this analysis, namely pynco, can be finicky with the channels that dependencies are installed with. Thus, using the provided yaml file to build an environment for this project will make your life simpler. You can add more packages on top of the provided environment as long as you install with the conda-forge channel.
 
 Using the yaml file (.yml) create a new conda environment
@@ -29,18 +36,13 @@ Using the yaml file (.yml) create a new conda environment
 conda env create -f swepy_env.yml
 ```
 
-## 3. Install ipykernel (if using jupyter)
+## 3. Install ipykernel (if using jupyter and conda environments)
 
 ```{python}
 source activate swepy_env
-python -m ipykernel install --user --name swepy_env --display-name "Python (swepy_env)"
+python -m ipykernel install --user --name <env name> --display-name "<display name>"
 ```
-### Alternative: Install with pip:
-You can install swepy with pip:
-```{python}
-pip install swepy
-```
-However, swepy does not come with any auto-installed dependencies due to gdal and pynco needing to use conda-forge. It is important that all of your python libraries, except swepy, are installed on the conda-forge channel.
+**Do not include the brackets <>**
 
 # Using SWEpy for analyzing SWE:
 
