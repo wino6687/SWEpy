@@ -2,9 +2,12 @@
 
 * All study area boxes should be oriented to the North when choosing lower right and upper left bounding coordinates.
 
-* Currently this script is not supported in Windows due to pynco only supporting Mac OS or Unix
+* Currently this python library is not supported in Windows due to pynco only supporting Mac OS or Unix
 
 * Requires python 3.6 and Anaconda 3
+
+# SWEpy
+SWEpy is a python library designed to give you quick and easy access to temperature brightness imagery stored in the MEaSUREs dataset in the NSIDC 0630 database. SWEpy contains tools to web scrape, geographically subset, and concatenate files into time cubes. There is an automated workflow to scrape long time series while periodically stopping to geographically subset and concatenate files in order to reduce disk impact.
 
 # Setup:
 
