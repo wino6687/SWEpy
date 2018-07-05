@@ -212,7 +212,10 @@ If getting HDF5 errors, try deleting all the netCDF files in your directories an
 	- There are still some issue days. April 9th, 2004 is missing all N25km-F15 files, while the day prior and next day have these files. This will cause the automated scraping to stall and not finish.
 
 3. 25km data will not plot properly in mapbox.
-	-
+	- For some reason, there is an issue converting dataframes to geojson only when scraping the 25km data. I am looking into why this is, but for now visualization only works on high resolution data.
+
+4. Conda-forge dependency issues:
+	- My goal is to get the installation of SWEpy onto the conda-forge channel, but currently I cannot do that while I need to use different channels to install cetbtools and mapboxgl.
 
 
 Citations:
