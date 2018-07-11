@@ -27,6 +27,16 @@ https://nsidc.org/support/faq/what-options-are-available-bulk-downloading-data-h
 ## 2. Install SWEpy Using Conda (Recommended):
 SWEpy is available from anaconda, and will install all dependencies when installed.
 
+** Important ** You must have the following channels in your .condarc file.
+
+```
+channels:
+  - conda-forge
+	- nsidc
+	- rsbaumann
+	- defaults
+```
+
 ```{python}
 conda install -c wino6687 swepy
 ```
@@ -207,17 +217,20 @@ https://conda-forge.org/docs/conda-forge_gotchas.html#using-multiple-channels
 If getting HDF5 errors, try deleting all the netCDF files in your directories and starting over. This usually occurs when there are already some files in the data directories before calling scrape_all and ncks gets confused on the subset step.
 
 # Known Bugs:
-1. Missing data can cause plotting to error out.
+1. Missing image error when loading in swepy or when calling swepy functions
+	- there is an issue where gdal is not installed on the conda-forge channel when swepy is downloaded through conda.
+	- Solution: make sure conda-forge is at the top of your channels list in you ```.condarc``` file, then run the command ```conda update --all```.
+2. Missing data can cause plotting to error out.
 	- missing data is common in the mid-latitudes, so if your midlat study area errors out when plotting, this is likely the issue
 
-2. There are some weird dates in the file paths of 25km data from 2003-2017 causing web scraper to error out.
+3. There are some weird dates in the file paths of 25km data from 2003-2017 causing web scraper to error out.
 	- According to the NSIDC, this is because N and S grid images contain data from more than one single day, and thus the dating of certain data is slightly off. I am going to dig into the pattern more to find a fix on SWEpy's end.
 	- There are still some issue days. April 9th, 2004 is missing all N25km-F15 files, while the day prior and next day have these files. This will cause the automated scraping to stall and not finish.
 
-3. 25km data will not plot properly in mapbox.
+4. 25km data will not plot properly in mapbox.
 	- For some reason, there is an issue converting dataframes to geojson only when scraping the 25km data. I am looking into why this is, but for now visualization only works on high resolution data.
 
-4. Conda-forge dependency issues:
+5. Conda-forge dependency issues:
 	- My goal is to get the installation of SWEpy onto the conda-forge channel, but currently I cannot do that while I need to use different channels to install cetbtools and mapboxgl.
 
 
