@@ -21,6 +21,7 @@ class swepy():
         '''User instantiates the class with working directory,
         date ranges, and lat/lon bounding coords. constructor gets
         the datetime list, x/y coords, and file directories'''
+
         if high_res:
             self.high_res = True
         else:
@@ -245,6 +246,7 @@ class swepy():
         else:
             print("No 37Ghz Files to Concatenate")
 
+
     def final_concat(self):
         '''function to manage the final concatenation for scrape_all
         '''
@@ -292,6 +294,7 @@ class swepy():
             self.down37list.append(result2)
         return
 
+
     def safe_subtract(self, tb19, tb37):
         '''Check size of each file, often the 19 and 37
             files are one unit off of eachother. This will
@@ -312,6 +315,7 @@ class swepy():
         tb37 = tb37[:, :s2[1]-1, :s2[2]-1]
         tb  = tb19 - tb37
         return tb
+
 
     def clean_dirs(self):
         os.chdir(self.wget)
