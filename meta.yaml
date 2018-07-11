@@ -1,6 +1,6 @@
 package:
   name: "swepy"
-  version: "1.0.3"
+  version: "1.0.4"
 
 source:
   git_rev: v1.0.4
@@ -13,6 +13,7 @@ requirements:
   build:
     - pynco
     - gdal
+    - libgdal
     - pandas
     - cetbtools
     - jupyter
@@ -25,6 +26,8 @@ requirements:
     - mapboxgl
   run:
     - python
+    - gdal
+    - libgdal
     - pynco
     - pandas
     - cetbtools
