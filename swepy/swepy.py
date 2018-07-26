@@ -11,7 +11,8 @@ from nco import Nco
 import os
 from tqdm import tqdm
 import glob
-from cetbtools import ease2conv
+#from cetbtools import ease2conv
+from swepy.latlon_ease_convert import latlon_ease_convert
 
 nco = Nco()
 
@@ -41,6 +42,8 @@ class swepy():
 
         self.dates = pd.date_range(start, end)
 
+        # if user inputs a grid, then scrape whole grid
+        # otherwise find the grid that fits coordinates
         if ul == "N" and lr == "N":
             self.grid = "N"
             self.subBool = False
@@ -73,16 +76,16 @@ class swepy():
         no idea what to do if they cross two regions...'''
         if (lat1 and lat2 < 50) and (lat1 and lat2 > -50): # mid lat
             self.grid = "T"
-            self.ease3 = ease2conv.Ease2Transform("EASE2_T3.125km")
-            self.ease6 = ease2conv.Ease2Transform("EASE2_T6.25km")
+            self.ease3 = latlon_ease_convert.convert("EASE2_T3.125km")
+            self.ease6 = latlon_ease_convert.convert("EASE2_T6.25km")
         elif (lat1 and lat2 > 40) and (lat1 and lat2 < 90): # north
             self.grid = "N"
-            self.ease3 = ease2conv.Ease2Transform("EASE2_N3.125km")
-            self.ease6 = ease2conv.Ease2Transform("EASE2_N6.25km")
+            self.ease3 = latlon_ease_convert.convert("EASE2_N3.125km")
+            self.ease6 = latlon_ease_convert.convert("EASE2_N6.25km")
         elif (lat1 and lat2 < -40) and (lat1 and lat2 > -90): # South
             self.grid = "S"
-            self.ease3 = ease2conv.Ease2Transform("EASE2_S3.125km")
-            self.ease6 = ease2conv.Ease2Transform("EASE2_S6.25km")
+            self.ease3 = latlon_ease_convert.convert("EASE2_S3.125km")
+            self.ease6 = latlon_ease_convert.convert("EASE2_S6.25km")
         else:
             print("SWEpy currently only supports study areas with a study area bounded by +-40 deg latitude")
         return self.grid
@@ -349,7 +352,7 @@ class swepy():
         tb = self.safe_subtract(tb_19H, tb_37H)
         lats = np.zeros((len(y), len(x)), dtype=np.float64)
         lons = np.zeros((len(y), len(x)), dtype=np.float64)
-        grid = ease2conv.Ease2Transform(gridname=fid_19H.variables["crs"].long_name)
+        grid = latlon_ease_convert.convert(gridname=fid_19H.variables["crs"].long_name)
         one_day = tb[0,:,:]
         df = pd.DataFrame(columns = ['lat', 'lon', 'swe'])
         for i, xi in enumerate(x):
