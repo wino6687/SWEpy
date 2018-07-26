@@ -14,8 +14,8 @@ requirements:
     - python
   run:
     - python
-    - affine 
-    - libgdal
+    - affine
+    - gdal
     - pynco
     - pandas
     - jupyter
