@@ -5,7 +5,7 @@ import numpy as np
 from netCDF4 import Dataset
 from skimage.measure import block_reduce
 from mapboxgl.utils import *
-from mapboxgl.viz import *
+#from mapboxgl.viz import *
 import pandas as pd
 from nco import Nco
 import os
@@ -338,10 +338,8 @@ class swepy():
             os.remove(f)
         return
 
-
+'''
     def plot_a_day(self, token):
-        '''read tb,x,y data from final files,
-        with the purpose of plotting.'''
         fid_19H = Dataset(self.concatlist[0], "r", format="NETCDF4")
         fid_37H = Dataset(self.concatlist[1], "r", format="NETCDF4")
 
@@ -383,3 +381,4 @@ class swepy():
                         below_layer = 'waterway-label')
 
         viz.show()
+'''

@@ -1,7 +1,6 @@
 language: python
 python:
   - "3.6"
-os: osx
 install:
   - sudo apt-get update
   # We do this conditionally because it saves us some downloading if the
@@ -21,7 +20,6 @@ install:
   # add the needed channels
   - conda config --add channels wino6687
   - conda config --add channels conda-forge
-  - conda config --add channels rsbaumann
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION pandas numpy
   - source activate test-environment
   - conda install -c wino6687 swepy
