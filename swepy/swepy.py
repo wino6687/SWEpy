@@ -11,13 +11,12 @@ from nco import Nco
 import os
 from tqdm import tqdm
 import glob
-#from cetbtools import ease2conv
 from swepy.latlon_ease_convert import latlon_ease_convert
 
 nco = Nco()
 
 class swepy():
-    def __init__(self, working_dir, start, end, ul, lr, username, password,
+    def __init__(self, working_dir, start=None, end=None, ul=None, lr=None, username=None, password=None,
                 outfile19 = 'all_days_19H.nc', outfile37 = 'all_days_37H.nc', high_res = True):
         '''User instantiates the class with working directory,
         date ranges, and lat/lon bounding coords. constructor gets
@@ -39,25 +38,26 @@ class swepy():
 
         self.username = username
         self.password = password
-
-        self.dates = pd.date_range(start, end)
+        if start is not None and end is not None:
+            self.dates = pd.date_range(start, end)
 
         # if user inputs a grid, then scrape whole grid
         # otherwise find the grid that fits coordinates
-        if ul == "N" and lr == "N":
-            self.grid = "N"
-            self.subBool = False
-        elif ul == "T" and lr == "T":
-            self.grid = "T"
-            self.subBool = False
-        elif ul == "S" and lr == "S":
-            self.grid = "S"
-            self.subBool = False
-        else:
-            self.subBool = True
-            self.grid = self.get_grid(ul[0], lr[0])
-            self.geo_list3, self.geo_list6 = self.get_xy(ul, lr)
-            self.center = [ul[1], ul[0]]
+        if ul is not None and lr is not None:
+            if ul == "N" and lr == "N":
+                self.grid = "N"
+                self.subBool = False
+            elif ul == "T" and lr == "T":
+                self.grid = "T"
+                self.subBool = False
+            elif ul == "S" and lr == "S":
+                self.grid = "S"
+                self.subBool = False
+            else:
+                self.subBool = True
+                self.grid = self.get_grid(ul[0], lr[0])
+                self.geo_list3, self.geo_list6 = self.get_xy(ul, lr)
+                self.center = [ul[1], ul[0]]
 
         self.down19list = []
         self.down37list = []
@@ -112,6 +112,9 @@ class swepy():
     def get_xy(self, ll_ul, ll_lr):
         '''Use NSIDC scripts to convert user inputted
         lat/lon into Ease grid 2.0 coordinates'''
+        if ll_ul is None or ll_lr is None:
+            print("You must enter bounding coordinates when instantiating the class")
+            raise ValueError
         row, col = self.ease3.geographic_to_grid(ll_ul[0], ll_ul[1])
         xul3, yul3 = self.ease3.grid_to_map(row, col)
         row, col = self.ease3.geographic_to_grid(ll_lr[0], ll_lr[1])
