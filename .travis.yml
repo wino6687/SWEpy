@@ -18,9 +18,10 @@ install:
   # Useful for debugging any issues with conda
   - conda info -a
 
-  - conda config --add channels conda-forge
   - conda config --add channels wino6687
-  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION swepy gdal affine pynco requests tqdm scikit-image scikit-learn mapboxgl
+  - conda config --add channels conda-forge
+  - conda config --add channels rsbaumann
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION swepy gdal affine pynco requests tqdm scikit-image scikit-learn
   - source activate test-environment
   - python setup.py install
 script:
