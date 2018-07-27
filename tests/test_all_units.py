@@ -4,6 +4,7 @@ import os
 import pytest
 import datetime
 import numpy as np
+import pandas as pd
 
 def test_get_grid_N(tmpdir):
     path = tmpdir.mkdir("tmp")
@@ -60,8 +61,18 @@ def test_get_file(tmpdir):
 # concatenate
 
 # final concat
-
-# scrape
+'''
+def test_scrape(tmpdir):
+    date = datetime.date(2010,1,1)
+    dates = pd.date_range(date, date)
+    path = tmpdir.mkdir("tmp")
+    s1 = swepy(path, ul="N", lr="N", username = 'wino6687', password = 'Desmo12@')
+    s1.scrape(dates)
+    os.chdir('data/wget')
+    file = os.listdir()
+    assert file == ['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc',
+                    'NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc']
+'''
 
 def test_safe_subtract(tmpdir):
     path = tmpdir.mkdir("tmp")
@@ -70,3 +81,7 @@ def test_safe_subtract(tmpdir):
     tb37 = np.ones((1,154,153))
     tb = s1.safe_subtract(tb19,tb37)
     assert np.shape(tb) == (1,151,152)
+
+# clean clean_dirs
+
+# plot a day

@@ -11,7 +11,7 @@ class convert():
     It was developed by Mary Jo Brodzik at the National Snow and Ice Data Center.
     The original source code can be found at https://bitbucket.org/nsidc/cetbtools
     It was redeveloped here with permission from the original author
-    because of conda channel dependency issues.
+    because of conda channel dependency issues with using the original package.
     '''
     grid = None
     epsg4326_proj4 = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
