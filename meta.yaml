@@ -11,7 +11,7 @@ requirements:
     - python
     - setuptools
   build:
-    - python
+    noarch: python
   run:
     - python
     - affine
