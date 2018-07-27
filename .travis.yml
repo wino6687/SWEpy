@@ -19,9 +19,9 @@ install:
   - conda info -a
 
   - conda config --add channels wino6687
-  - conda config --add channels conda-forge
-  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION swepy
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION pandas numpy
   - source activate test-environment
+  - conda install -c wino6687 swepy
   - python setup.py install
 script:
   - pytest
