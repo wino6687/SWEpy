@@ -11,7 +11,7 @@ requirements:
     - python
     - setuptools
   build:
-    noarch: python
+    - python
   run:
     - python
     - affine
@@ -25,7 +25,6 @@ requirements:
     - scikit-image
     - scikit-learn
     - netCDF4
-    - mapboxgl
 
 about:
   home: https://github.com/wino6687/SWEpy
