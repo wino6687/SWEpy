@@ -1,3 +1,4 @@
+# author: Will Norris --> wino6687@colorado.edu
 from datetime import datetime, timedelta
 import requests
 from swepy.nsidcDownloader import nsidcDownloader
@@ -69,7 +70,7 @@ class swepy():
 
         if username is not None and password is not None:
             self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
-        else: 
+        else:
             self.nD = None
 
 
