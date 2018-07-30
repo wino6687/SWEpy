@@ -2,11 +2,12 @@ name: swepy_env
 channels:
   - conda-forge
   - nsidc
+  - wino6687
   - defaults
 dependencies:
   - pynco
+  - pytest
   - pandas
-  - cetbtools
   - jupyter
   - ipykernel
   - requests
@@ -14,6 +15,4 @@ dependencies:
   - scikit-image
   - scikit-learn
   - netCDF4
-  - pip:
-    - mapboxgl
-    - swepy
+  - swepy
