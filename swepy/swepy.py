@@ -67,7 +67,10 @@ class swepy():
         self.concat19list = []
         self.concat37list = []
 
-        self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
+        if username is not None and password is not None:
+            self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
+        else: 
+            self.nD = None
 
 
     def get_grid(self, lat1, lat2):
