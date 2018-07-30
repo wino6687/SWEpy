@@ -1,6 +1,6 @@
 # Unit Testing for SWEpy
 import os
-print(os.environ['CONDA_DEFAULT_ENV'])
+#print(os.environ['CONDA_DEFAULT_ENV'])
 from swepy.swepy import swepy
 import pytest
 import datetime
@@ -84,5 +84,3 @@ def test_safe_subtract(tmpdir):
     assert np.shape(tb) == (1,151,152)
 
 # clean clean_dirs
-
-# plot a day
