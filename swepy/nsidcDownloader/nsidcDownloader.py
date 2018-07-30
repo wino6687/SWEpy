@@ -142,11 +142,6 @@ class nsidcDownloader():
             ## Open file
             with open(filepath, 'wb') as f:
 
-                '''pbar = tqdm(initial=0,
-                            total=int(r.headers['content-length']),
-                            unit='B',
-                            unit_scale=True)'''
-
                 ## Create dest folder if not exist
                 if not os.path.exists(folder):
                     os.makedirs(folder)
