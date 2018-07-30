@@ -23,5 +23,6 @@ install:
   # create environment
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION pandas numpy swepy pytest
   - source activate test-environment
+  - conda list
 script:
   - pytest
