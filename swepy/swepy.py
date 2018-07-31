@@ -36,6 +36,9 @@ class swepy():
         self.username = username
         self.password = password
 
+        self.geod = None
+        self.e2n = None
+
         if start is not None and end is not None:
             self.dates = pd.date_range(start, end)
 
@@ -53,9 +56,8 @@ class swepy():
                 self.subBool = False
             else:
                 self.subBool = True
-                self.e2n = self.get_grid(ul[0], lr[0])
+                self.get_grid(ul[1], lr[1])
                 self.geo_list = self.get_xy(ul, lr)
-                print("geo_list: {}".format(self.geo_list))
                 self.center = [ul[1], ul[0]]
 
         self.down19list = []
@@ -81,7 +83,6 @@ class swepy():
             print("SWEpy 1.1.2 does not currently support subsetting Equatorial images \n The entire image will be scraped")
         elif (lat1 and lat2 > 40) and (lat1 and lat2 < 90): # north
             self.grid = "N"
-            print("setting e2n")
             self.geod = ccrs.Geodetic()
             self.e2n = ccrs.LambertAzimuthalEqualArea(central_latitude=90.0)
         elif (lat1 and lat2 < -40) and (lat1 and lat2 > -90): # South
@@ -90,7 +91,7 @@ class swepy():
             self.e2n = ccrs.LambertAzimuthalEqualArea(central_latitude=90.0)
         else:
             print("SWEpy currently only supports study areas with a study area bounded by +-40 deg latitude")
-        return self.grid
+        return self.e2n
 
 
     def get_directories(self, path):
@@ -281,18 +282,19 @@ class swepy():
         for date in tqdm(dates):
             file19 = self.get_file(date, "19H")
             file37 = self.get_file(date, "37H")
-            result1 = None
-            while result1 is None:
+            result1 = self.nD.download_file(**file19)
+            if result1 == False:
                 try:
                     result1 = self.nD.download_file(**file19)
                 except:
-                    print('failing on {}'.format(date))
+                    print('failing on 19H {}'.format(date))
                     pass
-            result2 = None
-            while result2 is None:
+            result2 = self.nD.download_file(**file37)
+            if result2 == False:
                 try:
                     result2 = self.nD.download_file(**file37)
                 except:
+                    print('failing on 37H on {}'.format(date))
                     pass
             self.down19list.append(result1)
             self.down37list.append(result2)
