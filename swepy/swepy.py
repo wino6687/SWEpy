@@ -88,7 +88,7 @@ class swepy():
         elif (lat1 and lat2 < -40) and (lat1 and lat2 > -90): # South
             self.grid = "S"
             self.geod = ccrs.Geodetic()
-            self.e2n = ccrs.LambertAzimuthalEqualArea(central_latitude=90.0)
+            self.e2n = ccrs.LambertAzimuthalEqualArea(central_latitude=-90.0)
         else:
             print("SWEpy currently only supports study areas with a study area bounded by +-40 deg latitude")
         return self.e2n
@@ -298,7 +298,7 @@ class swepy():
                     pass
             self.down19list.append(result1)
             self.down37list.append(result2)
-        return
+        return (result1, result2)
 
 
     def safe_subtract(self, tb19, tb37):

@@ -7,6 +7,14 @@ import datetime
 import numpy as np
 import pandas as pd
 
+@pytest.fixture
+def mock_server(request):
+    server = MockServer()
+    server.start()
+    yield server
+    server.shutdown_server()
+
+
 def test_get_grid_N(tmpdir):
     path = tmpdir.mkdir("tmp")
     s1 = swepy(path)
@@ -61,15 +69,6 @@ def test_get_file(tmpdir):
 # concatenate
 
 # final concat
-'''
-def test_scrape(tmpdir, httpserver):
-    httpserver.serve_content(open('swep = swepy(path, start, end, lat_lon_ul, lat_lon_lr, username, password)').read())
-    date = datetime.date(2010,1,1)
-    dates = pd.date_range(date, date)
-    path = tmpdir.mkdir("tmp")
-    s1 = swepy(path, ul="N", lr="N", username = 'wino6687', password = 'Desmo12@')
-    assert s1.scrape(httpserver.url) == "Found it!"
-'''
 
 def test_safe_subtract(tmpdir):
     path = tmpdir.mkdir("tmp")
@@ -78,5 +77,15 @@ def test_safe_subtract(tmpdir):
     tb37 = np.ones((1,154,153))
     tb = s1.safe_subtract(tb19,tb37)
     assert np.shape(tb) == (1,151,152)
+
+'''
+def test_scrape(tmpdir):
+    date = datetime.date(2010,1,1)
+    dates = pd.date_range(date, date)
+    path = tmpdir.mkdir("tmp")
+    s1 = swepy(path, ul="N", lr="N", username = 'wino6687', password = 'Desmo12@', high_res = False)
+    assert s1.scrape(dates) == (True, True)
+'''
+
 
 # clean clean_dirs
