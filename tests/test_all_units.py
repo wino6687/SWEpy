@@ -40,8 +40,7 @@ def test_get_xy(tmpdir):
     ll_lr = [73, -166]
     s1 = swepy(path, ul = ll_ul, lr = ll_lr)
     list1 = s1.get_xy(ll_ul, ll_lr)
-    assert list1 == ([-1988822.7284991546,2370186.631721887,-457544.8408031743,
-                    1835112.1237310767],[-1988822.7284991546,2370186.631721887,-457544.8408031743,
+    assert list1[0] == ([-1988822.7284991546,2370186.631721887,-457544.8408031743,
                     1835112.1237310767])
 
 # need one for subset
@@ -63,16 +62,13 @@ def test_get_file(tmpdir):
 
 # final concat
 '''
-def test_scrape(tmpdir):
+def test_scrape(tmpdir, httpserver):
+    httpserver.serve_content(open('swep = swepy(path, start, end, lat_lon_ul, lat_lon_lr, username, password)').read())
     date = datetime.date(2010,1,1)
     dates = pd.date_range(date, date)
     path = tmpdir.mkdir("tmp")
     s1 = swepy(path, ul="N", lr="N", username = 'wino6687', password = 'Desmo12@')
-    s1.scrape(dates)
-    os.chdir('data/wget')
-    file = os.listdir()
-    assert file == ['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc',
-                    'NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc']
+    assert s1.scrape(httpserver.url) == "Found it!"
 '''
 
 def test_safe_subtract(tmpdir):
