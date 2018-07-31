@@ -5,8 +5,6 @@ from swepy.nsidcDownloader import nsidcDownloader
 import numpy as np
 from netCDF4 import Dataset
 from skimage.measure import block_reduce
-#from mapboxgl.utils import *
-#from mapboxgl.viz import *
 import pandas as pd
 from nco import Nco
 import os
@@ -32,18 +30,16 @@ class swepy():
         self.working_dir = working_dir
         self.path19, self.path37, self.wget = self.get_directories(working_dir)
 
-        self.ease3 = None
-        self.ease6 = None
-
         self.outfile_19 = outfile19
         self.outfile_37 = outfile37
 
         self.username = username
         self.password = password
+
         if start is not None and end is not None:
             self.dates = pd.date_range(start, end)
 
-        # if user inputs a grid, then scrape whole grid
+        # if user inputs a grid name, then scrape whole grid
         # otherwise find the grid that fits coordinates
         if ul is not None and lr is not None:
             if ul == "N" and lr == "N":
@@ -57,8 +53,9 @@ class swepy():
                 self.subBool = False
             else:
                 self.subBool = True
-                self.grid = self.get_grid(ul[0], lr[0])
-                self.geo_list3, self.geo_list6 = self.get_xy(ul, lr)
+                self.e2n = self.get_grid(ul[0], lr[0])
+                self.geo_list = self.get_xy(ul, lr)
+                print("geo_list: {}".format(self.geo_list))
                 self.center = [ul[1], ul[0]]
 
         self.down19list = []
@@ -81,16 +78,16 @@ class swepy():
         no idea what to do if they cross two regions...'''
         if (lat1 and lat2 < 50) and (lat1 and lat2 > -50): # mid lat
             self.grid = "T"
-            self.ease3 = latlon_ease_convert.convert("EASE2_T3.125km")
-            self.ease6 = latlon_ease_convert.convert("EASE2_T6.25km")
+            print("SWEpy 1.1.2 does not currently support subsetting Equatorial images \n The entire image will be scraped")
         elif (lat1 and lat2 > 40) and (lat1 and lat2 < 90): # north
             self.grid = "N"
-            self.ease3 = latlon_ease_convert.convert("EASE2_N3.125km")
-            self.ease6 = latlon_ease_convert.convert("EASE2_N6.25km")
+            print("setting e2n")
+            self.geod = ccrs.Geodetic()
+            self.e2n = ccrs.LambertAzimuthalEqualArea(central_latitude=90.0)
         elif (lat1 and lat2 < -40) and (lat1 and lat2 > -90): # South
             self.grid = "S"
-            self.ease3 = latlon_ease_convert.convert("EASE2_S3.125km")
-            self.ease6 = latlon_ease_convert.convert("EASE2_S6.25km")
+            self.geod = ccrs.Geodetic()
+            self.e2n = ccrs.LambertAzimuthalEqualArea(central_latitude=90.0)
         else:
             print("SWEpy currently only supports study areas with a study area bounded by +-40 deg latitude")
         return self.grid
@@ -115,24 +112,20 @@ class swepy():
 
 
     def get_xy(self, ll_ul, ll_lr):
-        '''Use NSIDC scripts to convert user inputted
+        '''Use cartopy scripts to convert user inputted
         lat/lon into Ease grid 2.0 coordinates'''
         if ll_ul is None or ll_lr is None:
             print("You must enter bounding coordinates when instantiating the class")
             raise ValueError
-        row, col = self.ease3.geographic_to_grid(ll_ul[0], ll_ul[1])
-        xul3, yul3 = self.ease3.grid_to_map(row, col)
-        row, col = self.ease3.geographic_to_grid(ll_lr[0], ll_lr[1])
-        xlr3, ylr3 = self.ease3.grid_to_map(row, col)
-
-        row, col = self.ease6.geographic_to_grid(ll_ul[0], ll_ul[1])
-        xul6, yul6 = self.ease6.grid_to_map(row, col)
-        row, col = self.ease6.geographic_to_grid(ll_lr[0], ll_lr[1])
-        xlr6, ylr6 = self.ease6.grid_to_map(row, col)
-
-        geo_list3 = [xul3, yul3, xlr3, ylr3]
-        geo_list6 = [xul6, yul6, xlr6, ylr6]
-        return geo_list3, geo_list6
+        xul,yul = self.e2n.transform_point(
+                x = ll_ul[0],
+                y = ll_ul[1],
+                src_crs = self.geod)
+        xlr, ylr = self.e2n.transform_point(
+                x = ll_lr[0],
+                y = ll_lr[1],
+                src_crs = self.geod)
+        return [xul, yul, xlr, ylr]
 
 
     def subset(self, scrape = False):
@@ -144,8 +137,8 @@ class swepy():
             outfile = self.path19 + file
             infile = self.wget + file
             opt = [
-                "-d x,%f,%f" % (self.geo_list6[0],self.geo_list6[2]),
-                "-d y,%f,%f" % (self.geo_list6[3],self.geo_list6[1]),
+                "-d x,%f,%f" % (self.geo_list[0],self.geo_list[2]),
+                "-d y,%f,%f" % (self.geo_list[3],self.geo_list[1]),
                 "-v TB"
             ]
             nco.ncks(input=infile, output=outfile, options=opt)
@@ -156,8 +149,8 @@ class swepy():
             outfile = self.path37 + file
             infile = self.wget + file
             opt = [
-                "-d x,%f,%f" % (self.geo_list3[0],self.geo_list3[2]),
-                "-d y,%f,%f" % (self.geo_list3[3],self.geo_list3[1]),
+                "-d x,%f,%f" % (self.geo_list[0],self.geo_list[2]),
+                "-d y,%f,%f" % (self.geo_list[3],self.geo_list[1]),
                 "-v TB"
             ]
             nco.ncks(input=infile, output=outfile, options=opt)
