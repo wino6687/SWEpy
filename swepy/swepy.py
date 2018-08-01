@@ -121,9 +121,11 @@ class swepy():
 
 
     def get_grid(self, lat1, lat2):
-        '''Function to check which regions the lats fall into. based
+        '''Check which regions the lats fall into. based
         on the grid, instantiate the ease grid conversion object.
-        no idea what to do if they cross two regions...'''
+
+        Parameters: Upper Left Latitude, Lower Right Latitude
+        '''
         if (lat1 and lat2 < 50) and (lat1 and lat2 > -50): # mid lat
             self.grid = "T"
             print("SWEpy 1.1.2 does not currently support subsetting Equatorial images \n The entire image will be scraped")
@@ -137,7 +139,7 @@ class swepy():
             self.e2n = ccrs.LambertAzimuthalEqualArea(central_latitude=-90.0)
         else:
             print("SWEpy currently only supports study areas with a study area bounded by +-40 deg latitude")
-        return self.e2n
+        return 
 
 
     def get_directories(self, path):
