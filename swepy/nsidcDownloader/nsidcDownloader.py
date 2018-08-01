@@ -138,7 +138,7 @@ class nsidcDownloader():
         with self.session.get(url, stream=True) as r:
             if r.status_code == 404:
                 raise FileNotFoundError("File Not Found: {}".format(url))
-
+            resp = r.ok
             ## Open file
             with open(filepath, 'wb') as f:
 
@@ -152,7 +152,7 @@ class nsidcDownloader():
                     #pbar.update(block_size)
 
             #pbar.close()
-        return filename  ## changed to filename from filepath to fix another script
+        return resp  ## changed to filename from filepath to fix another script
 
     def download_range(self, date, **kwargs):
         '''
