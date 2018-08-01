@@ -16,7 +16,7 @@ import cartopy.crs as ccrs
 nco = Nco()
 
 class swepy():
-    def __init__(self, working_dir, start=None, end=None, ul=None, lr=None, username=None, password=None,
+    def __init__(self, working_dir=None, start=None, end=None, ul=None, lr=None, username=None, password=None,
                 outfile19 = 'all_days_19H.nc', outfile37 = 'all_days_37H.nc', high_res = True):
         '''User instantiates the class with working directory,
         date ranges, and lat/lon bounding coords. constructor gets
@@ -26,9 +26,12 @@ class swepy():
             self.high_res = True
         else:
             self.high_res = False
+        if working_dir is None:
+            self.working_dir = os.getcwd()
+        else:
+            self.working_dir = working_dir
 
-        self.working_dir = working_dir
-        self.path19, self.path37, self.wget = self.get_directories(working_dir)
+        self.path19, self.path37, self.wget = self.get_directories(self.working_dir)
 
         self.outfile_19 = outfile19
         self.outfile_37 = outfile37
@@ -39,6 +42,9 @@ class swepy():
         self.geod = None
         self.e2n = None
 
+        self.geo_list = None
+        self.grid = None
+
         if start is not None and end is not None:
             self.dates = pd.date_range(start, end)
 
@@ -48,12 +54,15 @@ class swepy():
             if ul == "N" and lr == "N":
                 self.grid = "N"
                 self.subBool = False
+                self.geo_list = "N"
             elif ul == "T" and lr == "T":
                 self.grid = "T"
                 self.subBool = False
+                self.geo_list = "T"
             elif ul == "S" and lr == "S":
                 self.grid = "S"
                 self.subBool = False
+                self.geo_list = "S"
             else:
                 self.subBool = True
                 self.get_grid(ul[1], lr[1])
@@ -72,6 +81,43 @@ class swepy():
             self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
         else:
             self.nD = None
+
+    def set_params(self, start=None, end=None, username=None, password=None, ul=None, lr=None):
+        '''
+        Function to allow users to add information to the class after already instantiating.
+        Allows user to instantiate class with just date range and credentials, then add coordinates
+        for subsetting later without losing the download lists
+        '''
+        if start is not None and end is not None:
+            print("Setting the date range...")
+            self.dates = pd.date_range(start, end)
+            print("Success!")
+        if username is not None and password is not None:
+            print("Checking your credentials...")
+            self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
+            print("Success!")
+        if ul is not None and lr is not None:
+            print("Setting the bounding coordinates...")
+            self.subBool = True
+            self.get_grid(ul[1], lr[1])
+            self.geo_list = self.get_xy(ul,lr)
+            self.center = [ul[1], ul[0]]
+            print("Success!")
+
+    def check_params(self):
+        '''
+        Helper function to check that all the class members are set before
+        attempting to web scrape or subset.
+        '''
+        proceed = True
+        params = {"dates":self.dates, "geo_list":self.geo_list, "grid":self.grid, "username":self.username, "password":self.password}
+        for key, value in params.items():
+            if value is None:
+                print("{} needs to be set by 'set_params'".format(key))
+                proceed = False
+        print("Please use the set_params function to set missing parameters,\
+                see the documentation for guidance")
+        return proceed
 
 
     def get_grid(self, lat1, lat2):
@@ -166,6 +212,8 @@ class swepy():
         '''Function to ensure we subset
          and concatenate every year!
          Implements the whole workflow!'''
+        if self.check_params() == False:
+            return
         if len(self.dates) <= 300:
             self.scrape()
             if self.subBool:
@@ -277,6 +325,8 @@ class swepy():
     def scrape(self, dates = None):
         '''Wrapper function to allow more selective use of just the
             web scraper'''
+        if self.check_params() == False:
+            return
         if dates is None: # letting class choose all dates
             dates = self.dates
         for date in tqdm(dates):
