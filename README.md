@@ -27,18 +27,19 @@ https://nsidc.org/support/faq/what-options-are-available-bulk-downloading-data-h
 ## 2. Install SWEpy Using Conda (Recommended):
 SWEpy is available from anaconda, and will install all dependencies when installed.
 
-** Important ** You must have the following channels in your .condarc file.
+** Important ** conda-forge must be the first channel in your .condarc file.
 
 ```
 channels:
-  - conda-forge
-	- rsbaumann
-	- defaults
+- conda-forge
+- wino6687
+- defaults
 ```
 
 ```{python}
-conda install -c wino6687 swepy
+conda install swepy
 ```
+ ** Note ** If you do not have my channel ```wino6687``` in your condarc file, then you will need to specify the channel: ```conda install -c wino6687 swepy```
 
 ### Alternative: Setup conda environment from yaml
 The libraries used in this analysis, namely pynco, can be finicky with the channels that dependencies are installed with. Thus, using the provided yaml file to build an environment for this project will make your life simpler. You can add more packages on top of the provided environment as long as you install with the conda-forge channel.
@@ -70,8 +71,8 @@ from swepy.swepy import swepy
 * By default, the high_res parameter is set to True, meaning it will scrape high resolution images. If it is passed as 'False' then it will scrape 25km images instead of the 6.25km high resolution images.
 
 ```{python}
-upper_left = [lat_upleft, lon_upleft]
-lower_right = [lat_lowright, lon_lowright]
+upper_left = [lon_upleft, lat_upleft]
+lower_right = [lon_lowright, lat_lowright]
 
 start = datetime.date(startY, startM, startD)
 end = datetime.date(endY, endM, endD)
@@ -108,6 +109,11 @@ This limits the number of full-size images on your disk at one time.
 ```{python}
 upper_left = "N"
 lower_right = "N"
+```
+
+5. If you need to give the class more information, or change information it already has, use the ```set_params``` function:
+```{python}
+swepy.set_params(ul = [-145,66], lr = [-166, -16])
 ```
 
 ## Using SWEpy's Web Scraper Alone:
@@ -148,35 +154,50 @@ swepy = swepy(working_dir, start, end, ll_ul, ll_lr, username, password)
 * Instantiate the class with the working directory path, the start date, the end date, the bounding coordinates, and your Earthdata username and password.
 * Once the class is instantiated, either call scrape_all or call scrape, then subset, then concatenate as desired.
 ```{python}
+swepy.set_params(start=None, end=None, username=None, password=None, ul=None, lr=None)
+```
+* Parameters:
+	- start/end: datetime objects
+	- username/password: strings
+	- ul/lr: lists of [longitude, latitude]
+* Sets any class members that you want to change or add without re-instantiating the class
+* Allows users to scrape files based on date and grid and subset later
+
+```{python}
 swepy.get_xy(latlon_ul, latlon_lr)
 ```
-* Parameters: lists of latitude/longitude upper left, latitude/longitude lower right
+* Parameters: lists of longitude/latitude upper left, longitude/latitude lower right
 * Uses NSIDC scripts to convert user inputted lat/lon into Ease grid 2.0 coordinates
 * Returns: Ease grid 2.0 coordinates of inputted lat/longs
+
 ```{python}
 swepy.subset()
 ```
 * Parameters: none, list of downloaded files stored in class from scrape() function
 * Subset will subset the files downloaded geographically to match study area inputed
 * Returns: subsetted file
+
 ```{python}
 swepy.concatenate()
 ```
 * Parameters: current working directory, output file for 19Ghz, output file for 37Ghz
 * The concatenate function merges all netCDF files into one large file
 * Returns: concatenated netCDF file
+
 ```{python}
 swepy.scrape_all()
 ```
 * Parameters: none, everything needed comes from class instantiation
 * Complete function that downloads, subsets, and concatenates the data
 * Returns: file names of concatenated 19/37 time cubes
+
 ```{python}
 swepy.plot_a_day(token)
 ```
 * Parameters: mapbox token, everything else comes from the stored concatenated file list
 * Plots a day of data using Mapbox Jupyter
 * Returns: interactive map of inputted data
+
 ```{python}
 swepy.get_file(path, date, channel)
 ```
@@ -193,8 +214,9 @@ swepy.get_file(path, date, channel)
 - netCDF4
 - datetime
 - tqdm
-- mapboxgl
 - pandas
+- cartopy
+
 
 # Troubleshooting
 
