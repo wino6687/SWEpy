@@ -26,6 +26,7 @@ class swepy():
             self.high_res = True
         else:
             self.high_res = False
+
         if working_dir is None:
             self.working_dir = os.getcwd()
         else:
@@ -47,6 +48,8 @@ class swepy():
 
         if start is not None and end is not None:
             self.dates = pd.date_range(start, end)
+        else:
+            self.dates = None
 
         # if user inputs a grid name, then scrape whole grid
         # otherwise find the grid that fits coordinates
@@ -103,6 +106,7 @@ class swepy():
             self.geo_list = self.get_xy(ul,lr)
             self.center = [ul[1], ul[0]]
             print("Success!")
+        return
 
     def check_params(self):
         '''
@@ -136,10 +140,10 @@ class swepy():
         elif (lat1 and lat2 < -40) and (lat1 and lat2 > -90): # South
             self.grid = "S"
             self.geod = ccrs.Geodetic()
-            self.e2n = ccrs.LambertAzimuthalEqualArea(central_latitude=-90.0)
+            self.e2n = ccrs.LambertAzimuthalEqualArea(central_latitude=90.0)
         else:
             print("SWEpy currently only supports study areas with a study area bounded by +-40 deg latitude")
-        return 
+        return self.grid
 
 
     def get_directories(self, path):

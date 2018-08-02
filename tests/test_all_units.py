@@ -3,17 +3,27 @@ import os
 #print(os.environ['CONDA_DEFAULT_ENV'])
 from swepy.swepy import swepy
 import pytest
+#import nose
 import datetime
 import numpy as np
 import pandas as pd
 
-@pytest.fixture
-def mock_server(request):
-    server = MockServer()
-    server.start()
-    yield server
-    server.shutdown_server()
 
+'''
+def test_set_params(tmpdir):
+    path = tmpdir.mkdir("tmp")
+    start = datetime.date(2010,1,1)
+    dates = pd.date_range(start,start)
+
+'''
+
+def test_check_params(tmpdir):
+    path = tmpdir.mkdir("tmp")
+    start = datetime.date(2010,1,1)
+    ul = [-145,66]
+    lr = [-166,73]
+    s1 = swepy(path, start, start, ul, lr)
+    assert s1.check_params() == False
 
 def test_get_grid_N(tmpdir):
     path = tmpdir.mkdir("tmp")
@@ -44,12 +54,11 @@ def test_get_directories(tmpdir):
 
 def test_get_xy(tmpdir):
     path = tmpdir.mkdir("tmp")
-    ll_ul = [62, -140]
-    ll_lr = [73, -166]
+    ll_ul = [ -140, 62]
+    ll_lr = [-166, 73]
     s1 = swepy(path, ul = ll_ul, lr = ll_lr)
     list1 = s1.get_xy(ll_ul, ll_lr)
-    assert list1[0] == ([-1988822.7284991546,2370186.631721887,-457544.8408031743,
-                    1835112.1237310767])
+    assert list1 == [-1988822.728499157, 2370186.6317218887, -457544.84080317785, 1835112.123731079]
 
 # need one for subset
 
@@ -79,7 +88,7 @@ def test_safe_subtract(tmpdir):
     assert np.shape(tb) == (1,151,152)
 
 '''
-def test_scrape(tmpdir):
+def test_scrape_local(tmpdir):
     date = datetime.date(2010,1,1)
     dates = pd.date_range(date, date)
     path = tmpdir.mkdir("tmp")
