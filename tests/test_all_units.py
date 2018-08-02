@@ -19,54 +19,49 @@ def test_set_params(tmpdir):
 
 '''
 
-def test_check_params(tmpdir):
-    path = tmpdir.mkdir("tmp")
+def test_check_params():
     start = datetime.date(2010,1,1)
     ul = [-145,66]
     lr = [-166,73]
-    s1 = swepy(path, start, start, ul, lr)
+    s1 = swepy(os.getcwd(), start, start, ul, lr)
     assert s1.check_params() == False
 
-def test_get_grid_N(tmpdir):
-    path = tmpdir.mkdir("tmp")
-    s1 = swepy(path)
+def test_get_grid_N():
+    s1 = swepy(os.getcwd())
     lat1 = 45
     lat2 = 80
     assert s1.get_grid(lat1, lat2) == "N"
 
-def test_get_grid_T(tmpdir):
-    path = tmpdir.mkdir("tmp")
-    s1 = swepy(path)
+def test_get_grid_T():
+    s1 = swepy(os.getcwd())
     lat1 = 30
     lat2 = 30
     assert s1.get_grid(lat1,lat2) == "T"
 
-def test_get_grid_S(tmpdir):
-    path = tmpdir.mkdir("tmp")
-    s1 = swepy(path)
+def test_get_grid_S():
+    s1 = swepy(os.getcwd())
     lat1 = -50
     lat2 = -80
     assert s1.get_grid(lat1, lat2) == "S"
 
 def test_get_directories(tmpdir):
-    path = tmpdir.mkdir("tmp")
+    path = tmpdir.mkdir('tmp')
     s1 = swepy(path)
     list = os.listdir(".")
     assert list == ['data']
 
-def test_get_xy(tmpdir):
-    path = tmpdir.mkdir("tmp")
+def test_get_xy():
     ll_ul = [ -140, 62]
     ll_lr = [-166, 73]
-    s1 = swepy(path, ul = ll_ul, lr = ll_lr)
+    s1 = swepy(os.getcwd(), ul = ll_ul, lr = ll_lr)
     list1 = s1.get_xy(ll_ul, ll_lr)
     assert list1 == [-1988822.728499157, 2370186.6317218887, -457544.84080317785, 1835112.123731079]
 
 # need one for subset
 
-def test_get_file(tmpdir):
-    path = tmpdir.mkdir("tmp")
-    s1 = swepy(path, ul = 'N', lr = 'N')
+def test_get_file():
+    #path = tmpdir.mkdir("tmp")
+    s1 = swepy(os.getcwd(), ul = 'N', lr = 'N')
     date = datetime.datetime(2010,1,1)
     file = s1.get_file(date, "19H")
     assert file == {'resolution': '6.25km','platform': 'F17','sensor': 'SSMIS',
@@ -89,9 +84,8 @@ def test_safe_subtract(tmpdir):
     tb = s1.safe_subtract(tb19,tb37)
     assert np.shape(tb) == (1,151,152)
 
-def test_connection(tmpdir):
+def test_connection():
     date = datetime.date(2010,1,1)
-    path = tmpdir.mkdir("tmp")
     file = {
         "protocol": "http",
         "server": "localhost:8000",
@@ -115,9 +109,8 @@ def test_connection(tmpdir):
     resp = nD.download_file(**file)
     assert resp == True
 
-def test_scrape_local(tmpdir):
+def test_scrape_local():
     date = datetime.date(2010,1,1)
-    path = tmpdir.mkdir("tmp")
     file = {
         "protocol": "http",
         "server": "localhost:8000",
