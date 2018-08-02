@@ -2,6 +2,7 @@
 import os
 #print(os.environ['CONDA_DEFAULT_ENV'])
 from swepy.swepy import swepy
+from swepy.nsidcDownloader import nsidcDownloader
 import pytest
 #import nose
 import datetime
@@ -92,9 +93,27 @@ def test_scrape_local(tmpdir):
     date = datetime.date(2010,1,1)
     dates = pd.date_range(date, date)
     path = tmpdir.mkdir("tmp")
-    s1 = swepy(path, ul="N", lr="N", username = 'wino6687', password = 'Desmo12@', high_res = False)
-    assert s1.scrape(dates) == (True, True)
-'''
-
+    file = {
+        "protocol": "https",
+        "server": "localhost:8000",
+        "datapool": "MEASURES",
+        "dataset": "NSIDC-0630",
+        "version": "001",
+        "projection": "EASE2",
+        "resolution": "6.25km",
+        "platform":"F17",
+        "sensor": "SSMIS",
+        'date1': datetime.date(2010, 1, 1, 0, 0),
+        'date2': datetime.date(2010, 1, 1, 0, 0),
+        "channel": '19H'
+        "grid": "N",
+        "pass": "M",
+        "algorithm": "SIR",
+        "input": "CSU",
+        "dataversion": "v1.3"
+    }
+    nD = nsidcDownloader.nsidcDownloader(folder = "tmp", **file, no_auth = True)
+    nD.download_file(**file)
+'''    
 
 # clean clean_dirs

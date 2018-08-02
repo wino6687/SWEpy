@@ -34,7 +34,7 @@ class nsidcDownloader():
         "dataversion": "v1.3"
     }
 
-    def __init__(self, username=None, password=None, folder=".", **kwargs):
+    def __init__(self, username=None, password=None, folder=".", **kwargs, no_auth = False):
         '''
         Snow Water Equivalence downloader.
 
@@ -59,7 +59,8 @@ class nsidcDownloader():
 
         ## Tet up session
         self.session = requests.session()
-        self.get_auth()
+        if no_auth == False:
+            self.get_auth()
 
         ## Output
         self.folder = folder
