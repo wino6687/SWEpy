@@ -1,38 +1,36 @@
-import requests
+import os
+from http.server import HTTPServer as BaseHTTPServer, SimpleHTTPRequestHandler
 
-from flask import jsonify
-from threading import Thread
+'''
+PORT = 8000
+
+data_dir = os.path.join(os.path.dirname(__file__), 'data')
+os.chdir(data_dir)
+print(os.listdir('.'))
+Handler = http.server.SimpleHTTPRequestHandler
+httpd = socketserver.TCPServer(("", PORT), Handler)
+print("serving at port", PORT)
+httpd.serve_forever()
+'''
+
+class HTTPHandler(SimpleHTTPRequestHandler):
+    """This handler uses server.base_path instead of always using os.getcwd()"""
+    def translate_path(self, path):
+        path = SimpleHTTPRequestHandler.translate_path(self, path)
+        relpath = os.path.relpath(path, os.getcwd())
+        fullpath = os.path.join(self.server.base_path, relpath)
+        return fullpath
 
 
-class MockServer(Thread):
-    def __init__(self, port=5000):
-        super().__init__()
-        from flask import Flask
-        self.port = port
-        self.app = Flask(__name__)
-        self.url = "http://localhost:%s" % self.port
+class HTTPServer(BaseHTTPServer):
+    """The main server, you pass in base_path which is the path you want to serve requests from"""
+    def __init__(self, base_path, server_address, RequestHandlerClass=HTTPHandler):
+        self.base_path = base_path
+        BaseHTTPServer.__init__(self, server_address, RequestHandlerClass)
 
-        self.app.add_url_rule("/shutdown", view_func=self._shutdown_server)
 
-    def _shutdown_server(self):
-        from flask import request
-        if not 'werkzeug.server.shutdown' in request.environ:
-            raise RuntimeError('Not running the development server')
-        request.environ['werkzeug.server.shutdown']()
-        return 'Server shutting down...'
+web_dir = os.path.join(os.path.dirname(__file__), 'data')
+httpd = HTTPServer(web_dir, ("", 8000))
+httpd.serve_forever()
 
-    def shutdown_server(self):
-        requests.get("http://localhost:%s/shutdown" % self.port)
-        self.join()
-
-    def add_callback_response(self, url, callback, methods=('GET',)):
-        self.app.add_url_rule(url, view_func=callback, methods=methods)
-
-    def add_json_response(self, url, serializable, methods=('GET',)):
-        def callback():
-            return jsonify(serializable)
-
-        self.add_callback_response(url, callback, methods=methods)
-
-    def run(self):
-        self.app.run(port=self.port)
+# serves files with pathway localhost:8000/file_name 
