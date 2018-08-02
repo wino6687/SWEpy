@@ -3,6 +3,7 @@ import os
 #print(os.environ['CONDA_DEFAULT_ENV'])
 from swepy.swepy import swepy
 from swepy.nsidcDownloader import nsidcDownloader
+import glob
 import pytest
 #import nose
 import datetime
@@ -88,7 +89,31 @@ def test_safe_subtract(tmpdir):
     tb = s1.safe_subtract(tb19,tb37)
     assert np.shape(tb) == (1,151,152)
 
-#def test_connection(tmpdir):
+def test_connection(tmpdir):
+    date = datetime.date(2010,1,1)
+    path = tmpdir.mkdir("tmp")
+    file = {
+        "protocol": "http",
+        "server": "localhost:8000",
+        "datapool": "MEASURES",
+        "dataset": "NSIDC-0630",
+        "version": "001",
+        "projection": "EASE2",
+        "resolution": "6.25km",
+        "platform":"F15",
+        "sensor": "SSMI",
+        'date1': datetime.date(2010, 1, 1),
+        'date2': datetime.date(2010, 1, 1),
+        "channel": '19H',
+        "grid": "N",
+        "pass": "M",
+        "algorithm": "SIR",
+        "input": "CSU",
+        "dataversion": "v1.3"
+    }
+    nD = nsidcDownloader.nsidcDownloader(no_auth = True)
+    resp = nD.download_file(**file)
+    assert resp == True
 
 def test_scrape_local(tmpdir):
     date = datetime.date(2010,1,1)
@@ -115,9 +140,8 @@ def test_scrape_local(tmpdir):
     nD = nsidcDownloader.nsidcDownloader(no_auth = True)
     nD.download_file(**file)
     #os.chdir('tmp')
-    list1 = os.listdir('.')
-    print(list1)
-    assert list1[1] == 'NSIDC-0630-EASE2_N6.25km-F15_SSMI-2010001-19H-M-SIR-CSU-v1.3.nc'
+    list1 = glob.glob('*.nc')
+    assert list1[0] == 'NSIDC-0630-EASE2_N6.25km-F15_SSMI-2010001-19H-M-SIR-CSU-v1.3.nc'
 
 
 # clean clean_dirs
