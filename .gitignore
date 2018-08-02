@@ -1,4 +1,3 @@
-data
 swe_1day.geojson
 .ipynb_checkpoints
 .DS_Store
@@ -11,3 +10,4 @@ swepy/__pycache__/
 build.sh
 bld.bat
 swepy/nsidcDownloader/__pycache__
+/swe_fulldata

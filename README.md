@@ -221,7 +221,7 @@ swepy.get_file(path, date, channel)
 # Troubleshooting
 
 1. ‘image not found’ errors
-If encountering ‘image not found’ errors then one possible fix is to add theconda-forge channel on top of the defaults in your .condarc file. This is a hidden file, show hidden files and then edit the .condarc file and make your file look like this:
+If encountering ‘image not found’ errors then it is likely you are having channel dependency issues.
 
     $ cat .condarc
     channels:
