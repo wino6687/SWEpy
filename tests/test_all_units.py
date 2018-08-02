@@ -88,7 +88,7 @@ def test_safe_subtract(tmpdir):
     tb = s1.safe_subtract(tb19,tb37)
     assert np.shape(tb) == (1,151,152)
 
-'''
+
 def test_scrape_local(tmpdir):
     date = datetime.date(2010,1,1)
     dates = pd.date_range(date, date)
@@ -112,8 +112,11 @@ def test_scrape_local(tmpdir):
         "input": "CSU",
         "dataversion": "v1.3"
     }
-    nD = nsidcDownloader.nsidcDownloader(folder = "tmp", **file, no_auth = True)
+    nD = nsidcDownloader.nsidcDownloader(folder = "tmp", no_auth = True, **file)
     nD.download_file(**file)
-'''    
+    list1 = os.listdir('.')
+    assert list1 == 'MEASURES/NSIDC-0630.001/2010.01.01/NSIDC-0630-\
+                    EASE2_N6.25km-F15_SSMI-2010001-19H-M-SIR-CSU-v1.3.nc'
+
 
 # clean clean_dirs

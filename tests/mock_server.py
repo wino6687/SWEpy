@@ -1,17 +1,6 @@
 import os
 from http.server import HTTPServer as BaseHTTPServer, SimpleHTTPRequestHandler
 
-'''
-PORT = 8000
-
-data_dir = os.path.join(os.path.dirname(__file__), 'data')
-os.chdir(data_dir)
-print(os.listdir('.'))
-Handler = http.server.SimpleHTTPRequestHandler
-httpd = socketserver.TCPServer(("", PORT), Handler)
-print("serving at port", PORT)
-httpd.serve_forever()
-'''
 
 class HTTPHandler(SimpleHTTPRequestHandler):
     """This handler uses server.base_path instead of always using os.getcwd()"""
@@ -33,4 +22,4 @@ web_dir = os.path.join(os.path.dirname(__file__), 'data')
 httpd = HTTPServer(web_dir, ("", 8000))
 httpd.serve_forever()
 
-# serves files with pathway localhost:8000/file_name 
+# serves files with pathway localhost:8000/file_name
