@@ -20,6 +20,10 @@ class nsidcDownloader():
                     "/{dataset}-{projection}_{grid}{resolution}-{platform}_{sensor}" \
                     "-{date2:%Y%j}-{channel}-{pass}-{algorithm}-{input}-{dataversion}.nc"
 
+    testing_template = "{protocol}://{server}/{datapool}/{dataset}.{version}/{date1:%Y.%m.%d}" \
+                    "/{dataset}-{projection}_{grid}{resolution}-{platform}_{sensor}" \
+                    "-{date2:%Y%j}-{channel}-{pass}-{algorithm}-{input}-{dataversion}.nc"
+
     defaults = {
         "protocol": "https",
         "server": "n5eil01u.ecs.nsidc.org",
@@ -64,6 +68,8 @@ class nsidcDownloader():
 
         ## Output
         self.folder = folder
+
+
 
     def set_defaults(self, **kwargs):
         '''

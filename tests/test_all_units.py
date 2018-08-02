@@ -88,35 +88,36 @@ def test_safe_subtract(tmpdir):
     tb = s1.safe_subtract(tb19,tb37)
     assert np.shape(tb) == (1,151,152)
 
+#def test_connection(tmpdir):
 
 def test_scrape_local(tmpdir):
     date = datetime.date(2010,1,1)
-    dates = pd.date_range(date, date)
     path = tmpdir.mkdir("tmp")
     file = {
-        "protocol": "https",
+        "protocol": "http",
         "server": "localhost:8000",
         "datapool": "MEASURES",
         "dataset": "NSIDC-0630",
         "version": "001",
         "projection": "EASE2",
         "resolution": "6.25km",
-        "platform":"F17",
-        "sensor": "SSMIS",
-        'date1': datetime.date(2010, 1, 1, 0, 0),
-        'date2': datetime.date(2010, 1, 1, 0, 0),
-        "channel": '19H'
+        "platform":"F15",
+        "sensor": "SSMI",
+        'date1': datetime.date(2010, 1, 1),
+        'date2': datetime.date(2010, 1, 1),
+        "channel": '19H',
         "grid": "N",
         "pass": "M",
         "algorithm": "SIR",
         "input": "CSU",
         "dataversion": "v1.3"
     }
-    nD = nsidcDownloader.nsidcDownloader(folder = "tmp", no_auth = True, **file)
+    nD = nsidcDownloader.nsidcDownloader(no_auth = True)
     nD.download_file(**file)
+    #os.chdir('tmp')
     list1 = os.listdir('.')
-    assert list1 == 'MEASURES/NSIDC-0630.001/2010.01.01/NSIDC-0630-\
-                    EASE2_N6.25km-F15_SSMI-2010001-19H-M-SIR-CSU-v1.3.nc'
+    print(list1)
+    assert list1[1] == 'NSIDC-0630-EASE2_N6.25km-F15_SSMI-2010001-19H-M-SIR-CSU-v1.3.nc'
 
 
 # clean clean_dirs
