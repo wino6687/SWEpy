@@ -140,7 +140,7 @@ class swepy():
         elif (lat1 and lat2 < -40) and (lat1 and lat2 > -90): # South
             self.grid = "S"
             self.geod = ccrs.Geodetic()
-            self.e2n = ccrs.LambertAzimuthalEqualArea(central_latitude=90.0)
+            self.e2n = ccrs.LambertAzimuthalEqualArea(central_latitude=-90.0)
         else:
             print("SWEpy currently only supports study areas with a study area bounded by +-40 deg latitude")
         return self.grid
