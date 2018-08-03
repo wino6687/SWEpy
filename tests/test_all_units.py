@@ -1,6 +1,5 @@
 # Unit Testing for SWEpy
 import os
-#print(os.environ['CONDA_DEFAULT_ENV'])
 from swepy.swepy import swepy
 from swepy.nsidcDownloader import nsidcDownloader
 import glob
