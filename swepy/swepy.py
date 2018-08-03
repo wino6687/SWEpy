@@ -32,8 +32,6 @@ class swepy():
         else:
             self.working_dir = working_dir
 
-        self.path19, self.path37, self.wget = self.get_directories(self.working_dir)
-
         self.outfile_19 = outfile19
         self.outfile_37 = outfile37
 
@@ -79,10 +77,16 @@ class swepy():
         self.concatlist = [None, None]
         self.concat19list = []
         self.concat37list = []
-
-        if username is not None and password is not None:
+        if username == 'test' and password == 'test':
+            self.local_session = True
+            self.nD = nsidcDownloader.nsidcDownloader(folder = os.getcwd(), no_auth=True)
+        elif username is not None and password is not None:
+            self.path19, self.path37, self.wget = self.get_directories(self.working_dir)
             self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
+            self.local_session = False
         else:
+            print("No Earthdata credentials given")
+            self.path19, self.path37, self.wget = self.get_directories(self.working_dir)
             self.nD = None
 
     def set_params(self, start=None, end=None, username=None, password=None, ul=None, lr=None):
@@ -258,6 +262,8 @@ class swepy():
             else:
                 date2 = date
         file = {
+            "protocol": "https" if self.local_session else "http",
+            "server": "localhost:8000" if self.local_session else "MEASURES",
             "resolution": resolution,
             "platform": sensor,
             "sensor": ssmi_s,
@@ -331,8 +337,9 @@ class swepy():
     def scrape(self, dates = None):
         '''Wrapper function to allow more selective use of just the
             web scraper'''
-        if self.check_params() == False:
-            return
+        if self.local_session == False:
+            if self.check_params() == False:
+                return
         if dates is None: # letting class choose all dates
             dates = self.dates
         for date in tqdm(dates):
