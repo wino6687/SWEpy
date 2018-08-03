@@ -50,25 +50,32 @@ def test_get_directories(tmpdir):
     list = os.listdir(".")
     assert list == ['data']
 
-def test_get_xy():
+def test_get_xy_N():
     ll_ul = [ -140, 62]
     ll_lr = [-166, 73]
     s1 = swepy(os.getcwd(), ul = ll_ul, lr = ll_lr)
     list1 = s1.get_xy(ll_ul, ll_lr)
     assert list1 == [-1988822.728499157, 2370186.6317218887, -457544.84080317785, 1835112.123731079]
 
-# need one for subset
+def test_get_xy_S():
+    ll_lr = [9,-80]
+    ll_ul = [-16, -69]
+    s1 = swepy(os.getcwd(), ul = ll_ul, lr = ll_lr)
+    list1 = s1.get_xy(ll_ul, ll_lr)
+    assert list1 == [-642633.6942027326, 2241130.027261452,174488.418187805, 1101676.514626506]
 
 def test_get_file():
     #path = tmpdir.mkdir("tmp")
-    s1 = swepy(os.getcwd(), ul = 'N', lr = 'N')
+    s1 = swepy(os.getcwd(), ul = 'N', lr = 'N', username = 'test', password = 'test')
     date = datetime.datetime(2010,1,1)
     file = s1.get_file(date, "19H")
-    assert file == {'resolution': '6.25km','platform': 'F17','sensor': 'SSMIS',
+    assert file == {'protocol':'https', 'server':'localhost:8000','resolution': '6.25km','platform': 'F17','sensor': 'SSMIS',
                     'date1': datetime.datetime(2010, 1, 1, 0, 0),
                     'date2': datetime.datetime(2010, 1, 1, 0, 0),
                     'channel': '19H','grid': 'N','dataversion': 'v1.3',
                     'pass': 'M','algorithm': 'SIR'}
+
+
 
 # scrape_all
 
@@ -94,8 +101,8 @@ def test_connection():
         "version": "001",
         "projection": "EASE2",
         "resolution": "6.25km",
-        "platform":"F15",
-        "sensor": "SSMI",
+        "platform":"F17",
+        "sensor": "SSMIS",
         'date1': datetime.date(2010, 1, 1),
         'date2': datetime.date(2010, 1, 1),
         "channel": '19H',
@@ -109,7 +116,7 @@ def test_connection():
     resp = nD.download_file(**file)
     assert resp == True
 
-def test_scrape_local():
+def test_nD_local():
     date = datetime.date(2010,1,1)
     file = {
         "protocol": "http",
@@ -119,8 +126,8 @@ def test_scrape_local():
         "version": "001",
         "projection": "EASE2",
         "resolution": "6.25km",
-        "platform":"F15",
-        "sensor": "SSMI",
+        "platform":"F17",
+        "sensor": "SSMIS",
         'date1': datetime.date(2010, 1, 1),
         'date2': datetime.date(2010, 1, 1),
         "channel": '19H',
@@ -134,7 +141,13 @@ def test_scrape_local():
     nD.download_file(**file)
     #os.chdir('tmp')
     list1 = glob.glob('*.nc')
-    assert list1[0] == 'NSIDC-0630-EASE2_N6.25km-F15_SSMI-2010001-19H-M-SIR-CSU-v1.3.nc'
+    assert list1[0] == 'NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc'
 
-
-# clean clean_dirs
+def test_scrape():
+    date = datetime.date(2010,1,1)
+    ul = 'N'
+    lr = 'N'
+    s1 = swepy(os.getcwd(),start = date, end = date, ul = 'N', lr = 'N', username = 'test', password = 'test')
+    s1.scrape()
+    list1 = glob.glob("*.nc")
+    assert list1 == ['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc','NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc']
