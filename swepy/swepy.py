@@ -86,8 +86,8 @@ class swepy():
             self.local_session = True
             self.nD = nsidcDownloader.nsidcDownloader(folder = os.getcwd(), no_auth=True)
         elif username is not None and password is not None:
-            self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
             self.local_session = False
+            self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
         else:
             print("No Earthdata credentials given")
             # do i want to create directories if no credentials are passed??
@@ -105,7 +105,15 @@ class swepy():
             print("Success!")
         if username is not None and password is not None:
             print("Checking your credentials...")
-            self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
+            if username == 'test' and password == 'test':
+                self.username = username
+                self.password = password
+                self.local_session = True
+                self.nD = nsidcDownloader.nsidcDownloader(folder = os.getcwd(), no_auth=True)
+            else:
+                self.username = username
+                self.password = password
+                self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
             print("Success!")
         if ul is not None and lr is not None:
             print("Setting the bounding coordinates...")
