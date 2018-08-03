@@ -11,20 +11,36 @@ import numpy as np
 import pandas as pd
 
 
-'''
-def test_set_params(tmpdir):
-    path = tmpdir.mkdir("tmp")
-    start = datetime.date(2010,1,1)
-    dates = pd.date_range(start,start)
-
-'''
-
-def test_check_params():
+def test_check_params_false():
     start = datetime.date(2010,1,1)
     ul = [-145,66]
     lr = [-166,73]
     s1 = swepy(os.getcwd(), start, start, ul, lr)
     assert s1.check_params() == False
+
+def test_check_params_true():
+    start = datetime.date(2010,1,1)
+    ul = [-145,66]
+    lr = [-166,73]
+    s1 = swepy(os.getcwd(), start, start, ul, lr, username = 'test', password = 'test')
+    assert s1.check_params() == True
+
+def test_set_params_bounds():
+    start = datetime.date(2010,1,1)
+    s1 = swepy(os.getcwd(), start, start, username = 'test', password = 'test')
+    s1.set_params(ul = [-145, 66], lr = [-166,73])
+    assert s1.check_params() == True
+
+def test_set_params_auth():
+    start = datetime.date(2010,1,1)
+    s1 = swepy(os.getcwd(), start, start, ul = [-145,66], lr = [-166,73])
+    s1.set_params(username = 'test', password = 'test')
+    assert s1.check_params() == True
+
+def test_set_params_dates():
+    s1 = swepy(os.getcwd(), ul = [-145,66], lr = [-166,73], username = 'test', password = 'test')
+    s1.set_params(start = datetime.date(2010,1,1), end = datetime.date(2010,1,1))
+    assert s1.check_params() == True
 
 def test_get_grid_N():
     s1 = swepy(os.getcwd())
@@ -43,6 +59,13 @@ def test_get_grid_S():
     lat1 = -50
     lat2 = -80
     assert s1.get_grid(lat1, lat2) == "S"
+
+def test_get_grid_fails():
+    s1 = swepy(os.getcwd())
+    lat1 = -62
+    lat2 = 70
+    with pytest.raises(Exception):
+        s1.get_grid(lat1,lat2)
 
 def test_get_directories(tmpdir):
     path = tmpdir.mkdir('tmp')
@@ -64,17 +87,23 @@ def test_get_xy_S():
     list1 = s1.get_xy(ll_ul, ll_lr)
     assert list1 == [-642633.6942027326, 2241130.027261452,174488.418187805, 1101676.514626506]
 
+def test_get_xy_none():
+    ll_lr = None
+    ll_ul = None
+    s1 = swepy(os.getcwd())
+    with pytest.raises(Exception):
+        s1.get_xy(ll_ul, ll_lr)
+
 def test_get_file():
     #path = tmpdir.mkdir("tmp")
     s1 = swepy(os.getcwd(), ul = 'N', lr = 'N', username = 'test', password = 'test')
     date = datetime.datetime(2010,1,1)
     file = s1.get_file(date, "19H")
-    assert file == {'protocol':'https', 'server':'localhost:8000','resolution': '6.25km','platform': 'F17','sensor': 'SSMIS',
+    assert file == {'protocol':'http', 'server':'localhost:8000','resolution': '6.25km','platform': 'F17','sensor': 'SSMIS',
                     'date1': datetime.datetime(2010, 1, 1, 0, 0),
                     'date2': datetime.datetime(2010, 1, 1, 0, 0),
                     'channel': '19H','grid': 'N','dataversion': 'v1.3',
                     'pass': 'M','algorithm': 'SIR'}
-
 
 
 # scrape_all
@@ -139,7 +168,6 @@ def test_nD_local():
     }
     nD = nsidcDownloader.nsidcDownloader(no_auth = True)
     nD.download_file(**file)
-    #os.chdir('tmp')
     list1 = glob.glob('*.nc')
     assert list1[0] == 'NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc'
 
@@ -150,4 +178,4 @@ def test_scrape():
     s1 = swepy(os.getcwd(),start = date, end = date, ul = 'N', lr = 'N', username = 'test', password = 'test')
     s1.scrape()
     list1 = glob.glob("*.nc")
-    assert list1 == ['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc','NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc']
+    assert list1 == ['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc','NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc']
