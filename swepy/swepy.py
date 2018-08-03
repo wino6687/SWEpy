@@ -21,16 +21,21 @@ class swepy():
         '''User instantiates the class with working directory,
         date ranges, and lat/lon bounding coords. constructor gets
         the datetime list, x/y coords, and file directories'''
-
+        # set whether we are scraping resampled data or not
         if high_res:
             self.high_res = True
         else:
             self.high_res = False
 
+
+        # set the working directory
         if working_dir is None:
             self.working_dir = os.getcwd()
         else:
             self.working_dir = working_dir
+
+        # create directories for data
+        self.path19, self.path37, self.wget = self.get_directories(self.working_dir)
 
         self.outfile_19 = outfile19
         self.outfile_37 = outfile37
@@ -43,7 +48,7 @@ class swepy():
 
         self.geo_list = None
         self.grid = None
-
+        # if user gave date range, store it
         if start is not None and end is not None:
             self.dates = pd.date_range(start, end)
         else:
@@ -81,12 +86,11 @@ class swepy():
             self.local_session = True
             self.nD = nsidcDownloader.nsidcDownloader(folder = os.getcwd(), no_auth=True)
         elif username is not None and password is not None:
-            self.path19, self.path37, self.wget = self.get_directories(self.working_dir)
             self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
             self.local_session = False
         else:
             print("No Earthdata credentials given")
-            self.path19, self.path37, self.wget = self.get_directories(self.working_dir)
+            # do i want to create directories if no credentials are passed??
             self.nD = None
 
     def set_params(self, start=None, end=None, username=None, password=None, ul=None, lr=None):
@@ -118,7 +122,7 @@ class swepy():
         attempting to web scrape or subset.
         '''
         proceed = True
-        params = {"dates":self.dates, "geo_list":self.geo_list, "grid":self.grid, "username":self.username, "password":self.password}
+        params = {"dates":self.dates, "bounding coordinates":self.geo_list, "grid":self.grid, "username":self.username, "password":self.password}
         for key, value in params.items():
             if value is None:
                 print("{} needs to be set by 'set_params'".format(key))
@@ -134,19 +138,21 @@ class swepy():
 
         Parameters: Upper Left Latitude, Lower Right Latitude
         '''
-        if (lat1 and lat2 < 50) and (lat1 and lat2 > -50): # mid lat
+        if (lat1 < 50 and lat2 < 50) and (lat1 > -50 and lat2 > -50): # mid lat
             self.grid = "T"
             print("SWEpy 1.1.2 does not currently support subsetting Equatorial images \n The entire image will be scraped")
-        elif (lat1 and lat2 > 40) and (lat1 and lat2 < 90): # north
+        elif (lat1 > 40 and lat2 > 40) and (lat1 <90 and lat2 < 90): # north
             self.grid = "N"
             self.geod = ccrs.Geodetic()
             self.e2n = ccrs.LambertAzimuthalEqualArea(central_latitude=90.0)
-        elif (lat1 and lat2 < -40) and (lat1 and lat2 > -90): # South
+        elif (lat1 < -40 and lat2 < -40) and (lat1 > -90 and lat2 > -90): # South
             self.grid = "S"
             self.geod = ccrs.Geodetic()
             self.e2n = ccrs.LambertAzimuthalEqualArea(central_latitude=-90.0)
         else:
-            print("SWEpy currently only supports study areas with a study area bounded by +-40 deg latitude")
+            print("SWEpy currently only supports subsetting study areas with a study area in the North or South imagery \
+            \nOverlappig study areas can cause erros, and require more than one region of imagery")
+            raise ValueError
         return self.grid
 
 
@@ -262,7 +268,7 @@ class swepy():
             else:
                 date2 = date
         file = {
-            "protocol": "https" if self.local_session else "http",
+            "protocol": "http" if self.local_session else "https",
             "server": "localhost:8000" if self.local_session else "MEASURES",
             "resolution": resolution,
             "platform": sensor,
