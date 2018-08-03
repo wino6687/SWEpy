@@ -4,7 +4,6 @@ from swepy.swepy import swepy
 from swepy.nsidcDownloader import nsidcDownloader
 import glob
 import pytest
-#import nose
 import datetime
 import numpy as np
 import pandas as pd
