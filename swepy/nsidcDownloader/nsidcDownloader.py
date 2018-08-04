@@ -153,9 +153,7 @@ class nsidcDownloader():
                 ## Stream content to file in chunks
                 for chunk in r.iter_content(block_size):
                     f.write(chunk)
-                    #pbar.update(block_size)
-
-            #pbar.close()
+                    
         return resp  ## changed to filename from filepath to fix another script
 
     def download_range(self, date, **kwargs):
