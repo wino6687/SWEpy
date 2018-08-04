@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="swepy",
-    version="1.1.2",
+    version="1.1.3",
     author="William Norris",
     author_email="wino6687@colorado.edu",
     description="A python package for obtaining and cleaning Tb files",

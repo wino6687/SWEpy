@@ -323,6 +323,7 @@ class swepy():
                 self.concatlist[1] = outname37
         else:
             print("No 37Ghz Files to Concatenate")
+        return
 
 
     def final_concat(self):
