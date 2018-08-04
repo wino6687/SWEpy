@@ -10,7 +10,6 @@ from nco import Nco
 import os
 from tqdm import tqdm
 import glob
-from swepy.latlon_ease_convert import latlon_ease_convert
 import cartopy.crs as ccrs
 
 nco = Nco()
