@@ -176,6 +176,7 @@ def test_scrape():
     assert list1 == ['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc','NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc']
 
 def test_subset():
+    os.mkdir('sub')
     date = datetime.date(2010,1,1)
     s1 = swepy(os.getcwd(),ul = [-145,66], lr = [-166,73])
     setattr(s1,'down19list',['NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc'])
