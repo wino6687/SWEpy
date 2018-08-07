@@ -25,6 +25,7 @@ requirements:
     - scikit-image
     - scikit-learn
     - netCDF4
+    - cython
     - cartopy
 
 about:

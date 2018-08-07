@@ -106,8 +106,8 @@ def test_safe_subtract():
     tb = s1.safe_subtract(tb19,tb37)
     assert np.shape(tb) == (1,151,152)
 
-
-'''def test_connection():
+'''
+def test_connection():
     date = datetime.date(2010,1,1)
     file = {
         "protocol": "http",
@@ -176,7 +176,8 @@ def test_scrape():
     assert list1 == ['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc','NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc']
 
 def test_subset():
-    os.mkdir('sub')
+    if not os.path.exists('sub'):
+        os.mkdir('sub')
     date = datetime.date(2010,1,1)
     s1 = swepy(os.getcwd(),ul = [-145,66], lr = [-166,73])
     setattr(s1,'down19list',['NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc'])
@@ -187,13 +188,20 @@ def test_subset():
     os.chdir(out_dir)
     list1 = glob.glob('*.nc')
     assert os.stat(list1[0]).st_size < 100000
-
-'''def test_concat():
+'''
+How should i test concatenation when i don't want to have to include more data?
+- I could make smaller files
+    - subset down to an even smaller space
+    - have two days of imagery for each band
+def test_concat():
     date = datetime.date(2010,1,1)
     s1 = swepy(os.getcwd(),ul = [-145,66], lr = [-166,73])
-    setattr(s1,'sub19list',[])'''
+    setattr(s1,'sub19list',['NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc'])
+    setattr(s1,'sub37list',['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc'])
+'''
 
-'''def test_get_directories(tmpdir):
+'''
+def test_get_directories(tmpdir):
     path = tmpdir.mkdir('tmp')
     s1 = swepy(path)
     list = os.listdir(".")
