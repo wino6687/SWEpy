@@ -391,8 +391,8 @@ class swepy():
                 except:
                     print('failing on 37H on {}'.format(date))
                     pass
-            self.down19list.append(result1)
-            self.down37list.append(result2)
+            self.down19list.append(result1[0])
+            self.down37list.append(result2[0])
         return (result1, result2)
 
 
