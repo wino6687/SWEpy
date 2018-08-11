@@ -65,11 +65,6 @@ def test_get_grid_fails():
     with pytest.raises(Exception):
         s1.get_grid(lat1,lat2)
 
-def test_get_directories(tmpdir):
-    path = tmpdir.mkdir('tmp')
-    s1 = swepy(path)
-    list = os.listdir(".")
-    assert list == ['data']
 
 def test_get_xy_N():
     ll_ul = [ -140, 62]
@@ -92,6 +87,7 @@ def test_get_xy_none():
     with pytest.raises(Exception):
         s1.get_xy(ll_ul, ll_lr)
 
+
 def test_get_file():
     #path = tmpdir.mkdir("tmp")
     s1 = swepy(os.getcwd(), ul = 'N', lr = 'N', username = 'test', password = 'test')
@@ -103,21 +99,14 @@ def test_get_file():
                     'channel': '19H','grid': 'N','dataversion': 'v1.3',
                     'pass': 'M','algorithm': 'SIR'}
 
-
-# scrape_all
-
-# concatenate
-
-# final concat
-
-def test_safe_subtract(tmpdir):
-    path = tmpdir.mkdir("tmp")
-    s1 = swepy(path)
+def test_safe_subtract():
+    s1 = swepy(os.getcwd())
     tb19 = np.ones((1,152,153))
     tb37 = np.ones((1,154,153))
     tb = s1.safe_subtract(tb19,tb37)
     assert np.shape(tb) == (1,151,152)
 
+'''
 def test_connection():
     date = datetime.date(2010,1,1)
     file = {
@@ -141,7 +130,7 @@ def test_connection():
     }
     nD = nsidcDownloader.nsidcDownloader(no_auth = True)
     resp = nD.download_file(**file)
-    assert resp == True
+    assert resp == True'''
 
 def test_nD_local():
     date = datetime.date(2010,1,1)
@@ -169,11 +158,52 @@ def test_nD_local():
     list1 = glob.glob('*.nc')
     assert list1[0] == 'NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc'
 
-def test_scrape():
+def test_scrape_fail():
     date = datetime.date(2010,1,1)
     ul = 'N'
     lr = 'N'
     s1 = swepy(os.getcwd(),start = date, end = date, ul = 'N', lr = 'N', username = 'test', password = 'test')
+    list1 = glob.glob("*.nc")
+    assert list1 != ['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc','NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc']
+
+def test_scrape():
+    date = datetime.date(2010,1,1)
+    ul = 'N'
+    lr = 'N'
+    s1 = swepy(os.getcwd()+'/tests/',start = date, end = date, ul = 'N', lr = 'N', username = 'test', password = 'test')
     s1.scrape()
     list1 = glob.glob("*.nc")
     assert list1 == ['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc','NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc']
+
+def test_subset():
+    if not os.path.exists('sub'):
+        os.mkdir('sub')
+    date = datetime.date(2010,1,1)
+    s1 = swepy(os.getcwd(),ul = [-145,66], lr = [-166,73])
+    setattr(s1,'down19list',['NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc'])
+    setattr(s1,'down37list',['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc'])
+    path = os.getcwd()+'/'#'/tests/data/MEASURES/NSIDC-0630.001/2010.01.01/'
+    out_dir = path + '/sub/'
+    s1.subset(in_dir=path,out_dir19=out_dir,out_dir37=out_dir)
+    os.chdir(out_dir)
+    list1 = glob.glob('*.nc')
+    assert os.stat(list1[0]).st_size < 100000
+'''
+How should i test concatenation when i don't want to have to include more data?
+- I could make smaller files
+    - subset down to an even smaller space
+    - have two days of imagery for each band
+def test_concat():
+    date = datetime.date(2010,1,1)
+    s1 = swepy(os.getcwd(),ul = [-145,66], lr = [-166,73])
+    setattr(s1,'sub19list',['NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc'])
+    setattr(s1,'sub37list',['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc'])
+'''
+
+'''
+def test_get_directories(tmpdir):
+    path = tmpdir.mkdir('tmp')
+    s1 = swepy(path)
+    list = os.listdir(".")
+    assert list == ['data']
+'''

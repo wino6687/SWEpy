@@ -243,18 +243,17 @@ If getting HDF5 errors, try deleting all the netCDF files in your directories an
 
 # Known Bugs:
 1. Missing image error when loading in swepy or when calling swepy functions
-	- there is an issue where gdal is not installed on the conda-forge channel when swepy is downloaded through conda.
-	- Solution: make sure conda-forge is at the top of your channels list in you ```.condarc``` file, then run the command ```conda update --all```.
+	- These are channel dependency errors and likely arise due to some of your packages being on conda-forge and others being on other channels. Namely, ```pynco``` struggles with this.
+	- Make sure ```conda-forge``` is at the top of your ```.condarc``` file and then run a ```conda update --all```.
 
-2. Missing data can cause plotting to error out.
-	- missing data is common in the mid-latitudes, so if your midlat study area errors out when plotting, this is likely the issue
+2. Importing SWEpy fails, or pandas fails to find numpy.
+	- This seems to be an issue caused by numpy v1.15.0. I reverted back to 1.14.5 and reinstalled everything and it worked again.
 
-4. 25km data will not plot properly in mapbox.
-	- For some reason, there is an issue converting dataframes to geojson only when scraping the 25km data. I am looking into why this is, but for now visualization only works on high resolution data.
-
+If you experience any other issues, do not hesistate to open an issue in this repo!
 
 
-Citations:
+
+### Citations:
 
 This library is designed to work with the MEaSUREs CETB dataset:
 
