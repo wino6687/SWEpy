@@ -1,6 +1,6 @@
-[![PyPI version](https://badge.fury.io/py/swepy.svg)](https://badge.fury.io/py/swepy)
+[![PyPI version](https://badge.fury.io/py/swepy.svg)](https://badge.fury.io/py/swepy)   [![Build Status](https://travis-ci.org/wino6687/SWEpy.svg?branch=master)](https://travis-ci.org/wino6687/SWEpy)
 
-[![Build Status](https://travis-ci.org/wino6687/SWEpy.svg?branch=master)](https://travis-ci.org/wino6687/SWEpy)
+
 
 # Disclaimer
 
