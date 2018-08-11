@@ -136,7 +136,8 @@ class nsidcDownloader():
                 os.remove(filepath)
             else:
                 print(" ** (skipping...) **")
-                return filename
+                print(filename)
+                return [filename, True]
 
         ## Download the dang thing
         with self.session.get(url, stream=True) as r:
@@ -153,10 +154,7 @@ class nsidcDownloader():
                 ## Stream content to file in chunks
                 for chunk in r.iter_content(block_size):
                     f.write(chunk)
-                    #pbar.update(block_size)
-
-            #pbar.close()
-        return resp  ## changed to filename from filepath to fix another script
+        return [filename,resp]  ## changed to filename from filepath to fix another script
 
     def download_range(self, date, **kwargs):
         '''

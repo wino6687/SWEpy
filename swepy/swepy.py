@@ -10,7 +10,6 @@ from nco import Nco
 import os
 from tqdm import tqdm
 import glob
-from swepy.latlon_ease_convert import latlon_ease_convert
 import cartopy.crs as ccrs
 
 nco = Nco()
@@ -93,6 +92,19 @@ class swepy():
             # do i want to create directories if no credentials are passed??
             self.nD = None
 
+    def get_files2sub(self, dir = None):
+        '''
+        Function to get files from wget directory (default) or a specified library
+
+        parameters: directory file path
+        '''
+        if dir is None:
+            dir = self.wget
+        os.chdir(dir)
+        self.down19list = glob.glob('*19H*')
+        self.down37list = glob.glob('*37H*')
+        return
+
     def set_params(self, start=None, end=None, username=None, password=None, ul=None, lr=None):
         '''
         Function to allow users to add information to the class after already instantiating.
@@ -135,8 +147,6 @@ class swepy():
             if value is None:
                 print("{} needs to be set by 'set_params'".format(key))
                 proceed = False
-        print("Please use the set_params function to set missing parameters,\
-                see the documentation for guidance")
         return proceed
 
 
@@ -199,14 +209,21 @@ class swepy():
         return [xul, yul, xlr, ylr]
 
 
-    def subset(self, scrape = False):
+    def subset(self, scrape = False,in_dir=None,out_dir19=None,out_dir37=None):
         '''get the files from wget directory
         and subset them geographically based on
         coords from constructor'''
+        if in_dir is None:
+            in_dir = self.wget
+        if out_dir19 is None:
+            out_dir19 = self.path19
+        if out_dir37 is None:
+            out_dir37 = self.path37
+
         os.chdir(self.working_dir + "/data")
         for file in tqdm(self.down19list):
-            outfile = self.path19 + file
-            infile = self.wget + file
+            outfile = out_dir19 + file
+            infile = in_dir + file
             opt = [
                 "-d x,%f,%f" % (self.geo_list[0],self.geo_list[2]),
                 "-d y,%f,%f" % (self.geo_list[3],self.geo_list[1]),
@@ -217,8 +234,8 @@ class swepy():
             os.remove(infile)
 
         for file in tqdm(self.down37list):
-            outfile = self.path37 + file
-            infile = self.wget + file
+            outfile = out_dir37 + file
+            infile = in_dir + file
             opt = [
                 "-d x,%f,%f" % (self.geo_list[0],self.geo_list[2]),
                 "-d y,%f,%f" % (self.geo_list[3],self.geo_list[1]),
@@ -277,7 +294,7 @@ class swepy():
                 date2 = date
         file = {
             "protocol": "http" if self.local_session else "https",
-            "server": "localhost:8000" if self.local_session else "MEASURES",
+            "server": "localhost:8000" if self.local_session else "n5eil01u.ecs.nsidc.org",
             "resolution": resolution,
             "platform": sensor,
             "sensor": ssmi_s,
@@ -324,6 +341,7 @@ class swepy():
                 self.concatlist[1] = outname37
         else:
             print("No 37Ghz Files to Concatenate")
+        return
 
 
     def final_concat(self):
@@ -373,8 +391,8 @@ class swepy():
                 except:
                     print('failing on 37H on {}'.format(date))
                     pass
-            self.down19list.append(result1)
-            self.down37list.append(result2)
+            self.down19list.append(result1[0])
+            self.down37list.append(result2[0])
         return (result1, result2)
 
 
@@ -414,48 +432,3 @@ class swepy():
         for f in files:
             os.remove(f)
         return
-
-'''
-    def plot_a_day(self, token):
-        fid_19H = Dataset(self.concatlist[0], "r", format="NETCDF4")
-        fid_37H = Dataset(self.concatlist[1], "r", format="NETCDF4")
-
-        x = fid_19H.variables['x'][:]
-        y = fid_19H.variables['y'][:]
-
-        tb_19H = fid_19H.variables['TB'][:]
-        tb_37H = fid_37H.variables['TB'][:]
-        if self.high_res == True:
-            tb_37H = block_reduce(tb_37H, block_size = (1,2,2), func = np.mean)
-        tb = self.safe_subtract(tb_19H, tb_37H)
-        lats = np.zeros((len(y), len(x)), dtype=np.float64)
-        lons = np.zeros((len(y), len(x)), dtype=np.float64)
-        grid = latlon_ease_convert.convert(gridname=fid_19H.variables["crs"].long_name)
-        one_day = tb[0,:,:]
-        df = pd.DataFrame(columns = ['lat', 'lon', 'swe'])
-        for i, xi in enumerate(x):
-            for j, yj in enumerate(y):
-                row, col = grid.map_to_grid(xi, yj)
-                lat, lon = grid.grid_to_geographic(row, col)
-                lats[j, i] = lat
-                lons[j, i] = lon
-                #df = df.append({'lat': lats[j][i], 'lon': lons[j][i], 'swe':one_day[j-2][i-2]}, ignore_index = True)
-        for i in range(len(one_day[:,1])):
-            for j in range(len(one_day[1,:])):
-                df = df.append({'lat': lats[i][j], 'lon': lons[i][j], 'swe':one_day[i][j]}, ignore_index = True)
-        os.chdir(self.working_dir)
-        df_to_geojson(df, filename = 'swe_1day.geojson',properties = ['swe'],lat = 'lat', lon = 'lon')
-        measure = 'swe'
-        color_breaks = [round(df[measure].quantile(q=x*0.1), 2) for x in range(1,9)]
-        color_stops = create_color_stops(color_breaks, colors='YlGnBu')
-        # Create the viz from the dataframe
-        viz = CircleViz('swe_1day.geojson',
-                        access_token=token,
-                        color_property = "swe",
-                        color_stops = color_stops,
-                        center = (self.center),
-                        zoom = 3,
-                        below_layer = 'waterway-label')
-
-        viz.show()
-'''
