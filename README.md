@@ -1,4 +1,4 @@
-[![PyPI version](https://badge.fury.io/py/swepy.svg)](https://badge.fury.io/py/swepy)      [![Build Status](https://travis-ci.org/wino6687/SWEpy.svg?branch=master)](https://travis-ci.org/wino6687/SWEpy)   [![Coverage Status](https://coveralls.io/repos/github/wino6687/SWEpy/badge.svg?branch=master)](https://coveralls.io/github/wino6687/SWEpy?branch=master)
+[![PyPI version](https://badge.fury.io/py/swepy.svg)](https://badge.fury.io/py/swepy)      [![Build Status](https://travis-ci.org/wino6687/SWEpy.svg?branch=master)](https://travis-ci.org/wino6687/SWEpy)  
 
 
 
