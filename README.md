@@ -117,7 +117,7 @@ swe.set_params(ul = [-145,66], lr = [-166, -16])
 from swepy.nsidcDownloader import nsidcDownloader
 
 ## Ways to instantiate nsidcDownloader
-nD = nsidcDownloader.nsidcDownloader(username="user", password="pass", folder=".") ## user/pass combo and folder
+nD = nsidcDownloader.nsidcDownloader(username="user", password="pass", folder=os.getcwd())
 
 
 ## Download a file:
@@ -131,11 +131,7 @@ file = {
 }
 
 nD.download_file(**file)
-
-nD.download_range(sensor="SSMIS", date=[datetime(2014,01,01), datetime(2015,01,01)])
 ```
-
-* Authentication will work if the user/pass combo is saved in `~/.netrc`, or if it is passed in the nsidcDownloader instance
 
 
 # Main Dependencies:
@@ -160,7 +156,7 @@ nD.download_range(sensor="SSMIS", date=[datetime(2014,01,01), datetime(2015,01,0
 2. Importing SWEpy fails, or pandas fails to find numpy.
 	- This seems to be an issue caused by numpy v1.15.0. I reverted back to 1.14.5 and reinstalled everything and it worked again.
 
-If you experience any other issues, do not hesistate to open an issue in this repo!
+If you experience any other issues, do not hesitate to open an issue in this repo!
 
 
 
