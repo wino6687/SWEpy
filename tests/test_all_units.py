@@ -130,7 +130,7 @@ def test_connection():
     }
     nD = nsidcDownloader.nsidcDownloader(no_auth = True)
     resp = nD.download_file(**file)
-    assert resp == True'''
+    assert resp[1] == True'''
 
 def test_nD_local():
     date = datetime.date(2010,1,1)
