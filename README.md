@@ -1,8 +1,8 @@
-[![PyPI version](https://badge.fury.io/py/swepy.svg)](https://badge.fury.io/py/swepy)      [![Build Status](https://travis-ci.org/wino6687/SWEpy.svg?branch=master)](https://travis-ci.org/wino6687/SWEpy)  
+[![PyPI version](https://badge.fury.io/py/swepy.svg)](https://badge.fury.io/py/swepy)      [![Build Status](https://travis-ci.org/wino6687/SWEpy.svg?branch=master)](https://travis-ci.org/wino6687/SWEpy)
 
 
 
-# Disclaimer
+## Disclaimer
 
 * All study area boxes should be oriented to the North when choosing lower right and upper left bounding coordinates.
 
@@ -10,28 +10,21 @@
 
 * Requires python 3.6 and Anaconda 3
 
-# SWEpy
+# SWEpy Quick Start Guide
+### For Full Documentation, Please see the [Wiki](https://github.com/wino6687/SWEpy/wiki)!
 SWEpy is a python library designed to give you quick and easy access to temperature brightness imagery stored in the MEaSUREs dataset in the NSIDC 0630 database. SWEpy contains tools to web scrape, geographically subset, and concatenate files into time cubes. There is an automated workflow to scrape long time series while periodically stopping to geographically subset and concatenate files in order to reduce disk impact.
 
-# Setup:
+## Setup:
 
-## 1. Setup Earthdata Login
+### 1. Setup Earthdata Login
 Create an Earthdata account to be able to download data: https://urs.earthdata.nasa.gov/
 
-## Optional (.netrc file vs passing Username and Password):
-Setup your username and password in a .netrc file
-Run this command in the directory you will be working in
 
-	echo "machine urs.earthdata.nasa.gov login <uid> password <password>" >> ~/.netrc
-	chmod 0600 ~/.netrc
-uid is your Earthdata username. Do not include the brackets <>.
 
-https://nsidc.org/support/faq/what-options-are-available-bulk-downloading-data-https-earthdata-login-enabled
-
-## 2. Install SWEpy Using Conda (Recommended):
+### 2. Install SWEpy Using Conda (Recommended):
 SWEpy is available from anaconda, and will install all dependencies when installed.
 
-** Important ** conda-forge must be the first channel in your .condarc file.
+** Important ** ```conda-forge``` must be the first channel in your .condarc file followed by ```wino6687```.
 
 ```
 channels:
@@ -43,9 +36,10 @@ channels:
 ```{python}
 conda install swepy
 ```
- ** Note ** If you do not have my channel ```wino6687``` in your condarc file, then you will need to specify the channel: ```conda install -c wino6687 swepy```
+ ** Note ** If you do not have my channel ```wino6687``` in your condarc file, then you will need to specify the channel when installing: ```conda install -c wino6687 swepy```
 
 ### Alternative: Setup conda environment from yaml
+
 The libraries used in this analysis, namely pynco, can be finicky with the channels that dependencies are installed with. Thus, using the provided yaml file to build an environment for this project will make your life simpler. You can add more packages on top of the provided environment as long as you install with the conda-forge channel.
 
 Using the yaml file (.yml) create a new conda environment
@@ -53,7 +47,7 @@ Using the yaml file (.yml) create a new conda environment
 conda env create -f swepy_env.yml
 ```
 
-## 3. Install ipykernel (if using jupyter and conda environments)
+### 3. Install ipykernel (if using jupyter and conda environments)
 
 ```{python}
 source activate swepy_env
@@ -61,7 +55,7 @@ python -m ipykernel install --user --name <env name> --display-name "<display na
 ```
 **Do not include the brackets <>**
 
-# Using SWEpy for analyzing SWE:
+## Using SWEpy for analyzing SWE:
 
 1. Import the Library:
 ```{python}
@@ -70,24 +64,27 @@ from swepy.swepy import swepy
 
 2. Instantiate the class with working directory, date range, bounding coordinates, and earthdata username and password
 
+	```{python}
+	upper_left = [lon_upleft, lat_upleft]
+	lower_right = [lon_lowright, lat_lowright]
+
+	start = datetime.date(startY, startM, startD)
+	end = datetime.date(endY, endM, endD)
+
+	path = os.getcwd()
+
+	username = <username>
+	password = <password>
+
+	swepy = swepy(path, start, end, upper_left, lower_right, username, password, high_res = True)
+	```
+
 * Reminder: Don't forget to orient your upper-left and lower-right bounding coordinates to the North.
+
+ ![Example Study Area](https://snag.gy/1LkaYQ.jpg)
 
 * By default, the high_res parameter is set to True, meaning it will scrape high resolution images. If it is passed as 'False' then it will scrape 25km images instead of the 6.25km high resolution images.
 
-```{python}
-upper_left = [lon_upleft, lat_upleft]
-lower_right = [lon_lowright, lat_lowright]
-
-start = datetime.date(startY, startM, startD)
-end = datetime.date(endY, endM, endD)
-
-path = os.getcwd()
-
-username = <username>
-password = <password>
-
-swepy = swepy(path, start, end, upper_left, lower_right, username, password, high_res = True)
-```
 3. Use desired functionality, either separate or individually:
 
 ```{python}
