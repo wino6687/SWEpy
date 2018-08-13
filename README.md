@@ -151,29 +151,11 @@ nD.download_range(sensor="SSMIS", date=[datetime(2014,01,01), datetime(2015,01,0
 - cartopy
 
 
-# Troubleshooting
-
-1. ‘image not found’ errors
-If encountering ‘image not found’ errors then it is likely you are having channel dependency issues.
-
-    $ cat .condarc
-    channels:
-    - conda-forge
-    - defaults
-
-After saving this file, update conda:
-
-    conda update all
-
-https://conda-forge.org/docs/conda-forge_gotchas.html#using-multiple-channels
-
-2. HDF5 errors:
-If getting HDF5 errors, try deleting all the netCDF files in your directories and starting over. This usually occurs when there are already some files in the data directories before calling scrape_all and ncks gets confused on the subset step.
-
 # Troubleshooting:
 1. Missing image error when loading in swepy or when calling swepy functions
 	- These are channel dependency errors and likely arise due to some of your packages being on conda-forge and others being on other channels. Namely, ```pynco``` struggles with this.
 	- Make sure ```conda-forge``` is at the top of your ```.condarc``` file and then run a ```conda update --all```.
+	- https://conda-forge.org/docs/conda-forge_gotchas.html#using-multiple-channels
 
 2. Importing SWEpy fails, or pandas fails to find numpy.
 	- This seems to be an issue caused by numpy v1.15.0. I reverted back to 1.14.5 and reinstalled everything and it worked again.
