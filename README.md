@@ -1,14 +1,16 @@
-[![PyPI version](https://badge.fury.io/py/swepy.svg)](https://badge.fury.io/py/swepy)      [![Build Status](https://travis-ci.org/wino6687/SWEpy.svg?branch=master)](https://travis-ci.org/wino6687/SWEpy)
+[![PyPI version](https://badge.fury.io/py/swepy.svg)](https://badge.fury.io/py/swepy)      [![Build Status](https://travis-ci.org/wino6687/SWEpy.svg?branch=master)](https://travis-ci.org/wino6687/SWEpy)			![Github](https://img.shields.io/github/license/mashape/apistatus.svg)
+![OS](https://img.shields.io/badge/OS-Linux64%2C%20MacOS-green.svg)
+![Python Version](https://img.shields.io/pypi/pyversions/Django.svg)
 
-
-
-## Disclaimer
+## Important Notes
 
 * All study area boxes should be oriented to the North when choosing lower right and upper left bounding coordinates.
 
-* Currently this python library is not supported in Windows due to pynco only supporting Mac OS or Unix
+* Only supported in windows and linux
 
-* Requires python 3.6 and Anaconda 3
+* Requires python 3.6
+
+* Anaconda 3 recommended
 
 # SWEpy Quick Start Guide
 ### For Full Documentation, Please see the [Wiki](https://github.com/wino6687/SWEpy/wiki)!
@@ -73,48 +75,39 @@ from swepy.swepy import swepy
 
 	path = os.getcwd()
 
-	username = <username>
-	password = <password>
+	username = "username"
+	password = "password"
 
-	swepy = swepy(path, start, end, upper_left, lower_right, username, password, high_res = True)
+	swe = swepy(path, start, end, upper_left, lower_right, username, password, high_res = True)
 	```
 
-* Reminder: Don't forget to orient your upper-left and lower-right bounding coordinates to the North.
+3. Don't forget to orient your upper-left and lower-right bounding coordinates to the North.
 
  ![Example Study Area](https://snag.gy/1LkaYQ.jpg)
 
 * By default, the high_res parameter is set to True, meaning it will scrape high resolution images. If it is passed as 'False' then it will scrape 25km images instead of the 6.25km high resolution images.
 
-3. Use desired functionality, either separate or individually:
+5. Get Files
 
-```{python}
-swepy.scrape()
-swepy.subset()
-swepy.concatenate()
+	a. Use desired functionality, either separate or individually:
 
-swepy.concatenate(swepy.subset(swepy.scrape()))
-```
+	```{python}
+	swe.scrape()
+	swe.subset()
+	swe.concatenate()
 
-4. Or, use scrape_all to avoid massive file sizes:
+	swe.concatenate(swepy.subset(swepy.scrape()))
+	```
+ 	b. Or, use ```scrape_all``` to avoid massive file sizes:
 ```{python}
 swepy.scrape_all()
 ```
 This limits the number of full-size images on your disk at one time.
 
-## If you would like a full grid file, with no subsetting, simply pass the grid id as your upper left and lower right bounding coordinates.
 
-* North = "N"
-* South = "S"
-* Equator = "T"
-
+6. If you need to give the class more information, or change information it already has, use the ```set_params``` function:
 ```{python}
-upper_left = "N"
-lower_right = "N"
-```
-
-5. If you need to give the class more information, or change information it already has, use the ```set_params``` function:
-```{python}
-swepy.set_params(ul = [-145,66], lr = [-166, -16])
+swe.set_params(ul = [-145,66], lr = [-166, -16])
 ```
 
 ## Using SWEpy's Web Scraper Alone:
