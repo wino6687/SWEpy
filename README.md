@@ -98,9 +98,9 @@ from swepy.swepy import swepy
 	swe.concatenate(swepy.subset(swepy.scrape()))
 	```
  	b. Or, use ```scrape_all``` to avoid massive file sizes:
-```{python}
-swepy.scrape_all()
-```
+	```{python}
+	swepy.scrape_all()
+	```
 This limits the number of full-size images on your disk at one time.
 
 
