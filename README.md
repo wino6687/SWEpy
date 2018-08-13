@@ -22,9 +22,8 @@ SWEpy is a python library designed to give you quick and easy access to temperat
 Create an Earthdata account to be able to download data: https://urs.earthdata.nasa.gov/
 
 
-
 ### 2. Install SWEpy Using Conda (Recommended):
-SWEpy is available from anaconda, and will install all dependencies when installed.
+SWEpy is available from anaconda, and will install all dependencies when installed. It is also available from pip (Pypi), but will not install all the dependencies automatically.
 
 ** Important ** ```conda-forge``` must be the first channel in your .condarc file followed by ```wino6687```.
 
@@ -120,7 +119,6 @@ from swepy.nsidcDownloader import nsidcDownloader
 ## Ways to instantiate nsidcDownloader
 nD = nsidcDownloader.nsidcDownloader(username="user", password="pass", folder=".") ## user/pass combo and folder
 
-nD = nsidcDownloader(sensor="SSMIS") ## user/pass combo from .netrc and default folder, setting the default key of sensor
 
 ## Download a file:
 
@@ -139,65 +137,6 @@ nD.download_range(sensor="SSMIS", date=[datetime(2014,01,01), datetime(2015,01,0
 
 * Authentication will work if the user/pass combo is saved in `~/.netrc`, or if it is passed in the nsidcDownloader instance
 
-
-# Function Summaries
-Descriptions of included functions
-```{python}
-swepy = swepy(working_dir, start, end, ll_ul, ll_lr, username, password)
-```
-* Instantiate the class with the working directory path, the start date, the end date, the bounding coordinates, and your Earthdata username and password.
-* Once the class is instantiated, either call scrape_all or call scrape, then subset, then concatenate as desired.
-```{python}
-swepy.set_params(start=None, end=None, username=None, password=None, ul=None, lr=None)
-```
-* Parameters:
-	- start/end: datetime objects
-	- username/password: strings
-	- ul/lr: lists of [longitude, latitude]
-* Sets any class members that you want to change or add without re-instantiating the class
-* Allows users to scrape files based on date and grid and subset later
-
-```{python}
-swepy.get_xy(latlon_ul, latlon_lr)
-```
-* Parameters: lists of longitude/latitude upper left, longitude/latitude lower right
-* Uses NSIDC scripts to convert user inputted lat/lon into Ease grid 2.0 coordinates
-* Returns: Ease grid 2.0 coordinates of inputted lat/longs
-
-```{python}
-swepy.subset()
-```
-* Parameters: none, list of downloaded files stored in class from scrape() function
-* Subset will subset the files downloaded geographically to match study area inputed
-* Returns: subsetted file
-
-```{python}
-swepy.concatenate()
-```
-* Parameters: current working directory, output file for 19Ghz, output file for 37Ghz
-* The concatenate function merges all netCDF files into one large file
-* Returns: concatenated netCDF file
-
-```{python}
-swepy.scrape_all()
-```
-* Parameters: none, everything needed comes from class instantiation
-* Complete function that downloads, subsets, and concatenates the data
-* Returns: file names of concatenated 19/37 time cubes
-
-```{python}
-swepy.plot_a_day(token)
-```
-* Parameters: mapbox token, everything else comes from the stored concatenated file list
-* Plots a day of data using Mapbox Jupyter
-* Returns: interactive map of inputted data
-
-```{python}
-swepy.get_file(path, date, channel)
-```
-* Parameters: date of file path to get, and the channel (19GHz vs 37GHz)
-* get file path of file to download for specific day of SWE
-* Returns: framework for file to be downloaded based on date and channel for analyzing SWE
 
 # Main Dependencies:
 - gdal
@@ -231,7 +170,7 @@ https://conda-forge.org/docs/conda-forge_gotchas.html#using-multiple-channels
 2. HDF5 errors:
 If getting HDF5 errors, try deleting all the netCDF files in your directories and starting over. This usually occurs when there are already some files in the data directories before calling scrape_all and ncks gets confused on the subset step.
 
-# Known Bugs:
+# Troubleshooting:
 1. Missing image error when loading in swepy or when calling swepy functions
 	- These are channel dependency errors and likely arise due to some of your packages being on conda-forge and others being on other channels. Namely, ```pynco``` struggles with this.
 	- Make sure ```conda-forge``` is at the top of your ```.condarc``` file and then run a ```conda update --all```.
