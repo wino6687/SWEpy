@@ -22,6 +22,7 @@ install:
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION conda-build pandas numpy pytest affine gdal pynco netCDF4 tqdm requests scikit-image cython pytest-cov coveralls cartopy
   - source activate test-environment
   # download cartopy from git instead of conda
+  - python setup.py install
   - conda list
 before_script:
   # run mock server in order to test scraping
