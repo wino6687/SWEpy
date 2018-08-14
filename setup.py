@@ -8,7 +8,7 @@ setuptools.setup(
     version="1.1.3",
     author="William Norris",
     author_email="wino6687@colorado.edu",
-    description="A python package for obtaining and cleaning Tb files",
+    description="A python package for obtaining and cleaning Tb files from the MEaSUREs database",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/wino6687/SWEpy",
