@@ -29,9 +29,9 @@ SWEpy is available from anaconda, and will install all dependencies when install
 
 ```
 channels:
-- conda-forge
-- wino6687
-- defaults
+	- conda-forge
+	- wino6687
+	- defaults
 ```
 
 ```{python}
