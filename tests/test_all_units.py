@@ -201,7 +201,7 @@ def test_concat():
     s1 = swepy(os.getcwd(),ul = [-145,66], lr = [-166,73])
     setattr(s1,'sub19list',['NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc'])
     setattr(s1,'sub37list',['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc'])
-    s1.concatentate()
+    s1.concat()
     list1 = glob.glob("*all*")
     assert 'all_days_19H.nc' in list1
 
