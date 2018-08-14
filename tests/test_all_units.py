@@ -188,15 +188,8 @@ def test_subset():
     os.chdir(out_dir)
     list1 = glob.glob('*.nc')
     assert os.stat(list1[0]).st_size < 100000
-'''
-How should i test concatenation when i don't want to have to include more data?
-- I could make smaller files
-    - subset down to an even smaller space
-    - have two days of imagery for each band
-    - can i concatenate two diff bands together
-'''
 
-def test_concat():
+'''def test_concat():
     date = datetime.date(2010,1,1)
     s1 = swepy(os.getcwd(),ul = [-145,66], lr = [-166,73])
     setattr(s1,'sub19list',['NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc'])
@@ -204,7 +197,7 @@ def test_concat():
     s1.concat()
     list1 = glob.glob("*all*")
     assert 'all_days_19H.nc' in list1
-
+'''
 
 
 '''
