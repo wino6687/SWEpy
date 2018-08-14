@@ -101,17 +101,17 @@ from swepy.swepy import swepy
 	```{python}
 	swepy.scrape_all()
 	```
-This limits the number of full-size images on your disk at one time.
+	This limits the number of full-size images on your disk at one time.
 
 
 6. If you need to give the class more information, or change information it already has, use the ```set_params``` function:
-```{python}
-swe.set_params(ul = [-145,66], lr = [-166, -16])
-```
+	```{python}
+	swe.set_params(ul = [-145,66], lr = [-166, -16])
+	```
 
 ## Using SWEpy's Web Scraper Alone:
 
-* Note: Web scraper is enabled automatically in the scrape_all workflow, however it can also be used as a standalone function!
+* The web scraper is enabled automatically in the scrape_all workflow, however it can also be used as a standalone function!
 
 ```{python}
 from swepy.nsidcDownloader import nsidcDownloader

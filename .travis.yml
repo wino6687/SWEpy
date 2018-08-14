@@ -29,6 +29,6 @@ before_script:
   # run mock server in order to test scraping
   - python tests/mock_server.py &
 script:
-  - pytest coveralls/test_all_units.py 
+  - pytest --cov=swepy/
 after_success:
   - coveralls
