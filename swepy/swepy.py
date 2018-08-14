@@ -92,19 +92,6 @@ class swepy():
             # do i want to create directories if no credentials are passed??
             self.nD = None
 
-    def get_files2sub(self, dir = None):
-        '''
-        Function to get files from wget directory (default) or a specified library
-
-        parameters: directory file path
-        '''
-        if dir is None:
-            dir = self.wget
-        os.chdir(dir)
-        self.down19list = glob.glob('*19H*')
-        self.down37list = glob.glob('*37H*')
-        return
-
     def set_params(self, start=None, end=None, username=None, password=None, ul=None, lr=None):
         '''
         Function to allow users to add information to the class after already instantiating.
@@ -136,6 +123,7 @@ class swepy():
             print("Success!")
         return
 
+
     def check_params(self):
         '''
         Helper function to check that all the class members are set before
@@ -147,6 +135,9 @@ class swepy():
             if value is None:
                 print("{} needs to be set by 'set_params'".format(key))
                 proceed = False
+        if proceed == False:
+            print("Please use the set_params function to set missing parameters,\
+                    see the documentation for guidance")
         return proceed
 
 
@@ -209,21 +200,14 @@ class swepy():
         return [xul, yul, xlr, ylr]
 
 
-    def subset(self, scrape = False,in_dir=None,out_dir19=None,out_dir37=None):
+    def subset(self, scrape = False):
         '''get the files from wget directory
         and subset them geographically based on
         coords from constructor'''
-        if in_dir is None:
-            in_dir = self.wget
-        if out_dir19 is None:
-            out_dir19 = self.path19
-        if out_dir37 is None:
-            out_dir37 = self.path37
-
         os.chdir(self.working_dir + "/data")
         for file in tqdm(self.down19list):
-            outfile = out_dir19 + file
-            infile = in_dir + file
+            outfile = self.path19 + file
+            infile = self.wget + file
             opt = [
                 "-d x,%f,%f" % (self.geo_list[0],self.geo_list[2]),
                 "-d y,%f,%f" % (self.geo_list[3],self.geo_list[1]),
@@ -234,8 +218,8 @@ class swepy():
             os.remove(infile)
 
         for file in tqdm(self.down37list):
-            outfile = out_dir37 + file
-            infile = in_dir + file
+            outfile = self.path37 + file
+            infile = self.wget + file
             opt = [
                 "-d x,%f,%f" % (self.geo_list[0],self.geo_list[2]),
                 "-d y,%f,%f" % (self.geo_list[3],self.geo_list[1]),
@@ -294,7 +278,7 @@ class swepy():
                 date2 = date
         file = {
             "protocol": "http" if self.local_session else "https",
-            "server": "localhost:8000" if self.local_session else "n5eil01u.ecs.nsidc.org",
+            "server": "localhost:8000" if self.local_session else "MEASURES",
             "resolution": resolution,
             "platform": sensor,
             "sensor": ssmi_s,
@@ -391,8 +375,8 @@ class swepy():
                 except:
                     print('failing on 37H on {}'.format(date))
                     pass
-            self.down19list.append(result1[0])
-            self.down37list.append(result2[0])
+            self.down19list.append(result1)
+            self.down37list.append(result2)
         return (result1, result2)
 
 

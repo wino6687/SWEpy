@@ -193,12 +193,19 @@ How should i test concatenation when i don't want to have to include more data?
 - I could make smaller files
     - subset down to an even smaller space
     - have two days of imagery for each band
+    - can i concatenate two diff bands together
+'''
+
 def test_concat():
     date = datetime.date(2010,1,1)
     s1 = swepy(os.getcwd(),ul = [-145,66], lr = [-166,73])
     setattr(s1,'sub19list',['NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc'])
     setattr(s1,'sub37list',['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc'])
-'''
+    s1.concatentate()
+    list1 = glob.glob("*all*")
+    assert 'all_days_19H.nc' in list1
+
+
 
 '''
 def test_get_directories(tmpdir):
