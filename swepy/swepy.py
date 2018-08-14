@@ -200,14 +200,14 @@ class swepy():
         return [xul, yul, xlr, ylr]
 
 
-    def subset(self, scrape = False):
+    def subset(self, scrape = False, in_dir=None,out_dir19=None,out_dir37=None):
         '''get the files from wget directory
         and subset them geographically based on
         coords from constructor'''
         os.chdir(self.working_dir + "/data")
         for file in tqdm(self.down19list):
-            outfile = self.path19 + file
-            infile = self.wget + file
+            outfile = self.path19 + file if out_dir19 is None else out_dir19 + file
+            infile = self.wget + file if in_dir is None else in_dir + file
             opt = [
                 "-d x,%f,%f" % (self.geo_list[0],self.geo_list[2]),
                 "-d y,%f,%f" % (self.geo_list[3],self.geo_list[1]),
@@ -218,8 +218,8 @@ class swepy():
             os.remove(infile)
 
         for file in tqdm(self.down37list):
-            outfile = self.path37 + file
-            infile = self.wget + file
+            outfile = self.path37 + file if out_dir37 is None else out_dir37 + file
+            infile = self.wget + file if in_dir is None else in_dir + file
             opt = [
                 "-d x,%f,%f" % (self.geo_list[0],self.geo_list[2]),
                 "-d y,%f,%f" % (self.geo_list[3],self.geo_list[1]),
@@ -278,7 +278,8 @@ class swepy():
                 date2 = date
         file = {
             "protocol": "http" if self.local_session else "https",
-            "server": "localhost:8000" if self.local_session else "MEASURES",
+            "server": "localhost:8000" if self.local_session else "n5eil01u.ecs.nsidc.org",
+            "datapool": "MEASURES",
             "resolution": resolution,
             "platform": sensor,
             "sensor": ssmi_s,
