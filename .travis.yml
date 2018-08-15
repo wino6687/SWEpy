@@ -21,7 +21,7 @@ install:
   # create environment
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION conda-build pandas numpy pytest affine gdal pynco netCDF4 tqdm requests scikit-image cython
   - source activate test-environment
-  # install cartopy from git instead of conda 
+  # install cartopy from git instead of conda
   - pip install git+https://github.com/SciTools/cartopy.git
   #  install swepy with setup.py
   - python setup.py install
@@ -31,3 +31,5 @@ before_script:
   - python tests/mock_server.py &
 script:
   - pytest
+after_success:
+  - test $TRAVIS_BRANCH = "master" && conda install conda-build && conda install anaconda-client && bash conda/conda_upload.sh
