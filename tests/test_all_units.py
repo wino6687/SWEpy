@@ -94,8 +94,8 @@ def test_get_file():
     date = datetime.datetime(2010,1,1)
     file = s1.get_file(date, "19H")
     assert file == {'protocol':'http', 'server':'localhost:8000','resolution': '6.25km','platform': 'F17','sensor': 'SSMIS',
-                    'date1': datetime.datetime(2010, 1, 1, 0, 0),
-                    'date2': datetime.datetime(2010, 1, 1, 0, 0),
+                    'date1': datetime.datetime(2010, 1, 1),
+                    'date2': datetime.datetime(2010, 1, 1),
                     'channel': '19H','grid': 'N','dataversion': 'v1.3',
                     'pass': 'M','algorithm': 'SIR'}
 
