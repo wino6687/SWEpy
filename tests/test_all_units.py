@@ -93,7 +93,7 @@ def test_get_file():
     s1 = swepy(os.getcwd(), ul = 'N', lr = 'N', username = 'test', password = 'test')
     date = datetime.datetime(2010,1,1)
     file = s1.get_file(date, "19H")
-    assert file == {'protocol':'http', 'server':'localhost:8000','resolution': '6.25km','platform': 'F17','sensor': 'SSMIS',
+    assert file == {'protocol':'http', 'server':'localhost:8000','datapool':'MEASURES','resolution': '6.25km','platform': 'F17','sensor': 'SSMIS',
                     'date1': datetime.datetime(2010, 1, 1),
                     'date2': datetime.datetime(2010, 1, 1),
                     'channel': '19H','grid': 'N','dataversion': 'v1.3',
