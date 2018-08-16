@@ -106,31 +106,6 @@ def test_safe_subtract():
     tb = s1.safe_subtract(tb19,tb37)
     assert np.shape(tb) == (1,151,152)
 
-'''
-def test_connection():
-    date = datetime.date(2010,1,1)
-    file = {
-        "protocol": "http",
-        "server": "localhost:8000",
-        "datapool": "MEASURES",
-        "dataset": "NSIDC-0630",
-        "version": "001",
-        "projection": "EASE2",
-        "resolution": "6.25km",
-        "platform":"F17",
-        "sensor": "SSMIS",
-        'date1': datetime.date(2010, 1, 1),
-        'date2': datetime.date(2010, 1, 1),
-        "channel": '19H',
-        "grid": "N",
-        "pass": "M",
-        "algorithm": "SIR",
-        "input": "CSU",
-        "dataversion": "v1.3"
-    }
-    nD = nsidcDownloader.nsidcDownloader(no_auth = True)
-    resp = nD.download_file(**file)
-    assert resp[1] == True'''
 
 def test_nD_local():
     date = datetime.date(2010,1,1)
@@ -197,13 +172,3 @@ def test_concat():
     s1.concatenate()
     list1 = glob.glob("*all*")
     assert 'all_days_19H.nc' in list1
-
-
-
-'''
-def test_get_directories(tmpdir):
-    path = tmpdir.mkdir('tmp')
-    s1 = swepy(path)
-    list = os.listdir(".")
-    assert list == ['data']
-'''
