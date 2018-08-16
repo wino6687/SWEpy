@@ -30,6 +30,6 @@ before_script:
   # run mock server in order to test scraping
   - python tests/mock_server.py &
 script:
-  - pytest
+  - pytest -v
 after_success:
   - test $TRAVIS_BRANCH = "master" && conda install conda-build && conda install anaconda-client && bash conda/conda_upload.sh
