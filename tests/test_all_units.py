@@ -172,3 +172,13 @@ def test_concat():
     s1.concatenate()
     list1 = glob.glob("*all*")
     assert 'all_days_19H.nc' in list1
+
+def test_get_directories():
+    s1 = swepy(os.getcwd())
+    assert os.path.exists(os.getcwd()+'/data') == True
+
+'''
+def test_scrape_all():
+    date = datetime.date(2010,1,1)
+    s1 = swepy(os.getcwd(), ul = [-145, 66], lr = [-166,73])
+    '''
