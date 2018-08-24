@@ -5,10 +5,10 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="swepy",
-    version="1.1.4",
+    version="1.1.5",
     author="William Norris",
     author_email="wino6687@colorado.edu",
-    description="A python package for obtaining and cleaning Tb files from the MEaSUREs database",
+    description="A python package for obtaining and manipulating Tb files from the MEaSUREs database",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/wino6687/SWEpy",

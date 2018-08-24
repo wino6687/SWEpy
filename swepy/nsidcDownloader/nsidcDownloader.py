@@ -158,7 +158,7 @@ class nsidcDownloader():
 
     def download_range(self, date, **kwargs):
         '''
-        Download a range of dates for a particular sensor
+        Download a range of dates for a particular sensor - to be deprecated
         '''
 
         assert isinstance(date, list), "Range passed must be list of dates"
