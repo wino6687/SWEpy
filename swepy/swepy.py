@@ -26,7 +26,6 @@ class swepy():
         else:
             self.high_res = False
 
-
         # set the working directory
         if working_dir is None:
             self.working_dir = os.getcwd()
@@ -47,6 +46,7 @@ class swepy():
 
         self.geo_list = None
         self.grid = None
+
         # if user gave date range, store it
         if start is not None and end is not None:
             self.dates = pd.date_range(start, end)
@@ -112,6 +112,7 @@ class swepy():
             else:
                 self.username = username
                 self.password = password
+                self.local_session = False
                 self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
             print("Success!")
         if ul is not None and lr is not None:
@@ -330,7 +331,8 @@ class swepy():
 
 
     def final_concat(self):
-        '''function to manage the final concatenation for scrape_all
+        '''
+        function to manage the final concatenation for scrape_all
         '''
         if len(self.concat19list) != 0:
             nco.ncrcat(input=self.concat19list, output = self.outfile_19, options=["-O"])
@@ -352,8 +354,9 @@ class swepy():
 
 
     def scrape(self, dates = None):
-        '''Wrapper function to allow more selective use of just the
-            web scraper'''
+        '''
+        Wrapper function to interface between swepy and nD
+        '''
         if self.local_session == False:
             if self.check_params() == False:
                 return
