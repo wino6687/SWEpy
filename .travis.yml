@@ -28,7 +28,7 @@ install:
   - conda list
 before_script:
   # run mock server in order to test scraping
-  - python tests/mock_server.py &
+  - python swepy/tests/mock_server.py &
 script:
   - pytest -v
 after_success:
