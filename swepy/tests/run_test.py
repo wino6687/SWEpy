@@ -145,7 +145,7 @@ def test_scrape():
     date = datetime.date(2010,1,1)
     ul = 'N'
     lr = 'N'
-    s1 = swepy(os.getcwd()+'/tests/',start = date, end = date, ul = 'N', lr = 'N', username = 'test', password = 'test')
+    s1 = swepy(os.getcwd()+'/swepy/tests/',start = date, end = date, ul = 'N', lr = 'N', username = 'test', password = 'test')
     s1.scrape()
     list1 = glob.glob("*.nc")
     assert list1 == ['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc','NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc']
