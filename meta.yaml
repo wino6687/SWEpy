@@ -26,6 +26,7 @@ requirements:
     - scikit-learn
     - netCDF4
     - cython
+    - cartopy
 
 about:
   home: https://github.com/wino6687/SWEpy
