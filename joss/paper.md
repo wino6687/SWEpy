@@ -1,5 +1,9 @@
 ---
-title: 'SWEpy: A Python library for quick and easy access and manipulation of MEaSUREs CETB files for SWE analysis'
+title: | 
+  | SWEpy: A Python Library for Quick and Easy Access and Manipulation of MEaSUREs CETB files for SWE analysis
+subtitle: |
+  | William M. Norris, Carson J.Q. Farmer
+  | Earth Lab, University of Colorado Boulder
 tags:
   - Python
   - snow
@@ -11,7 +15,7 @@ authors:
     orcid: 0000-0002-6772-9600
     affiliation: 1
   - name: Carson J. Farmer
-    orcid: 0000-0000-0000-0000
+    orcid: 0000-0003-1643-5976
     affiliation: 1
 affiliations:
  - name: University of Colorado Boulder
@@ -19,6 +23,7 @@ affiliations:
 date: 4 September 2018
 bibliography: paper.bib
 ---
+
 
 # Summary
 
