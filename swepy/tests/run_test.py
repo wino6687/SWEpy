@@ -154,7 +154,7 @@ def test_subset():
     if not os.path.exists('sub'):
         os.mkdir('sub')
     date = datetime.date(2010,1,1)
-    s1 = swepy(os.getcwd(),ul = [66,=145], lr = [71,-166])
+    s1 = swepy(os.getcwd(),ul = [66,-145], lr = [71,-166])
     setattr(s1,'down19list',['NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc'])
     setattr(s1,'down37list',['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc'])
     path = os.getcwd()+'/'#'/tests/data/MEASURES/NSIDC-0630.001/2010.01.01/'
