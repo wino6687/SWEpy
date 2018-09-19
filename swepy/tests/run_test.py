@@ -11,32 +11,32 @@ import pandas as pd
 
 def test_check_params_false():
     start = datetime.date(2010,1,1)
-    ul = [-145,66]
-    lr = [-166,73]
+    ul = [66,-145]
+    lr = [73,-166]
     s1 = swepy(os.getcwd(), start, start, ul, lr)
     assert s1.check_params() == False
 
 def test_check_params_true():
     start = datetime.date(2010,1,1)
-    ul = [-145,66]
-    lr = [-166,73]
+    ul = [66,-145]
+    lr = [76,-166]
     s1 = swepy(os.getcwd(), start, start, ul, lr, username = 'test', password = 'test')
     assert s1.check_params() == True
 
 def test_set_params_bounds():
     start = datetime.date(2010,1,1)
     s1 = swepy(os.getcwd(), start, start, username = 'test', password = 'test')
-    s1.set_params(ul = [-145, 66], lr = [-166,73])
+    s1.set_params(ul = [66, -145], lr = [73,-166])
     assert s1.check_params() == True
 
 def test_set_params_auth():
     start = datetime.date(2010,1,1)
-    s1 = swepy(os.getcwd(), start, start, ul = [-145,66], lr = [-166,73])
+    s1 = swepy(os.getcwd(), start, start, ul = [66,-145], lr = [73,-166])
     s1.set_params(username = 'test', password = 'test')
     assert s1.check_params() == True
 
 def test_set_params_dates():
-    s1 = swepy(os.getcwd(), ul = [-145,66], lr = [-166,73], username = 'test', password = 'test')
+    s1 = swepy(os.getcwd(), ul = [66,-145], lr = [73,-166], username = 'test', password = 'test')
     s1.set_params(start = datetime.date(2010,1,1), end = datetime.date(2010,1,1))
     assert s1.check_params() == True
 
@@ -67,15 +67,15 @@ def test_get_grid_fails():
 
 
 def test_get_xy_N():
-    ll_ul = [ -140, 62]
-    ll_lr = [-166, 73]
+    ll_ul = [ 62, -140]
+    ll_lr = [73, -166]
     s1 = swepy(os.getcwd(), ul = ll_ul, lr = ll_lr)
     list1 = s1.get_xy(ll_ul, ll_lr)
     assert list1 == [-1988822.728499157, 2370186.6317218887, -457544.84080317785, 1835112.123731079]
 
 def test_get_xy_S():
-    ll_lr = [9,-80]
-    ll_ul = [-16, -69]
+    ll_lr = [-80,9]
+    ll_ul = [-69, -16]
     s1 = swepy(os.getcwd(), ul = ll_ul, lr = ll_lr)
     list1 = s1.get_xy(ll_ul, ll_lr)
     assert list1 == [-642633.6942027326, 2241130.027261452,174488.418187805, 1101676.514626506]
@@ -154,7 +154,7 @@ def test_subset():
     if not os.path.exists('sub'):
         os.mkdir('sub')
     date = datetime.date(2010,1,1)
-    s1 = swepy(os.getcwd(),ul = [-145,66], lr = [-166,73])
+    s1 = swepy(os.getcwd(),ul = [66,=145], lr = [71,-166])
     setattr(s1,'down19list',['NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc'])
     setattr(s1,'down37list',['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc'])
     path = os.getcwd()+'/'#'/tests/data/MEASURES/NSIDC-0630.001/2010.01.01/'
@@ -166,7 +166,7 @@ def test_subset():
 
 def test_concat():
     date = datetime.date(2010,1,1)
-    s1 = swepy(os.getcwd(),ul = [-145,66], lr = [-166,73])
+    s1 = swepy(os.getcwd(),ul = [66,-145], lr = [73,-166])
     setattr(s1,'sub19list',['NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc'])
     setattr(s1,'sub37list',['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc'])
     s1.concatenate()
