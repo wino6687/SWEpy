@@ -71,7 +71,7 @@ class swepy():
             else:
                 self.subBool = True
                 # may need to change these to 0's
-                self.get_grid(ul[0], lr[0]])
+                self.get_grid(ul[0], lr[0])
                 self.geo_list = self.get_xy(ul, lr)
                 self.center = [ul[1], ul[0]]
 
