@@ -20,7 +20,7 @@ authors:
 affiliations:
  - name: University of Colorado Boulder
    index: 1
-date: 4 September 2018
+date: 20 September 2018
 bibliography: paper.bib
 ---
 
