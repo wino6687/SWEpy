@@ -71,7 +71,7 @@ class swepy():
             else:
                 self.subBool = True
                 # may need to change these to 0's
-                self.get_grid(ul[1], lr[1])
+                self.get_grid(ul[0], lr[0]])
                 self.geo_list = self.get_xy(ul, lr)
                 self.center = [ul[1], ul[0]]
 
@@ -152,16 +152,16 @@ class swepy():
         '''
         if (lat1 < 50 and lat2 < 50) and (lat1 > -50 and lat2 > -50): # mid lat
             self.grid = "T"
-            self.ease3 = Ease2Transform.Ease2Transform("EASE2_T3.125km")
-            self.ease6 = Ease2Transform.Ease2Transform("EASE2_T6.25km")
+            self.ease3 = ease2Transform.ease2Transform("EASE2_T3.125km")
+            self.ease6 = ease2Transform.ease2Transform("EASE2_T6.25km")
         elif (lat1 > 40 and lat2 > 40) and (lat1 <90 and lat2 < 90): # north
             self.grid = "N"
-            self.ease3 = Ease2Transform.Ease2Transform("EASE_N3.125km")
-            self.ease6 = Ease2Transform.Ease2Transform("EASE_N6.25km")
+            self.ease3 = ease2Transform.ease2Transform("EASE_N3.125km")
+            self.ease6 = ease2Transform.ease2Transform("EASE_N6.25km")
         elif (lat1 < -40 and lat2 < -40) and (lat1 > -90 and lat2 > -90): # South
             self.grid = "S"
-            self.ease3 = Ease2Transform.Ease2Transform("EASE_S3.125km")
-            self.ease6 = Ease2Transform.Ease2Transform("EASE_S6.25km")
+            self.ease3 = ease2Transform.ease2Transform("EASE_S3.125km")
+            self.ease6 = ease2Transform.ease2Transform("EASE_S6.25km")
         else:
             print("SWEpy currently only supports subsetting study areas with a study area in the North, South, or Equatorial imagery \
             \nOverlappig study areas can cause errors, and require more than one region of imagery")
