@@ -2,6 +2,7 @@
 from datetime import datetime, timedelta
 import requests
 from swepy.nsidcDownloader import nsidcDownloader
+from swepy.ease2Transform import ease2Transform
 import numpy as np
 from netCDF4 import Dataset
 from skimage.measure import block_reduce
@@ -10,7 +11,6 @@ from nco import Nco
 import os
 from tqdm import tqdm
 import glob
-import cartopy.crs as ccrs
 
 nco = Nco()
 
@@ -41,8 +41,8 @@ class swepy():
         self.username = username
         self.password = password
 
-        self.geod = None
-        self.e2n = None
+        self.ease3 = None
+        self.ease6 = None
 
         self.geo_list = None
         self.grid = None
@@ -70,6 +70,7 @@ class swepy():
                 self.geo_list = "S"
             else:
                 self.subBool = True
+                # may need to change these to 0's
                 self.get_grid(ul[1], lr[1])
                 self.geo_list = self.get_xy(ul, lr)
                 self.center = [ul[1], ul[0]]
@@ -81,6 +82,7 @@ class swepy():
         self.concatlist = [None, None]
         self.concat19list = []
         self.concat37list = []
+
         if username == 'test' and password == 'test':
             self.local_session = True
             self.nD = nsidcDownloader.nsidcDownloader(folder = os.getcwd(), no_auth=True)
@@ -150,18 +152,19 @@ class swepy():
         '''
         if (lat1 < 50 and lat2 < 50) and (lat1 > -50 and lat2 > -50): # mid lat
             self.grid = "T"
-            print("SWEpy 1.1.2 does not currently support subsetting Equatorial images \n The entire image will be scraped")
+            self.ease3 = Ease2Transform.Ease2Transform("EASE2_T3.125km")
+            self.ease6 = Ease2Transform.Ease2Transform("EASE2_T6.25km")
         elif (lat1 > 40 and lat2 > 40) and (lat1 <90 and lat2 < 90): # north
             self.grid = "N"
-            self.geod = ccrs.Geodetic()
-            self.e2n = ccrs.LambertAzimuthalEqualArea(central_latitude=90.0)
+            self.ease3 = Ease2Transform.Ease2Transform("EASE_N3.125km")
+            self.ease6 = Ease2Transform.Ease2Transform("EASE_N6.25km")
         elif (lat1 < -40 and lat2 < -40) and (lat1 > -90 and lat2 > -90): # South
             self.grid = "S"
-            self.geod = ccrs.Geodetic()
-            self.e2n = ccrs.LambertAzimuthalEqualArea(central_latitude=-90.0)
+            self.ease3 = Ease2Transform.Ease2Transform("EASE_S3.125km")
+            self.ease6 = Ease2Transform.Ease2Transform("EASE_S6.25km")
         else:
-            print("SWEpy currently only supports subsetting study areas with a study area in the North or South imagery \
-            \nOverlappig study areas can cause erros, and require more than one region of imagery")
+            print("SWEpy currently only supports subsetting study areas with a study area in the North, South, or Equatorial imagery \
+            \nOverlappig study areas can cause errors, and require more than one region of imagery")
             raise ValueError
         return self.grid
 
@@ -185,19 +188,15 @@ class swepy():
 
 
     def get_xy(self, ll_ul, ll_lr):
-        '''Use cartopy scripts to convert user inputted
+        '''Use nsidc scripts to convert user inputted
         lat/lon into Ease grid 2.0 coordinates'''
         if ll_ul is None or ll_lr is None:
             print("You must enter bounding coordinates when instantiating the class")
             raise ValueError
-        xul,yul = self.e2n.transform_point(
-                x = ll_ul[0],
-                y = ll_ul[1],
-                src_crs = self.geod)
-        xlr, ylr = self.e2n.transform_point(
-                x = ll_lr[0],
-                y = ll_lr[1],
-                src_crs = self.geod)
+        row, col = self.ease3.geographic_to_grid(ll_ul[0], ll_ul[1])
+        xul, yul = self.ease3.grid_to_map(row,col)
+        row, col = self.ease3.geographic_to_grid(ll_lr[0], ll_lr[1])
+        xlr, ylr = self.ease3.grid_to_map(row, col)
         return [xul, yul, xlr, ylr]
 
 

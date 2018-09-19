@@ -99,18 +99,24 @@ class nsidcDownloader():
 
         ## Send test request, keep following the redirects and scoop
         ## up all of the cookies along the way in self.session
+        badconn = False
+
         try:
             req = self.session.get(test_url, allow_redirects = False)
-
+            badconn = False
             while req.status_code == 302:
                 req = self.session.get(req.headers["Location"],
                                        allow_redirects = False)
         except requests.ConnectionError:
+            badconn = True
             pass
 
         ## If the final request is 401 (Bad Auth), throw exception
-        if req.status_code == 401:
-            raise PermissionError("Bad NASA Earthdata Authentication!")
+        if badconn == True:
+            print("Server Down, try again later")
+        else:
+            if req.status_code == 401:
+                raise PermissionError("Bad NASA Earthdata Authentication!")
 
     def download_file(self, folder=None, overwrite=False, **kwargs):
         '''
