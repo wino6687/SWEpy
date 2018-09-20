@@ -120,7 +120,7 @@ class swepy():
         if ul is not None and lr is not None:
             print("Setting the bounding coordinates...")
             self.subBool = True
-            self.get_grid(ul[1], lr[1])
+            self.get_grid(ul[0], lr[0])
             self.geo_list = self.get_xy(ul,lr)
             self.center = [ul[1], ul[0]]
             print("Success!")
