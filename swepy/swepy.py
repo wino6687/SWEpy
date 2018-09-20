@@ -85,7 +85,7 @@ class swepy():
 
         if username == 'test' and password == 'test':
             self.local_session = True
-            self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, no_auth=True)
+            self.nD = nsidcDownloader.nsidcDownloader(folder = os.getcwd(), no_auth=True)
         elif username is not None and password is not None:
             self.local_session = False
             self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
