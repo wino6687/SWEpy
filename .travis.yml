@@ -19,10 +19,8 @@ install:
   - conda config --add channels wino6687
   - conda config --add channels conda-forge
   # create environment
-  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION conda-build pandas numpy pytest affine gdal pynco netCDF4 tqdm requests scikit-image cython
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION conda-build pandas numpy pytest affine gdal pynco netCDF4 tqdm requests scikit-image
   - source activate test-environment
-  # install cartopy from git instead of conda
-  - pip install git+https://github.com/SciTools/cartopy.git
   #  install swepy with setup.py
   - python setup.py install
   - conda list
