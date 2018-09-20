@@ -156,12 +156,12 @@ class swepy():
             self.ease6 = ease2Transform.ease2Transform("EASE2_T6.25km")
         elif (lat1 > 40 and lat2 > 40) and (lat1 <90 and lat2 < 90): # north
             self.grid = "N"
-            self.ease3 = ease2Transform.ease2Transform("EASE_N3.125km")
-            self.ease6 = ease2Transform.ease2Transform("EASE_N6.25km")
+            self.ease3 = ease2Transform.ease2Transform("EASE2_N3.125km")
+            self.ease6 = ease2Transform.ease2Transform("EASE2_N6.25km")
         elif (lat1 < -40 and lat2 < -40) and (lat1 > -90 and lat2 > -90): # South
             self.grid = "S"
-            self.ease3 = ease2Transform.ease2Transform("EASE_S3.125km")
-            self.ease6 = ease2Transform.ease2Transform("EASE_S6.25km")
+            self.ease3 = ease2Transform.ease2Transform("EASE2_S3.125km")
+            self.ease6 = ease2Transform.ease2Transform("EASE2_S6.25km")
         else:
             print("SWEpy currently only supports subsetting study areas with a study area in the North, South, or Equatorial imagery \
             \nOverlappig study areas can cause errors, and require more than one region of imagery")
