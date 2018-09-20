@@ -71,14 +71,14 @@ def test_get_xy_N():
     ll_lr = [73, -166]
     s1 = swepy(os.getcwd(), ul = ll_ul, lr = ll_lr)
     list1 = s1.get_xy(ll_ul, ll_lr)
-    assert list1 == [-1988822.728499146, 2370186.6317218887, -457544.84080317743, 1835112.123731067]
+    assert list1 == [-1988822.728499146, 2370186.6317218887, -457544.8408031775, 1835112.123731067]
 
 def test_get_xy_S():
     ll_lr = [-80,9]
     ll_ul = [-69, -16]
     s1 = swepy(os.getcwd(), ul = ll_ul, lr = ll_lr)
     list1 = s1.get_xy(ll_ul, ll_lr)
-    assert list1 == [-642633.6942027304, 2241130.027261452,174488.41818780638, 1101676.5146265002]
+    assert list1 == [-642633.6942027304, 2241130.027261448,174488.41818780638, 1101676.5146265002]
 
 def test_get_xy_none():
     ll_lr = None
