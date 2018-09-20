@@ -10,7 +10,7 @@ m_per_km = 1000.
 resolutions = ["25", "12.5", "6.25", "3.125"]
 
 
-class Ease2Transform():
+class ease2Transform():
     """
     The Ease2Transform class provides map projection conversion routines
     for geographic (lat/lon), grid (row/col), and map (x,y) locations in
