@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="swepy",
-    version="1.1.5",
+    version="1.1.6",
     author="William Norris",
     author_email="wino6687@colorado.edu",
     description="A python package for obtaining and manipulating Tb files from the MEaSUREs database",
@@ -16,6 +16,6 @@ setuptools.setup(
     classifiers=(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
-        "License :: OSI Approved :: MIT License"
+        "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)"
     ),
 )
