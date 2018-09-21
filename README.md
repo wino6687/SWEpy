@@ -145,7 +145,6 @@ nD.download_file(**file)
 - datetime
 - tqdm
 - pandas
-- cartopy
 
 
 # Troubleshooting:
