@@ -154,7 +154,7 @@ class swepy():
             self.grid = "T"
             self.ease3 = ease2Transform.ease2Transform("EASE2_T3.125km")
             self.ease6 = ease2Transform.ease2Transform("EASE2_T6.25km")
-        elif (lat1 > 40 and lat2 > 40) and (lat1 <90 and lat2 < 90): # north
+        elif (lat1 > 40 and lat2 > 40) and (lat1 < 90 and lat2 < 90): # north
             self.grid = "N"
             self.ease3 = ease2Transform.ease2Transform("EASE2_N3.125km")
             self.ease6 = ease2Transform.ease2Transform("EASE2_N6.25km")
