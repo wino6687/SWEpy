@@ -16,10 +16,12 @@ authors:
     affiliation: 1
   - name: Carson J. Farmer
     orcid: 0000-0003-1643-5976
-    affiliation: 1
+    affiliation: 2
 affiliations:
- - name: University of Colorado Boulder
+ - name: Earth Lab, University of Colorado Boulder, Intern
    index: 1
+ - name: Earth Lab, University of Colorado Boulder, Assistant Professor
+   index: 2
 date: 20 September 2018
 bibliography: paper.bib
 ---
@@ -81,7 +83,7 @@ nD.download_file(**file)
 SWEpy is available from GitHub (https://github.com/wino6687/SWEpy) and anaconda (https://anaconda.org/wino6687/swepy). Full documentation can be found in the GitHub repository wiki (https://github.com/wino6687/SWEpy/wiki). Any issues or bugs can be reported to the issues page on the GitHub repository:  https://github.com/wino6687/SWEpy/issues.
 
 # Acknowledgements:
-SWEpy was developed with funding from Earth Lab at the University of Colorado Boulder under the supervision of Carson Farmer. Also thanks to David Nyberg and Davey Lovin who helped conceive the project and start the basic framework.
+SWEpy was developed with funding from Earth Lab at the University of Colorado Boulder under the supervision of Carson Farmer.
 
 
 
