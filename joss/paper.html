@@ -133,7 +133,55 @@ Earth Lab, University of Colorado Boulder</div></em></h3>
 <h1>Summary</h1>
 <p>Modern analysis of earth’s systems requires significant volumes of increasingly fine resolution spatial and temporal information. For example, the <em>MEaSUREs Calibrated Enhanced Passive Microwave Daily-Grid 2.0 Brightness Temperature</em> data set, released by the National Snow and Ice Data Center (NSIDC), is no exception (Brodzik, 2016). The MEaSUREs dataset contains twice daily passive microwave imagery from 1978 through 2017, which can be particularly useful for spatial-temporal analysis of snow water equivalent (SWE). In addition to high temporal resolution, the MEaSUREs CETB dataset contains imagery that has been resampled from 25km down to 6.25km wide pixels, allowing for analysis to be done at a finer spatial scale than previously available versions of the data source. While this data is exceedingly useful, it can take considerable time to set up scripts for web access, geographic subsetting, and merging sequential images into useful time cubes. The MEaSUREs data set is also large: accessing a full time series of Northern Hemisphere imagery would require easily two terabytes of disc space, which most researchers do not have available on their local computer. SWEpy was developed in part to deal with these issues, while also providing basic data manipulation tools to facilitate SWE-based research. SWEpy is a Python library that allows for quick and easy web-access, geographic subsetting, and concatenation of MEaSUREs CETB files. The primary goal of SWEpy is to reduce the time needed for researchers to access and begin making use of MEaSUREs CETB data. A user with very little knowledge of Python can use SWEpy to access this data within minutes, and those more familiar with the scientific Python ecosystem can benefit from the wealth of tools available for subsequent analysis of CETB data.</p>
 <p>Ease of use is a primary goal for SWEpy. Users can enter as little information as a date range, bounding coordinates, and their Earthdata login credentials, and SWEpy will return two single time cube files with only the data for the user’s study area included. SWEpy has intelligent defaults pre-defined for various CETB files used in SWE analysis,such as which sensor is the most stable for a given year, as well as more specific web-access functionality. When using the default settings, in order to avoid running out of disk space, SWEpy will optimize long running data access sessions by automating the whole process, stopping to subset and concatenate files incrementally when the entire dataset will be too large to store on disk. Additionally, if a user has more specific file needs, they can work directly with SWEpy’s flexible web access tool, and still make use of the built in geographic subsetting and merging features if desired.</p>
+<div id="example-use-of-auto-workflow" class="section level2">
+<h2>Example Use of Auto Workflow</h2>
+<pre class="{python}"><code>from swepy.swepy import swepy
+import datetime
+import os
+
+# enter Earthdata login credentials
+username = &quot;username&quot;
+password = &quot;password&quot;
+
+# enter bounding coordinates
+lon_lat_ul = [66,-145]
+lon_lat_lr = [73,-166]
+
+# set date range (Y,M,D)
+start = datetime.date(2010,1,1)
+end = datetime.date(2010,2,1)
+
+# instantiate the class
+swe = swepy(os.getcwd(), start=start, end=end,
+            ul=lon_lat_ul, lr=lon_lat_lr, username=username,
+            password=password)
+
+# Get a time cube for your study area
+swe.scrape_all()</code></pre>
+</div>
+<div id="example-use-of-web-scraper-alone" class="section level2">
+<h2>Example Use of Web Scraper Alone</h2>
+<pre class="{python}"><code>from swepy.nsidcDownloader import nsidcDownloader
+nD = nsidcDownloader.nsidcDownloader(username=username,password=password,folder=os.getcwd())
+file = {
+    &quot;resolution&quot;: &quot;3.125km&quot;,
+    &quot;platform&quot;: &quot;F17&quot;,
+    &quot;sensor&quot;: &quot;SSMIS&quot;,
+    &quot;grid&quot;: &quot;N&quot;,
+    &quot;pass&quot;: &quot;M&quot;,
+    &quot;date1&quot;: datetime.date(2015,10,10),
+    &quot;date2&quot;: datetime.date(2015,10,10),
+    &quot;channel&quot;: &quot;37H&quot;,
+    &quot;algorithm&quot;: &quot;SIR&quot;,
+    &quot;input&quot;: &quot;CSU&quot;
+}
+
+nD.download_file(**file)</code></pre>
+</div>
+<div id="accessing-swepy" class="section level2">
+<h2>Accessing SWEpy</h2>
 <p>SWEpy is available from GitHub (<a href="https://github.com/wino6687/SWEpy" class="uri">https://github.com/wino6687/SWEpy</a>) and anaconda (<a href="https://anaconda.org/wino6687/swepy" class="uri">https://anaconda.org/wino6687/swepy</a>). Full documentation can be found in the GitHub repository wiki (<a href="https://github.com/wino6687/SWEpy/wiki" class="uri">https://github.com/wino6687/SWEpy/wiki</a>). Any issues or bugs can be reported to the issues page on the GitHub repository: <a href="https://github.com/wino6687/SWEpy/issues" class="uri">https://github.com/wino6687/SWEpy/issues</a>.</p>
+</div>
 </div>
 <div id="acknowledgements" class="section level1">
 <h1>Acknowledgements:</h1>
