@@ -16,5 +16,3 @@ dependencies:
   - scikit-learn
   - netCDF4
   - swepy
-  - pip:
-      - "git+https://github.com/SciTools/cartopy.git"
