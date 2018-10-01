@@ -23,7 +23,17 @@ SWEpy is a python library designed to give you quick and easy access to temperat
 Create an Earthdata account to be able to download data: https://urs.earthdata.nasa.gov/
 
 
-### 2. Install SWEpy Using Conda (Recommended):
+### 2. Setup conda environment from yaml (Recommended)
+
+The libraries used in this analysis, namely pynco, can be finicky with the channels that dependencies are installed with. Thus, using the provided yaml file to build an environment for this project will make your life simpler. You can add more packages on top of the provided environment as long as you install with the conda-forge channel.
+
+Using the yaml file (.yml) create a new conda environment
+```{python}
+conda env create -f swepy_env.yml
+```
+
+### Alternative: Install SWEpy Using Conda or pip:
+
 SWEpy is available from anaconda, and will install all dependencies when installed. It is also available from pip (Pypi), but will not install all the dependencies automatically.
 
 ** Important ** ```conda-forge``` must be the first channel in your .condarc file followed by ```wino6687```.
@@ -37,17 +47,11 @@ channels:
 
 ```{python}
 conda install swepy
+# or
+pip intall swepy
 ```
- ** Note ** If you do not have my channel ```wino6687``` in your condarc file, then you will need to specify the channel when installing: ```conda install -c wino6687 swepy```
+ ** Note ** If you do not have my channel ```wino6687``` in your ```.condarc``` file, then you will need to specify the channel when installing: ```conda install -c wino6687 swepy```
 
-### Alternative: Setup conda environment from yaml
-
-The libraries used in this analysis, namely pynco, can be finicky with the channels that dependencies are installed with. Thus, using the provided yaml file to build an environment for this project will make your life simpler. You can add more packages on top of the provided environment as long as you install with the conda-forge channel.
-
-Using the yaml file (.yml) create a new conda environment
-```{python}
-conda env create -f swepy_env.yml
-```
 
 ### 3. Install ipykernel (if using jupyter and conda environments)
 
