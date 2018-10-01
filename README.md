@@ -7,10 +7,6 @@
 
 * All study area boxes should be oriented to the North when choosing lower right and upper left bounding coordinates.
 
-* Only supported in windows and linux
-
-* Requires python 3.6
-
 * Anaconda 3 recommended
 
 # SWEpy Quick Start Guide
