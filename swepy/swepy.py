@@ -35,8 +35,6 @@ class swepy():
         # create directories for data
         self.path19, self.path37, self.wget = self.get_directories(self.working_dir)
 
-        self.center = [ul[1], ul[0]]
-
         self.outfile_19 = outfile19
         self.outfile_37 = outfile37
 
