@@ -11,6 +11,8 @@ from nco import Nco
 import os
 from tqdm import tqdm
 import glob
+from mapboxgl.utils import *
+from mapboxgl.viz import *
 
 nco = Nco()
 
@@ -34,6 +36,8 @@ class swepy():
 
         # create directories for data
         self.path19, self.path37, self.wget = self.get_directories(self.working_dir)
+
+        self.center = [ul[1], ul[0]]
 
         self.outfile_19 = outfile19
         self.outfile_37 = outfile37
@@ -260,7 +264,7 @@ class swepy():
         find optimal file composition and return the
         file params for the web scraper's use.'''
         sensors = {1992: 'F11', 1993: 'F11', 1994: 'F11', 1995: 'F11', 1996: 'F13', 1997: 'F13', 1998: 'F13',
-                1999: 'F13', 2000: 'F13', 2001: 'F13', 2002: 'F13', 2003: 'F15', 2004: 'F15', 2005: 'F15', 2006: 'F15',
+                1999: 'F13', 2000: 'F13', 2001: 'F13', 2002: 'F13', 2003: 'F15', 2004: 'F15', 2005: 'F15', 2006: 'F16',
                 2007: 'F15', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
                 2015: 'F19',2016: 'F18'}
         sensor = sensors[date.year]
@@ -272,23 +276,27 @@ class swepy():
         else:
             resolution = '25km'
             algorithm = 'GRD'
-            if datetime(2003,1,1) <= date < datetime(2004,4,9):
+            if datetime(2003,1,1) <= date <= datetime(2006,11,3):
                 date2 = date - timedelta(days = 1)
             else:
                 date2 = date
+        if self.grid == 'T':
+            pass1 = 'A'
+        else:
+            pass1 = 'M'
         file = {
             "protocol": "http" if self.local_session else "https",
             "server": "localhost:8000" if self.local_session else "n5eil01u.ecs.nsidc.org",
             "datapool": "MEASURES",
             "resolution": resolution,
-            "platform": sensor,
+            "platform": "F14" if date in [datetime(2003,11,6)] else sensor,
             "sensor": ssmi_s,
             "date1": date,
             "date2": date2,
             "channel": channel,
             "grid": self.grid,
             "dataversion": 'v1.3',
-            "pass": "A" if self.grid == "T" else "M",
+            "pass": 'E' if date in  [datetime(2005,5,12), datetime(2006,2,4)] else pass1,
             "algorithm": algorithm
         }
         return file
@@ -419,3 +427,66 @@ class swepy():
         for f in files:
             os.remove(f)
         return
+
+    def open_swe(self, tb19, tb37):
+        filename_19H = tb19
+        fid_19H = Dataset(filename_19H, "r", format = "NETCDF4")
+
+        filename_37H = tb37
+        fid_37H = Dataset(filename_37H, "r", format="NETCDF4")
+
+        # grab the tb data out of the netCDF data
+        tb_19H_long = fid_19H.variables['TB'][:]
+        tb_37H_long = fid_37H.variables['TB'][:]
+
+        # block reduce (mean) the 37ghz data to 6.25km
+        tb_37H_long = block_reduce(tb_37H_long, block_size = (1,2,2), func = np.mean)
+
+        # difference for SWE
+        return self.safe_subtract(tb_19H_long, tb_37H_long)
+
+    def plot_a_day(self, token):
+        '''read tb,x,y data from final files,
+        with the purpose of plotting.'''
+        fid_19H = Dataset(self.concatlist[0], "r", format="NETCDF4")
+        fid_37H = Dataset(self.concatlist[1], "r", format="NETCDF4")
+
+        x = fid_19H.variables['x'][:]
+        y = fid_19H.variables['y'][:]
+
+        tb_19H = fid_19H.variables['TB'][:]
+        tb_37H = fid_37H.variables['TB'][:]
+        tb_37H = block_reduce(tb_37H, block_size = (1,2,2), func = np.mean)
+
+        tb = self.safe_subtract(tb_19H, tb_37H)
+        lats = np.zeros((len(y), len(x)), dtype=np.float64)
+        lons = np.zeros((len(y), len(x)), dtype=np.float64)
+        grid = ease2Transform.ease2Transform(gridname=fid_19H.variables["crs"].long_name)
+        one_day = tb[0,:,:]
+        df = pd.DataFrame(columns = ['lat', 'lon', 'swe'])
+        for i, xi in enumerate(x):
+            for j, yj in enumerate(y):
+                row, col = grid.map_to_grid(xi, yj)
+                lat, lon = grid.grid_to_geographic(row, col)
+                lats[j, i] = lat
+                lons[j, i] = lon
+                #df = df.append({'lat': lats[j][i], 'lon': lons[j][i], 'swe':one_day[j-2][i-2]}, ignore_index = True)
+        for i in range(len(one_day[:,1])):
+            for j in range(len(one_day[1,:])):
+                df = df.append({'lat': lats[i][j], 'lon': lons[i][j], 'swe':one_day[i][j]}, ignore_index = True)
+        print(one_day)
+        os.chdir(self.working_dir)
+        df_to_geojson(df, filename = 'swe_1day.geojson',properties = ['swe'],lat = 'lat', lon = 'lon')
+        measure = 'swe'
+        color_breaks = [round(df[measure].quantile(q=x*0.1), 2) for x in range(1,9)]
+        color_stops = create_color_stops(color_breaks, colors='YlGnBu')
+        # Create the viz from the dataframe
+        viz = CircleViz('swe_1day.geojson',
+                        access_token=token,
+                        color_property = "swe",
+                        color_stops = color_stops,
+                        center = (self.center),
+                        zoom = 3,
+                        below_layer = 'waterway-label')
+
+        viz.show()
