@@ -14,7 +14,7 @@ authors:
   - name: William M. Norris
     orcid: 0000-0002-6772-9600
     affiliation: 1
-  - name: Carson J. Farmer
+  - name: Carson J.Q. Farmer
     orcid: 0000-0003-1643-5976
     affiliation: 1
 affiliations:
