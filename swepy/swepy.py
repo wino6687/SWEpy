@@ -390,7 +390,8 @@ class swepy():
     def safe_subtract(self, tb19, tb37):
         '''Check size of each file, often the 19 and 37
             files are one unit off of eachother. This will
-            chop the larger one to match the smaller one.'''
+            chop the larger one to match the smaller one.
+        '''
         shape1 = np.shape(tb19)
         shape2 = np.shape(tb37)
         s1 = [shape1[0], shape1[1], shape1[2]]
@@ -410,6 +411,10 @@ class swepy():
 
 
     def clean_dirs(self):
+        '''
+        Delete files in directory
+        Useful for cleaning up with repeated testing
+        '''
         os.chdir(self.wget)
         files = glob.glob("*")
         for f in files:
@@ -425,6 +430,10 @@ class swepy():
         return
 
     def open_swe(self, tb19, tb37):
+        '''
+        Open 19 and 37 files, block reduce the 37ghz to match,
+        then safe subtract the two to get SWE
+        '''
         filename_19H = tb19
         fid_19H = Dataset(filename_19H, "r", format = "NETCDF4")
 
