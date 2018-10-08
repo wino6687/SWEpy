@@ -5,8 +5,6 @@
 
 ## Important Notes
 
-* All study area boxes should be oriented to the North when choosing lower right and upper left bounding coordinates.
-
 * Anaconda 3 recommended
 
 # SWEpy Quick Start Guide
@@ -81,9 +79,9 @@ from swepy.swepy import swepy
 	swe = swepy(path, start, end, upper_left, lower_right, username, password, high_res = True)
 	```
 
-3. Don't forget to orient your upper-left and lower-right bounding coordinates to the North.
+3. Don't forget to orient your upper-left and lower-right bounding coordinates with the EASE Grid 2.0 Orientation:
 
- ![Example Study Area](https://snag.gy/1LkaYQ.jpg)
+ ![Example Study Area](https://nsidc.org/sites/nsidc.org/files/images/data/ease/all_maps.gif)
 
 * By default, the high_res parameter is set to True, meaning it will scrape high resolution images. If it is passed as 'False' then it will scrape 25km images instead of the 6.25km high resolution images.
 
