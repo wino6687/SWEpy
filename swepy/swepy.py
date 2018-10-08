@@ -432,7 +432,7 @@ class swepy():
     def open_swe(self, tb19, tb37):
         '''
         Open 19 and 37 files, block reduce the 37ghz to match,
-        then safe subtract the two to get SWE
+        then safe subtract the two to get SWE, tb19, and tb37 returned
         '''
         filename_19H = tb19
         fid_19H = Dataset(filename_19H, "r", format = "NETCDF4")
@@ -448,4 +448,4 @@ class swepy():
         tb_37H_long = block_reduce(tb_37H_long, block_size = (1,2,2), func = np.mean)
 
         # difference for SWE
-        return self.safe_subtract(tb_19H_long, tb_37H_long)
+        return self.safe_subtract(tb_19H_long, tb_37H_long), tb_19H_long, tb_37H_long
