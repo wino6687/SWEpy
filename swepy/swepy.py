@@ -261,7 +261,7 @@ class swepy():
         file params for the web scraper's use.'''
         sensors = {1992: 'F11', 1993: 'F11', 1994: 'F11', 1995: 'F11', 1996: 'F13', 1997: 'F13', 1998: 'F13',
                 1999: 'F13', 2000: 'F13', 2001: 'F13', 2002: 'F13', 2003: 'F15', 2004: 'F15', 2005: 'F15', 2006: 'F16',
-                2007: 'F15', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
+                2007: 'F16', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
                 2015: 'F19',2016: 'F18'}
         sensor = sensors[date.year]
         ssmi_s = "SSMIS" if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else "SSMI"
@@ -272,7 +272,7 @@ class swepy():
         else:
             resolution = '25km'
             algorithm = 'GRD'
-            if datetime(2003,1,1) <= date <= datetime(2006,11,3):
+            if datetime(2003,1,1) <= date <= datetime(2008,12,31):
                 date2 = date - timedelta(days = 1)
             else:
                 date2 = date
@@ -280,19 +280,27 @@ class swepy():
             pass1 = 'A'
         else:
             pass1 = 'M'
+        if date in [datetime(2003,11,6), datetime(2004,4,9)]:
+            sensor = 'F14'
+        if date in [datetime(2006,11,4), datetime(2006,12,1)]:
+            sensor = 'F15'
+            ssmi_s = "SSMI"
+        elif date in [datetime(2005,5,12),datetime(2006,2,4),datetime(2008,1,2)]:
+            pass1 = 'E'
+
         file = {
             "protocol": "http" if self.local_session else "https",
             "server": "localhost:8000" if self.local_session else "n5eil01u.ecs.nsidc.org",
             "datapool": "MEASURES",
             "resolution": resolution,
-            "platform": "F14" if date in [datetime(2003,11,6)] else sensor,
+            "platform": sensor,
             "sensor": ssmi_s,
             "date1": date,
             "date2": date2,
             "channel": channel,
             "grid": self.grid,
             "dataversion": 'v1.3',
-            "pass": 'E' if date in  [datetime(2005,5,12), datetime(2006,2,4)] else pass1,
+            "pass": pass1,
             "algorithm": algorithm
         }
         return file
