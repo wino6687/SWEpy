@@ -29,5 +29,3 @@ before_script:
   - python swepy/tests/mock_server.py &
 script:
   - pytest -v
-after_success:
-  - test $TRAVIS_BRANCH = "master" && conda install conda-build && conda install anaconda-client && bash conda_upload.sh
