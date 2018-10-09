@@ -272,15 +272,18 @@ class swepy():
         else:
             resolution = '25km'
             algorithm = 'GRD'
-            if datetime(2003,1,1) <= date <= datetime(2008,12,31):
+            if datetime(2003,1,1) <= date <= datetime(2008,3,5):
                 date2 = date - timedelta(days = 1)
             else:
                 date2 = date
+
             if date in [datetime(2003,11,6), datetime(2004,4,9)]:
                 sensor = 'F14'
             if date in [datetime(2006,11,4), datetime(2006,12,1), datetime(2008,2,26)]:
                 sensor = 'F15'
                 ssmi_s = "SSMI"
+            if date in pd.date_range(datetime(2008,3,6), datetime(2008,12,31)):
+                sensor = 'F17'
             if date in [datetime(2005,5,12),datetime(2006,2,4),datetime(2008,1,2),datetime(2008,2,26)]:
                 pass1 = 'E'
         if self.grid == 'T':
