@@ -22,7 +22,7 @@ affiliations:
    index: 1
 
 date: 20 September 2018
-bibliography: paper.bib
+bibliography: bibliography.bib
 ---
 
 
@@ -84,7 +84,6 @@ SWEpy is available from GitHub (https://github.com/wino6687/SWEpy) and anaconda 
 
 # Acknowledgements:
 SWEpy was developed with funding from Earth Lab at the University of Colorado Boulder under the supervision of Carson Farmer.
-
 
 
 # References
