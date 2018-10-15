@@ -286,6 +286,7 @@ class swepy():
                 sensor = 'F17'
             if date in [datetime(2005,5,12),datetime(2006,2,4),datetime(2008,1,2),datetime(2008,2,26)]:
                 pass1 = 'E'
+
         if self.grid == 'T':
             pass1 = 'A'
         else:
@@ -440,7 +441,7 @@ class swepy():
             os.remove(f)
         return
 
-    def open_swe(self, tb19, tb37):
+    def open_swe(self, tb19, tb37, high=True):
         '''
         Open 19 and 37 files, block reduce the 37ghz to match,
         then safe subtract the two to get SWE, tb19, and tb37 returned
@@ -456,7 +457,8 @@ class swepy():
         tb_37H_long = fid_37H.variables['TB'][:]
 
         # block reduce (mean) the 37ghz data to 6.25km
-        tb_37H_long = block_reduce(tb_37H_long, block_size = (1,2,2), func = np.mean)
+        if high:
+            tb_37H_long = block_reduce(tb_37H_long, block_size = (1,2,2), func = np.mean)
 
         # difference for SWE
         return self.safe_subtract(tb_19H_long, tb_37H_long), tb_19H_long, tb_37H_long
