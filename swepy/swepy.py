@@ -459,6 +459,5 @@ class swepy():
         # block reduce (mean) the 37ghz data to 6.25km
         if high:
             tb_37H_long = block_reduce(tb_37H_long, block_size = (1,2,2), func = np.mean)
-
         # difference for SWE
         return self.safe_subtract(tb_19H_long, tb_37H_long), tb_19H_long, tb_37H_long
