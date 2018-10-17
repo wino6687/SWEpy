@@ -284,11 +284,11 @@ class swepy():
                 ssmi_s = "SSMI"
             if date in pd.date_range(datetime(2008,3,6), datetime(2008,12,31)):
                 sensor = 'F17'
-            if date in [datetime(2005,5,12),datetime(2006,2,4),datetime(2008,1,2),datetime(2008,2,26)]:
-                pass1 = 'E'
 
         if self.grid == 'T':
             pass1 = 'A'
+        elif date in [datetime(2005,5,12),datetime(2006,2,4),datetime(2008,1,2),datetime(2008,2,26)]:
+            pass1 = 'E'
         else:
             pass1 = 'M'
 
