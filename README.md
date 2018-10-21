@@ -163,3 +163,7 @@ If you experience any other issues, do not hesitate to open an issue in this rep
 This library is designed to work with the MEaSUREs CETB dataset:
 
 Brodzik, M. J., D. G. Long, M. A. Hardman, A. Paget, and R. Armstrong. 2016. MEaSUREs Calibrated Enhanced-Resolution Passive Microwave Daily EASE-Grid 2.0 Brightness Temperature ESDR, Version 1. [Indicate subset used]. Boulder, Colorado USA. NASA National Snow and Ice Data Center Distributed Active Archive Center. doi: https://doi.org/10.5067/MEASURES/CRYOSPHERE/NSIDC-0630.001. [June 2018].
+
+
+### Acknowledgements:
+I want to thank Davey Lovin and David Nyberg for their help in conceiving the original project and developing the original prototype! 
