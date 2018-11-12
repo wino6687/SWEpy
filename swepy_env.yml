@@ -1,4 +1,4 @@
-name: swepy_env2
+name: swepy_env
 channels:
   - conda-forge
   - wino6687
