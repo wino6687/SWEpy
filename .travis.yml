@@ -28,4 +28,7 @@ before_script:
   # run mock server in order to test scraping
   - python swepy/tests/mock_server.py &
 script:
-  - pytest -v
+  - pytest -v --cov=swepy
+
+after_success:
+  - codecov
