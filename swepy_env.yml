@@ -4,14 +4,19 @@ channels:
   - wino6687
   - defaults
 dependencies:
-  - pynco
+  # core python
+  - codecov
+  - matplotlib
+  - python=3.6
   - pytest
-  - gdal
   - pandas
   - jupyter
   - ipykernel
   - requests
   - tqdm
+  # geo libraries
+  - pynco
+  - gdal
   - scikit-image
   - scikit-learn
   - netCDF4
