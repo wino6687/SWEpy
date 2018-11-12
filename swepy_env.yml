@@ -5,6 +5,7 @@ channels:
   - defaults
 dependencies:
   # core python
+  - pytest-cov
   - codecov
   - matplotlib
   - python=3.6
