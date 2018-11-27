@@ -265,11 +265,12 @@ class swepy():
                 2015: 'F19',2016: 'F18'}
         sensor = sensors[date.year]
         ssmi_s = "SSMIS" if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else "SSMI"
+        # determine if high res or not
         if self.high_res:
             resolution = '6.25km' if channel == '19H' else '3.125km'
             algorithm = 'SIR'
             date2 = date
-        else:
+        else: # low res data has problems with file paths, these were manually fixed 
             resolution = '25km'
             algorithm = 'GRD'
             if datetime(2003,1,1) <= date <= datetime(2008,3,5):
