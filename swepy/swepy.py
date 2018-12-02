@@ -1,4 +1,4 @@
-# author: Will Norris --> wino6687@colorado.edu
+# author: Will Norris --> wino6687@colorado.edu, Earth Lab, CU Boulder
 from datetime import datetime, timedelta
 import requests
 from swepy.nsidcDownloader import nsidcDownloader
@@ -270,7 +270,7 @@ class swepy():
             resolution = '6.25km' if channel == '19H' else '3.125km'
             algorithm = 'SIR'
             date2 = date
-        else: # low res data has problems with file paths, these were manually fixed 
+        else: # low res data has problems with file paths, these were manually fixed
             resolution = '25km'
             algorithm = 'GRD'
             if datetime(2003,1,1) <= date <= datetime(2008,3,5):
