@@ -169,3 +169,5 @@ Brodzik, M. J., D. G. Long, M. A. Hardman, A. Paget, and R. Armstrong. 2016. MEa
 
 ### Acknowledgements:
 I want to thank Davey Lovin and David Nyberg for their help in conceiving the original project and developing the original prototype!
+
+I also want to thank Carson Farmer and Earth Lab, CU Boulder for their support throughout the development of this project. 
