@@ -78,14 +78,10 @@ class swepy():
             print("Checking your credentials...")
             if username == 'test' and password == 'test':
                 print("Setting up local test session...")
-                #self.username = username
-                #self.password = password
                 self.local_session = True
                 self.nD = nsidcDownloader.nsidcDownloader(folder = os.getcwd(), no_auth=True)
             else:
                 print("Logging you into Earth Data...")
-                #self.username = username
-                #self.password = password
                 self.local_session = False
                 self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
             print("Success!")
@@ -118,7 +114,7 @@ class swepy():
         attempting to web scrape or subset.
         '''
         proceed = True
-        params = {"dates":self.dates, "bounding coordinates":self.geo_list, "grid":self.grid, "username":self.username, "password":self.password}
+        params = {"dates":self.dates, "bounding coordinates":self.geo_list, "grid":self.grid}
         for key, value in params.items():
             if value is None:
                 print("{} needs to be set by 'set_params'".format(key))
