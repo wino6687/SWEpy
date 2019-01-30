@@ -40,38 +40,19 @@ class swepy():
         self.outfile_19 = outfile19
         self.outfile_37 = outfile37
 
-        self.username = username
-        self.password = password
+        #self.username = username
+        #self.password = password
 
         self.ease = None
-
         self.geo_list = None
         self.grid = None
 
         # try to store date range, set to none if not passed
-        set_dates(start, end)
+        self.set_dates(start, end)
 
         # if user inputs a grid name, then scrape whole grid
         # otherwise find the grid that fits coordinates
-        if ul is not None and lr is not None:
-            if ul == "N" and lr == "N":
-                self.grid = "N"
-                self.subBool = False
-                self.geo_list = "N"
-            elif ul == "T" and lr == "T":
-                self.grid = "T"
-                self.subBool = False
-                self.geo_list = "T"
-            elif ul == "S" and lr == "S":
-                self.grid = "S"
-                self.subBool = False
-                self.geo_list = "S"
-            else:
-                self.subBool = True
-                # may need to change these to 0's
-                self.get_grid(ul[0], lr[0])
-                self.geo_list = self.get_xy(ul, lr)
-                self.center = [ul[1], ul[0]]
+        self.set_grid(ul, lr)
 
         self.down19list = []
         self.down37list = []
@@ -81,23 +62,9 @@ class swepy():
         self.concat19list = []
         self.concat37list = []
 
-        if username == 'test' and password == 'test':
-            self.local_session = True
-            self.nD = nsidcDownloader.nsidcDownloader(folder = os.getcwd(), no_auth=True)
-        elif username is not None and password is not None:
-            self.local_session = False
-            self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
-        else:
-            print("No Earthdata credentials given")
-            # do i want to create directories if no credentials are passed??
-            self.nD = None
+        self.set_login(username, password)
 
-    def set_params(self, start=None, end=None, username=None, password=None, ul=None, lr=None):
-        '''
-        Function to allow users to add information to the class after already instantiating.
-        Allows user to instantiate class with just date range and credentials, then add coordinates
-        for subsetting later without losing the download lists
-        '''
+'''    def set_params(self, start=None, end=None, username=None, password=None, ul=None, lr=None):
         if start is not None and end is not None:
             print("Setting the date range...")
             self.dates = pd.date_range(start, end)
@@ -122,7 +89,7 @@ class swepy():
             self.geo_list = self.get_xy(ul,lr)
             self.center = [ul[1], ul[0]]
             print("Success!")
-        return
+        return'''
 
     def set_dates(self, start = None, end = None):
         '''
@@ -130,12 +97,45 @@ class swepy():
         '''
         try:
             self.dates = pd.date_range(start, end)
-            return
         except ValueError:
             self.dates = None 
             print("No valid dates given")
-            return 
+        return
+
             
+    def set_login(self, username = None, password = None):
+        if username is not None and password is not None:
+            print("Checking your credentials...")
+            if username == 'test' and password == 'test':
+                print("Setting up local test session...")
+                #self.username = username
+                #self.password = password
+                self.local_session = True
+                self.nD = nsidcDownloader.nsidcDownloader(folder = os.getcwd(), no_auth=True)
+            else:
+                print("Logging you into Earth Data...")
+                #self.username = username
+                #self.password = password
+                self.local_session = False
+                self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
+            print("Success!")
+        else:
+            print("No credentials given, no scraping can be performed")
+            self.nD = None
+        return 
+
+    def set_grid(self, ul = None, lr = None):
+        if ul is not None and lr is not None:
+            # if ul is an entire grid, that is the grid we want to scrape 
+            if ul == "N" or ul == "T" or ul == "S":
+                self.grid = ul
+                self.subBool = False
+                self.geo_list = ul
+            else: # if specific coords, we want to get the x_y ease coords that correspond 
+                self.subBool = True
+                self.get_grid(ul[0], lr[0])
+                self.geo_list = self.get_xy(ul, lr)
+                self.center = [ul[1], ul[0]]
 
     def check_params(self):
         '''
