@@ -40,18 +40,12 @@ class swepy():
         self.outfile_19 = outfile19
         self.outfile_37 = outfile37
 
-        #self.username = username
-        #self.password = password
-
         self.ease = None
         self.geo_list = None
         self.grid = None
 
-        # try to store date range, set to none if not passed
         self.set_dates(start, end)
 
-        # if user inputs a grid name, then scrape whole grid
-        # otherwise find the grid that fits coordinates
         self.set_grid(ul, lr)
 
         self.down19list = []
@@ -64,36 +58,9 @@ class swepy():
 
         self.set_login(username, password)
 
-'''    def set_params(self, start=None, end=None, username=None, password=None, ul=None, lr=None):
-        if start is not None and end is not None:
-            print("Setting the date range...")
-            self.dates = pd.date_range(start, end)
-            print("Success!")
-        if username is not None and password is not None:
-            print("Checking your credentials...")
-            if username == 'test' and password == 'test':
-                self.username = username
-                self.password = password
-                self.local_session = True
-                self.nD = nsidcDownloader.nsidcDownloader(folder = os.getcwd(), no_auth=True)
-            else:
-                self.username = username
-                self.password = password
-                self.local_session = False
-                self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
-            print("Success!")
-        if ul is not None and lr is not None:
-            print("Setting the bounding coordinates...")
-            self.subBool = True
-            self.get_grid(ul[0], lr[0])
-            self.geo_list = self.get_xy(ul,lr)
-            self.center = [ul[1], ul[0]]
-            print("Success!")
-        return'''
-
     def set_dates(self, start = None, end = None):
         '''
-        set date range using start and end datetime objects
+        Set date range using start and end datetime objects
         '''
         try:
             self.dates = pd.date_range(start, end)
@@ -104,6 +71,9 @@ class swepy():
 
             
     def set_login(self, username = None, password = None):
+        '''
+        Set login credentials and login to earth data 
+        '''
         if username is not None and password is not None:
             print("Checking your credentials...")
             if username == 'test' and password == 'test':
@@ -120,11 +90,14 @@ class swepy():
                 self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
             print("Success!")
         else:
-            print("No credentials given, no scraping can be performed")
+            print("No credentials given, please use 'set_login' to login when ready.")
             self.nD = None
         return 
 
     def set_grid(self, ul = None, lr = None):
+        '''
+        Set grid corners, and convert to xy
+        '''
         if ul is not None and lr is not None:
             # if ul is an entire grid, that is the grid we want to scrape 
             if ul == "N" or ul == "T" or ul == "S":
@@ -136,6 +109,8 @@ class swepy():
                 self.get_grid(ul[0], lr[0])
                 self.geo_list = self.get_xy(ul, lr)
                 self.center = [ul[1], ul[0]]
+        else: 
+            print("No bounding coordinates or grid given, please specify bounds or a grid to scrape.")
 
     def check_params(self):
         '''
@@ -149,7 +124,7 @@ class swepy():
                 print("{} needs to be set by 'set_params'".format(key))
                 proceed = False
         if proceed == False:
-            print("Please use the set_params function to set missing parameters,\
+            print("Please use the set_() functions to set missing parameters,\
                     see the documentation for guidance")
         return proceed
 
@@ -203,7 +178,7 @@ class swepy():
         lat/lon into Ease grid 2.0 coordinates
         '''
         if ll_ul is None or ll_lr is None:
-            print("You must enter bounding coordinates when instantiating the class")
+            print("You must enter bounding coordinates, please use 'set_grid()' to add coordinates")
             raise ValueError
         row, col = self.ease.geographic_to_grid(ll_ul[0], ll_ul[1])
         xul, yul = self.ease.grid_to_map(row,col)
