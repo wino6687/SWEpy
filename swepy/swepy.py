@@ -17,9 +17,11 @@ nco = Nco()
 class swepy():
     def __init__(self, working_dir=None, start=None, end=None, ul=None, lr=None, username=None, password=None,
                 outfile19 = 'all_days_19H.nc', outfile37 = 'all_days_37H.nc', high_res = True):
-        '''User instantiates the class with working directory,
+        '''
+        User instantiates the class with working directory,
         date ranges, and lat/lon bounding coords. constructor gets
-        the datetime list, x/y coords, and file directories'''
+        the datetime list, x/y coords, and file directories
+        '''
         # set whether we are scraping resampled data or not
         if high_res:
             self.high_res = True
@@ -41,16 +43,15 @@ class swepy():
         self.username = username
         self.password = password
 
-        self.ease3 = None
-        self.ease6 = None
+        self.ease = None
 
         self.geo_list = None
         self.grid = None
 
-        # if user gave date range, store it
-        if start is not None and end is not None:
+        # try to store date range, set to none if not passed
+        try:
             self.dates = pd.date_range(start, end)
-        else:
+        except ValueError:
             self.dates = None
 
         # if user inputs a grid name, then scrape whole grid
@@ -145,23 +146,21 @@ class swepy():
 
 
     def get_grid(self, lat1, lat2):
-        '''Check which regions the lats fall into. based
+        '''
+        Check which regions the lats fall into. based
         on the grid, instantiate the ease grid conversion object.
 
         Parameters: Upper Left Latitude, Lower Right Latitude
         '''
         if (lat1 < 50 and lat2 < 50) and (lat1 > -50 and lat2 > -50): # mid lat
             self.grid = "T"
-            self.ease3 = ease2Transform.ease2Transform("EASE2_T3.125km")
-            self.ease6 = ease2Transform.ease2Transform("EASE2_T6.25km")
+            self.ease = ease2Transform.ease2Transform("EASE2_T3.125km")
         elif (lat1 > 40 and lat2 > 40) and (lat1 < 90 and lat2 < 90): # north
             self.grid = "N"
-            self.ease3 = ease2Transform.ease2Transform("EASE2_N3.125km")
-            self.ease6 = ease2Transform.ease2Transform("EASE2_N6.25km")
+            self.ease = ease2Transform.ease2Transform("EASE2_N3.125km")
         elif (lat1 < -40 and lat2 < -40) and (lat1 > -90 and lat2 > -90): # South
             self.grid = "S"
-            self.ease3 = ease2Transform.ease2Transform("EASE2_S3.125km")
-            self.ease6 = ease2Transform.ease2Transform("EASE2_S6.25km")
+            self.ease = ease2Transform.ease2Transform("EASE2_S3.125km")
         else:
             print("SWEpy currently only supports subsetting study areas with a study area in the North, South, or Equatorial imagery \
             \nOverlappig study areas can cause errors, and require more than one region of imagery")
@@ -170,9 +169,11 @@ class swepy():
 
 
     def get_directories(self, path):
-        '''Given a working directory, Check
+        '''
+        Given a working directory, Check
         for the proper sub-directories and
-        then make them if absent'''
+        then make them if absent
+        '''
         os.chdir(path)
         wget = path + "/data/wget/"
         path19 = path + "/data/Subsetted_19H/"
@@ -188,22 +189,26 @@ class swepy():
 
 
     def get_xy(self, ll_ul, ll_lr):
-        '''Use nsidc scripts to convert user inputted
-        lat/lon into Ease grid 2.0 coordinates'''
+        '''
+        Use nsidc scripts to convert user inputted
+        lat/lon into Ease grid 2.0 coordinates
+        '''
         if ll_ul is None or ll_lr is None:
             print("You must enter bounding coordinates when instantiating the class")
             raise ValueError
-        row, col = self.ease3.geographic_to_grid(ll_ul[0], ll_ul[1])
-        xul, yul = self.ease3.grid_to_map(row,col)
-        row, col = self.ease3.geographic_to_grid(ll_lr[0], ll_lr[1])
-        xlr, ylr = self.ease3.grid_to_map(row, col)
+        row, col = self.ease.geographic_to_grid(ll_ul[0], ll_ul[1])
+        xul, yul = self.ease.grid_to_map(row,col)
+        row, col = self.ease.geographic_to_grid(ll_lr[0], ll_lr[1])
+        xlr, ylr = self.ease.grid_to_map(row, col)
         return [xul, yul, xlr, ylr]
 
 
     def subset(self, scrape = False, in_dir=None,out_dir19=None,out_dir37=None):
-        '''get the files from wget directory
+        '''
+        Get the files from wget directory
         and subset them geographically based on
-        coords from constructor'''
+        coords from constructor
+        '''
         os.chdir(self.working_dir + "/data")
         for file in tqdm(self.down19list):
             outfile = self.path19 + file if out_dir19 is None else out_dir19 + file
@@ -234,9 +239,11 @@ class swepy():
 
 
     def scrape_all(self):
-        '''Function to ensure we subset
-         and concatenate every year!
-         Implements the whole workflow!'''
+        '''
+        Function to ensure we subset and concatenate every year!
+
+        Implements the whole workflow!
+        '''
         if self.check_params() == False:
             return
         if len(self.dates) <= 300:
@@ -256,9 +263,11 @@ class swepy():
 
 
     def get_file(self, date, channel): # add more defaulting params
-        '''Function that uses date and channel to
+        '''
+        Function that uses date and channel to
         find optimal file composition and return the
-        file params for the web scraper's use.'''
+        file params for the web scraper's use.
+        '''
         sensors = {1992: 'F11', 1993: 'F11', 1994: 'F11', 1995: 'F11', 1996: 'F13', 1997: 'F13', 1998: 'F13',
                 1999: 'F13', 2000: 'F13', 2001: 'F13', 2002: 'F13', 2003: 'F15', 2004: 'F15', 2005: 'F15', 2006: 'F16',
                 2007: 'F16', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
@@ -312,9 +321,11 @@ class swepy():
 
 
     def concatenate(self, outname19 = None, outname37 = None, all = False):
-        '''Function to concatenate files in the subsetted data
+        '''
+        Function to concatenate files in the subsetted data
         folders. Input parameter is simply to allow for nesting of
-        functions.'''
+        functions.
+        '''
         if self.subBool == False:
             self.sub19list = self.down19list
             self.sub37list = self.down37list
@@ -348,7 +359,7 @@ class swepy():
 
     def final_concat(self):
         '''
-        function to manage the final concatenation for scrape_all
+        Manage the final concatenation for scrape_all
         '''
         if len(self.concat19list) != 0:
             nco.ncrcat(input=self.concat19list, output = self.outfile_19, options=["-O"])
@@ -401,9 +412,10 @@ class swepy():
 
 
     def safe_subtract(self, tb19, tb37):
-        '''Check size of each file, often the 19 and 37
-            files are one unit off of eachother. This will
-            chop the larger one to match the smaller one.
+        '''
+        Check size of each file, often the 19 and 37
+        files are one unit off of eachother. This will
+        chop the larger one to match the smaller one.
         '''
         shape1 = np.shape(tb19)
         shape2 = np.shape(tb37)
