@@ -49,10 +49,7 @@ class swepy():
         self.grid = None
 
         # try to store date range, set to none if not passed
-        try:
-            self.dates = pd.date_range(start, end)
-        except ValueError:
-            self.dates = None
+        set_dates(start, end)
 
         # if user inputs a grid name, then scrape whole grid
         # otherwise find the grid that fits coordinates
@@ -127,6 +124,18 @@ class swepy():
             print("Success!")
         return
 
+    def set_dates(self, start = None, end = None):
+        '''
+        set date range using start and end datetime objects
+        '''
+        try:
+            self.dates = pd.date_range(start, end)
+            return
+        except ValueError:
+            self.dates = None 
+            print("No valid dates given")
+            return 
+            
 
     def check_params(self):
         '''
