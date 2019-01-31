@@ -86,6 +86,13 @@ class swepy():
     def set_dates(self, start = None, end = None):
         '''
         Set date range using start and end datetime objects
+
+        Parameters:
+        ----------
+        start: datetime
+            start date for scraping
+        end: datetime
+            end date for scraping
         '''
         try:
             self.dates = pd.date_range(start, end)
@@ -98,6 +105,13 @@ class swepy():
     def set_login(self, username = None, password = None):
         '''
         Set login credentials and login to earth data
+
+        Parameters:
+        ----------
+        username: String
+            Earthdata username
+        password: String
+            Earthdata password
         '''
         if username is not None and password is not None:
             print("Checking your credentials...")
