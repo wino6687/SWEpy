@@ -15,13 +15,38 @@ import glob
 nco = Nco()
 
 class swepy():
+    """
+    Class to facilitate the processing of tB files for SWE analysis.
+    """
     def __init__(self, working_dir=None, start=None, end=None, ul=None, lr=None, username=None, password=None,
                 outfile19 = 'all_days_19H.nc', outfile37 = 'all_days_37H.nc', high_res = True):
-        '''
-        User instantiates the class with working directory,
-        date ranges, and lat/lon bounding coords. constructor gets
-        the datetime list, x/y coords, and file directories
-        '''
+        """
+        constructor
+
+        Parameters
+        ----------
+
+        working_dir: String
+            directory to store data directory
+        start: datetime
+            start date for scraping
+        end: datetime
+            end date for scraping
+        ul: list of two integers
+            upper left bounding coordinates [lat, lon]
+        lr: list of two integers
+            lower right bounding coordinates [lat,lon]
+        username: String
+            username for Earth Data login
+        password: String
+            password for Earth Data login
+        outfile19: String
+            name of final output file, 19 19GHz
+        outfile37: String
+            name of final output file, 37 GHz
+        high_res: boolean
+            True: scrape high resolution files, False: low resolution
+        """
         # set whether we are scraping resampled data or not
         if high_res:
             self.high_res = True
@@ -65,14 +90,14 @@ class swepy():
         try:
             self.dates = pd.date_range(start, end)
         except ValueError:
-            self.dates = None 
+            self.dates = None
             print("No valid dates given")
         return
 
-            
+
     def set_login(self, username = None, password = None):
         '''
-        Set login credentials and login to earth data 
+        Set login credentials and login to earth data
         '''
         if username is not None and password is not None:
             print("Checking your credentials...")
@@ -88,24 +113,24 @@ class swepy():
         else:
             print("No credentials given, please use 'set_login' to login when ready.")
             self.nD = None
-        return 
+        return
 
     def set_grid(self, ul = None, lr = None):
         '''
         Set grid corners, and convert to xy
         '''
         if ul is not None and lr is not None:
-            # if ul is an entire grid, that is the grid we want to scrape 
+            # if ul is an entire grid, that is the grid we want to scrape
             if ul == "N" or ul == "T" or ul == "S":
                 self.grid = ul
                 self.subBool = False
                 self.geo_list = ul
-            else: # if specific coords, we want to get the x_y ease coords that correspond 
+            else: # if specific coords, we want to get the x_y ease coords that correspond
                 self.subBool = True
                 self.get_grid(ul[0], lr[0])
                 self.geo_list = self.get_xy(ul, lr)
                 self.center = [ul[1], ul[0]]
-        else: 
+        else:
             print("No bounding coordinates or grid given, please specify bounds or a grid to scrape.")
 
     def check_params(self):
