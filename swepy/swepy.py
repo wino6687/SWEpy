@@ -50,6 +50,7 @@ class swepy():
 
         # set the working directory
         if working_dir is None:
+            print("No working directory passed, using current working directory: {}".format(os.getcwd()))
             self.working_dir = os.getcwd()
         else:
             self.working_dir = working_dir
@@ -124,6 +125,7 @@ class swepy():
             self.nD = None
         return
 
+
     def set_grid(self, ul = None, lr = None):
         '''
         Set grid corners, and convert to xy
@@ -148,7 +150,8 @@ class swepy():
         attempting to web scrape or subset.
         '''
         proceed = True
-        params = {"dates":self.dates, "bounding coordinates":self.geo_list, "grid":self.grid}
+        params = {"dates":self.dates, "bounding coordinates":self.geo_list,
+                "grid":self.grid, "username":self.nD.username,"password":self.nD.password }
         for key, value in params.items():
             if value is None:
                 print("{} needs to be set by 'set_params'".format(key))
