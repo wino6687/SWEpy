@@ -21,12 +21,9 @@ class swepy():
     def __init__(self, working_dir=None, start=None, end=None, ul=None, lr=None, username=None, password=None,
                 outfile19 = 'all_days_19H.nc', outfile37 = 'all_days_37H.nc', high_res = True):
         """
-        constructor
-
         Parameters
         ----------
-
-        working_dir: String
+        working_dir: str
             directory to store data directory
         start: datetime
             start date for scraping
@@ -36,22 +33,20 @@ class swepy():
             upper left bounding coordinates [lat, lon]
         lr: list of two integers
             lower right bounding coordinates [lat,lon]
-        username: String
+        username: str
             username for Earth Data login
-        password: String
+        password: str
             password for Earth Data login
-        outfile19: String
+        outfile19: str
             name of final output file, 19 19GHz
-        outfile37: String
+        outfile37: str
             name of final output file, 37 GHz
         high_res: boolean
             True: scrape high resolution files, False: low resolution
         """
         # set whether we are scraping resampled data or not
-        if high_res:
-            self.high_res = True
-        else:
-            self.high_res = False
+        if high_res: self.high_res = True
+        else: self.high_res = False
 
         # set the working directory
         if working_dir is None:
@@ -189,22 +184,20 @@ class swepy():
 
     def get_directories(self, path):
         '''
-        Given a working directory, Check
-        for the proper sub-directories and
-        then make them if absent
+        Given a working directory, create data
+        directories if non-existent
+
+        Parameters:
+        -----------
+        path: str
+            working directory to create data directories
         '''
         os.chdir(path)
-        wget = path + "/data/wget/"
-        path19 = path + "/data/Subsetted_19H/"
-        path37 = path + "/data/Subsetted_37H/"
-
-        if not os.path.exists(wget):
-            os.makedirs(wget)
-        if not os.path.exists(path19):
-            os.makedirs(path19)
-        if not os.path.exists(path37):
-            os.makedirs(path37)
-        return path19, path37, wget
+        paths = ["/data/wget/", "/data/Subsetted_19H/", "/data/Subsetted_37H/"]
+        for path in paths:
+            if not os.path.exists(path):
+                os.makedirs(path)
+        return paths[0], paths[1], paths[2]
 
 
     def get_xy(self, ll_ul, ll_lr):
