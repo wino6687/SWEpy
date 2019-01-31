@@ -132,7 +132,7 @@ class swepy():
         '''
         if ul is not None and lr is not None:
             # if ul is an entire grid, that is the grid we want to scrape
-            if ul == "N" or ul == "T" or ul == "S":
+            if ul in ['N', 'S', 'T']:
                 self.grid = ul
                 self.subBool = False
                 self.geo_list = ul
@@ -164,10 +164,16 @@ class swepy():
 
     def get_grid(self, lat1, lat2):
         '''
-        Check which regions the lats fall into. based
+        Check which regions the lats fall into. Based
         on the grid, instantiate the ease grid conversion object.
 
-        Parameters: Upper Left Latitude, Lower Right Latitude
+        Parameters:
+        -----------
+
+        lat1: int
+            Upper Left Latitude
+        lat2: int
+            Lower Right Latitude
         '''
         if (lat1 < 50 and lat2 < 50) and (lat1 > -50 and lat2 > -50): # mid lat
             self.grid = "T"
