@@ -129,6 +129,13 @@ class swepy():
     def set_grid(self, ul = None, lr = None):
         '''
         Set grid corners, and convert to xy
+
+        Parameters:
+        -----------
+        ul: char or [float,float]
+            upper left bounding coordinates or grid name (N,S,T)
+        lr: [float, float]
+            lower right bounding coordinates (not needed for entire grid)
         '''
         if ul is not None and lr is not None:
             # if ul is an entire grid, that is the grid we want to scrape
@@ -142,24 +149,8 @@ class swepy():
                 self.geo_list = self.get_xy(ul, lr)
                 self.center = [ul[1], ul[0]]
         else:
-            print("No bounding coordinates or grid given, please specify bounds or a grid to scrape.")
-
-    def check_params(self):
-        '''
-        Helper function to check that all the class members are set before
-        attempting to web scrape or subset.
-        '''
-        proceed = True
-        params = {"dates":self.dates, "bounding coordinates":self.geo_list,
-                "grid":self.grid, "username":self.nD.username,"password":self.nD.password }
-        for key, value in params.items():
-            if value is None:
-                print("{} needs to be set by 'set_params'".format(key))
-                proceed = False
-        if proceed == False:
-            print("Please use the set_() functions to set missing parameters,\
-                    see the documentation for guidance")
-        return proceed
+            print("No usable bounding coordinates or grid given, \
+             please specify bounds or a grid to scrape.")
 
 
     def get_grid(self, lat1, lat2):
@@ -213,6 +204,14 @@ class swepy():
         '''
         Use nsidc scripts to convert user inputted
         lat/lon into Ease grid 2.0 coordinates
+
+        Parameters:
+        -----------
+
+        ll_ul: [float, float]
+            Latitude and longitude for upper left coordinates
+        ll_lr: [float, float]
+            Latitude and longitude for lower right coordinates
         '''
         if ll_ul is None or ll_lr is None:
             print("You must enter bounding coordinates, please use 'set_grid()' to add coordinates")
@@ -229,6 +228,24 @@ class swepy():
         Get the files from wget directory
         and subset them geographically based on
         coords from constructor
+
+        Parameters:
+        -----------
+
+        scrape: Boolean
+            Under the hood variable to allow for auto workflow
+
+        in_dir: str
+            (Optional) directory with wget data stored in it.
+            Default: "working_dir/data/wget"
+
+        out_dir19: str
+            (Optional) directory to store output 19GHz files
+            Default: "working_dir/data/Subsetted_19H/"
+
+        out_dir37: str
+            (Optional) directory to store output 37GHz files
+            Default: "working_dir/data/Subsetted_37H"
         '''
         os.chdir(self.working_dir + "/data")
         for file in tqdm(self.down19list):
@@ -495,3 +512,21 @@ class swepy():
             tb_37H_long = block_reduce(tb_37H_long, block_size = (1,2,2), func = np.mean)
         # difference for SWE
         return self.safe_subtract(tb_19H_long, tb_37H_long), tb_19H_long, tb_37H_long
+
+
+    def check_params(self):
+        '''
+        Helper function to check that all the class members are set before
+        attempting to web scrape or subset. Used by test suite right now.
+        '''
+        proceed = True
+        params = {"dates":self.dates, "bounding coordinates":self.geo_list,
+                "grid":self.grid, "username":self.nD.username,"password":self.nD.password }
+        for key, value in params.items():
+            if value is None:
+                print("{} needs to be set by 'set_params'".format(key))
+                proceed = False
+        if proceed == False:
+            print("Please use the set_() functions to set missing parameters,\
+                    see the documentation for guidance")
+        return proceed
