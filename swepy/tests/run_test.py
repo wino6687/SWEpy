@@ -9,11 +9,12 @@ import numpy as np
 import pandas as pd
 
 
+
 def test_check_params_false():
     start = datetime.date(2010,1,1)
     ul = [66,-145]
     lr = [73,-166]
-    s1 = swepy(os.getcwd(), start, start, ul, lr)
+    s1 = swepy(os.getcwd(), start, start, ul)
     assert s1.check_params() == False
 
 def test_check_params_true():
@@ -26,18 +27,18 @@ def test_check_params_true():
 def test_set_params_bounds():
     start = datetime.date(2010,1,1)
     s1 = swepy(os.getcwd(), start, start, username = 'test', password = 'test')
-    s1.set_params(ul = [66, -145], lr = [73,-166])
+    s1.set_grid(ul = [66, -145], lr = [73,-166])
     assert s1.check_params() == True
 
 def test_set_params_auth():
     start = datetime.date(2010,1,1)
     s1 = swepy(os.getcwd(), start, start, ul = [66,-145], lr = [73,-166])
-    s1.set_params(username = 'test', password = 'test')
+    s1.set_login(username = 'test', password = 'test')
     assert s1.check_params() == True
 
 def test_set_params_dates():
     s1 = swepy(os.getcwd(), ul = [66,-145], lr = [73,-166], username = 'test', password = 'test')
-    s1.set_params(start = datetime.date(2010,1,1), end = datetime.date(2010,1,1))
+    s1.set_dates(start = datetime.date(2010,1,1), end = datetime.date(2010,1,1))
     assert s1.check_params() == True
 
 def test_get_grid_N():
