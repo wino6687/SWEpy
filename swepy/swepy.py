@@ -363,6 +363,15 @@ class swepy():
         Function to concatenate files in the subsetted data
         folders. Input parameter is simply to allow for nesting of
         functions.
+
+        Parameters: 
+        -----------
+        outname19: str
+            output file name for 19Ghz
+        outname37: str
+            output file name for 37GHz
+        all: Boolean
+            
         '''
         if self.subBool == False:
             self.sub19list = self.down19list
@@ -517,7 +526,9 @@ class swepy():
     def check_params(self):
         '''
         Helper function to check that all the class members are set before
-        attempting to web scrape or subset. Used by test suite right now.
+        attempting to web scrape or subset. 
+        
+        Used by test suite and to check params are set before scraping.
         '''
         proceed = True
         params = {"dates":self.dates, "bounding coordinates":self.geo_list,
