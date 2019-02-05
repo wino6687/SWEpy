@@ -19,7 +19,7 @@ install:
   - conda config --add channels wino6687
   - conda config --add channels conda-forge
   # create environment
-  - conda env create -f swepy_env.yml
+  - conda env create -f test.yml
   - source activate swepy_env
   #  install swepy with setup.py
   - python setup.py install
