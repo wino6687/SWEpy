@@ -151,6 +151,7 @@ class swepy():
         else:
             print("No usable bounding coordinates or grid given, \
              please specify bounds or a grid to scrape.")
+        return 
 
 
     def get_grid(self, lat1, lat2):
