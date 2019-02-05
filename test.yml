@@ -1,0 +1,23 @@
+name: swepy_env
+channels:
+  - conda-forge
+  - wino6687
+  - defaults
+dependencies:
+  # core python
+  - pytest-cov
+  - codecov
+  - matplotlib
+  - python=3.6
+  - pytest
+  - pandas
+  - jupyter
+  - ipykernel
+  - requests
+  - tqdm
+  # geo libraries
+  - pynco
+  - gdal
+  - scikit-image
+  - scikit-learn
+  - netCDF4
