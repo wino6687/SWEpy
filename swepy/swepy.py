@@ -429,7 +429,7 @@ class swepy():
         else:
             print("No 37Ghz Files to Concatenate")
 
-        # clean out files that were concat
+        # clean out files that were concatenated
         for file in self.concat19list: os.remove(file)
         for file in self.concat37list: os.remove(file)
         self.concat19list = []
@@ -446,6 +446,7 @@ class swepy():
         dates: List(datetime*)
             list of dates to scrape from
         '''
+        # make sure we are ready to scrape 
         if self.local_session == False:
             if self.check_params() == False:
                 return
@@ -556,8 +557,12 @@ class swepy():
         Used by test suite and to check params are set before scraping.
         '''
         proceed = True
-        params = {"dates":self.dates, "bounding coordinates":self.geo_list,
-                "grid":self.grid, "username":self.nD.username,"password":self.nD.password }
+        try:
+            params = {"dates":self.dates, "bounding coordinates":self.geo_list,
+                    "grid":self.grid, "username":self.nD.username,"password":self.nD.password }
+        except AttributeError: 
+            print("You are not logged in! Please enter your EarthData credentials with 'set_login()'")
+            return False
         for key, value in params.items():
             if value is None:
                 print("{} needs to be set by 'set_params'".format(key))
