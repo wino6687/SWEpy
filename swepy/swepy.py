@@ -194,7 +194,7 @@ class swepy():
             working directory to create data directories
         '''
         os.chdir(path)
-        paths = ["data/wget/", "data/Subsetted_19H/", "data/Subsetted_37H/"]
+        paths = ["./data/wget/", "./data/Subsetted_19H/", "./data/Subsetted_37H/"]
         for path1 in paths:
             if not os.path.exists(path1):
                 os.makedirs(path1)
