@@ -115,6 +115,8 @@ class swepy():
                 print("Setting up local test session...")
                 self.local_session = True
                 self.nD = nsidcDownloader.nsidcDownloader(folder = os.getcwd(), no_auth=True)
+                self.nD.username = 'test'
+                self.nD.password = 'test'
             else:
                 print("Logging you into Earth Data...")
                 self.local_session = False
