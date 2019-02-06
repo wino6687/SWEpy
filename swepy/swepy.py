@@ -194,7 +194,7 @@ class swepy():
             working directory to create data directories
         '''
         os.chdir(path)
-        paths = ["/data/wget/", "/data/Subsetted_19H/", "/data/Subsetted_37H/"]
+        paths = ["data/wget/", "data/Subsetted_19H/", "data/Subsetted_37H/"]
         for path in paths:
             if not os.path.exists(path):
                 os.makedirs(path)
@@ -474,8 +474,9 @@ class swepy():
     def safe_subtract(self, tb19, tb37):
         '''
         Check size of each file, often the 19 and 37
-        files are one unit off of eachother. This will
-        chop the larger one to match the smaller one.
+        matrices are one unit off of eachother.
+
+        Chops the larger matrix to match the smaller matrix
         '''
         shape1 = np.shape(tb19)
         shape2 = np.shape(tb37)
@@ -518,6 +519,15 @@ class swepy():
         '''
         Open 19 and 37 files, block reduce the 37ghz to match,
         then safe subtract the two to get SWE, tb19, and tb37 returned
+
+        Parameters: 
+        -----------
+        tb19: str
+            netCDF file containing 19GHz imagery 
+        tb37: str
+            netCDF file containing 37Ghz imagery 
+        high: boolean 
+            high or low resolution imagery (default: True)
         '''
         filename_19H = tb19
         fid_19H = Dataset(filename_19H, "r", format = "NETCDF4")
