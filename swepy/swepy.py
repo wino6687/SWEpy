@@ -195,9 +195,9 @@ class swepy():
         '''
         os.chdir(path)
         paths = ["data/wget/", "data/Subsetted_19H/", "data/Subsetted_37H/"]
-        for path in paths:
-            if not os.path.exists(path):
-                os.makedirs(path)
+        for path1 in paths:
+            if not os.path.exists(path1):
+                os.makedirs(path1)
         return paths[0], paths[1], paths[2]
 
 
