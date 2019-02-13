@@ -8,7 +8,13 @@ import datetime
 import numpy as np
 import pandas as pd
 
+def set_login_test(self, username = 'test', password = 'test'):
+        self.local_session = True
+        self.nD = nsidcDownloader.nsidcDownloader(folder = os.getcwd(), no_auth=True)
+        self.nD.username = 'test'
+        self.nD.password = 'test'
 
+swepy.set_login = set_login_test
 
 def test_check_params_false():
     start = datetime.date(2010,1,1)
