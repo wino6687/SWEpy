@@ -110,17 +110,9 @@ class swepy():
             Earthdata password
         '''
         if username is not None and password is not None:
-            print("Checking your credentials...")
-            if username == 'test' and password == 'test':
-                print("Setting up local test session...")
-                self.local_session = True
-                self.nD = nsidcDownloader.nsidcDownloader(folder = os.getcwd(), no_auth=True)
-                self.nD.username = 'test'
-                self.nD.password = 'test'
-            else:
-                print("Logging you into Earth Data...")
-                self.local_session = False
-                self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
+            print("Logging you into Earth Data...")
+            self.local_session = False
+            self.nD = nsidcDownloader.nsidcDownloader(folder = self.wget, username = username, password = password)
             print("Success!")
         else:
             print("No credentials given, please use 'set_login' to login when ready.")
@@ -571,8 +563,6 @@ class swepy():
             print("Please use the set_() functions to set missing parameters,\
                     see the documentation for guidance")
         return proceed
-
-
 
 
     def get_array(self, file19, file37, high=True):
