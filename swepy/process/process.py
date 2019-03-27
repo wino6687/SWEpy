@@ -179,3 +179,20 @@ class Process():
                 yhat[yhat<3] = 0
                 smooth_cube[:,x,y] = yhat
         return smooth_cube
+
+    def auto_filter(self, file19, file37): # filter_swe is either filter on tb or swe
+    """
+    Clean missing values and apply sav gol filter, return SWE cube
+    
+    Parameters: 
+    -----------
+    cube19: np.array
+        size = (x,x,x)
+    cube37: np.array
+        size = (x,x,x)
+    """
+    cube19, cube37 = self.get_array(file19,file37)
+    cube19 = self.vector_clean(cube19)
+    cube37 = self.vector_clean(cube37)
+    swe = swepy.safe_subtract(cube19, cube37)
+    return self.apply_filter(swe)
