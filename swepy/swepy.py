@@ -155,7 +155,6 @@ class swepy():
 
         Parameters:
         -----------
-
         lat1: int
             Upper Left Latitude
         lat2: int
@@ -564,62 +563,4 @@ class swepy():
                     see the documentation for guidance")
         return proceed
 
-
-    def get_array(self, file19, file37, high=True):
-        fid_19H = Dataset(file19,"r", format = "NETCDF4")
-        fid_37H = Dataset(file37, "r", format = "NETCDF4")
-        tb_19H =fid_19H.variables["TB"][:]
-        tb_37H = fid_37H.variables["TB"][:]
-        if high:
-            tb_37H = block_reduce(tb_37H, block_size = (1,2,2), func = np.mean)
-        tb = swep.safe_subtract(tb_19H, tb_37H)
-        return tb
-
-    def get_count(self, classes):
-        unique, counts = np.unique(classes, return_counts=True)
-        return dict(zip(unique, counts))
-
-    def pandas_fill(self,arr):
-        df = pd.DataFrame(arr)
-        df.fillna(method='ffill', inplace = True)
-        out = df.values
-        return out
-
-    def get_df(self,df,year):
-        mask_year = df['time'].dt.year == year
-        new_df = df[mask_year]
-        counts = new_df['count'].values
-        return counts
-
-    def goodness_of_variance_fit(self, array, classes):
-        # get the break points
-        classes = jenks(array, classes)
-
-        # do the actual classification
-        classified = np.array([classify(i, classes) for i in array])
-
-        # max value of zones
-        maxz = max(classified)
-
-        # nested list of zone indices
-        zone_indices = [[idx for idx, val in enumerate(classified) if zone + 1 == val] for zone in range(maxz)]
-
-        # sum of squared deviations from array mean
-        sdam = np.sum((array - array.mean()) ** 2)
-
-        # sorted polygon stats
-        array_sort = [np.array([array[index] for index in zone]) for zone in zone_indices]
-
-        # sum of squared deviations of class means
-        sdcm = sum([np.sum((classified - classified.mean()) ** 2) for classified in array_sort])
-
-        # goodness of variance fit
-        gvf = (sdam - sdcm) / sdam
-
-        return gvf
-
-    def classify(self,value, breaks):
-        for i in range(1, len(breaks)):
-            if value < breaks[i]:
-                return i
-        return len(breaks) - 1
+    
