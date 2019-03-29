@@ -9,6 +9,9 @@ import numpy as np
 import pandas as pd
 
 def set_login_test(self, username = 'test', password = 'test'):
+        """
+        Monkey patched set_login function 
+        """
         self.local_session = True
         self.nD = nsidcDownloader.nsidcDownloader(folder = os.getcwd(), no_auth=True)
         self.nD.username = 'test'
