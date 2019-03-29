@@ -2,7 +2,7 @@
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 ![OS](https://img.shields.io/badge/OS-Linux64%2C%20MacOS-green.svg)
 [![DOI](https://zenodo.org/badge/132654953.svg)](https://zenodo.org/badge/latestdoi/132654953)
-![Python Version](https://img.shields.io/pypi/pyversions/Django.svg)
+![Python Version](https://img.shields.io/pypi/pyversions/Django.svg)[![codecov](https://codecov.io/gh/wino6687/SWEpy/branch/master/graph/badge.svg)](https://codecov.io/gh/wino6687/SWEpy)
 
 ## Important Notes
 
