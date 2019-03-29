@@ -11,7 +11,6 @@ from skimage.measure import block_reduce
 import math
 from swepy.swepy import swepy
 from scipy.signal import savgol_filter
-# from jenks import jenks
 from scipy.cluster.vq import *
 
 
@@ -44,7 +43,7 @@ class Process():
         """
         fid_19H = Dataset(file19,"r", format = "NETCDF4")
         fid_37H = Dataset(file37, "r", format = "NETCDF4")
-        tb_19H =fid_19H.variables["TB"][:]
+        tb_19H = fid_19H.variables["TB"][:]
         tb_37H = fid_37H.variables["TB"][:]
         if high:
             tb_37H = block_reduce(tb_37H, block_size = (1,2,2), func = np.mean)

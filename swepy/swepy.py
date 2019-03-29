@@ -511,37 +511,6 @@ class swepy():
             os.remove(f)
         return
 
-    def open_swe(self, tb19, tb37, high=True):
-        '''
-        Open 19 and 37 files, block reduce the 37ghz to match,
-        then safe subtract the two to get SWE, tb19, and tb37 returned
-
-        Parameters: 
-        -----------
-        tb19: str
-            netCDF file containing 19GHz imagery 
-        tb37: str
-            netCDF file containing 37Ghz imagery 
-        high: boolean 
-            high or low resolution imagery (default: True)
-        '''
-        filename_19H = tb19
-        fid_19H = Dataset(filename_19H, "r", format = "NETCDF4")
-
-        filename_37H = tb37
-        fid_37H = Dataset(filename_37H, "r", format="NETCDF4")
-
-        # grab the tb data out of the netCDF data
-        tb_19H_long = fid_19H.variables['TB'][:]
-        tb_37H_long = fid_37H.variables['TB'][:]
-
-        # block reduce (mean) the 37ghz data to 6.25km
-        if high:
-            tb_37H_long = block_reduce(tb_37H_long, block_size = (1,2,2), func = np.mean)
-        # difference for SWE
-        return self.safe_subtract(tb_19H_long, tb_37H_long), tb_19H_long, tb_37H_long
-
-
     def check_params(self):
         '''
         Helper function to check that all the class members are set before
