@@ -98,7 +98,7 @@ def vector_clean(cube):
         Note: can be used with other arrays, 
         but is looking for patterns in 37H files
     """
-    cube[cube  == 0] = np.nan
+    cube[cube == 0] = np.nan
     for i in range(np.shape(cube)[0]):
         arr = cube[i,:,:]
         mask = np.isnan(arr)
@@ -123,11 +123,9 @@ def apply_filter(cube):
     for x in range(shape[1]):
         for y in range(shape[2]):
             pixel_drill = cube[:,x,y]
-            #forward fill data 
-            #pixel = pixel_drill[~np.isnan(pixel_drill)]
             pixel = pandas_fill(pixel_drill)
-            yhat = savgol_filter(np.squeeze(pixel), 55, 5) # window size 51, polynomial order 3
-            yhat[yhat<3] = 0
+            yhat = savgol_filter(np.squeeze(pixel), 51, 3) 
+            yhat[yhat<2] = 0
             smooth_cube[:,x,y] = yhat
     return smooth_cube
 
