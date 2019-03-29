@@ -2,6 +2,7 @@
 import os
 from swepy.swepy import swepy
 from swepy.nsidcDownloader import nsidcDownloader
+from swepy.process import process
 import glob
 import pytest
 import datetime
