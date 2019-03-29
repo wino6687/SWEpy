@@ -404,7 +404,7 @@ class swepy():
                 self.concatlist[1] = outname37
         else:
             print("No 37Ghz Files to Concatenate")
-        return
+        return outname19, outname37
 
 
     def final_concat(self):
