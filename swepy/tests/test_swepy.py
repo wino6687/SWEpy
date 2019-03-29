@@ -34,9 +34,9 @@ def scraped_files():
 @pytest.fixture
 def arrays(scraped_files):
     tb19, tb37 = process.get_array(scraped_files[0], scraped_files[1])
-    return tb19,tb37
+    return (tb19,tb37)
 
-    
+
 def test_check_params_false():
     start = datetime.date(2010,1,1)
     ul = [66,-145]
@@ -207,13 +207,15 @@ def test_get_directories():
     assert os.path.exists(os.getcwd()+'/data') == True
 
 
-    
-
 def test_get_array(arrays):
-    #tb19, tb37 = process.get_array(scraped_files[0], scraped_files[1])
     assert type(arrays[0]) == np.ma.core.MaskedArray
 
 
 def test_vector_clean(arrays):
     cleantb19 = process.vector_clean(arrays[0])
     assert np.isnan(cleantb19).all() == False
+
+# def test_apply_filter(arrays):
+#     tb19 = process.vector_clean(arrays[0])
+#     cleantb19 = process.apply_filter(tb19)
+#     assert cleantb19.min() == 0
