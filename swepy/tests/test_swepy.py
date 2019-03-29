@@ -188,8 +188,16 @@ def test_get_directories():
     s1 = swepy(os.getcwd())
     assert os.path.exists(os.getcwd()+'/data') == True
 
-'''
-def test_scrape_all():
+
+@pytest.fixture
+def scraped_files():
     date = datetime.date(2010,1,1)
-    s1 = swepy(os.getcwd(), ul = [-145, 66], lr = [-166,73])
-    '''
+    ul = 'N'
+    lr = 'N'
+    s1 = swepy(os.getcwd()+'/swepy/tests/',start = date, end = date, ul = 'N', lr = 'N', username = 'test', password = 'test')
+    files = s1.scrape()
+    return files
+
+def test_get_array(scraped_files):
+    tb19, tb37 = process.get_array(scraped_files[0], scraped_files[1])
+    assert type(tb19) == numpy.ma.core.MaskedArray
