@@ -19,10 +19,12 @@ class Process():
     """
     Facilitate the cleaning, and processing of tb files for SWE analysis 
     """
-    def __init__(self, tb19, tb37):
-        self.tb19 = tb19
-        self.tb37 = tb37
-
+    #def __init__(self):
+    """ I don't think this class needs an init.
+    I'm not sure if it would be better to instantiate 
+    an instance of this class with the files concatenated
+    by SWEpy or if I should just let the user pass the files to it..
+    """
     
     def get_array(self, file19, file37, high = True):
         """
@@ -181,18 +183,18 @@ class Process():
         return smooth_cube
 
     def auto_filter(self, file19, file37): # filter_swe is either filter on tb or swe
-    """
-    Clean missing values and apply sav gol filter, return SWE cube
-    
-    Parameters: 
-    -----------
-    cube19: np.array
-        size = (x,x,x)
-    cube37: np.array
-        size = (x,x,x)
-    """
-    cube19, cube37 = self.get_array(file19,file37)
-    cube19 = self.vector_clean(cube19)
-    cube37 = self.vector_clean(cube37)
-    swe = swepy.safe_subtract(cube19, cube37)
-    return self.apply_filter(swe)
+        """
+        Clean missing values and apply sav gol filter, return SWE cube
+        
+        Parameters: 
+        -----------
+        cube19: np.array
+            size = (x,x,x)
+        cube37: np.array
+            size = (x,x,x)
+        """
+        cube19, cube37 = self.get_array(file19,file37)
+        cube19 = self.vector_clean(cube19)
+        cube37 = self.vector_clean(cube37)
+        swe = swepy.safe_subtract(cube19, cube37)
+        return self.apply_filter(swe)
