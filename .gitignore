@@ -3,7 +3,6 @@ swe_1day.geojson
 .DS_Store
 swepy/.DS_Store
 .pypirc
-dist/
 swepy.egg-info/
 __pycache__/
 swepy/__pycache__/
