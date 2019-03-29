@@ -56,7 +56,7 @@ class swepy():
             self.working_dir = working_dir
 
         # create directories for data
-        self.path19, self.path37, self.wget = self.get_directories(self.working_dir)
+        self.wget, self.path19, self.path37 = self.get_directories(self.working_dir)
 
         self.outfile_19 = outfile19
         self.outfile_37 = outfile37
@@ -187,11 +187,12 @@ class swepy():
             working directory to create data directories
         '''
         os.chdir(path)
-        paths = ["./data/wget/", "./data/Subsetted_19H/", "./data/Subsetted_37H/"]
+        paths = [path + "/data/wget/", path +  "/data/Subsetted_19H/", path + "/data/Subsetted_37H/"]
         for path1 in paths:
             if not os.path.exists(path1):
                 os.makedirs(path1)
         return paths[0], paths[1], paths[2]
+
 
 
     def get_xy(self, ll_ul, ll_lr):
@@ -563,4 +564,4 @@ class swepy():
                     see the documentation for guidance")
         return proceed
 
-    
+
