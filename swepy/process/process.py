@@ -28,6 +28,7 @@ class Process():
     
     def get_array(self, file19, file37, high = True):
         """
+        --Data Processing--
         Take 19H and 37H netCDF files, open and store tb 
         data in np arrays
 
@@ -65,6 +66,7 @@ class Process():
     def pandas_fill(self, arr):
         """
         --INEFFICIENT--
+        --Data Processing--
         Given 2d array, convert to pd dataframe
         and ffill missing values in place
 
