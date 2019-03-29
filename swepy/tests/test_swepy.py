@@ -197,7 +197,17 @@ def scraped_files():
     files = s1.scrape()
     return (files[0][0], files[1][0])
 
+@pytest.fixture
+def arrays(scraped_files):
+    tb19, tb37 = process.get_array(scraped_files[0], scraped_files[1])
+    return tb19,tb37
+    
 
 def test_get_array(scraped_files):
     tb19, tb37 = process.get_array(scraped_files[0], scraped_files[1])
     assert type(tb19) == np.ma.core.MaskedArray
+
+
+def test_vector_clean(arrays):
+    cleantb19 = process.vector_clean(arrays[0])
+    assert np.isnan(cleantb19).all() == False
