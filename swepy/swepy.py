@@ -79,6 +79,7 @@ class swepy():
 
         self.set_login(username, password)
 
+
     def set_dates(self, start = None, end = None):
         '''
         Set date range using start and end datetime objects
