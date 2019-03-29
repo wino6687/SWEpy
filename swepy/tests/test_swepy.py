@@ -2,6 +2,7 @@
 import os
 from swepy.swepy import swepy
 from swepy.nsidcDownloader import nsidcDownloader
+from swepy.process import process
 import glob
 import pytest
 import datetime
@@ -18,6 +19,23 @@ def set_login_test(self, username = 'test', password = 'test'):
         self.nD.password = 'test'
 
 swepy.set_login = set_login_test
+
+
+@pytest.fixture
+def scraped_files():
+    date = datetime.date(2010,1,1)
+    ul = 'N'
+    lr = 'N'
+    s1 = swepy(os.getcwd(),start = date, end = date, ul = 'N', lr = 'N', username = 'test', password = 'test')
+    files = s1.scrape()
+    return (files[0][0], files[1][0])
+
+
+@pytest.fixture
+def arrays(scraped_files):
+    tb19, tb37 = process.get_array(scraped_files[0], scraped_files[1])
+    return (tb19,tb37)
+
 
 def test_check_params_false():
     start = datetime.date(2010,1,1)
@@ -158,7 +176,8 @@ def test_scrape():
     s1 = swepy(os.getcwd()+'/swepy/tests/',start = date, end = date, ul = 'N', lr = 'N', username = 'test', password = 'test')
     s1.scrape()
     list1 = glob.glob("*.nc")
-    assert list1 == ['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc','NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc']
+    assert (list1 == ['NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc','NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc'] or 
+        list1 == ['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc','NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc'])
 
 def test_subset():
     if not os.path.exists('sub'):
@@ -187,8 +206,16 @@ def test_get_directories():
     s1 = swepy(os.getcwd())
     assert os.path.exists(os.getcwd()+'/data') == True
 
-'''
-def test_scrape_all():
-    date = datetime.date(2010,1,1)
-    s1 = swepy(os.getcwd(), ul = [-145, 66], lr = [-166,73])
-    '''
+
+def test_get_array(arrays):
+    assert type(arrays[0]) == np.ma.core.MaskedArray
+
+
+def test_vector_clean(arrays):
+    cleantb19 = process.vector_clean(arrays[0])
+    assert np.isnan(cleantb19).all() == False
+
+# def test_apply_filter(arrays):
+#     tb19 = process.vector_clean(arrays[0])
+#     cleantb19 = process.apply_filter(tb19)
+#     assert cleantb19.min() == 0
