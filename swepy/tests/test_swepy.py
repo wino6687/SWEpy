@@ -213,7 +213,8 @@ def test_get_auth():
         resp = nD.get_auth()
     except PermissionError:
         assert resp == PermissionError
-        
+
+
         
 
 def test_get_array(arrays):
@@ -225,8 +226,14 @@ def test_vector_clean(arrays):
     assert np.isnan(cleantb19).all() == False
 
 
+def test_pandas_fill(arrays):
+    clean = process.pandas_fill(arrays[0][:,1,1])
+    assert np.isnan(clean).all() == False
 
 # def test_apply_filter(arrays):
 #     tb19 = process.vector_clean(arrays[0])
-#     cleantb19 = process.apply_filter(tb19)
-#     assert cleantb19.min() == 0
+#     tb37 = process.vector_clean(arrays[1])
+#     swep = swepy()
+#     swe = swep.safe_subtract(tb19 = tb19,tb37 = tb37)
+#     swe = process.apply_filter(swe)
+#     assert swe.min() == 0

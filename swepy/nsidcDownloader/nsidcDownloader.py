@@ -162,13 +162,13 @@ class nsidcDownloader():
                     f.write(chunk)
         return [filename,resp]  ## changed to filename from filepath to fix another script
 
-    def download_range(self, date, **kwargs):
-        '''
-        Download a range of dates for a particular sensor - to be deprecated
-        '''
+    # def download_range(self, date, **kwargs):
+    #     '''
+    #     Download a range of dates for a particular sensor - to be deprecated
+    #     '''
 
-        assert isinstance(date, list), "Range passed must be list of dates"
+    #     assert isinstance(date, list), "Range passed must be list of dates"
 
-        for date in pd.date_range(date[0], date[1]):
-            kwargs["date"] = date
-            self.download_file(**kwargs)
+    #     for date in pd.date_range(date[0], date[1]):
+    #         kwargs["date"] = date
+    #         self.download_file(**kwargs)
