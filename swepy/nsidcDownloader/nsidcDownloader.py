@@ -116,7 +116,7 @@ class nsidcDownloader():
             print("Server Down, try again later")
         else:
             if req.status_code == 401:
-                raise PermissionError("Bad NASA Earthdata Authentication!")
+                return PermissionError("Bad NASA Earthdata Authentication!")
 
     def download_file(self, folder=None, overwrite=False, **kwargs):
         '''

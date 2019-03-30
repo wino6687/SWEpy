@@ -207,6 +207,15 @@ def test_get_directories():
     assert os.path.exists(os.getcwd()+'/data') == True
 
 
+def test_get_auth():
+    nD = nsidcDownloader.nsidcDownloader('room', 'backend')
+    try:
+        resp = nD.get_auth()
+    except PermissionError:
+        assert resp == PermissionError
+        
+        
+
 def test_get_array(arrays):
     assert type(arrays[0]) == np.ma.core.MaskedArray
 
@@ -214,6 +223,8 @@ def test_get_array(arrays):
 def test_vector_clean(arrays):
     cleantb19 = process.vector_clean(arrays[0])
     assert np.isnan(cleantb19).all() == False
+
+
 
 # def test_apply_filter(arrays):
 #     tb19 = process.vector_clean(arrays[0])
