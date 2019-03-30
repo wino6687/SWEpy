@@ -39,19 +39,6 @@ def get_array(file19, file37, high = True):
     return tb_19H, tb_37H
 
 
-def get_count(classes):
-    """
-    Given class  boundaries, return a dict of counts within 
-    each class 
-
-    Parameters: 
-    -----------
-    classes: list 
-        list of class boundaries to compute counts on
-    """
-    unique, counts = np.unique(classes, return_counts=True)
-    return dict(zip(unique, counts))
-
 def pandas_fill(arr):
     """
     --INEFFICIENT--
@@ -68,23 +55,6 @@ def pandas_fill(arr):
     df.fillna(method='ffill', inplace = True)
     out = df.values
     return out
-
-def get_df(df,year):
-    """
-    --Yearly Analysis--
-    Given full time series df, subset and return only 
-    the data from a given year
-
-    Parameters: 
-    df: pd.DataFrame
-        full time series to subset 
-    year: int
-        year to subset dataframe on 
-    """
-    mask_year = df['time'].dt.year == year
-    new_df = df[mask_year]
-    counts = new_df['count'].values
-    return counts
 
 
 def vector_clean(cube):
