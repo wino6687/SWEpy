@@ -3,6 +3,7 @@ import os
 from swepy.swepy import swepy
 from swepy.nsidcDownloader import nsidcDownloader
 from swepy.process import process
+from swepy.ease2Transform import ease2Transform
 import glob
 import pytest
 import datetime
@@ -230,7 +231,14 @@ def test_pandas_fill(arrays):
     clean = process.pandas_fill(arrays[0][:,1,1])
     assert np.isnan(clean).all() == False
 
+def test_grid_to_geo():
+        row = 359.5
+        col = 359.5
+        n25g = ease2Transform.ease2Transform("EASE2_N25km")
+        assert n25g.grid_to_geographic(row,col) == (89.99999999999997,0.)
 
+
+        
 
 
 # def test_apply_filter(arrays):
