@@ -25,6 +25,7 @@ def test_set_login():
     swep.set_login('test', 'test')
     assert swep.nD.username == 'test' and swep.nD.password == 'test'
 
+
 swepy.set_login = set_login_test
 
 
@@ -222,7 +223,6 @@ def test_get_auth():
         assert resp == PermissionError
 
 
-        
 def test_get_array(arrays):
     assert type(arrays[0]) == np.ma.core.MaskedArray
 
@@ -246,10 +246,12 @@ def test_grid_to_geo():
         
 
 
-# def test_apply_filter(arrays):
-#     tb19 = process.vector_clean(arrays[0])
-#     tb37 = process.vector_clean(arrays[1])
-#     swep = swepy()
-#     swe = swep.safe_subtract(tb19 = tb19,tb37 = tb37)
-#     swe = process.apply_filter(swe)
-#     assert swe.min() == 0
+def test_apply_filter(arrays):
+    tb19 = process.vector_clean(arrays[0])
+    tb37 = process.vector_clean(arrays[1])
+    swep = swepy()
+    swe = swep.safe_subtract(tb19 = tb19,tb37 = tb37)
+    swe = np.concatenate((np.concatenate((np.concatenate((swe, swe), axis=0), swe), axis = 0), swe), axis=0)
+    swe = swe[:,1:2,1:2]
+    swe = process.apply_filter(swe)
+    assert swe.min() == 0
