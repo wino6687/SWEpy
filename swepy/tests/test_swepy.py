@@ -243,7 +243,6 @@ def test_grid_to_geo():
         assert n25g.grid_to_geographic(row,col) == (89.99999999999997,0.)
 
 
-        
 def test_apply_filter_success(arrays):
     tb19 = process.vector_clean(arrays[0])
     tb37 = process.vector_clean(arrays[1])
@@ -259,3 +258,9 @@ def test_apply_filter_fail(arrays):
     tb19 = process.vector_clean(arrays[0])
     clean19 = process.apply_filter(tb19)
     assert clean19 == ValueError
+
+
+def test_apply_filter_large():
+    tb19 = np.zeros((100,5,5))
+    clean19 = process.apply_filter(tb19)
+    assert np.shape(clean19) == (100,5,5)
