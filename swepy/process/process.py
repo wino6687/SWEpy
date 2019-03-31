@@ -90,11 +90,26 @@ def apply_filter(cube):
     '''
     shape = np.shape(cube)
     smooth_cube = np.empty((shape[0],shape[1],shape[2]))
+    if shape[0] == 1:
+        cube = np.concatenate((np.concatenate((np.concatenate((smooth_cube, smooth_cube), axis=0), smooth_cube), axis = 0), smooth_cube), axis=0)
+        shape = np.shape(cube)
+        smooth_cube = np.empty((shape[0],shape[1],shape[2]))
+        window = shape[0]-1
+        poly = window - 2
+        print(window)
+        print(poly)
+        print(np.shape(cube))
+    elif shape[0] < 51: # when time vector is len(1) --> concat over itself to make len(3)
+        window = shape[0]-1 if shape[0]%2 == 0 else shape[0]
+        poly = 3 if window > 3 else window - 1
+    else: 
+        window = 51
+        poly = 3
     for x in range(shape[1]):
         for y in range(shape[2]):
             pixel_drill = cube[:,x,y]
             pixel = pandas_fill(pixel_drill)
-            yhat = savgol_filter(np.squeeze(pixel), 51, 3) 
+            yhat = savgol_filter(np.squeeze(pixel), window, poly) 
             yhat[yhat<2] = 0
             smooth_cube[:,x,y] = yhat
     return smooth_cube
