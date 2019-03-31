@@ -244,9 +244,7 @@ def test_grid_to_geo():
 
 
         
-
-
-def test_apply_filter(arrays):
+def test_apply_filter_success(arrays):
     tb19 = process.vector_clean(arrays[0])
     tb37 = process.vector_clean(arrays[1])
     swep = swepy()
@@ -255,3 +253,9 @@ def test_apply_filter(arrays):
     swe = swe[:,1:2,1:2]
     swe = process.apply_filter(swe)
     assert swe.min() == 0
+
+
+def test_apply_filter_fail(arrays):
+    tb19 = process.vector_clean(arrays[0])
+    clean19 = process.apply_filter(tb19)
+    assert clean19 == ValueError
