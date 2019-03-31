@@ -91,14 +91,8 @@ def apply_filter(cube):
     shape = np.shape(cube)
     smooth_cube = np.empty((shape[0],shape[1],shape[2]))
     if shape[0] == 1:
-        cube = np.concatenate((np.concatenate((np.concatenate((smooth_cube, smooth_cube), axis=0), smooth_cube), axis = 0), smooth_cube), axis=0)
-        shape = np.shape(cube)
-        smooth_cube = np.empty((shape[0],shape[1],shape[2]))
-        window = shape[0]-1
-        poly = window - 2
-        print(window)
-        print(poly)
-        print(np.shape(cube))
+        print("Cannot smooth a cube with time vector of length 1.")
+        return ValueError
     elif shape[0] < 51: # when time vector is len(1) --> concat over itself to make len(3)
         window = shape[0]-1 if shape[0]%2 == 0 else shape[0]
         poly = 3 if window > 3 else window - 1
