@@ -216,11 +216,8 @@ def test_get_directories():
 
 
 def test_get_auth():
-    nD = nsidcDownloader.nsidcDownloader('room', 'backend')
-    try:
-        resp = nD.get_auth()
-    except PermissionError:
-        assert resp == PermissionError
+    with pytest.raises(PermissionError):
+        nD = nsidcDownloader.nsidcDownloader('room', 'backend')
 
 
 def test_grid_to_geo():
