@@ -3,6 +3,7 @@ from swepy.process import process
 import datetime
 import os
 import pytest
+import numpy as np 
 
 
 @pytest.fixture

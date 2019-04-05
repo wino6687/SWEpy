@@ -181,7 +181,7 @@ def test_scrape():
     date = datetime.date(2010,1,1)
     ul = 'N'
     lr = 'N'
-    s1 = swepy(os.getcwd()+'/swepy/tests/',start = date, end = date, ul = 'N', lr = 'N', username = 'test', password = 'test')
+    s1 = swepy(os.getcwd(),start = date, end = date, ul = 'N', lr = 'N', username = 'test', password = 'test')
     s1.scrape()
     list1 = glob.glob("*.nc")
     assert (list1 == ['NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc','NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc'] or 
@@ -223,19 +223,6 @@ def test_get_auth():
         assert resp == PermissionError
 
 
-def test_get_array(arrays):
-    assert type(arrays[0]) == np.ma.core.MaskedArray
-
-
-def test_vector_clean(arrays):
-    cleantb19 = process.vector_clean(arrays[0])
-    assert np.isnan(cleantb19).all() == False
-
-
-def test_pandas_fill(arrays):
-    clean = process.pandas_fill(arrays[0][:,1,1])
-    assert np.isnan(clean).all() == False
-
 def test_grid_to_geo():
         row = 359.5
         col = 359.5
@@ -243,24 +230,4 @@ def test_grid_to_geo():
         assert n25g.grid_to_geographic(row,col) == (89.99999999999997,0.)
 
 
-def test_apply_filter_success(arrays):
-    tb19 = process.vector_clean(arrays[0])
-    tb37 = process.vector_clean(arrays[1])
-    swep = swepy()
-    swe = swep.safe_subtract(tb19 = tb19,tb37 = tb37)
-    swe = np.concatenate((np.concatenate((np.concatenate((swe, swe), axis=0), swe), axis = 0), swe), axis=0)
-    swe = swe[:,1:2,1:2]
-    swe = process.apply_filter(swe)
-    assert swe.min() == 0
 
-
-def test_apply_filter_fail(arrays):
-    tb19 = process.vector_clean(arrays[0])
-    clean19 = process.apply_filter(tb19)
-    assert clean19 == ValueError
-
-
-def test_apply_filter_large():
-    tb19 = np.zeros((100,5,5))
-    clean19 = process.apply_filter(tb19)
-    assert np.shape(clean19) == (100,5,5)
