@@ -167,7 +167,7 @@ def test_nD_local():
     nD = nsidcDownloader.nsidcDownloader(no_auth = True)
     nD.download_file(**file)
     list1 = glob.glob('*.nc')
-    assert list1[0] == 'NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc'
+    assert 'NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc' in list1
 
 def test_scrape_fail():
     date = datetime.date(2010,1,1)
