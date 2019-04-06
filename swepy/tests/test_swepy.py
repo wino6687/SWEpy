@@ -143,6 +143,7 @@ def test_safe_subtract1():
     tb = s1.safe_subtract(tb19,tb37)
     assert np.shape(tb) == (1,151,152)
 
+
 def test_safe_subtract2():
         s1 = swepy(os.getcwd())
         tb19 = np.ones((1,154,152))
@@ -237,6 +238,21 @@ def test_grid_to_geo():
 
 def test_clean_dirs():
     s1 = swepy(os.getcwd())
-    s1.clean_dirs()
-    list1 = glob.glob("*nc")
-    assert list1 == []
+    try:
+        s1.clean_dirs()
+        list1 = glob.glob("*nc")
+        assert list1 == []
+    except PermissionError: 
+        assert True
+
+def test_final_concat_fail():
+     s1 = swepy(os.getcwd())
+     res = s1.final_concat()
+     assert res == ('all_days_19H.nc', 'all_days_37H.nc')
+
+# def test_scrape_all():
+#     date = datetime.datetime(2010,1,1)
+#     s1 = swepy(os.getcwd(), start = date, end = date,ul = 'N', lr = 'N', username = 'test', password='test')
+#     res = s1.scrape_all()
+#     assert res == ['all_days_19H.nc', 'all_days_37H.nc']
+    
