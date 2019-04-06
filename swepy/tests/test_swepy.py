@@ -20,12 +20,6 @@ def set_login_test(self, username = 'test', password = 'test'):
         self.nD.password = 'test'
 
 
-def test_set_login():
-    swep = swepy()
-    swep.set_login('test', 'test')
-    assert swep.nD.username == 'test' and swep.nD.password == 'test'
-
-
 swepy.set_login = set_login_test
 
 
