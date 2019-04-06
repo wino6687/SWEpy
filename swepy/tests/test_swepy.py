@@ -51,6 +51,7 @@ def test_check_params_false():
     lr = [73,-166]
     s1 = swepy(os.getcwd(), start, start, ul)
     assert s1.check_params() == False
+    
 
 def test_check_params_true():
     start = datetime.date(2010,1,1)
@@ -135,12 +136,19 @@ def test_get_file():
                     'channel': '19H','grid': 'N','dataversion': 'v1.3',
                     'pass': 'M','algorithm': 'SIR'}
 
-def test_safe_subtract():
+def test_safe_subtract1():
     s1 = swepy(os.getcwd())
     tb19 = np.ones((1,152,153))
     tb37 = np.ones((1,154,153))
     tb = s1.safe_subtract(tb19,tb37)
     assert np.shape(tb) == (1,151,152)
+
+def test_safe_subtract2():
+        s1 = swepy(os.getcwd())
+        tb19 = np.ones((1,154,152))
+        tb37 = np.ones((1,152,153))
+        tb = s1.safe_subtract(tb19,tb37)
+        assert np.shape(tb) == (1,151,151)
 
 
 def test_nD_local():
