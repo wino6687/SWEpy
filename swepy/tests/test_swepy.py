@@ -227,4 +227,8 @@ def test_grid_to_geo():
         assert n25g.grid_to_geographic(row,col) == (89.99999999999997,0.)
 
 
-
+def test_clean_dirs():
+    s1 = swepy(os.getcwd())
+    s1.clean_dirs()
+    list1 = glob.glob("*nc")
+    assert list1 == []
