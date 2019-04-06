@@ -158,6 +158,27 @@ def test_gf_low_var1():
                     'channel': '19H','grid': 'N','dataversion': 'v1.3',
                     'pass': 'M','algorithm': 'GRD'}
 
+def test_gf_low_var2():
+    s1 = swepy(os.getcwd(), ul = 'N', lr = 'N', username = 'test', password = 'test', high_res=False)
+    date = datetime.datetime(2006,11,4)
+    file = s1.get_file(date, "19H")
+    assert file == {'protocol':'http', 'server':'localhost:8000','datapool':'MEASURES','resolution': '25km','platform': 'F15','sensor': 'SSMI',
+                    'date1': datetime.datetime(2006,11,4),
+                    'date2': datetime.datetime(2006,11,3),
+                    'channel': '19H','grid': 'N','dataversion': 'v1.3',
+                    'pass': 'M','algorithm': 'GRD'}
+
+def test_gf_low_TA():
+    s1 = swepy(os.getcwd(), ul = 'T', lr = 'T', username = 'test', password = 'test', high_res=False)
+    date = datetime.datetime(2006,11,4)
+    file = s1.get_file(date, "19H")
+    assert file == {'protocol':'http', 'server':'localhost:8000','datapool':'MEASURES','resolution': '25km','platform': 'F15','sensor': 'SSMI',
+                    'date1': datetime.datetime(2006,11,4),
+                    'date2': datetime.datetime(2006,11,3),
+                    'channel': '19H','grid': 'T','dataversion': 'v1.3',
+                    'pass': 'A','algorithm': 'GRD'}
+
+
 def test_safe_subtract1():
     s1 = swepy(os.getcwd())
     tb19 = np.ones((1,152,153))
