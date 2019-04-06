@@ -125,7 +125,7 @@ def test_get_xy_none():
         s1.get_xy(ll_ul, ll_lr)
 
 
-def test_get_file():
+def test_get_file_high():
     #path = tmpdir.mkdir("tmp")
     s1 = swepy(os.getcwd(), ul = 'N', lr = 'N', username = 'test', password = 'test')
     date = datetime.datetime(2010,1,1)
@@ -135,6 +135,17 @@ def test_get_file():
                     'date2': datetime.datetime(2010, 1, 1),
                     'channel': '19H','grid': 'N','dataversion': 'v1.3',
                     'pass': 'M','algorithm': 'SIR'}
+
+
+def test_get_file_low():
+    s1 = swepy(os.getcwd(), ul = 'N', lr = 'N', username = 'test', password = 'test', high_res=False)
+    date = datetime.datetime(2010,1,1)
+    file = s1.get_file(date, "19H")
+    assert file == {'protocol':'http', 'server':'localhost:8000','datapool':'MEASURES','resolution': '25km','platform': 'F17','sensor': 'SSMIS',
+                    'date1': datetime.datetime(2010, 1, 1),
+                    'date2': datetime.datetime(2010, 1, 1),
+                    'channel': '19H','grid': 'N','dataversion': 'v1.3',
+                    'pass': 'M','algorithm': 'GRD'}
 
 def test_safe_subtract1():
     s1 = swepy(os.getcwd())
