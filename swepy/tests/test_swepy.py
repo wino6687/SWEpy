@@ -38,6 +38,7 @@ def arrays(scraped_files):
     tb19, tb37 = process.get_array(scraped_files[0], scraped_files[1])
     return (tb19,tb37)
 
+    
 
 def test_check_params_false():
     start = datetime.date(2010,1,1)
@@ -54,11 +55,13 @@ def test_check_params_true():
     s1 = swepy(os.getcwd(), start, start, ul, lr, username = 'test', password = 'test')
     assert s1.check_params() == True
 
+
 def test_set_params_bounds():
     start = datetime.date(2010,1,1)
     s1 = swepy(os.getcwd(), start, start, username = 'test', password = 'test')
     s1.set_grid(ul = [66, -145], lr = [73,-166])
     assert s1.check_params() == True
+
 
 def test_set_params_auth():
     start = datetime.date(2010,1,1)
@@ -66,10 +69,12 @@ def test_set_params_auth():
     s1.set_login(username = 'test', password = 'test')
     assert s1.check_params() == True
 
+
 def test_set_params_dates():
     s1 = swepy(os.getcwd(), ul = [66,-145], lr = [73,-166], username = 'test', password = 'test')
     s1.set_dates(start = datetime.date(2010,1,1), end = datetime.date(2010,1,1))
     assert s1.check_params() == True
+
 
 def test_get_grid_N():
     s1 = swepy(os.getcwd())
@@ -77,11 +82,13 @@ def test_get_grid_N():
     lat2 = 80
     assert s1.get_grid(lat1, lat2) == "N"
 
+
 def test_get_grid_T():
     s1 = swepy(os.getcwd())
     lat1 = 30
     lat2 = 30
     assert s1.get_grid(lat1,lat2) == "T"
+
 
 def test_get_grid_S():
     s1 = swepy(os.getcwd())
@@ -89,13 +96,13 @@ def test_get_grid_S():
     lat2 = -80
     assert s1.get_grid(lat1, lat2) == "S"
 
+
 def test_get_grid_fails():
     s1 = swepy(os.getcwd())
     lat1 = -62
     lat2 = 70
     with pytest.raises(Exception):
         s1.get_grid(lat1,lat2)
-
 
 def test_get_xy_N():
     ll_ul = [ 62, -140]
