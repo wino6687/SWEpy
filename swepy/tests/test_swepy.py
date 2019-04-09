@@ -22,22 +22,6 @@ def set_login_test(self, username = 'test', password = 'test'):
 
 swepy.set_login = set_login_test
 
-
-@pytest.fixture
-def scraped_files():
-    date = datetime.date(2010,1,1)
-    ul = 'N'
-    lr = 'N'
-    s1 = swepy(os.getcwd(),start = date, end = date, ul = 'N', lr = 'N', username = 'test', password = 'test')
-    files = s1.scrape()
-    return (files[0][0], files[1][0])
-
-
-@pytest.fixture
-def arrays(scraped_files):
-    tb19, tb37 = process.get_array(scraped_files[0], scraped_files[1])
-    return (tb19,tb37)
-
     
 
 def test_check_params_false():
