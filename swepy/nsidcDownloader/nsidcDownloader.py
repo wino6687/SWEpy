@@ -8,11 +8,6 @@ from string import Formatter
 
 import pandas as pd
 
-try:
-    if get_ipython().config['IPKernelApp']['parent_appname'] == 'ipython-notebook':
-        from tqdm import tqdm_notebook as tqdm
-except:
-    pass
 
 class nsidcDownloader():
 
