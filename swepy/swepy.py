@@ -16,7 +16,7 @@ nco = Nco()
 
 class swepy():
     """
-    Class to facilitate the processing of tB files for SWE analysis.
+    Class to facilitate the scraping/subsetting/concatenating of tB files for SWE analysis.
     """
     def __init__(self, working_dir=None, start=None, end=None, ul=None, lr=None, username=None, password=None,
                 outfile19 = 'all_days_19H.nc', outfile37 = 'all_days_37H.nc', high_res = True):
@@ -29,9 +29,9 @@ class swepy():
             start date for scraping
         end: datetime
             end date for scraping
-        ul: list of two integers
+        ul: List[int, int]
             upper left bounding coordinates [lat, lon]
-        lr: list of two integers
+        lr: List[int, int]
             lower right bounding coordinates [lat,lon]
         username: str
             username for Earth Data login
@@ -41,9 +41,10 @@ class swepy():
             name of final output file, 19 19GHz
         outfile37: str
             name of final output file, 37 GHz
-        high_res: boolean
+        high_res: bool
             True: scrape high resolution files, False: low resolution
         """
+
         # set whether we are scraping resampled data or not
         if high_res: self.high_res = True
         else: self.high_res = False
@@ -91,6 +92,7 @@ class swepy():
         end: datetime
             end date for scraping
         '''
+
         try:
             self.dates = pd.date_range(start, end)
         except ValueError:
@@ -110,6 +112,7 @@ class swepy():
         password: String
             Earthdata password
         '''
+
         if username is not None and password is not None:
             print("Logging you into Earth Data...")
             self.local_session = False
@@ -132,6 +135,7 @@ class swepy():
         lr: [float, float]
             lower right bounding coordinates (not needed for entire grid)
         '''
+
         if ul is not None and lr is not None:
             # if ul is an entire grid, that is the grid we want to scrape
             if ul in ['N', 'S', 'T']:
@@ -151,8 +155,8 @@ class swepy():
 
     def get_grid(self, lat1, lat2):
         '''
-        Check which regions the lats fall into. Based
-        on the grid, instantiate the ease grid conversion object.
+        Check which regions the lats fall into. Based on the grid, instantiate the ease
+        grid conversion object.
 
         Parameters:
         -----------
@@ -161,6 +165,7 @@ class swepy():
         lat2: int
             Lower Right Latitude
         '''
+
         if (lat1 < 50 and lat2 < 50) and (lat1 > -50 and lat2 > -50): # mid lat
             self.grid = "T"
             self.ease = ease2Transform.ease2Transform("EASE2_T3.125km")
@@ -195,7 +200,6 @@ class swepy():
         return paths[0], paths[1], paths[2]
 
 
-
     def get_xy(self, ll_ul, ll_lr):
         '''
         Use nsidc scripts to convert user inputted
@@ -209,6 +213,7 @@ class swepy():
         ll_lr: [float, float]
             Latitude and longitude for lower right coordinates
         '''
+
         if ll_ul is None or ll_lr is None:
             print("You must enter bounding coordinates, please use 'set_grid()' to add coordinates")
             raise ValueError
@@ -243,6 +248,7 @@ class swepy():
             (Optional) directory to store output 37GHz files
             Default: "working_dir/data/Subsetted_37H"
         '''
+
         os.chdir(self.working_dir + "/data")
         for file in tqdm(self.down19list):
             outfile = self.path19 + file if out_dir19 is None else out_dir19 + file
@@ -275,9 +281,9 @@ class swepy():
     def scrape_all(self):
         '''
         Function to ensure we subset and concatenate every year!
-
         Implements the whole workflow!
         '''
+
         if self.check_params() == False:
             return
         if len(self.dates) <= 300:
@@ -298,9 +304,8 @@ class swepy():
 
     def get_file(self, date, channel): # add more defaulting params
         '''
-        Function that uses date and channel to
-        find optimal file composition and return the
-        file params for the web scraper's use.
+        Function that uses date and channel to find optimal file composition 
+        and return the file params for the web scraper's use.
 
         Parameters: 
         ----------
@@ -309,6 +314,7 @@ class swepy():
         channel: str
             19H vs 37H channel
         '''
+
         sensors = {1992: 'F11', 1993: 'F11', 1994: 'F11', 1995: 'F11', 1996: 'F13', 1997: 'F13', 1998: 'F13',
                 1999: 'F13', 2000: 'F13', 2001: 'F13', 2002: 'F13', 2003: 'F15', 2004: 'F15', 2005: 'F15', 2006: 'F16',
                 2007: 'F16', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
@@ -363,9 +369,8 @@ class swepy():
 
     def concatenate(self, outname19 = None, outname37 = None, all = False):
         '''
-        Function to concatenate files in the subsetted data
-        folders. Input parameter is simply to allow for nesting of
-        functions.
+        Function to concatenate files in the subsetted data folders.
+        Input parameter is simply to allow for nesting of functions.
 
         Parameters: 
         -----------
@@ -376,6 +381,7 @@ class swepy():
         all: Boolean
             
         '''
+
         if self.subBool == False:
             self.sub19list = self.down19list
             self.sub37list = self.down37list
@@ -439,6 +445,7 @@ class swepy():
         dates: List(datetime*)
             list of dates to scrape from
         '''
+
         # make sure we are ready to scrape 
         if self.local_session == False:
             if self.check_params() == False:
@@ -474,6 +481,7 @@ class swepy():
 
         Chops the larger matrix to match the smaller matrix
         '''
+
         shape1 = np.shape(tb19)
         shape2 = np.shape(tb37)
         s1 = [shape1[0], shape1[1], shape1[2]]
@@ -497,6 +505,7 @@ class swepy():
         Delete files in directory
         Useful for cleaning up with repeated testing
         '''
+
         os.chdir(self.wget)
         files = glob.glob("*")
         for f in files:
@@ -518,6 +527,7 @@ class swepy():
 
         Used by test suite and to check params are set before scraping.
         '''
+
         proceed = True
         try:
             params = {"dates":self.dates, "bounding coordinates":self.geo_list,
