@@ -25,7 +25,7 @@ def test_grid_to_geo():
     row = 359.5
     col = 359.5
     n25g = ease2Transform.ease2Transform("EASE2_N25km")
-    assert n25g.grid_to_geographic(row,col) == (89.99999999999997,0.)
+    assert n25g.grid_to_geographic(row,col) == (90.0,0.0)
 
 def test_verbose():
     n25g = ease2Transform.ease2Transform("EASE2_N25km", verbose=True)
