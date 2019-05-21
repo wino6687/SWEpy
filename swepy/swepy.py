@@ -473,8 +473,8 @@ class swepy():
             self.down37list.append(result2[0])
         return (result1, result2)
 
-
-    def safe_subtract(self, tb19, tb37):
+    @staticmethod
+    def safe_subtract(tb19, tb37):
         '''
         Check size of each file, often the 19 and 37
         matrices are one unit off of eachother.

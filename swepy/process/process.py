@@ -11,7 +11,7 @@ from skimage.measure import block_reduce
 import math
 from scipy.signal import savgol_filter
 from scipy.cluster.vq import *
-
+from swepy.swepy import swepy
 
     
 def get_array(file19, file37, high = True):
@@ -108,19 +108,19 @@ def apply_filter(cube):
             smooth_cube[:,x,y] = yhat
     return smooth_cube
 
-# def auto_filter(file19, file37): # filter_swe is either filter on tb or swe
-#     """
-#     Clean missing values and apply sav gol filter, return SWE cube
+def auto_filter(file19, file37): # filter_swe is either filter on tb or swe
+    """
+    Clean missing values and apply sav gol filter, return SWE cube
     
-#     Parameters: 
-#     -----------
-#     cube19: np.array
-#         size = (x,x,x)
-#     cube37: np.array
-#         size = (x,x,x)
-#     """
-#     cube19, cube37 = get_array(file19,file37)
-#     cube19 = vector_clean(cube19)
-#     cube37 = vector_clean(cube37)
-#     swe = swepy.safe_subtract(cube19, cube37)
-#     return apply_filter(swe)
+    Parameters: 
+    -----------
+    cube19: np.array
+        size = (x,x,x)
+    cube37: np.array
+        size = (x,x,x)
+    """
+    cube19, cube37 = get_array(file19,file37)
+    clean19 = vector_clean(cube19)
+    clean37 = vector_clean(cube37)
+    swe = swepy.safe_subtract(clean19, clean37)
+    return apply_filter(swe)
