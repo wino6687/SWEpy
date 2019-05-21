@@ -19,7 +19,7 @@ def test_ease_incorrect_res():
 
 def test_ease_incorrect_proj():
     with pytest.raises(ValueError):
-        ease = ease2Transform.ease2Transform("EASE2_W3.125km")
+        ease = ease2Transform.ease2Transform("EASE3_W25km")
 
 def test_grid_to_geo():
     row = 359.5

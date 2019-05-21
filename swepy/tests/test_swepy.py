@@ -6,6 +6,7 @@ import glob
 import pytest
 import datetime
 import numpy as np
+from shutil import copy
 
 
 def set_login_test(self, username = 'test', password = 'test'):
@@ -220,6 +221,16 @@ def test_concat():
     list1 = glob.glob("*all*")
     assert 'all_days_19H.nc' in list1
 
+
+# def test_concat_subFalse():
+#     s1 = swepy(os.getcwd(), ul='N',lr='N')
+#     copy('NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc', '/wget/NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc')
+#     copy('NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc', '/wget/NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc')
+#     setattr(s1,'down19list',['NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc'])
+#     setattr(s1,'down37list',['NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc'])
+#     s1.concatenate()
+
+
 def test_get_directories():
     s1 = swepy(os.getcwd())
     assert os.path.exists(os.getcwd()+'/data') == True
@@ -245,3 +256,6 @@ def test_final_concat_fail():
 #     res = s1.scrape_all()
 #     assert res == ['all_days_19H.nc', 'all_days_37H.nc']
     
+
+# def test_scrape_retry():
+#     s1 = swepy(os.getcwd(), f)
