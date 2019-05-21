@@ -59,6 +59,6 @@ def test_apply_filter_large():
     assert np.shape(clean19) == (100,5,5)
 
 
-def test_auto_filter(scraped_files):
-    swe = process.auto_filter(scraped_files[0], scraped_files[1])
-    assert swe.min() == 0
+# def test_auto_filter(scraped_files):
+#     swe = process.auto_filter(scraped_files[0], scraped_files[1])
+#     assert swe.min() == 0
