@@ -18,8 +18,9 @@ class Analysis():
             Infer length from number of days in data
         """
         self.swe = swe 
+        self.start_date = start_date
         self.time = pd.date_range(start_date, periods = np.shape(self.swe)[0], freq = "D")
-        self.melt_df = self.make_df(start_date)
+        #self.melt_df = self.make_df(time)
         self.year_splits = self.create_year_splits()
 
     
@@ -28,10 +29,12 @@ class Analysis():
         df.time = time 
         df['count'].values[:] = 0
         return df
-    
+
+
     def create_year_splits(self):
         years = set(self.time.year)
         years = list(years)
+        print(years)
         leap_years = [1992, 1996, 2000, 2004, 2008, 2012, 2016]
         year_splits = [0]
         for i,year in enumerate(years):
@@ -47,6 +50,7 @@ class Analysis():
         Count the number of pixels to reach zero on a given date. 
         Useful for comparison between years of a given region.
         """
+        melt_df = self.make_df(self.time)
         for i, year in enumerate(self.year_splits[0:len(self.year_splits)-1]):
         # generate melt date boolean matrix
             bool_1 = np.zeros((np.shape(self.swe)[1], np.shape(self.swe)[2]), dtype=bool)
@@ -57,9 +61,9 @@ class Analysis():
                     for y in range(np.shape(self.swe)[2]):
                         if bool_1[x,y] == False: 
                             if self.swe[d,x,y] == 0: # less than 5mm is zero (error)
-                                self.melt_df.loc[d,'count'] += 1
+                                melt_df.loc[d,'count'] += 1
                                 bool_1[x,y] = True
-        return
+        return melt_df
 
 
     def mask_year_df(self, year):
