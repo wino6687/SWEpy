@@ -5,6 +5,7 @@ from netCDF4 import Dataset
 from swepy.swepy import swepy 
 from swepy.process import process 
 from jenks import jenks 
+from multiprocessing import Pool, Process, cpu_count
 
 
 class Analysis():
@@ -63,8 +64,40 @@ class Analysis():
                             if self.swe[d,x,y] == 0: # less than 5mm is zero (error)
                                 melt_df.loc[d,'count'] += 1
                                 bool_1[x,y] = True
+        self.melt_df =  melt_df # should this be stored in the class??
+        return melt_df
+    
+
+    def count_melt_onset_index(self, swe):
+        """
+        Count the number of pixels to reach zero on a given date. 
+        Useful for comparison between years of a given region.
+        """
+        melt_df = self.make_df(self.time)
+        for i, year in enumerate(self.year_splits[0:len(self.year_splits)-1]):
+        # generate melt date boolean matrix
+            bool_1 = np.zeros((np.shape(swe)[1], np.shape(swe)[2]), dtype=bool)
+            # loop through the days of this year 
+            for d in range(self.year_splits[i],self.year_splits[i+1]-1):
+                # loop through x and then y of the image 
+                for x in range(np.shape(swe)[1]):
+                    for y in range(np.shape(self.swe)[2]):
+                        if bool_1[x,y] == False: 
+                            if swe[d,x,y] == 0: # less than 5mm is zero (error)
+                                melt_df.loc[d,'count'] += 1
+                                bool_1[x,y] = True
         return melt_df
 
+
+    def count_melt_onset_mp(self):
+        cpus = cpu_count()
+        swe_parts = np.array_split(swe, cpus, axis=2)
+        with Pool(cpus) as p:
+            return p.map(self.count_melt_onset_index, swe_parts)
+            # df = parts[0] # recombine parts 
+            # for i in range(1,len(parts)):
+            #     df = df.add(parts[i]['count'])
+            # return df
 
     def mask_year_df(self, year):
         mask = self.melt_df["time"].dt.year == year 
