@@ -90,14 +90,20 @@ class Analysis():
 
 
     def count_melt_onset_mp(self):
+        """
+        Helper function to manage multi-processing pool for counting 
+        melt onset date. 
+
+        Parralelize on the 2nd axis (spatially)
+        """
         cpus = cpu_count()
         swe_parts = np.array_split(self.swe, cpus, axis=2)
         with Pool(cpus) as p:
-            return p.map(self.count_melt_onset_index, swe_parts)
-            # df = parts[0] # recombine parts 
-            # for i in range(1,len(parts)):
-            #     df = df.add(parts[i]['count'])
-            # return df
+            parts = p.map(self.count_melt_onset_index, swe_parts)
+            df = parts[0] # recombine parts 
+            for i in range(1,len(parts)):
+                df['count'] = df['count'].add(parts[i]['count'])
+            return df
 
     def mask_year_df(self, year):
         mask = self.melt_df["time"].dt.year == year 
