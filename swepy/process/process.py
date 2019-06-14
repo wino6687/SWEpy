@@ -12,6 +12,8 @@ import math
 from scipy.signal import savgol_filter
 from scipy.cluster.vq import *
 from swepy.swepy import swepy
+from multiprocessing import Pool, Process, cpu_count
+
 
     
 def get_array(file19, file37, high = True):
@@ -108,6 +110,15 @@ def apply_filter(cube):
             smooth_cube[:,x,y] = yhat
     return smooth_cube
 
+
+def apply_filter_mphelper(cube):
+    cpus = cpu_count()
+    swe_parts = np.array_split(cube, cpus, axis=2)
+    with Pool(cpus) as p:
+        parts = p.map(apply_filter, swe_parts)
+        return np.concatenate(parts, axis=2)
+
+
 def auto_filter(file19, file37): # filter_swe is either filter on tb or swe
     """
     Clean missing values and apply sav gol filter, return SWE cube
@@ -123,4 +134,4 @@ def auto_filter(file19, file37): # filter_swe is either filter on tb or swe
     clean19 = vector_clean(cube19)
     clean37 = vector_clean(cube37)
     swe = swepy.safe_subtract(clean19, clean37)
-    return apply_filter(swe)
+    return apply_filter_mphelper(swe)
