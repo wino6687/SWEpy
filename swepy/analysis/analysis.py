@@ -81,7 +81,7 @@ class Analysis():
             for d in range(self.year_splits[i],self.year_splits[i+1]-1):
                 # loop through x and then y of the image 
                 for x in range(np.shape(swe)[1]):
-                    for y in range(np.shape(self.swe)[2]):
+                    for y in range(np.shape(swe)[2]):
                         if bool_1[x,y] == False: 
                             if swe[d,x,y] == 0: # less than 5mm is zero (error)
                                 melt_df.loc[d,'count'] += 1
@@ -91,7 +91,7 @@ class Analysis():
 
     def count_melt_onset_mp(self):
         cpus = cpu_count()
-        swe_parts = np.array_split(swe, cpus, axis=2)
+        swe_parts = np.array_split(self.swe, cpus, axis=2)
         with Pool(cpus) as p:
             return p.map(self.count_melt_onset_index, swe_parts)
             # df = parts[0] # recombine parts 
