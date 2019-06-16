@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 from netCDF4 import Dataset
 from swepy.swepy import swepy 
 from swepy.process import process 
-from jenks import jenks 
 from multiprocessing import Pool, Process, cpu_count
 
 
