@@ -92,3 +92,14 @@ def test_make_df_type(swe):
     t = analysis.make_df(date,swe)
     assert type(t) == pd.DataFrame
 
+
+def test_create_splits():
+    array_zeros = np.zeros((3000,30,30),dtype=int)
+    date = datetime.date(1993,1,1)
+    a = analysis.Analysis(date, array_zeros)
+    years = a.create_year_splits()
+    assert years == [0, 365, 730, 1095, 1460, 1826, 2191, 2556, 2921, 3287]
+
+
+
+
