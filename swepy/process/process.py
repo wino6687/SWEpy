@@ -15,7 +15,6 @@ from swepy.swepy import swepy
 from multiprocessing import Pool, Process, cpu_count
 
 
-    
 def get_array(file19, file37, high = True):
     """
     --Data Processing--
@@ -113,11 +112,14 @@ def apply_filter(cube):
 
 def apply_filter_mphelper(cube):
     cpus = cpu_count()
+    # this will fail if cube is smaller than number of cpus
     swe_parts = np.array_split(cube, cpus, axis=2)
     with Pool(cpus) as p:
         parts = p.map(apply_filter, swe_parts)
-        return np.concatenate(parts, axis=2)
-
+        try:
+            return np.concatenate(parts, axis=2) #recombine split cube
+        except ValueError:
+            print("Array provided is smaller than # of cores available. Exiting")
 
 def auto_filter(file19, file37): # filter_swe is either filter on tb or swe
     """
