@@ -1,5 +1,6 @@
 from swepy.swepy import swepy
 from swepy.process import process
+from swepy.analysis import analysis
 import datetime
 import os
 import pytest
@@ -90,3 +91,4 @@ def test_make_df_type(swe):
     date = datetime.date(2013,1,1)
     t = analysis.make_df(date,swe)
     assert type(t) == pd.DataFrame
+
