@@ -22,6 +22,22 @@ def arrays(scraped_files):
     return (tb19,tb37)
 
 
+@pytest.fixture
+def swe(arrays):
+    tb19 = process.vector_clean(arrays[0])
+    tb37 = process.vector_clean(arrays[1])
+    swe = swepy.safe_subtract(tb19=tb19,tb37=tb37)
+    return swe
+
+
+# @pytest.fixture
+# def analysis(arrays):
+#     tb19 = process.vector_clean(arrays[0])
+#     tb37 = process.vector_clean(arrays[1])
+#     swe = swepy.safe_subtract(tb19 = tb19,tb37 = tb37)
+#     return analysis.Analysis(datetime.date(2010,1,1), arrays[1]-arrays[0])
+
+
 def test_get_array(arrays):
     assert type(arrays[0]) == np.ma.core.MaskedArray
 
@@ -39,8 +55,7 @@ def test_pandas_fill(arrays):
 def test_apply_filter_success(arrays):
     tb19 = process.vector_clean(arrays[0])
     tb37 = process.vector_clean(arrays[1])
-    swep = swepy()
-    swe = swep.safe_subtract(tb19 = tb19,tb37 = tb37)
+    swe = swepy.safe_subtract(tb19 = tb19,tb37 = tb37)
     swe = np.concatenate((np.concatenate((np.concatenate((swe, swe), axis=0), swe), axis = 0), swe), axis=0)
     swe = swe[:,1:2,1:2]
     swe = process.apply_filter(swe)
@@ -62,3 +77,11 @@ def test_apply_filter_large():
 # def test_auto_filter(scraped_files):
 #     swe = process.auto_filter(scraped_files[0], scraped_files[1])
 #     assert swe.min() == 0
+
+
+# START ANALYTICS TEST SUITE
+def test_make_df(swe):
+    date = datetime.date(2013,1,1)
+    t = analysis.make_df(date, swe)
+    assert t == datetime.datetime(2013,1,1)
+

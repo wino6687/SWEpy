@@ -24,7 +24,8 @@ class Analysis():
         #self.melt_df = self.make_df(time)
         self.year_splits = self.create_year_splits()
 
-    
+
+    @staticmethod
     def make_df(self, time):
         df = pd.DataFrame(columns=['time', 'count'])
         df.time = time 
@@ -95,6 +96,11 @@ class Analysis():
         melt onset date. 
 
         Parralelize on the 2nd axis (spatially)
+
+        Returns:
+        --------
+        df: pandas DataFrame 
+                Count of melt dates of every pixel in image 
         """
         cpus = cpu_count()
         swe_parts = np.array_split(self.swe, cpus, axis=2)
@@ -104,6 +110,7 @@ class Analysis():
             for i in range(1,len(parts)):
                 df['count'] = df['count'].add(parts[i]['count'])
             return df
+
 
     def mask_year_df(self, year):
         mask = self.melt_df["time"].dt.year == year 
