@@ -103,11 +103,25 @@ def test_make_df_type(swe):
 
 
 def test_create_splits():
-    array_zeros = np.zeros((3000,30,30),dtype=int)
+    array_zeros = np.zeros((300,30,30),dtype=int)
     date = datetime.date(1993,1,1)
     a = analysis.Analysis(date, array_zeros)
     years = a.create_year_splits()
     assert years == [0, 365, 730, 1095, 1460, 1826, 2191, 2556, 2921, 3287]
+
+
+def test_count_melt_onset_mp():
+    """
+    Note: right now making zero matrix swe values
+    - should maybe make fixture that has an instantiated analysis object with the swe cube inside
+    """
+    array_zeros = np.zeros((300,50,50), dtype=int)
+    a = analysis.Analysis(1993,1,1, array_zeros)
+    c = a.count_melt_onset_mp()
+    assert type(c) == pd.DataFrame
+
+    
+
 
 
 
