@@ -32,12 +32,10 @@ def swe(arrays):
     return swe
 
 
-# @pytest.fixture
-# def analysis(arrays):
-#     tb19 = process.vector_clean(arrays[0])
-#     tb37 = process.vector_clean(arrays[1])
-#     swe = swepy.safe_subtract(tb19 = tb19,tb37 = tb37)
-#     return analysis.Analysis(datetime.date(2010,1,1), arrays[1]-arrays[0])
+@pytest.fixture
+def a():
+    swe = np.zeros((3000,50,50))
+    return analysis.Analysis(datetime.date(1993,1,1), swe)
 
 
 def test_get_array(arrays):
@@ -88,9 +86,9 @@ def test_apply_filter_mp():
 
 
 # START ANALYTICS TEST SUITE
-def test_make_df(swe):
-    date = datetime.date(2013,1,1)
-    a = analysis.Analysis(date, swe)
+def test_make_df(a):
+    # date = datetime.date(2013,1,1)
+    # a = analysis.Analysis(date, swe)
     t = a.make_df() # needs to refer back to class
     assert t.time[0] == datetime.datetime(2013,1,1)
 
@@ -103,7 +101,7 @@ def test_make_df_type(swe):
 
 
 def test_create_splits():
-    array_zeros = np.zeros((300,30,30),dtype=int)
+    array_zeros = np.zeros((3000,30,30),dtype=int)
     date = datetime.date(1993,1,1)
     a = analysis.Analysis(date, array_zeros)
     years = a.create_year_splits()
@@ -119,6 +117,10 @@ def test_count_melt_onset_mp():
     a = analysis.Analysis(1993,1,1, array_zeros)
     c = a.count_melt_onset_mp()
     assert type(c) == pd.DataFrame
+
+
+def test_mask_year_df():
+
 
     
 

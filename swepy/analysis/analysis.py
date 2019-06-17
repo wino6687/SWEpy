@@ -112,8 +112,8 @@ class Analysis():
             return df
 
 
-    def mask_year_df(self, year):
-        mask = self.melt_df["time"].dt.year == year 
+    def mask_year_df(self, df, year):
+        mask = df["time"].dt.year == year 
         return df[mask]
 
 
