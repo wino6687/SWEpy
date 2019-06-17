@@ -83,7 +83,7 @@ def test_apply_filter_large():
 # START ANALYTICS TEST SUITE
 def test_make_df(swe):
     date = datetime.date(2013,1,1)
-    t = analysis.make_df(date, swe)
+    t = analysis.Analysis.make_df(date, swe)
     assert t.time[0] == datetime.datetime(2013,1,1)
 
 
@@ -99,6 +99,7 @@ def test_create_splits():
     a = analysis.Analysis(date, array_zeros)
     years = a.create_year_splits()
     assert years == [0, 365, 730, 1095, 1460, 1826, 2191, 2556, 2921, 3287]
+
 
 
 
