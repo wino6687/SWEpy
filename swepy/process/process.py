@@ -112,7 +112,6 @@ def apply_filter(cube):
 
 def apply_filter_mphelper(cube):
     cpus = cpu_count()
-    # this will fail if cube is smaller than number of cpus
     swe_parts = np.array_split(cube, cpus, axis=2)
     with Pool(cpus) as p:
         parts = p.map(apply_filter, swe_parts)
@@ -120,6 +119,15 @@ def apply_filter_mphelper(cube):
             return np.concatenate(parts, axis=2) #recombine split cube
         except ValueError:
             print("Array provided is smaller than # of cores available. Exiting")
+
+"""
+Test Cases: 
+- apply_filter_mphelper: 
+    - ensure ValueError is thrown when array is smaller than # of cores 
+    - ensure no Error thrown when array is large enough 
+    - test that the array produced is the same size as the original
+"""
+
 
 def auto_filter(file19, file37): # filter_swe is either filter on tb or swe
     """
