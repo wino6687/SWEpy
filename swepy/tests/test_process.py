@@ -83,13 +83,15 @@ def test_apply_filter_large():
 # START ANALYTICS TEST SUITE
 def test_make_df(swe):
     date = datetime.date(2013,1,1)
-    t = analysis.Analysis.make_df(date, swe) # needs to refer back to class
+    a = analysis.Analysis(date, swe)
+    t = a.Analysis.make_df(date, swe) # needs to refer back to class
     assert t.time[0] == datetime.datetime(2013,1,1)
 
 
 def test_make_df_type(swe):
     date = datetime.date(2013,1,1)
-    t = analysis.make_df(date,swe)
+    a = analysis.Analysis(date, swe)
+    t = a.make_df(date)
     assert type(t) == pd.DataFrame
 
 

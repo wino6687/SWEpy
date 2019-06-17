@@ -24,7 +24,6 @@ class Analysis():
         self.year_splits = self.create_year_splits()
 
 
-    @staticmethod
     def make_df(self, time):
         df = pd.DataFrame(columns=['time', 'count'])
         df.time = time 
