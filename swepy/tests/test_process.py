@@ -75,6 +75,12 @@ def test_apply_filter_large():
     assert np.shape(clean19) == (100,5,5)
 
 
+def test_apply_filter_mp():
+    tb19 = np.zeros((100,50,50))
+    clean19 = process.apply_filter_mphelper(tb19)
+    assert np.shape(clean19) == (100,50,50)
+
+
 # def test_auto_filter(scraped_files):
 #     swe = process.auto_filter(scraped_files[0], scraped_files[1])
 #     assert swe.min() == 0
@@ -84,7 +90,7 @@ def test_apply_filter_large():
 def test_make_df(swe):
     date = datetime.date(2013,1,1)
     a = analysis.Analysis(date, swe)
-    t = a.Analysis.make_df() # needs to refer back to class
+    t = a.make_df() # needs to refer back to class
     assert t.time[0] == datetime.datetime(2013,1,1)
 
 
