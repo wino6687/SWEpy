@@ -24,16 +24,24 @@ class Analysis():
         self.year_splits = self.create_year_splits()
 
 
-    def make_df(self, time = None):
+    def make_df(self, time = None, columns = ['time', 'count']):
+        """
+        Given a time array, create dateframe with time and count columns
+        MELT ONSET 
+        """
         if time is None:
             time = self.time
-        df = pd.DataFrame(columns=['time', 'count'])
+        df = pd.DataFrame(columns=columns)
         df.time = time 
         df['count'].values[:] = 0
         return df
 
 
     def create_year_splits(self):
+        """
+        Take time array from class and create an array of year split indexes
+        MELT ONSET (PLUS)
+        """
         years = set(self.time.year)
         years = list(years)
         print(years)
@@ -47,32 +55,37 @@ class Analysis():
         return year_splits
 
     
-    def count_melt_onset(self):
-        """
-        Count the number of pixels to reach zero on a given date. 
-        Useful for comparison between years of a given region.
-        """
-        melt_df = self.make_df(self.time)
-        for i, year in enumerate(self.year_splits[0:len(self.year_splits)-1]):
-        # generate melt date boolean matrix
-            bool_1 = np.zeros((np.shape(self.swe)[1], np.shape(self.swe)[2]), dtype=bool)
-            # loop through the days of this year 
-            for d in range(self.year_splits[i],self.year_splits[i+1]-1):
-                # loop through x and then y of the image 
-                for x in range(np.shape(self.swe)[1]):
-                    for y in range(np.shape(self.swe)[2]):
-                        if bool_1[x,y] == False: 
-                            if self.swe[d,x,y] == 0: # less than 5mm is zero (error)
-                                melt_df.loc[d,'count'] += 1
-                                bool_1[x,y] = True
-        self.melt_df =  melt_df # should this be stored in the class??
-        return melt_df
+    # def count_melt_onset(self):
+    #     """
+    #     Count the number of pixels to reach zero on a given date. 
+    #     Useful for comparison between years of a given region.
+    #     """
+    #     melt_df = self.make_df(self.time)
+    #     for i, year in enumerate(self.year_splits[0:len(self.year_splits)-1]):
+    #     # generate melt date boolean matrix
+    #         bool_1 = np.zeros((np.shape(self.swe)[1], np.shape(self.swe)[2]), dtype=bool)
+    #         # loop through the days of this year 
+    #         for d in range(self.year_splits[i],self.year_splits[i+1]-1):
+    #             # loop through x and then y of the image 
+    #             for x in range(np.shape(self.swe)[1]):
+    #                 for y in range(np.shape(self.swe)[2]):
+    #                     if bool_1[x,y] == False: 
+    #                         if self.swe[d,x,y] == 0: # less than 5mm is zero (error)
+    #                             melt_df.loc[d,'count'] += 1
+    #                             bool_1[x,y] = True
+    #     self.melt_df =  melt_df # should this be stored in the class??
+    #     return melt_df
     
 
     def count_melt_onset_index(self, swe):
         """
-        Count the number of pixels to reach zero on a given date. 
+        Count the date that each pixel reaches zero for first time of season on a given date. 
         Useful for comparison between years of a given region.
+
+        PARAMETERS
+        ----------
+        swe: np.array
+            swe cube (should be clean and relatively smooth)
         """
         melt_df = self.make_df(self.time)
         for i, year in enumerate(self.year_splits[0:len(self.year_splits)-1]):
