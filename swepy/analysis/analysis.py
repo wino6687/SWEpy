@@ -113,11 +113,18 @@ class Analysis():
 
 
     def mask_year_df(self, df, year):
+        """
+        Mask single year out of pandas dataframe based on "time" column
+        """
         mask = df["time"].dt.year == year 
         return df[mask]
 
 
     def melt_date_year(self):
+        """
+        Grab the counts of each year and stick them in own key of dictionary
+        Makes for easy comparison of melt times each year.
+        """
         df_dict = {}
         counts_dict = {}
         for i in set(self.time.year):
