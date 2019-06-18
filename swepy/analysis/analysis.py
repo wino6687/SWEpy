@@ -133,7 +133,7 @@ class Analysis():
         return df[mask]
 
 
-    def melt_date_year(self):
+    def melt_date_year(self, df):
         """
         Grab the counts of each year and stick them in own key of dictionary
         Makes for easy comparison of melt times each year.
@@ -141,7 +141,7 @@ class Analysis():
         df_dict = {}
         counts_dict = {}
         for i in set(self.time.year):
-            df_dict[i] = mask_year_df(self.melt_df, i)
+            df_dict[i] = self.mask_year_df(df, i)
             counts_dict[i] = df_dict[i]['count'].values
         return counts_dict
 
