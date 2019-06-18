@@ -32,11 +32,6 @@ def swe(arrays):
     return swe
 
 
-@pytest.fixture
-def a():
-    swe = np.zeros((3000,50,50))
-    return analysis.Analysis(datetime.date(1993,1,1), swe)
-
 
 def test_get_array(arrays):
     assert type(arrays[0]) == np.ma.core.MaskedArray
@@ -85,41 +80,7 @@ def test_apply_filter_mp():
 #     assert swe.min() == 0
 
 
-# START ANALYTICS TEST SUITE
-def test_make_df(a):
-    # date = datetime.date(2013,1,1)
-    # a = analysis.Analysis(date, swe)
-    t = a.make_df() # needs to refer back to class
-    print(type(t.time[0]))
-    assert t.time[0] == pd.Timestamp('1993-01-01 00:00:00')
 
-def test_make_df_type(swe):
-    date = datetime.date(2013,1,1)
-    a = analysis.Analysis(date, swe)
-    t = a.make_df()
-    assert type(t) == pd.DataFrame
-
-
-def test_create_splits():
-    array_zeros = np.zeros((3000,30,30),dtype=int)
-    date = datetime.date(1993,1,1)
-    a = analysis.Analysis(date, array_zeros)
-    years = a.create_year_splits()
-    assert years == [0, 365, 730, 1095, 1460, 1826, 2191, 2556, 2921, 3287]
-
-
-def test_count_melt_onset_mp(a):
-    """
-    Note: right now making zero matrix swe values
-    - should maybe make fixture that has an instantiated analysis object with the swe cube inside
-    """
-    array_zeros = np.zeros((300,50,50), dtype=int)
-    #a = analysis.Analysis(1993,1,1, array_zeros)
-    c = a.count_melt_onset_mp()
-    assert type(c) == pd.DataFrame
-
-
-# def test_mask_year_df():
 
 
     
