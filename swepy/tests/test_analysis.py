@@ -62,3 +62,10 @@ def test_melt_date_year():
     df = a.make_df()
     counts = a.melt_date_year(df)
     assert type(counts) == dict
+
+
+def test_count_index():
+    swe = np.zeros((3000,50,50))
+    a = analysis.Analysis(datetime.date(1993,1,1), swe)
+    c = a.count_melt_onset_index(swe)
+    assert type(c) == pd.DataFrame
