@@ -5,6 +5,7 @@ from netCDF4 import Dataset
 from swepy.swepy import swepy 
 from swepy.process import process 
 from multiprocessing import Pool, Process, cpu_count
+import math
 
 
 class Analysis():
@@ -144,6 +145,45 @@ class Analysis():
             df_dict[i] = self.mask_year_df(df, i)
             counts_dict[i] = df_dict[i]['count'].values
         return counts_dict
+
+    
+    def summer_length(self, smooth_cube):
+        """
+        Function to track summer length for a pixel over each year 
+        Generates hash table of key:value = (x,y): summer length in days 
+        """
+        shape = np.shape(smooth_cube)
+        store = {}
+        for x in range(np.shape(smooth_cube)[1]):
+            for y in range(np.shape(smooth_cube)[2]):
+                lengths = {}
+                firstofyear = True
+                f = 0
+                lastofyear = True
+                time = smooth_cube[:,x,y].tolist()
+                for index,val in enumerate(time,start=1):
+                    if (index%365!=0):
+                        if (val == 0 and firstofyear):
+                            f = index%365
+                            firstofyear = False
+                        if (val !=0 and firstofyear == False and lastofyear):
+                            summerlength = ((index-1)%365)-f
+                            lengths[math.floor((index/365) + 1993)] = lengths.get(math.floor((index/365) + 1993),0) + summerlength
+                            lastofyear = False
+                    else:
+                        firstofyear = True
+                        lastofyear = True
+                store[(x,y)] = lengths
+        return store
+
+    
+    # def summer_length_helper(self):
+    #     cpus = cpu_count()
+    #     swe_parts = np.array_split(self.swe, cpus, axis=2)
+    #     with Pool(cpus) as p:
+    #         parts = p.map(self.summer_length, swe_parts)
+    #         return parts[0]
+    # it doesn't really make sense to parralelize this functionality because it will break the hashing functionality 
 
 """
 Need to decide on a flow here. Do i want the user to have to pick and choose the analysis they want, or do they just instantiate the class and it all happens? 
