@@ -74,5 +74,5 @@ def test_count_index():
 def test_summer_length():
     swe = np.zeros((3000,50,50))
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
-    c = a.summer_length(swe
+    c = a.summer_length(swe)
     assert type(c) == dict
