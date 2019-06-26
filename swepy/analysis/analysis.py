@@ -54,28 +54,6 @@ class Analysis():
             else: 
                 year_splits.append(year_splits[-1]+365)
         return year_splits
-
-    
-    # def count_melt_onset(self):
-    #     """
-    #     Count the number of pixels to reach zero on a given date. 
-    #     Useful for comparison between years of a given region.
-    #     """
-    #     melt_df = self.make_df(self.time)
-    #     for i, year in enumerate(self.year_splits[0:len(self.year_splits)-1]):
-    #     # generate melt date boolean matrix
-    #         bool_1 = np.zeros((np.shape(self.swe)[1], np.shape(self.swe)[2]), dtype=bool)
-    #         # loop through the days of this year 
-    #         for d in range(self.year_splits[i],self.year_splits[i+1]-1):
-    #             # loop through x and then y of the image 
-    #             for x in range(np.shape(self.swe)[1]):
-    #                 for y in range(np.shape(self.swe)[2]):
-    #                     if bool_1[x,y] == False: 
-    #                         if self.swe[d,x,y] == 0: # less than 5mm is zero (error)
-    #                             melt_df.loc[d,'count'] += 1
-    #                             bool_1[x,y] = True
-    #     self.melt_df =  melt_df # should this be stored in the class??
-    #     return melt_df
     
 
     def count_melt_onset_index(self, swe):
@@ -176,6 +154,24 @@ class Analysis():
                 store[(x,y)] = lengths
         return store
 
+
+    def summer_diff(self, summer_dict):
+        """
+        Find the overall change in summer length in the entire image
+
+        Returns the average difference, in days, of all pixels over all years
+
+        PARAMETERS:
+        ----------
+        summer_dict: dict
+            dictionary from summer_length function 
+        """
+        for key in summer_dict:
+            diff = 0
+            i = 1
+            keys = list(summer_dict[key].keys())
+            for k in range(1,len(keys)): diff += keys[k] - keys[k-1]
+        return diff
     
     # def summer_length_helper(self):
     #     cpus = cpu_count()
