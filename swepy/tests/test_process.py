@@ -32,7 +32,6 @@ def swe(arrays):
     return swe
 
 
-
 def test_get_array(arrays):
     assert type(arrays[0]) == np.ma.core.MaskedArray
 
