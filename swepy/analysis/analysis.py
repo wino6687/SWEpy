@@ -186,6 +186,7 @@ class Analysis():
         im = plt.imshow(self.diffmap)
         plt.colorbar()
         plt.show()
+        return im 
     
     # def summer_length_helper(self):
     #     cpus = cpu_count()
