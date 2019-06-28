@@ -24,6 +24,7 @@ def test_make_df_time():
     print(type(t.time[0]))
     assert t.time[0] == pd.Timestamp('1993-01-01 00:00:00')
 
+
 def test_make_df_type():
     swe = np.zeros((3000,50,50))
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
@@ -108,4 +109,4 @@ def test_display_diffmap():
     c = a.summer_length(swe)
     diff, heatmap = a.summer_diff(c)
     im = plt.imshow(heatmap)
-    assert type(im) == matplotlib.image.AxesImage
+    assert type(im) == plt.image.AxesImage
