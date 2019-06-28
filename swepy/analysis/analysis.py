@@ -155,23 +155,37 @@ class Analysis():
         return store
 
 
-    def summer_diff(self, summer_dict):
+    def summer_diff(self, summer_dict, smooth_cube = None):
         """
-        Find the overall change in summer length in the entire image
-
-        Returns the average difference, in days, of all pixels over all years
+        Find the average change in summer length by pixel and overall
 
         PARAMETERS:
         ----------
         summer_dict: dict
-            dictionary from summer_length function 
+            dictionary containing the summer lengths of each year by pixel
+        smooth_cube: np.array(x,x,x)
+            swe cube of clean swe data, OPTIONAL
         """
+        if smooth_cube == None: 
+            smooth_cube = self.swe
+        shape = np.shape(smooth_cube)
+        diffmap = np.zeros((shape[1], shape[2]))
+        total_diff = 0 
         for key in summer_dict:
             diff = 0
             i = 1
             keys = list(summer_dict[key].keys())
-            for k in range(1,len(keys)): diff += keys[k] - keys[k-1]
-        return diff
+            diff = sum([j-i for i,j in zip(key[:-1], key[1:])])
+            diffmap[key[0], key[1]] = diff/12
+            total_diff += diff / 12
+        self.diffmap = diffmap 
+        return total_diff/len(summer_dict.keys()), diffmap
+
+    
+    def display_summer_change(self):
+        im = plt.imshow(self.diffmap)
+        plt.colorbar()
+        plt.show()
     
     # def summer_length_helper(self):
     #     cpus = cpu_count()
