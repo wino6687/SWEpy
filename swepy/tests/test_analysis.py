@@ -7,6 +7,7 @@ import pytest
 import numpy as np 
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib
 
 @pytest.fixture
 def a():
@@ -109,4 +110,4 @@ def test_display_diffmap():
     c = a.summer_length(swe)
     diff, heatmap = a.summer_diff(c)
     im = plt.imshow(heatmap)
-    assert type(im) == plt.image.AxesImage
+    assert type(im) == matplotlib.image.AxesImage
