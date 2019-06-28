@@ -6,13 +6,14 @@ import os
 import pytest
 import numpy as np 
 import pandas as pd
+import matplotlib.pyplot as plt
 
 @pytest.fixture
 def a():
     swe = np.zeros((3000,50,50))
     return analysis.Analysis(datetime.date(1993,1,1), swe)
 
-# START ANALYTICS TEST SUITE
+
 def test_make_df_time():
     """
     Make sure timestamp is correctly created in dataframe
