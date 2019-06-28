@@ -77,8 +77,25 @@ def test_summer_length():
     c = a.summer_length(swe)
     assert type(c) == dict
 
+
 def test_summer_length2():
     swe = np.zeros((3000,50,50))
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     c = a.summer_length(swe)
     assert type(c[(1,1)]) == dict
+
+
+def test_summer_diff1():
+    swe = np.zeros((3000,50,50))
+    a = analysis.Analysis(datetime.date(1993,1,1), swe)
+    c = a.summer_length(swe)
+    diff, heatmap = a.summer_diff(c)
+    assert diff == 0
+
+
+def test_summer_diff1():
+    swe = np.zeros((3000,50,50))
+    a = analysis.Analysis(datetime.date(1993,1,1), swe)
+    c = a.summer_length(swe)
+    diff, heatmap = a.summer_diff(c)
+    assert np.shape(heatmap) == (3000,50,50)
