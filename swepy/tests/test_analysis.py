@@ -98,4 +98,4 @@ def test_summer_diff1():
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     c = a.summer_length(swe)
     diff, heatmap = a.summer_diff(c)
-    assert np.shape(heatmap) == (3000,50,50)
+    assert np.shape(heatmap) == (50,50)
