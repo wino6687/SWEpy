@@ -93,6 +93,8 @@ def test_summer_diff1():
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     c = a.summer_length(swe)
     diff, heatmap = a.summer_diff(c)
+    if diff < .1:
+        diff = 0 
     assert diff == 0
 
 
