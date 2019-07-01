@@ -45,14 +45,14 @@ def test_count_melt_onset_mp():
     Note: right now making zero matrix swe values
     - should maybe make fixture that has an instantiated analysis object with the swe cube inside
     """
-    swe = np.zeros((3000,50,50))
+    swe = np.zeros((1000,50,50))
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     c = a.count_melt_onset_mp()
     assert type(c) == pd.DataFrame
 
 
 def test_mask_year_df():
-    swe = np.zeros((3000,50,50))
+    swe = np.zeros((1000,50,50))
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     df = a.make_df()
     df = a.mask_year_df(df, 1994)
@@ -60,7 +60,7 @@ def test_mask_year_df():
 
 
 def test_melt_date_year():
-    swe = np.zeros((3000,50,50))
+    swe = np.zeros((1000,50,50))
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     df = a.make_df()
     counts = a.melt_date_year(df)
@@ -68,28 +68,28 @@ def test_melt_date_year():
 
 
 def test_count_index():
-    swe = np.zeros((3000,50,50))
+    swe = np.zeros((1000,50,50))
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     c = a.count_melt_onset_index(swe)
     assert type(c) == pd.DataFrame
 
 
 def test_summer_length():
-    swe = np.zeros((3000,50,50))
+    swe = np.zeros((1000,50,50))
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     c = a.summer_length(swe)
     assert type(c) == dict
 
 
 def test_summer_length2():
-    swe = np.zeros((3000,50,50))
+    swe = np.zeros((1000,50,50))
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     c = a.summer_length(swe)
     assert type(c[(1,1)]) == dict
 
 
 def test_summer_diff1():
-    swe = np.zeros((3000,50,50))
+    swe = np.zeros((1000,50,50))
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     c = a.summer_length(swe)
     diff, heatmap = a.summer_diff(c)
@@ -97,7 +97,7 @@ def test_summer_diff1():
 
 
 def test_summer_diff1():
-    swe = np.zeros((3000,50,50))
+    swe = np.zeros((1000,50,50))
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     c = a.summer_length(swe)
     diff, heatmap = a.summer_diff(c)
@@ -105,7 +105,7 @@ def test_summer_diff1():
 
 
 def test_display_diffmap():
-    swe = np.zeros((3000,50,50))
+    swe = np.zeros((1000,50,50))
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     c = a.summer_length(swe)
     diff, heatmap = a.summer_diff(c)

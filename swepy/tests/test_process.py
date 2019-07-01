@@ -74,6 +74,12 @@ def test_apply_filter_mp():
     assert np.shape(clean19) == (100,50,50)
 
 
+def test_apply_filter_mp_fail():
+    tb19 = np.zeros((100,1))
+    with pytest.raises(Exception):
+        process.apply_filter_mphelper(tb19)
+
+
 # def test_auto_filter(scraped_files):
 #     swe = process.auto_filter(scraped_files[0], scraped_files[1])
 #     assert swe.min() == 0
