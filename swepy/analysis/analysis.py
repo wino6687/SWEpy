@@ -209,6 +209,8 @@ class Analysis():
         plt.xlim([50,200])
         plt.legend()
         plt.show()
+        return fig
+
 
     
     # def summer_length_helper(self):
