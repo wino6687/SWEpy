@@ -96,7 +96,7 @@ def test_summer_diff1():
     assert diff == 0
 
 
-def test_summer_diff1():
+def test_summer_diff2():
     swe = np.zeros((1000,50,50))
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     c = a.summer_length(swe)
