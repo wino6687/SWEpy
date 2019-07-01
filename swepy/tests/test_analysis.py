@@ -113,3 +113,12 @@ def test_display_diffmap():
     diff, heatmap = a.summer_diff(c)
     im = a.display_summer_change()
     assert type(im) == matplotlib.image.AxesImage
+
+
+def test_display_melt():
+    swe = np.zeros((3000,50,50))
+    a = analysis.Analysis(datetime.date(1993,1,1), swe)
+    melt = a.melt_date_year(a.count_melt_onset_mp())
+    fig = a.display_melt_onset_change(melt, 1993, 2003)
+    assert type(fig) == matplotlib.figure.Figure
+    
