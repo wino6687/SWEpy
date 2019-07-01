@@ -105,7 +105,7 @@ def test_summer_diff1():
 
 
 def test_display_diffmap():
-    swe = np.zeros((1000,50,50))
+    swe = np.zeros((3000,50,50))
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     c = a.summer_length(swe)
     diff, heatmap = a.summer_diff(c)
