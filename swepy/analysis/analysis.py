@@ -18,6 +18,7 @@ class Analysis():
             Day to start building time series off of 
             Infer length from number of days in data
         """
+        self.leap_years = [1992, 1996, 2000, 2004, 2008, 2012, 2016]
         self.swe = swe 
         self.start_date = start_date
         self.time = pd.date_range(start_date, periods = np.shape(self.swe)[0], freq = "D")
@@ -46,10 +47,9 @@ class Analysis():
         years = set(self.time.year)
         years = list(years)
         print(years)
-        leap_years = [1992, 1996, 2000, 2004, 2008, 2012, 2016]
         year_splits = [0]
         for i,year in enumerate(years):
-            if years[i-1] in leap_years:
+            if years[i-1] in self.leap_years:
                 year_splits.append(year_splits[-1]+366)
             else: 
                 year_splits.append(year_splits[-1]+365)
@@ -183,10 +183,33 @@ class Analysis():
 
     
     def display_summer_change(self):
+        """
+        Potentially stick in a plotting module???
+        """
         im = plt.imshow(self.diffmap)
         plt.colorbar()
         plt.show()
         return im 
+
+    
+    def display_melt_onset_change(self,df,year1,year2):
+        """
+        1. Create melt onset dictionary 
+        2. mask each year out of dict
+        """
+        len1 = 366 if year1 in self.leap_years else 365
+        len2 = 366 if year2 in self.leap_years else 365
+        fig, ax = plt.subplots(1,1,figsize=(15,10))
+        bar1 = plt.bar(np.arange(len1),df[year1], ec = 'black', width=1, zorder = 2, label = str(year1))
+        bar2 = plt.bar(np.arange(len2), df[year2], ec = 'black', fc = 'red', width = 1, zorder = 4, alpha = .50, label= str(year2))
+        plt.title('Initial Zero SWE Date: {} and {}', fontsize = 20)
+        plt.xlabel('Day of Year', fontsize = 16)
+        plt.ylabel('Count of Pixels to Reach Zero', fontsize = 16)
+        plt.grid(.25, zorder = 1)
+        plt.xlim([50,200])
+        plt.legend()
+        plt.show()
+
     
     # def summer_length_helper(self):
     #     cpus = cpu_count()
