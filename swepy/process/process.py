@@ -112,7 +112,10 @@ def apply_filter(cube):
 
 def apply_filter_mphelper(cube):
     cpus = cpu_count()
-    swe_parts = np.array_split(cube, cpus, axis=2)
+    try:
+        swe_parts = np.array_split(cube, cpus, axis=2)
+    except IndexError:
+        print("Array Provided does not have a 2nd axis to split on. Please provide a 3 dimensional cube.")
     with Pool(cpus) as p:
         parts = p.map(apply_filter, swe_parts)
         try:
