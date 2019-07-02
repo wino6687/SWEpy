@@ -112,8 +112,6 @@ def test_display_diffmap():
     c = a.summer_length(swe)
     diff, heatmap = a.summer_diff(c)
     im = a.display_summer_change()
-    plt.show(im)
-    plt.close()
     assert type(im) == matplotlib.image.AxesImage
 
 
