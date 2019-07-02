@@ -92,14 +92,14 @@ def test_get_xy_N():
     ll_lr = [73, -166]
     s1 = swepy(os.getcwd(), ul = ll_ul, lr = ll_lr)
     list1 = s1.get_xy(ll_ul, ll_lr)
-    assert list1 == [-1988822.7284991555, 2370186.631721887,-457544.84080317616,1835112.1237310776]
+    assert list1 == pytest.approx([-1988822.7284991555, 2370186.631721887,-457544.84080317616,1835112.1237310776],.1)
 
 def test_get_xy_S():
     ll_lr = [-80,9]
     ll_ul = [-69, -16]
     s1 = swepy(os.getcwd(), ul = ll_ul, lr = ll_lr)
     list1 = s1.get_xy(ll_ul, ll_lr)
-    assert list1 == [-642633.6942027323, 2241130.027261451, 174488.41818780638, 1101676.5146265049]
+    assert list1 == pytest.approx([-642633.6942027323, 2241130.027261451, 174488.41818780638, 1101676.5146265049], .1)
 
 def test_get_xy_none():
     ll_lr = None
