@@ -172,11 +172,10 @@ class Analysis():
         diffmap = np.zeros((shape[1], shape[2]))
         total_diff = 0 
         for key in summer_dict: # grab new pixel dict
-            diff = 0
             keys = list(summer_dict[key].keys())
-            diff = sum([j-i for i,j in zip(keys[:-1], keys[1:])])
+            diff = sum([store1[keys[i]] - store1[keys[i-1]] for i in range(1,len(keys))])
             diffmap[key[0], key[1]] = diff/12
-            total_diff += diff / 12
+            total_diff += diff / 6
         self.diffmap = diffmap 
         return total_diff/len(summer_dict.keys()), diffmap
 
