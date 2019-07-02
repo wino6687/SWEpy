@@ -166,16 +166,15 @@ class Analysis():
         smooth_cube: np.array(x,x,x)
             swe cube of clean swe data, OPTIONAL
         """
-        if smooth_cube == None: 
+        if smooth_cube is None: 
             smooth_cube = self.swe
         shape = np.shape(smooth_cube)
         diffmap = np.zeros((shape[1], shape[2]))
         total_diff = 0 
-        for key in summer_dict:
+        for key in summer_dict: # grab new pixel dict
             diff = 0
-            i = 1
             keys = list(summer_dict[key].keys())
-            diff = sum([j-i for i,j in zip(key[:-1], key[1:])])
+            diff = sum([j-i for i,j in zip(keys[:-1], keys[1:])])
             diffmap[key[0], key[1]] = diff/12
             total_diff += diff / 12
         self.diffmap = diffmap 

@@ -121,6 +121,7 @@ def apply_filter_mphelper(cube):
         try:
             return np.concatenate(parts, axis=2) #recombine split cube
         except ValueError:
+            # FIND WAY TO GET HERE VIA TEST SUITE (1 CORE)
             print("Array provided is smaller than # of cores available. Exiting")
 
 """
