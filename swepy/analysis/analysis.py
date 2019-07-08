@@ -198,8 +198,14 @@ class Analysis():
         len1 = 366 if year1 in self.leap_years else 365
         len2 = 366 if year2 in self.leap_years else 365
         fig, ax = plt.subplots(1,1,figsize=(15,10))
-        bar1 = plt.bar(np.arange(len1),df[year1], ec = 'black', width=1, zorder = 2, label = str(year1))
-        bar2 = plt.bar(np.arange(len2), df[year2], ec = 'black', fc = 'red', width = 1, zorder = 4, alpha = .50, label= str(year2))
+        try:
+            bar1 = plt.bar(np.arange(len1),df[year1], ec = 'black', width=1, zorder = 2, label = str(year1))
+        except KeyError:
+            print("Year 1 is not in the time series, please try again")
+        try:
+            bar2 = plt.bar(np.arange(len2), df[year2], ec = 'black', fc = 'red', width = 1, zorder = 4, alpha = .50, label= str(year2))
+        except KeyError:
+            print("Year 2 is not in the time series, please try again")
         plt.title('Initial Zero SWE Date: {} and {}'.format(str(year1),str(year2)), fontsize = 20)
         plt.xlabel('Day of Year', fontsize = 16)
         plt.ylabel('Count of Pixels to Reach Zero', fontsize = 16)
