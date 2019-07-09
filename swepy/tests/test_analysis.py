@@ -130,9 +130,18 @@ def test_display_melt_fail1():
     with pytest.raises(KeyError):
         fig = a.display_melt_onset_change(melt, 1944, 1993)
 
+
 def test_display_melt_fail2():
     swe = np.zeros((3000,50,50))
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     melt = a.melt_date_year(a.count_melt_onset_mp())
     with pytest.raises(KeyError):
         fig = a.display_melt_onset_change(melt, 1993, 1944)
+
+
+def test_create_splits_mid_year():
+    swe = np.zeros((3000,50,50))
+    a = analysis.Analysis(datetime.date(1993,5,1), swe)
+    years = a.create_year_splits()
+    assert years[0] == 121
+
