@@ -121,3 +121,18 @@ def test_display_melt():
     melt = a.melt_date_year(a.count_melt_onset_mp())
     fig = a.display_melt_onset_change(melt, 1993, 1995)
     assert type(fig) == matplotlib.figure.Figure
+
+
+def test_display_melt_fail1():
+    swe = np.zeros((3000,50,50))
+    a = analysis.Analysis(datetime.date(1993,1,1), swe)
+    melt = a.melt_date_year(a.count_melt_onset_mp())
+    with pytest.raises(KeyError):
+        fig = a.display_melt_onset_change(melt, 1944, 1993)
+
+def test_display_melt_fail2():
+    swe = np.zeros((3000,50,50))
+    a = analysis.Analysis(datetime.date(1993,1,1), swe)
+    melt = a.melt_date_year(a.count_melt_onset_mp())
+    with pytest.raises(KeyError):
+        fig = a.display_melt_onset_change(melt, 1993, 1944)
