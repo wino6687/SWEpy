@@ -43,20 +43,28 @@ class Analysis():
         """
         Take time array from class and create an array of year split indexes
         MELT ONSET (PLUS)
+
+        BROKEN IF NOT FULL YEARS
         """
         years = set(self.time.year)
         years = list(years)
-        print(years)
-        year_splits = [0]
+        print("Years in time series: {}".format(years))
+        tt = start.timetuple()
+        if tt.tm_day != 1:
+            year_splits = [tt.tm_day]
+        else:
+            year_splits = [0]
         for i,year in enumerate(years):
             if years[i-1] in self.leap_years:
                 year_splits.append(year_splits[-1]+366)
             else: 
                 year_splits.append(year_splits[-1]+365)
+        if year_splits[-1] > np.shape(self.swe)[0]:
+            year_splits[-1] = np.shape(self.swe)[0]
         return year_splits
     
 
-    def count_melt_onset_index(self, swe):
+    def count_melt_onset_index(self, swe): # RENAME __COUNT
         """
         Count the date that each pixel reaches zero for first time of season on a given date. 
         Useful for comparison between years of a given region.
@@ -82,7 +90,7 @@ class Analysis():
         return melt_df
 
 
-    def count_melt_onset_mp(self):
+    def count_melt_onset_mp(self): #RENAME, get rid of mp 
         """
         Helper function to manage multi-processing pool for counting 
         melt onset date. 
