@@ -37,7 +37,7 @@ def test_create_splits():
     swe = np.zeros((3000,50,50))
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     years = a.create_year_splits()
-    assert years == [0, 365, 730, 1095, 1460, 1826, 2191, 2556, 2921, 3287]
+    assert years == [0, 365, 730, 1095, 1460, 1826, 2191, 2556, 2921, 3000]
 
 
 def test_count_melt_onset_mp():
