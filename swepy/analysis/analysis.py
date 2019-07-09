@@ -43,15 +43,13 @@ class Analysis():
         """
         Take time array from class and create an array of year split indexes
         MELT ONSET (PLUS)
-
-        BROKEN IF NOT FULL YEARS
         """
         years = set(self.time.year)
         years = list(years)
         print("Years in time series: {}".format(years))
-        tt = start.timetuple()
-        if tt.tm_day != 1:
-            year_splits = [tt.tm_day]
+        tt = self.start_date.timetuple()
+        if tt.tm_yday != 1:
+            year_splits = [tt.tm_yday]
         else:
             year_splits = [0]
         for i,year in enumerate(years):
