@@ -1,8 +1,5 @@
 import os
-from swepy.swepy import swepy
 from swepy.nsidcDownloader import nsidcDownloader
-from swepy.process import process
-from swepy.ease2Transform import ease2Transform
 import glob
 import pytest
 import datetime
