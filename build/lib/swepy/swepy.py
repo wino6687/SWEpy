@@ -1,6 +1,6 @@
 # author: Will Norris --> wino6687@colorado.edu, Earth Lab, CU Boulder
 from datetime import datetime, timedelta
-import requests
+#import requests
 from swepy.nsidcDownloader import nsidcDownloader
 from swepy.ease2Transform import ease2Transform
 import numpy as np
@@ -16,7 +16,7 @@ nco = Nco()
 
 class swepy():
     """
-    Class to facilitate the processing of tB files for SWE analysis.
+    Class to facilitate the scraping/subsetting/concatenating of tB files for SWE analysis.
     """
     def __init__(self, working_dir=None, start=None, end=None, ul=None, lr=None, username=None, password=None,
                 outfile19 = 'all_days_19H.nc', outfile37 = 'all_days_37H.nc', high_res = True):
@@ -29,9 +29,9 @@ class swepy():
             start date for scraping
         end: datetime
             end date for scraping
-        ul: list of two integers
+        ul: List[int, int]
             upper left bounding coordinates [lat, lon]
-        lr: list of two integers
+        lr: List[int, int]
             lower right bounding coordinates [lat,lon]
         username: str
             username for Earth Data login
@@ -41,9 +41,10 @@ class swepy():
             name of final output file, 19 19GHz
         outfile37: str
             name of final output file, 37 GHz
-        high_res: boolean
+        high_res: bool
             True: scrape high resolution files, False: low resolution
         """
+
         # set whether we are scraping resampled data or not
         if high_res: self.high_res = True
         else: self.high_res = False
@@ -56,7 +57,7 @@ class swepy():
             self.working_dir = working_dir
 
         # create directories for data
-        self.path19, self.path37, self.wget = self.get_directories(self.working_dir)
+        self.wget, self.path19, self.path37 = self.get_directories(self.working_dir)
 
         self.outfile_19 = outfile19
         self.outfile_37 = outfile37
@@ -79,6 +80,7 @@ class swepy():
 
         self.set_login(username, password)
 
+
     def set_dates(self, start = None, end = None):
         '''
         Set date range using start and end datetime objects
@@ -90,6 +92,7 @@ class swepy():
         end: datetime
             end date for scraping
         '''
+
         try:
             self.dates = pd.date_range(start, end)
         except ValueError:
@@ -109,6 +112,7 @@ class swepy():
         password: String
             Earthdata password
         '''
+
         if username is not None and password is not None:
             print("Logging you into Earth Data...")
             self.local_session = False
@@ -131,6 +135,7 @@ class swepy():
         lr: [float, float]
             lower right bounding coordinates (not needed for entire grid)
         '''
+
         if ul is not None and lr is not None:
             # if ul is an entire grid, that is the grid we want to scrape
             if ul in ['N', 'S', 'T']:
@@ -150,17 +155,17 @@ class swepy():
 
     def get_grid(self, lat1, lat2):
         '''
-        Check which regions the lats fall into. Based
-        on the grid, instantiate the ease grid conversion object.
+        Check which regions the lats fall into. Based on the grid, instantiate the ease
+        grid conversion object.
 
         Parameters:
         -----------
-
         lat1: int
             Upper Left Latitude
         lat2: int
             Lower Right Latitude
         '''
+
         if (lat1 < 50 and lat2 < 50) and (lat1 > -50 and lat2 > -50): # mid lat
             self.grid = "T"
             self.ease = ease2Transform.ease2Transform("EASE2_T3.125km")
@@ -188,7 +193,7 @@ class swepy():
             working directory to create data directories
         '''
         os.chdir(path)
-        paths = ["./data/wget/", "./data/Subsetted_19H/", "./data/Subsetted_37H/"]
+        paths = [path + "/data/wget/", path +  "/data/Subsetted_19H/", path + "/data/Subsetted_37H/"]
         for path1 in paths:
             if not os.path.exists(path1):
                 os.makedirs(path1)
@@ -208,6 +213,7 @@ class swepy():
         ll_lr: [float, float]
             Latitude and longitude for lower right coordinates
         '''
+
         if ll_ul is None or ll_lr is None:
             print("You must enter bounding coordinates, please use 'set_grid()' to add coordinates")
             raise ValueError
@@ -242,6 +248,7 @@ class swepy():
             (Optional) directory to store output 37GHz files
             Default: "working_dir/data/Subsetted_37H"
         '''
+
         os.chdir(self.working_dir + "/data")
         for file in tqdm(self.down19list):
             outfile = self.path19 + file if out_dir19 is None else out_dir19 + file
@@ -274,9 +281,9 @@ class swepy():
     def scrape_all(self):
         '''
         Function to ensure we subset and concatenate every year!
-
         Implements the whole workflow!
         '''
+
         if self.check_params() == False:
             return
         if len(self.dates) <= 300:
@@ -297,9 +304,8 @@ class swepy():
 
     def get_file(self, date, channel): # add more defaulting params
         '''
-        Function that uses date and channel to
-        find optimal file composition and return the
-        file params for the web scraper's use.
+        Function that uses date and channel to find optimal file composition 
+        and return the file params for the web scraper's use.
 
         Parameters: 
         ----------
@@ -308,6 +314,7 @@ class swepy():
         channel: str
             19H vs 37H channel
         '''
+
         sensors = {1992: 'F11', 1993: 'F11', 1994: 'F11', 1995: 'F11', 1996: 'F13', 1997: 'F13', 1998: 'F13',
                 1999: 'F13', 2000: 'F13', 2001: 'F13', 2002: 'F13', 2003: 'F15', 2004: 'F15', 2005: 'F15', 2006: 'F16',
                 2007: 'F16', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
@@ -362,9 +369,8 @@ class swepy():
 
     def concatenate(self, outname19 = None, outname37 = None, all = False):
         '''
-        Function to concatenate files in the subsetted data
-        folders. Input parameter is simply to allow for nesting of
-        functions.
+        Function to concatenate files in the subsetted data folders.
+        Input parameter is simply to allow for nesting of functions.
 
         Parameters: 
         -----------
@@ -375,6 +381,7 @@ class swepy():
         all: Boolean
             
         '''
+
         if self.subBool == False:
             self.sub19list = self.down19list
             self.sub37list = self.down37list
@@ -403,7 +410,7 @@ class swepy():
                 self.concatlist[1] = outname37
         else:
             print("No 37Ghz Files to Concatenate")
-        return
+        return outname19, outname37
 
 
     def final_concat(self):
@@ -438,6 +445,7 @@ class swepy():
         dates: List(datetime*)
             list of dates to scrape from
         '''
+
         # make sure we are ready to scrape 
         if self.local_session == False:
             if self.check_params() == False:
@@ -465,14 +473,15 @@ class swepy():
             self.down37list.append(result2[0])
         return (result1, result2)
 
-
-    def safe_subtract(self, tb19, tb37):
+    @staticmethod
+    def safe_subtract(tb19, tb37):
         '''
         Check size of each file, often the 19 and 37
         matrices are one unit off of eachother.
 
         Chops the larger matrix to match the smaller matrix
         '''
+
         shape1 = np.shape(tb19)
         shape2 = np.shape(tb37)
         s1 = [shape1[0], shape1[1], shape1[2]]
@@ -496,6 +505,7 @@ class swepy():
         Delete files in directory
         Useful for cleaning up with repeated testing
         '''
+
         os.chdir(self.wget)
         files = glob.glob("*")
         for f in files:
@@ -510,37 +520,6 @@ class swepy():
             os.remove(f)
         return
 
-    def open_swe(self, tb19, tb37, high=True):
-        '''
-        Open 19 and 37 files, block reduce the 37ghz to match,
-        then safe subtract the two to get SWE, tb19, and tb37 returned
-
-        Parameters: 
-        -----------
-        tb19: str
-            netCDF file containing 19GHz imagery 
-        tb37: str
-            netCDF file containing 37Ghz imagery 
-        high: boolean 
-            high or low resolution imagery (default: True)
-        '''
-        filename_19H = tb19
-        fid_19H = Dataset(filename_19H, "r", format = "NETCDF4")
-
-        filename_37H = tb37
-        fid_37H = Dataset(filename_37H, "r", format="NETCDF4")
-
-        # grab the tb data out of the netCDF data
-        tb_19H_long = fid_19H.variables['TB'][:]
-        tb_37H_long = fid_37H.variables['TB'][:]
-
-        # block reduce (mean) the 37ghz data to 6.25km
-        if high:
-            tb_37H_long = block_reduce(tb_37H_long, block_size = (1,2,2), func = np.mean)
-        # difference for SWE
-        return self.safe_subtract(tb_19H_long, tb_37H_long), tb_19H_long, tb_37H_long
-
-
     def check_params(self):
         '''
         Helper function to check that all the class members are set before
@@ -548,6 +527,7 @@ class swepy():
 
         Used by test suite and to check params are set before scraping.
         '''
+
         proceed = True
         try:
             params = {"dates":self.dates, "bounding coordinates":self.geo_list,
@@ -565,61 +545,3 @@ class swepy():
         return proceed
 
 
-    def get_array(self, file19, file37, high=True):
-        fid_19H = Dataset(file19,"r", format = "NETCDF4")
-        fid_37H = Dataset(file37, "r", format = "NETCDF4")
-        tb_19H =fid_19H.variables["TB"][:]
-        tb_37H = fid_37H.variables["TB"][:]
-        if high:
-            tb_37H = block_reduce(tb_37H, block_size = (1,2,2), func = np.mean)
-        tb = swep.safe_subtract(tb_19H, tb_37H)
-        return tb
-
-    def get_count(self, classes):
-        unique, counts = np.unique(classes, return_counts=True)
-        return dict(zip(unique, counts))
-
-    def pandas_fill(self,arr):
-        df = pd.DataFrame(arr)
-        df.fillna(method='ffill', inplace = True)
-        out = df.values
-        return out
-
-    def get_df(self,df,year):
-        mask_year = df['time'].dt.year == year
-        new_df = df[mask_year]
-        counts = new_df['count'].values
-        return counts
-
-    def goodness_of_variance_fit(self, array, classes):
-        # get the break points
-        classes = jenks(array, classes)
-
-        # do the actual classification
-        classified = np.array([classify(i, classes) for i in array])
-
-        # max value of zones
-        maxz = max(classified)
-
-        # nested list of zone indices
-        zone_indices = [[idx for idx, val in enumerate(classified) if zone + 1 == val] for zone in range(maxz)]
-
-        # sum of squared deviations from array mean
-        sdam = np.sum((array - array.mean()) ** 2)
-
-        # sorted polygon stats
-        array_sort = [np.array([array[index] for index in zone]) for zone in zone_indices]
-
-        # sum of squared deviations of class means
-        sdcm = sum([np.sum((classified - classified.mean()) ** 2) for classified in array_sort])
-
-        # goodness of variance fit
-        gvf = (sdam - sdcm) / sdam
-
-        return gvf
-
-    def classify(self,value, breaks):
-        for i in range(1, len(breaks)):
-            if value < breaks[i]:
-                return i
-        return len(breaks) - 1
