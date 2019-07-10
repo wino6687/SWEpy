@@ -8,11 +8,6 @@ from string import Formatter
 
 import pandas as pd
 
-try:
-    if get_ipython().config['IPKernelApp']['parent_appname'] == 'ipython-notebook':
-        from tqdm import tqdm_notebook as tqdm
-except:
-    pass
 
 class nsidcDownloader():
 
@@ -113,7 +108,7 @@ class nsidcDownloader():
 
         ## If the final request is 401 (Bad Auth), throw exception
         if badconn == True:
-            print("Server Down, try again later")
+            raise PermissionError("Server Down, try again later")
         else:
             if req.status_code == 401:
                 raise PermissionError("Bad NASA Earthdata Authentication!")
@@ -161,14 +156,3 @@ class nsidcDownloader():
                 for chunk in r.iter_content(block_size):
                     f.write(chunk)
         return [filename,resp]  ## changed to filename from filepath to fix another script
-
-    def download_range(self, date, **kwargs):
-        '''
-        Download a range of dates for a particular sensor - to be deprecated
-        '''
-
-        assert isinstance(date, list), "Range passed must be list of dates"
-
-        for date in pd.date_range(date[0], date[1]):
-            kwargs["date"] = date
-            self.download_file(**kwargs)
