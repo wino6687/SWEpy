@@ -12,7 +12,6 @@ install:
   # Useful for debugging any issues with conda
   - conda info -a
   # add the needed channels
-  - conda config --add channels wino6687
   - conda config --add channels conda-forge
   # create environment
   - conda env create -f test.yml
