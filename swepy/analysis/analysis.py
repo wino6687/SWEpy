@@ -128,6 +128,7 @@ class Analysis():
         for i in set(self.time.year):
             df_dict[i] = self.mask_year_df(df, i)
             counts_dict[i] = df_dict[i]['count'].values
+        self.melt_counts_dict = counts_dict
         return counts_dict
 
     

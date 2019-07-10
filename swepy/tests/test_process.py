@@ -1,6 +1,5 @@
 from swepy.swepy import swepy
 from swepy.process import process
-from swepy.analysis import analysis
 import datetime
 import os
 import pytest
