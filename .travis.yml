@@ -24,6 +24,5 @@ before_script:
   - python swepy/tests/mock_server.py &
 script:
   - pytest -v --cov=swepy
-
 after_success:
   - codecov

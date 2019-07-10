@@ -1,6 +1,6 @@
 # author: Will Norris --> wino6687@colorado.edu, Earth Lab, CU Boulder
 from datetime import datetime, timedelta
-import requests
+#import requests
 from swepy.nsidcDownloader import nsidcDownloader
 from swepy.ease2Transform import ease2Transform
 import numpy as np

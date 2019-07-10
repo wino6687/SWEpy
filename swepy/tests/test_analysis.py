@@ -1,11 +1,9 @@
 from swepy.analysis import analysis
-import datetime
-import os
 import pytest
 import numpy as np 
 import pandas as pd
-import matplotlib.pyplot as plt
 import matplotlib
+import datetime
 
 @pytest.fixture
 def a():
