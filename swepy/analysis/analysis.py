@@ -186,19 +186,25 @@ class Analysis():
         return total_diff/len(summer_dict.keys()), diffmap
 
     
-    def display_summer_change(self):
+    def display_summer_change(self, interactive=False):
         """
         Potentially stick in a plotting module???
         """
         im = plt.imshow(self.diffmap)
         plt.colorbar()
-        plt.show()
+        if interactive:
+            plt.ion()
+            plt.show()
+            plt.pause(.01)
+            plt.close()
+        else:
+            plt.show()
         return im 
 
     
-    def display_melt_onset_change(self,dict,year1,year2):
+    def display_melt_onset_change(self,dict,year1,year2, interactive=False):
         """
-        CURRENTLY ONLY WORKS IF FULL YEARS ARE SCRAPED
+        CURRENTLY ONLY WORKS IF FULL YEARS
         """
         len1 = 366 if year1 in self.leap_years else 365
         len2 = 366 if year2 in self.leap_years else 365
@@ -207,17 +213,25 @@ class Analysis():
             bar1 = plt.bar(np.arange(len1),dict[year1], ec = 'black', width=1, zorder = 2, label = str(year1))
         except KeyError:
             print("Year 1 is not in the time series, please try again")
+            raise KeyError
         try:
             bar2 = plt.bar(np.arange(len2), dict[year2], ec = 'black', fc = 'red', width = 1, zorder = 4, alpha = .50, label= str(year2))
         except KeyError:
             print("Year 2 is not in the time series, please try again")
+            raise KeyError
         plt.title('Initial Zero SWE Date: {} and {}'.format(str(year1),str(year2)), fontsize = 20)
         plt.xlabel('Day of Year', fontsize = 16)
         plt.ylabel('Count of Pixels to Reach Zero', fontsize = 16)
         plt.grid(.25, zorder = 1)
         plt.xlim([50,200])
         plt.legend()
-        plt.show()
+        if interactive:
+            plt.ion()
+            plt.show()
+            plt.pause(.01)
+            plt.close()
+        else:
+            plt.show()
         return fig
 
 

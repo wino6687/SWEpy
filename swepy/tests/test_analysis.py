@@ -111,7 +111,7 @@ def test_display_diffmap():
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     c = a.summer_length(swe)
     diff, heatmap = a.summer_diff(c)
-    im = a.display_summer_change()
+    im = a.display_summer_change(True)
     assert type(im) == matplotlib.image.AxesImage
 
 
@@ -119,7 +119,7 @@ def test_display_melt():
     swe = np.zeros((3000,50,50))
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     melt = a.melt_date_year(a.count_melt_onset_mp())
-    fig = a.display_melt_onset_change(melt, 1993, 1995)
+    fig = a.display_melt_onset_change(melt, 1993, 1995, True)
     assert type(fig) == matplotlib.figure.Figure
 
 
@@ -128,7 +128,7 @@ def test_display_melt_fail1():
     a = analysis.Analysis(datetime.date(1993,1,1), swe)
     melt = a.melt_date_year(a.count_melt_onset_mp())
     with pytest.raises(Exception):
-        fig = a.display_melt_onset_change(melt, 1944, 1993)
+        a.display_melt_onset_change(melt, 1944, 1993)
 
 
 def test_display_melt_fail2():
