@@ -128,7 +128,6 @@ class Analysis():
         for i in set(self.time.year):
             df_dict[i] = self.mask_year_df(df, i)
             counts_dict[i] = df_dict[i]['count'].values
-        self.melt_counts_dict = counts_dict
         return counts_dict
 
     
@@ -205,7 +204,7 @@ class Analysis():
     
     def display_melt_onset_change(self,dict,year1,year2, interactive=False):
         """
-        CURRENTLY ONLY WORKS IF FULL YEARS
+        CURRENTLY ONLY WORKS IF FULL YEARS ARE SCRAPED
         """
         len1 = 366 if year1 in self.leap_years else 365
         len2 = 366 if year2 in self.leap_years else 365
