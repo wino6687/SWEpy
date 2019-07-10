@@ -18,9 +18,8 @@ install:
   - conda env create -f test.yml
   - source activate swepy_env
   #  install swepy with setup.py
-  - python setup.py bdist_wheel
   - python setup.py install
-  - conda list
+  - sudo ldconfig
 before_script:
   # run mock server in order to test scraping
   - python swepy/tests/mock_server.py &
