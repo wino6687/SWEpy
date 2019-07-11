@@ -195,7 +195,7 @@ class Analysis():
         if interactive:
             plt.ion()
             plt.show()
-            plt.pause(.01)
+            plt.pause(.001)
             plt.close()
         else:
             plt.show()
@@ -228,7 +228,7 @@ class Analysis():
         if interactive:
             plt.ion()
             plt.show()
-            plt.pause(.01)
+            plt.pause(.001)
             plt.close()
         else:
             plt.show()
