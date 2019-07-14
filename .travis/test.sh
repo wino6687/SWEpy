@@ -1,8 +1,9 @@
 if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
-  source activate venv
+  source venv/bin/activate
   python -m pytest -v
 else
   source $HOME/miniconda/bin/activate
   export PATH="$HOME/miniconda/bin:$PATH"
+  conda activate swepy_env
   python -m pytest -v
 fi
