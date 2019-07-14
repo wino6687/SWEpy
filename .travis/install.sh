@@ -1,19 +1,18 @@
 #!/bin/bash
 
 if [$TRAVIS_OS_NAME = 'osx']; then
-    brew update
-    # Per the `pyenv homebrew recommendations <https://github.com/yyuu/pyenv/wiki#suggested-build-environment>`_.
-    brew install openssl readline
-    # See https://docs.travis-ci.com/user/osx-ci-environment/#A-note-on-upgrading-packages.
-    brew outdated pyenv || brew upgrade pyenv
-    brew install pyenv-virtualenv
-    pyenv install $PYTHON
-    export PYENV_VERSION=$PYTHON
-    export PATH="/Users/travis/.pyenv/shims:${PATH}"
-    pyenv-virtualenv venv
-    source venv/bin/activate
-    brew install gdal --HEAD
-    pip install -r requirements.txt
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh
+    bash ~/miniconda.sh -b -p $HOME/miniconda
+    export PATH="$HOME/miniconda/bin:$PATH"
+    echo "conda activate base" >> ~/.bashrc
+    source $HOME/miniconda/bin/activate
+    conda config --set always_yes yes --set show_channel_urls true --set changeps1 no
+    conda update -q conda
+    conda config --add channels conda-forge
+    conda info -a
+    conda init bash
+    conda env create -f test.yml
+    conda activate swepy_env
     python setup.py install
 
 else
@@ -27,6 +26,6 @@ else
     conda info -a
     conda config --add channels conda-forge
     conda env create -f test.yml
-    source activate swepy_env
+    conda activate swepy_env
     python setup.py install
 fi
