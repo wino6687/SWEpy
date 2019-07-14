@@ -1,68 +1,15 @@
-os: linux
-
 language: python
-python:
-- 3.5
-- 3.6
-- 3.7
 
 matrix: 
-  include:
-  - os: osx
-    language: generic
-    env: PYTHON=3.5.7
-  - os: osx
-    language: generic
-    env: PYTHON=3.6.9
-  - os: osx
-    language: generic
-    env: PYTHON=3.7.4
-
-before_install:
-  if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-    brew update
-    # Per the `pyenv homebrew recommendations <https://github.com/yyuu/pyenv/wiki#suggested-build-environment>`_.
-    brew install openssl readline
-    # See https://docs.travis-ci.com/user/osx-ci-environment/#A-note-on-upgrading-packages.
-    brew outdated pyenv || brew upgrade pyenv
-    # virtualenv doesn't work without pyenv knowledge. venv in Python 3.3
-    # doesn't provide Pip by default. So, use `pyenv-virtualenv <https://github.com/yyuu/pyenv-virtualenv/blob/master/README.md>`_.
-    brew install pyenv-virtualenv
-    pyenv install $PYTHON
-    # modify the Bash environment. ??? So, I hand-set the variables instead.
-    export PYENV_VERSION=$PYTHON
-    export PATH="/Users/travis/.pyenv/shims:${PATH}"
-    pyenv-virtualenv venv
-    source venv/bin/activate
-    python --version
-  fi
-  
-  if ["$TRAVIS_OS_NAME" == "osx"]; then 
-    sudo apt-get update
-  fi
-
-install:
-- wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-- bash miniconda.sh -b -p $HOME/miniconda
-- export PATH="$HOME/miniconda/bin:$PATH"
-- hash -r
-- conda config --set always_yes yes --set changeps1 no
-- conda update conda
-- conda info -a
-- conda config --add channels conda-forge
-- conda env create -f test.yml
-- source activate swepy_env
-- python setup.py install
-before_script:
-- python swepy/tests/mock_server.py &
-script:
-- pytest -v --cov=swepy
-after_success:
-- codecov
-# deploy:
-#   provider: pypi
-#   user: wino6687
-#   password:
-#     secure: RUln5p0AOyFVa7YfSXOYHO6mgHqsPyfAJLbM3lK6oM8EClG1rDk33K4CWS732DWGTD+w3CN4Qu4t1DeiE5I7RB9z75QVrgWVvji6xSo6dt0xkzKvTpAHUwAefQZ3zz3c7B0rrldZXDIkKo4xbhiwzQcFywv0AXg5WScW/CJhJs01F1a0uUO1l0FNoDBdEK2/xy+IttJMJhTO5z7ZfRdlYSsKNT//fq5QAESSFQ+OHDvgIwb6Ev575anzgf0gsL6a66lSLnCPv+KoCJ9i2pKN7QnkcXAOZUKTzlGrh4ip4iqPFT0Wgn/bUqMscOhqDKZclE97XLjRknt19BCVNBsFcZFI508DS3wWwxXVxeMe/nDyZ7wS8h5oiGmBIk5KyqSX2Mtbk7Am8kbYyWTWvTPGf+R1Cdd8jMETOxFlgsvU1VMOjq9NXA6q+AXjfOh0y/QOKD4gbaIjO0RJYxlMj9jY/egjIhyGCdl4yv5ajE8/NjmYq/vPGOa5BHUsXlLL+Jp8l9+rfF/Yfj/dKZtsxz9j0Hj1189HVekMTyXes7Z0z9I3/HMlJYc0sMoX0kfMhxItuH0sR3goj1vuEiV5Y86dK1GXg+H6kGjr8GqaDnVvljfkcxq+fdoJvEfhQMhOMScYejJXjU9l8xeONfDGTdPXZMayPShTfzNAUH06lkjGfUk=
-#   on:
-#     branch: master
+  include: 
+    - os: linux
+      python: 3.7
+    - os: os
+      language: generic
+      env: TOXENV=py37
+install: 
+  - chmod +x .travis/install.sh
+  - ./.travis/install.sh
+script: 
+  - chmod +x .travis/test.sh
+  - ./.travis/test.sh
