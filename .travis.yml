@@ -25,3 +25,11 @@ script:
   - pytest -v --cov=swepy
 after_success:
   - codecov
+
+deploy:
+  provider: pypi
+  user: wino6687
+  password: 
+    secure: 
+  on:
+    branch: master
