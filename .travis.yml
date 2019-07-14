@@ -9,7 +9,6 @@ matrix:
 install: 
   - chmod +x .travis/install.sh
   - ./.travis/install.sh
-script: 
-  - make test
+script: make test
   # - chmod +x .travis/test.sh
   # - ./.travis/test.sh
