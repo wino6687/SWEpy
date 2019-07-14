@@ -10,5 +10,6 @@ install:
   - chmod +x .travis/install.sh
   - ./.travis/install.sh
 script: 
-  - chmod +x .travis/test.sh
-  - ./.travis/test.sh
+  - make test
+  # - chmod +x .travis/test.sh
+  # - ./.travis/test.sh
