@@ -4,7 +4,7 @@ matrix:
   include: 
     - os: linux
       python: 3.7
-    - os: os
+    - os: osx
       language: generic
       env: TOXENV=py37
 install: 
