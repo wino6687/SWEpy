@@ -59,10 +59,10 @@ script:
 - pytest -v --cov=swepy
 after_success:
 - codecov
-deploy:
-  provider: pypi
-  user: wino6687
-  password:
-    secure: RUln5p0AOyFVa7YfSXOYHO6mgHqsPyfAJLbM3lK6oM8EClG1rDk33K4CWS732DWGTD+w3CN4Qu4t1DeiE5I7RB9z75QVrgWVvji6xSo6dt0xkzKvTpAHUwAefQZ3zz3c7B0rrldZXDIkKo4xbhiwzQcFywv0AXg5WScW/CJhJs01F1a0uUO1l0FNoDBdEK2/xy+IttJMJhTO5z7ZfRdlYSsKNT//fq5QAESSFQ+OHDvgIwb6Ev575anzgf0gsL6a66lSLnCPv+KoCJ9i2pKN7QnkcXAOZUKTzlGrh4ip4iqPFT0Wgn/bUqMscOhqDKZclE97XLjRknt19BCVNBsFcZFI508DS3wWwxXVxeMe/nDyZ7wS8h5oiGmBIk5KyqSX2Mtbk7Am8kbYyWTWvTPGf+R1Cdd8jMETOxFlgsvU1VMOjq9NXA6q+AXjfOh0y/QOKD4gbaIjO0RJYxlMj9jY/egjIhyGCdl4yv5ajE8/NjmYq/vPGOa5BHUsXlLL+Jp8l9+rfF/Yfj/dKZtsxz9j0Hj1189HVekMTyXes7Z0z9I3/HMlJYc0sMoX0kfMhxItuH0sR3goj1vuEiV5Y86dK1GXg+H6kGjr8GqaDnVvljfkcxq+fdoJvEfhQMhOMScYejJXjU9l8xeONfDGTdPXZMayPShTfzNAUH06lkjGfUk=
-  on:
-    branch: master
+# deploy:
+#   provider: pypi
+#   user: wino6687
+#   password:
+#     secure: RUln5p0AOyFVa7YfSXOYHO6mgHqsPyfAJLbM3lK6oM8EClG1rDk33K4CWS732DWGTD+w3CN4Qu4t1DeiE5I7RB9z75QVrgWVvji6xSo6dt0xkzKvTpAHUwAefQZ3zz3c7B0rrldZXDIkKo4xbhiwzQcFywv0AXg5WScW/CJhJs01F1a0uUO1l0FNoDBdEK2/xy+IttJMJhTO5z7ZfRdlYSsKNT//fq5QAESSFQ+OHDvgIwb6Ev575anzgf0gsL6a66lSLnCPv+KoCJ9i2pKN7QnkcXAOZUKTzlGrh4ip4iqPFT0Wgn/bUqMscOhqDKZclE97XLjRknt19BCVNBsFcZFI508DS3wWwxXVxeMe/nDyZ7wS8h5oiGmBIk5KyqSX2Mtbk7Am8kbYyWTWvTPGf+R1Cdd8jMETOxFlgsvU1VMOjq9NXA6q+AXjfOh0y/QOKD4gbaIjO0RJYxlMj9jY/egjIhyGCdl4yv5ajE8/NjmYq/vPGOa5BHUsXlLL+Jp8l9+rfF/Yfj/dKZtsxz9j0Hj1189HVekMTyXes7Z0z9I3/HMlJYc0sMoX0kfMhxItuH0sR3goj1vuEiV5Y86dK1GXg+H6kGjr8GqaDnVvljfkcxq+fdoJvEfhQMhOMScYejJXjU9l8xeONfDGTdPXZMayPShTfzNAUH06lkjGfUk=
+#   on:
+#     branch: master
