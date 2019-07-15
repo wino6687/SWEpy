@@ -15,7 +15,6 @@ if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
     conda env create -f test.yml
     conda activate swepy_env
     python setup.py install
-    pip install -r dev-requirements.txt
 
 else
     sudo apt-get update
