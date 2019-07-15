@@ -10,7 +10,7 @@ install:
   - chmod +x .travis/install.sh
   - ./.travis/install.sh
 before_script:
-  - python swepy/tests/mock_server.py &
+  - python3 swepy/tests/mock_server.py &
 script: 
   - chmod +x .travis/test.sh
   - ./.travis/test.sh
