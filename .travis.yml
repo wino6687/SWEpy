@@ -5,6 +5,7 @@ matrix:
     - os: linux
       python: 3.6
     - os: osx
+      python: 3.6
       language: generic
 install: 
   - chmod +x .travis/install.sh
