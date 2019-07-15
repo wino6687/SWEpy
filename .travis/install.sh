@@ -1,6 +1,7 @@
 #!/bin/bash
 
 if [[$TRAVIS_OS_NAME == 'osx']]; then
+
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh
     bash ~/miniconda.sh -b -p $HOME/miniconda
     export PATH="$HOME/miniconda/bin:$PATH"
@@ -21,7 +22,8 @@ else
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
     bash miniconda.sh -b -p $HOME/miniconda
     export PATH="$HOME/miniconda/bin:$PATH"
-    hash -r
+    echo "conda activate base" >> ~/.bashrc
+    source $HOME/miniconda/bin/activate
     conda config --set always_yes yes --set changeps1 no
     conda update conda
     conda info -a
