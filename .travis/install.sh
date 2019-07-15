@@ -5,9 +5,9 @@ if [$TRAVIS_OS_NAME = 'osx']; then
     bash miniconda.sh -b -p $HOME/miniconda
     export PATH="$HOME/miniconda/bin:$PATH"
     echo "conda activate base" >> ~/.bashrc
-    # source $HOME/miniconda/bin/activate
+    source $HOME/miniconda/bin/activate
     conda config --set always_yes yes --set show_channel_urls true --set changeps1 no
-    conda update conda
+    conda update -q conda
     conda config --add channels conda-forge
     conda info -a
     conda init bash
