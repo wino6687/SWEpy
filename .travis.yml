@@ -20,4 +20,4 @@ script:
   - chmod +x .travis/test.sh
   - ./.travis/test.sh --cov=swepy
 after_success:
-  - codecov -t swepy
+  - codecov -t 3bc941e0-dcd8-4ba1-9548-eaaf9cd291e0
