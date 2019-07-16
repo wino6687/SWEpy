@@ -17,6 +17,6 @@ before_script:
   - python3 swepy/tests/mock_server.py &
 script: 
   - chmod +x .travis/test.sh
-  - ./.travis/test.sh --cov-report --cov=swepy/test/
+  - ./.travis/test.sh --cov=swepy
 after_success:
   - codecov
