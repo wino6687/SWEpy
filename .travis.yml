@@ -13,7 +13,7 @@ matrix:
 install: 
   - chmod +x .travis/install.sh
   - ./.travis/install.sh
-  - pip install --user codecov
+  - pip install codecov
 before_script:
   - python3 swepy/tests/mock_server.py &
 script: 
