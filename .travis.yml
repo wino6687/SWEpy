@@ -13,6 +13,7 @@ matrix:
 install: 
   - chmod +x .travis/install.sh
   - ./.travis/install.sh
+  - conda install -c conda-forge codecov
 before_script:
   - python3 swepy/tests/mock_server.py &
 script: 
