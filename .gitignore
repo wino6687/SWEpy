@@ -10,3 +10,7 @@ build.sh
 bld.bat
 swepy/nsidcDownloader/__pycache__
 /swe_fulldata
+conda_upload.sh
+dist/
+meta.yaml
+
