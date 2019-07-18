@@ -300,12 +300,44 @@ class swepy():
                 self.concatenate(name19, name37, all = True)
             return self.final_concat()
 
+    def get_sensor(self, date):
+        """
+        Helper function to return optimal sensor for a given date
+        """
+        sensors = {1978: 'NIMBUS7',1979: 'NIMBUS7', 1980: 'NIMBUS7', 1981: 'NIMBUS7', 1982: 'NIMBUS7', 1983: 'NIMBUS7', 
+                1984: 'NIMBUS7', 1985: 'NIMBUS7', 1986: 'NIMBUS7', 1987: 'NIMBUS7', 1988: 'F08', 1989: 'F08', 1990: 'F08',
+                1991: 'F10', 1992: 'F11', 1993: 'F11', 1994: 'F11', 1995: 'F11', 1996: 'F13', 1997: 'F13', 1998: 'F13',
+                1999: 'F13', 2000: 'F13', 2001: 'F13', 2002: 'F13', 2003: 'F15', 2004: 'F15', 2005: 'F15', 2006: 'F16',
+                2007: 'F16', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
+                2015: 'F19',2016: 'F18'}
+
+        sensor_dict = {'F16':'SSMIS','F17':'SSMIS','F18':'SSMIS',
+                'F19':'SSMIS','NIMBUS7':'SMMR','F08':'SSMI','F10':'SSMI', 
+                'F11':'SSMI','F13':'SSMI','F14':'SSMI','F15':'SSMI'}
+        
+        sensor = sensors[date.year]
+        ssmi_s = sensor_dict[sensor]
+        # NIMBUS drops off on aug 21, 1987 and F08 starts
+        if datetime(1987,8,21) <= date <= datetime(1988,1,1): 
+            sensor = 'F08'
+
+        if not self.high_res:
+            if date in [datetime(2003,11,6), datetime(2004,4,9)]:
+                sensor = 'F14'
+            if date in [datetime(2006,11,4), datetime(2006,12,1), datetime(2008,2,26)]:
+                sensor = 'F15'
+                ssmi_s = "SSMI"
+            if date in pd.date_range(datetime(2008,3,6), datetime(2008,12,31)):
+                sensor = 'F17'
+
+        
+        return sensor, ssmi_s
+
 
     def get_file(self, date, channel): # add more defaulting params
         '''
         Function that uses date and channel to find optimal file composition 
         and return the file params for the web scraper's use.
-
         Parameters: 
         ----------
         date: datetime
@@ -313,16 +345,15 @@ class swepy():
         channel: str
             19H vs 37H channel
         '''
-
-        sensors = {1992: 'F11', 1993: 'F11', 1994: 'F11', 1995: 'F11', 1996: 'F13', 1997: 'F13', 1998: 'F13',
-                1999: 'F13', 2000: 'F13', 2001: 'F13', 2002: 'F13', 2003: 'F15', 2004: 'F15', 2005: 'F15', 2006: 'F16',
-                2007: 'F16', 2008: 'F16', 2009: 'F17', 2010: 'F17', 2011: 'F17', 2012: 'F17', 2013: 'F17', 2014: 'F18',
-                2015: 'F19',2016: 'F18'}
-        sensor = sensors[date.year]
-        ssmi_s = "SSMIS" if sensors[date.year] in ['F16', 'F17', 'F18', 'F19'] else "SSMI"
+        # JPL curated the data up to (1987,8,21) then CSU 
+        input_org = 'JPL' if date < datetime(1987,8,21) else "CSU"
+        # there is no 19H on NIMBUS7, scrape 18H (similar)
+        if channel == '19H' and date < datetime(1987,8,21):
+            channel = '18H'
+            
         # determine if high res or not
         if self.high_res:
-            resolution = '6.25km' if channel == '19H' else '3.125km'
+            resolution = '6.25km' if channel in ['19H', '18H'] else '3.125km'
             algorithm = 'SIR'
             date2 = date
         else: # low res data has problems with file paths, these were manually fixed
@@ -333,14 +364,6 @@ class swepy():
             else:
                 date2 = date
 
-            if date in [datetime(2003,11,6), datetime(2004,4,9)]:
-                sensor = 'F14'
-            if date in [datetime(2006,11,4), datetime(2006,12,1), datetime(2008,2,26)]:
-                sensor = 'F15'
-                ssmi_s = "SSMI"
-            if date in pd.date_range(datetime(2008,3,6), datetime(2008,12,31)):
-                sensor = 'F17'
-
         if self.grid == 'T':
             pass1 = 'A'
         elif date in [datetime(2005,5,12),datetime(2006,2,4),datetime(2008,1,2),datetime(2008,2,26)]:
@@ -348,6 +371,7 @@ class swepy():
         else:
             pass1 = 'M'
 
+        sensor, ssmi_s = self.get_sensor(date) 
         file = {
             "protocol": "http" if self.local_session else "https",
             "server": "localhost:8000" if self.local_session else "n5eil01u.ecs.nsidc.org",
@@ -361,9 +385,11 @@ class swepy():
             "grid": self.grid,
             "dataversion": 'v1.3',
             "pass": pass1,
-            "algorithm": algorithm
+            "algorithm": algorithm,
+            "input": input_org
         }
         return file
+ 
 
 
     def concatenate(self, outname19 = None, outname37 = None, all = False):
