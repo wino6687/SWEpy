@@ -1,23 +1,29 @@
 language: python
-
-matrix: 
-  include: 
-    - os: linux
-      python: "3.6"
-      dist: xenial
-    - os: linux
-      python: "3.7"
-      dist: xenial
-    - os: osx
-      language: generic
-install: 
-  - chmod +x .travis/install.sh
-  - ./.travis/install.sh
-  - pip install codecov
+matrix:
+  include:
+  - os: linux
+    python: '3.6'
+    dist: xenial
+  - os: linux
+    python: '3.7'
+    dist: xenial
+  - os: osx
+    language: generic
+install:
+- chmod +x .travis/install.sh
+- "./.travis/install.sh"
+- pip install codecov
 before_script:
-  - python3 swepy/tests/mock_server.py &
-script: 
-  - chmod +x .travis/test.sh
-  - ./.travis/test.sh --cov=swepy
+- python3 swepy/tests/mock_server.py &
+script:
+- chmod +x .travis/test.sh
+- "./.travis/test.sh --cov=swepy"
 after_success:
-  - codecov -t 3bc941e0-dcd8-4ba1-9548-eaaf9cd291e0
+- codecov -t 3bc941e0-dcd8-4ba1-9548-eaaf9cd291e0
+deploy:
+  provider: pypi
+  user: wino6687
+  password:
+    secure: nXJFOUZoWRCElMZh6alQIscjVdBorKPMKQrIDZtNfFFlK1uQRWGZVw8KXm7eUFO+LdtH6v5pNGgE0NFBTUlc9lL5Gw6mQJpIbrBjkwHwmTbEQxtlNWIlE125jNwvO59P6VcvPoZ/C1NIJ2ECd2MFbgtWzigB95msDf9aJib0Qcht00Anx7gtuNuPbkJWWgMNxttz6Ijhc0l6+6gBLz15LbsJWUCpUk12YqsH5eSWl/7YRJRQZmcpKddCvDCmD6Mxg4yG0DKz5e4/S+Qrgv45eiUYi/PfwMYzARXJEth2YLa0BgQkHSnSq5PmXwbKjzzllvEGvPVckwHm5kH9+2LNYACrtGwMhRqeIlpkq7gvu1WjH88kTPGQ7ZUIC30mf9xG4tNu+/ZRhSnkaano6sUZaxviGILMfDtqqNKHyex1qTOiZt7tIFQ+3Noaak+U33URBEpKphoZiXN+rUYzAqjUuhaMm6wIdRDnPZiWbrWnxeWVYd3awZ0o3+RdaF2Qy/YZGXSdeCPvsfnlJFOLPzkKtar/ubdUPLy7Q4oJGVlPD/U/7qTybRlX63lu+b/vamRo5IQ1w7cMbRN5jSQ5O0L4IFLrX1moPfpPLitpicGeWtnJBQX0Z0gzIPW4LLrXR97of8Jqa3oqO9z01hj+E6lsiwo/IJos/bhr7T4i3DAkwUw=
+  on: 
+    branch: master
