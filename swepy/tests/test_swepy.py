@@ -110,14 +110,14 @@ def test_get_xy_none():
 
 
 def test_get_file_high():
-    #path = tmpdir.mkdir("tmp")
     s1 = swepy(os.getcwd(), ul = 'N', lr = 'N', username = 'test', password = 'test')
     date = datetime.datetime(2010,1,1)
     file = s1.get_file(date, "19H")
     assert file == {'protocol':'http', 'server':'localhost:8000','datapool':'MEASURES','resolution': '6.25km','platform': 'F17','sensor': 'SSMIS',
                     'date1': datetime.datetime(2010, 1, 1),
                     'date2': datetime.datetime(2010, 1, 1),
-                    'channel': '19H','grid': 'N','dataversion': 'v1.3',
+                    'channel': '19H','grid': 'N','input': 'CSU',
+                    'dataversion': 'v1.3',
                     'pass': 'M','algorithm': 'SIR'}
 
 
@@ -128,7 +128,8 @@ def test_get_file_low():
     assert file == {'protocol':'http', 'server':'localhost:8000','datapool':'MEASURES','resolution': '25km','platform': 'F17','sensor': 'SSMIS',
                     'date1': datetime.datetime(2010, 1, 1),
                     'date2': datetime.datetime(2010, 1, 1),
-                    'channel': '19H','grid': 'N','dataversion': 'v1.3',
+                    'channel': '19H','grid': 'N', 'input': 'CSU',
+                    'dataversion': 'v1.3',
                     'pass': 'M','algorithm': 'GRD'}
 
 
@@ -139,7 +140,7 @@ def test_gf_low_var1():
     assert file == {'protocol':'http', 'server':'localhost:8000','datapool':'MEASURES','resolution': '25km','platform': 'F14','sensor': 'SSMI',
                     'date1': datetime.datetime(2003,11,6),
                     'date2': datetime.datetime(2003,11,5),
-                    'channel': '19H','grid': 'N','dataversion': 'v1.3',
+                    'channel': '19H','grid': 'N','input': 'CSU','dataversion': 'v1.3',
                     'pass': 'M','algorithm': 'GRD'}
 
 def test_gf_low_var2():
@@ -149,7 +150,7 @@ def test_gf_low_var2():
     assert file == {'protocol':'http', 'server':'localhost:8000','datapool':'MEASURES','resolution': '25km','platform': 'F15','sensor': 'SSMI',
                     'date1': datetime.datetime(2006,11,4),
                     'date2': datetime.datetime(2006,11,3),
-                    'channel': '19H','grid': 'N','dataversion': 'v1.3',
+                    'channel': '19H','grid': 'N','input': 'CSU','dataversion': 'v1.3',
                     'pass': 'M','algorithm': 'GRD'}
 
 def test_gf_low_TA():
@@ -159,8 +160,9 @@ def test_gf_low_TA():
     assert file == {'protocol':'http', 'server':'localhost:8000','datapool':'MEASURES','resolution': '25km','platform': 'F15','sensor': 'SSMI',
                     'date1': datetime.datetime(2006,11,4),
                     'date2': datetime.datetime(2006,11,3),
-                    'channel': '19H','grid': 'T','dataversion': 'v1.3',
+                    'channel': '19H','grid': 'T','input': 'CSU','dataversion': 'v1.3',
                     'pass': 'A','algorithm': 'GRD'}
+
 
 
 def test_safe_subtract1():
