@@ -163,6 +163,17 @@ def test_gf_low_TA():
                     'channel': '19H','grid': 'T','input': 'CSU','dataversion': 'v1.3',
                     'pass': 'A','algorithm': 'GRD'}
 
+def test_df_smmr():
+    s1 = swepy(os.getcwd(), ul = 'N', lr = 'N', username = 'test', password = 'test')
+    date = datetime.datetime(1979,1,1)
+    file = s1.get_file(date, "19H")
+    assert file == {'protocol':'http', 'server':'localhost:8000','datapool':'MEASURES','resolution': '6.25km','platform': 'NIMBUS7','sensor': 'SMMR',
+                    'date1': datetime.datetime(1979, 1, 1),
+                    'date2': datetime.datetime(1979, 1, 1),
+                    'channel': '18H','grid': 'N','input': 'JPL',
+                    'dataversion': 'v1.3',
+                    'pass': 'M','algorithm': 'SIR'}
+
 
 
 def test_safe_subtract1():
