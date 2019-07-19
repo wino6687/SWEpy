@@ -32,21 +32,17 @@ conda env create -f swepy_env.yml
 
 SWEpy is available from anaconda, and will install all dependencies when installed. It is also available from pip (Pypi), but will not install all the dependencies automatically.
 
-** Important ** ```conda-forge``` must be the first channel in your .condarc file followed by ```wino6687```.
+** Important ** ```conda-forge``` must be the first channel in your .condarc file.
 
 ```
 channels:
   - conda-forge
-  - wino6687
   - defaults
 ```
 
 ```{python}
 conda install swepy
-# or
-pip intall swepy
 ```
- ** Note ** If you do not have my channel ```wino6687``` in your ```.condarc``` file, then you will need to specify the channel when installing: ```conda install -c wino6687 swepy```
 
 
 ### 3. Install ipykernel (if using jupyter and conda environments)

@@ -342,6 +342,11 @@ class swepy:
     def get_sensor(self, date):
         """
         Helper function to return optimal sensor for a given date
+
+        PARAMETERS:
+        ----------
+        date: datetime.date()
+            date to find sensor information
         """
         sensors = {
             1978: "NIMBUS7",
