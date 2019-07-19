@@ -29,5 +29,5 @@ deploy:
   on: 
     branch: master
     tags: true
-    condition: $TRAVIS_OS_NAME == 'linux '
+    condition: "$TRAVIS_OS_NAME = linux"
   
