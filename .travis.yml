@@ -20,6 +20,8 @@ script:
 - "./.travis/test.sh --cov=swepy"
 after_success:
 - codecov -t 3bc941e0-dcd8-4ba1-9548-eaaf9cd291e0
+
+if [ "$TRAVIS_OS_NAME" = "linux" ]; then
 deploy:
   provider: pypi
   user: wino6687
@@ -29,3 +31,4 @@ deploy:
     branch: master
     tags: true
   skip_existing: true
+fi
