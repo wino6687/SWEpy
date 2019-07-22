@@ -409,6 +409,7 @@ class swepy:
         # NIMBUS drops off on aug 21, 1987 and F08 starts
         if datetime(1987, 8, 21) <= date <= datetime(1988, 1, 1):
             sensor = "F08"
+            ssmi_s = "SSMI"
 
         if not self.high_res:
             if date in [datetime(2003, 11, 6), datetime(2004, 4, 9)]:
