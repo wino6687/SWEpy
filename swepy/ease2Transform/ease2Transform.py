@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 from __future__ import print_function
 
-from affine import Affine   # noqa
-from osgeo import ogr, osr   # noqa
-import re   # noqa
-import sys   # noqa
+from affine import Affine
+from osgeo import ogr, osr
+import re
+import sys
 
-m_per_km = 1000.
+m_per_km = 1000.0
 resolutions = ["25", "12.5", "6.25", "3.125"]
 
 
-class ease2Transform():
+class ease2Transform:
     """
     The Ease2Transform class provides map projection conversion routines
     for geographic (lat/lon), grid (row/col), and map (x,y) locations in
@@ -20,6 +20,7 @@ class ease2Transform():
     National Snow & Ice Data Center, Boulder CO
     Copyright (C) 2016 Regents of the University of Colorado at Boulder
     """
+
     gridname = None
     epsg4326Proj4text = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
 
@@ -46,20 +47,24 @@ class ease2Transform():
 
         """
         self.gridname = gridname
-        g = re.match(r'(EASE2_[NST])([0-9\.]+)km', gridname)
+        g = re.match(r"(EASE2_[NST])([0-9\.]+)km", gridname)
         if g is None:
-            print("%s : error parsing gridname %s" % (__name__, gridname),
-                  file=sys.stderr,
-                  flush=True)
+            print(
+                "%s : error parsing gridname %s" % (__name__, gridname),
+                file=sys.stderr,
+                flush=True,
+            )
             raise ValueError
         projection = g.group(1)
         resolution = g.group(2)
 
         # Check for typos in resolution
         if resolution not in resolutions:
-            print("%s : unrecognized resolution %s" % (__name__, resolution),
-                  file=sys.stderr,
-                  flush=True)
+            print(
+                "%s : unrecognized resolution %s" % (__name__, resolution),
+                file=sys.stderr,
+                flush=True,
+            )
             raise ValueError
 
         # The geotransform information
@@ -68,52 +73,62 @@ class ease2Transform():
         if projection == "EASE2_N":
             # The geotransform is the set of GDAL affine transform parameters:
             # (map_UL_x, scale_x, b, map_UL_y, d, scale_y)
-            self.proj4text = "+proj=laea +lat_0=90 +lon_0=0 " + \
-                "+x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m"
-            self.map_UL_x = -9000000.
-            self.map_UL_y = 9000000.
-            self.b = 0.
-            self.d = 0.
+            self.proj4text = (
+                "+proj=laea +lat_0=90 +lon_0=0 "
+                + "+x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m"
+            )
+            self.map_UL_x = -9000000.0
+            self.map_UL_y = 9000000.0
+            self.b = 0.0
+            self.d = 0.0
             self.scale_x = float(resolution) * m_per_km
             self.scale_y = -1 * float(resolution) * m_per_km
 
         elif projection == "EASE2_S":
-            self.proj4text = "+proj=laea +lat_0=-90 +lon_0=0 " + \
-                "+x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m"
-            self.map_UL_x = -9000000.
-            self.map_UL_y = 9000000.
-            self.b = 0.
-            self.d = 0.
+            self.proj4text = (
+                "+proj=laea +lat_0=-90 +lon_0=0 "
+                + "+x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m"
+            )
+            self.map_UL_x = -9000000.0
+            self.map_UL_y = 9000000.0
+            self.b = 0.0
+            self.d = 0.0
             self.scale_x = float(resolution) * m_per_km
             self.scale_y = -1 * float(resolution) * m_per_km
 
         elif projection == "EASE2_T":
-            self.proj4text = "+proj=cea +lat_0=0 +lon_0=0 +lat_ts=30 " \
+            self.proj4text = (
+                "+proj=cea +lat_0=0 +lon_0=0 +lat_ts=30 "
                 "+x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m"
+            )
             self.map_UL_x = -17367530.44
             self.map_UL_y = 6756820.20000
-            self.b = 0.
-            self.d = 0.
+            self.b = 0.0
+            self.d = 0.0
             base_resolution_m = 25025.26000
             factor = resolutions.index(resolution)
-            self.scale_x = base_resolution_m / (2. ** factor)
-            self.scale_y = -1 * base_resolution_m / (2. ** factor)
+            self.scale_x = base_resolution_m / (2.0 ** factor)
+            self.scale_y = -1 * base_resolution_m / (2.0 ** factor)
 
         else:
-            print("%s : unrecognized projection %s" % (__name__, projection),
-                  file=sys.stderr,
-                  flush=True)
+            print(
+                "%s : unrecognized projection %s" % (__name__, projection),
+                file=sys.stderr,
+                flush=True,
+            )
             raise ValueError
 
         # Thanks to affine help pages at
         # https://github.com/sgillies/affine/blob/master/README.rst
         # http://www.perrygeo.com/python-affine-transforms.html
-        geotransform = (self.map_UL_x + self.scale_x / 2.,
-                        self.scale_x,
-                        self.b,
-                        self.map_UL_y + self.scale_y / 2.,
-                        self.d,
-                        self.scale_y)
+        geotransform = (
+            self.map_UL_x + self.scale_x / 2.0,
+            self.scale_x,
+            self.b,
+            self.map_UL_y + self.scale_y / 2.0,
+            self.d,
+            self.scale_y,
+        )
         self.fwd = Affine.from_gdal(*geotransform)
 
         # Initialize and save coordinate transformation
@@ -128,14 +143,18 @@ class ease2Transform():
 
         # Initialize and save the forward and reverse transformations
         self.projToGeog = osr.CoordinateTransformation(
-            self.gridSpatialRef, self.epsg4326SpatialRef)
+            self.gridSpatialRef, self.epsg4326SpatialRef
+        )
         self.geogToProj = osr.CoordinateTransformation(
-            self.epsg4326SpatialRef, self.gridSpatialRef)
+            self.epsg4326SpatialRef, self.gridSpatialRef
+        )
 
         if verbose:
-            print("%s : initialized new Ease2Transform object" % (__name__),
-                  file=sys.stderr,
-                  flush=True)
+            print(
+                "%s : initialized new Ease2Transform object" % (__name__),
+                file=sys.stderr,
+                flush=True,
+            )
 
     def grid_to_map(self, row, col):
         """
