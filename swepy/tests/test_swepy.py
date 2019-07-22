@@ -326,7 +326,7 @@ def test_gs_1987():
 
 def test_gs_2008_edge():
     s1 = swepy(os.getcwd(), ul="N", lr="N", username="test", password="test")
-    date = datetime.datetime(2008, 3, 6)
+    date = datetime.datetime(2008, 3, 7)
     file = s1.get_file(date, "19H")
     assert file == {
         "protocol": "http",
@@ -335,8 +335,8 @@ def test_gs_2008_edge():
         "resolution": "6.25km",
         "platform": "F16",
         "sensor": "SSMIS",
-        "date1": datetime.datetime(2008, 3, 6),
-        "date2": datetime.datetime(2008, 3, 6),
+        "date1": datetime.datetime(2008, 3, 7),
+        "date2": datetime.datetime(2008, 3, 7),
         "channel": "19H",
         "grid": "N",
         "input": "CSU",
