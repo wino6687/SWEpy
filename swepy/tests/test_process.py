@@ -42,12 +42,18 @@ def test_get_array(arrays):
 
 def test_vector_clean(arrays):
     cleantb19 = process.vector_clean(arrays[0])
-    assert np.isnan(cleantb19).all() is False
+    bool1 = True
+    if not np.isnan(cleantb19.all()):
+        bool1 = False
+    assert bool1 is False
 
 
 def test_pandas_fill(arrays):
     clean = process.pandas_fill(arrays[0][:, 1, 1])
-    assert np.isnan(clean).all() is False
+    bool1 = True
+    if not np.isnan(clean).all():
+        bool1 = False
+    assert bool1 is False
 
 
 def test_apply_filter_success(arrays):
