@@ -1,4 +1,4 @@
-from swepy.swepy import swepy
+from swepy.swepy import Swepy
 from swepy.process import process
 import datetime
 import os
@@ -9,7 +9,7 @@ import numpy as np
 @pytest.fixture
 def scraped_files():
     date = datetime.date(2010, 1, 1)
-    s1 = swepy(
+    s1 = Swepy(
         os.getcwd(),
         start=date,
         end=date,
@@ -32,7 +32,7 @@ def arrays(scraped_files):
 def swe(arrays):
     tb19 = process.vector_clean(arrays[0])
     tb37 = process.vector_clean(arrays[1])
-    swe = swepy.safe_subtract(tb19=tb19, tb37=tb37)
+    swe = Swepy.safe_subtract(tb19=tb19, tb37=tb37)
     return swe
 
 
@@ -59,7 +59,7 @@ def test_pandas_fill(arrays):
 def test_apply_filter_success(arrays):
     tb19 = process.vector_clean(arrays[0])
     tb37 = process.vector_clean(arrays[1])
-    swe = swepy.safe_subtract(tb19=tb19, tb37=tb37)
+    swe = Swepy.safe_subtract(tb19=tb19, tb37=tb37)
     swe = np.concatenate(
         (
             np.concatenate((np.concatenate((swe, swe), axis=0), swe), axis=0),
