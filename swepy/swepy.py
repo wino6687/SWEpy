@@ -14,7 +14,7 @@ import glob
 nco = Nco()
 
 
-class swepy:
+class Swepy:
     """
     Class to facilitate the scraping/subsetting/concatenating of tB files for SWE analysis.
     """

@@ -2,8 +2,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from netCDF4 import Dataset
-from swepy.swepy import swepy
-from swepy.process import process
 from multiprocessing import Pool, Process, cpu_count
 import math
 

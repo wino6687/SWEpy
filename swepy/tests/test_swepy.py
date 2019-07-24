@@ -1,6 +1,6 @@
 # Unit Testing for SWEpy
 import os
-from swepy.swepy import swepy
+from swepy.swepy import Swepy
 from swepy.nsidcDownloader import nsidcDownloader
 import glob
 import pytest
@@ -19,19 +19,19 @@ def set_login_test(self, username="test", password="test"):
     self.nD.password = "test"
 
 
-swepy.set_login = set_login_test
+Swepy.set_login = set_login_test
 
 
 def test_nodir():
     start = datetime.date(2010, 1, 1)
-    s1 = swepy(None, start, start)
+    s1 = Swepy(None, start, start)
     assert s1.working_dir == os.getcwd()
 
 
 def test_check_params_false():
     start = datetime.date(2010, 1, 1)
     ul = [66, -145]
-    s1 = swepy(os.getcwd(), start, start, ul)
+    s1 = Swepy(os.getcwd(), start, start, ul)
     assert s1.check_params() is False
 
 
@@ -39,7 +39,7 @@ def test_check_params_true():
     start = datetime.date(2010, 1, 1)
     ul = [66, -145]
     lr = [76, -166]
-    s1 = swepy(
+    s1 = Swepy(
         os.getcwd(), start, start, ul, lr, username="test", password="test"
     )
     assert s1.check_params() is True
@@ -47,20 +47,20 @@ def test_check_params_true():
 
 def test_set_params_bounds():
     start = datetime.date(2010, 1, 1)
-    s1 = swepy(os.getcwd(), start, start, username="test", password="test")
+    s1 = Swepy(os.getcwd(), start, start, username="test", password="test")
     s1.set_grid(ul=[66, -145], lr=[73, -166])
     assert s1.check_params() is True
 
 
 def test_set_params_auth():
     start = datetime.date(2010, 1, 1)
-    s1 = swepy(os.getcwd(), start, start, ul=[66, -145], lr=[73, -166])
+    s1 = Swepy(os.getcwd(), start, start, ul=[66, -145], lr=[73, -166])
     s1.set_login(username="test", password="test")
     assert s1.check_params() is True
 
 
 def test_set_params_dates():
-    s1 = swepy(
+    s1 = Swepy(
         os.getcwd(),
         ul=[66, -145],
         lr=[73, -166],
@@ -74,28 +74,28 @@ def test_set_params_dates():
 
 
 def test_get_grid_N():
-    s1 = swepy(os.getcwd())
+    s1 = Swepy(os.getcwd())
     lat1 = 45
     lat2 = 80
     assert s1.get_grid(lat1, lat2) == "N"
 
 
 def test_get_grid_T():
-    s1 = swepy(os.getcwd())
+    s1 = Swepy(os.getcwd())
     lat1 = 30
     lat2 = 30
     assert s1.get_grid(lat1, lat2) == "T"
 
 
 def test_get_grid_S():
-    s1 = swepy(os.getcwd())
+    s1 = Swepy(os.getcwd())
     lat1 = -50
     lat2 = -80
     assert s1.get_grid(lat1, lat2) == "S"
 
 
 def test_get_grid_fails():
-    s1 = swepy(os.getcwd())
+    s1 = Swepy(os.getcwd())
     lat1 = -62
     lat2 = 70
     with pytest.raises(Exception):
@@ -105,7 +105,7 @@ def test_get_grid_fails():
 def test_get_xy_N():
     ll_ul = [62, -140]
     ll_lr = [73, -166]
-    s1 = swepy(os.getcwd(), ul=ll_ul, lr=ll_lr)
+    s1 = Swepy(os.getcwd(), ul=ll_ul, lr=ll_lr)
     list1 = s1.get_xy(ll_ul, ll_lr)
     assert list1 == pytest.approx(
         [
@@ -121,7 +121,7 @@ def test_get_xy_N():
 def test_get_xy_S():
     ll_lr = [-80, 9]
     ll_ul = [-69, -16]
-    s1 = swepy(os.getcwd(), ul=ll_ul, lr=ll_lr)
+    s1 = Swepy(os.getcwd(), ul=ll_ul, lr=ll_lr)
     list1 = s1.get_xy(ll_ul, ll_lr)
     assert list1 == pytest.approx(
         [
@@ -137,13 +137,13 @@ def test_get_xy_S():
 def test_get_xy_none():
     ll_lr = None
     ll_ul = None
-    s1 = swepy(os.getcwd())
+    s1 = Swepy(os.getcwd())
     with pytest.raises(Exception):
         s1.get_xy(ll_ul, ll_lr)
 
 
 def test_get_file_high():
-    s1 = swepy(os.getcwd(), ul="N", lr="N", username="test", password="test")
+    s1 = Swepy(os.getcwd(), ul="N", lr="N", username="test", password="test")
     date = datetime.datetime(2010, 1, 1)
     file = s1.get_file(date, "19H")
     assert file == {
@@ -165,7 +165,7 @@ def test_get_file_high():
 
 
 def test_get_file_low():
-    s1 = swepy(
+    s1 = Swepy(
         os.getcwd(),
         ul="N",
         lr="N",
@@ -194,7 +194,7 @@ def test_get_file_low():
 
 
 def test_gf_low_var1():
-    s1 = swepy(
+    s1 = Swepy(
         os.getcwd(),
         ul="N",
         lr="N",
@@ -223,7 +223,7 @@ def test_gf_low_var1():
 
 
 def test_gf_low_var2():
-    s1 = swepy(
+    s1 = Swepy(
         os.getcwd(),
         ul="N",
         lr="N",
@@ -252,7 +252,7 @@ def test_gf_low_var2():
 
 
 def test_gf_low_TA():
-    s1 = swepy(
+    s1 = Swepy(
         os.getcwd(),
         ul="T",
         lr="T",
@@ -281,7 +281,7 @@ def test_gf_low_TA():
 
 
 def test_df_smmr():
-    s1 = swepy(os.getcwd(), ul="N", lr="N", username="test", password="test")
+    s1 = Swepy(os.getcwd(), ul="N", lr="N", username="test", password="test")
     date = datetime.datetime(1979, 1, 1)
     file = s1.get_file(date, "19H")
     assert file == {
@@ -303,7 +303,7 @@ def test_df_smmr():
 
 
 def test_gs_1987():
-    s1 = swepy(os.getcwd(), ul="N", lr="N", username="test", password="test")
+    s1 = Swepy(os.getcwd(), ul="N", lr="N", username="test", password="test")
     date = datetime.datetime(1987, 8, 21)
     file = s1.get_file(date, "19H")
     assert file == {
@@ -325,7 +325,7 @@ def test_gs_1987():
 
 
 def test_gs_2008_edge():
-    s1 = swepy(os.getcwd(), ul="N", lr="N", username="test", password="test")
+    s1 = Swepy(os.getcwd(), ul="N", lr="N", username="test", password="test")
     date = datetime.datetime(2008, 3, 7)
     file = s1.get_file(date, "19H")
     assert file == {
@@ -347,7 +347,7 @@ def test_gs_2008_edge():
 
 
 def test_gs_evening_edge():
-    s1 = swepy(os.getcwd(), ul="N", lr="N", username="test", password="test")
+    s1 = Swepy(os.getcwd(), ul="N", lr="N", username="test", password="test")
     date = datetime.datetime(2005, 5, 12)
     file = s1.get_file(date, "19H")
     assert file == {
@@ -369,7 +369,7 @@ def test_gs_evening_edge():
 
 
 def test_safe_subtract1():
-    s1 = swepy(os.getcwd())
+    s1 = Swepy(os.getcwd())
     tb19 = np.ones((1, 152, 153))
     tb37 = np.ones((1, 154, 153))
     tb = s1.safe_subtract(tb19, tb37)
@@ -377,7 +377,7 @@ def test_safe_subtract1():
 
 
 def test_safe_subtract2():
-    s1 = swepy(os.getcwd())
+    s1 = Swepy(os.getcwd())
     tb19 = np.ones((1, 154, 152))
     tb37 = np.ones((1, 152, 153))
     tb = s1.safe_subtract(tb19, tb37)
@@ -394,7 +394,7 @@ def test_scrape_fail():
 
 def test_scrape():
     date = datetime.date(2010, 1, 1)
-    s1 = swepy(
+    s1 = Swepy(
         os.getcwd(),
         start=date,
         end=date,
@@ -417,7 +417,7 @@ def test_scrape():
 def test_subset():
     if not os.path.exists("sub"):
         os.mkdir("sub")
-    s1 = swepy(os.getcwd(), ul=[66, -145], lr=[71, -166])
+    s1 = Swepy(os.getcwd(), ul=[66, -145], lr=[71, -166])
     setattr(
         s1,
         "down19list",
@@ -438,7 +438,7 @@ def test_subset():
 
 
 def test_concat():
-    s1 = swepy(os.getcwd(), ul=[66, -145], lr=[73, -166])
+    s1 = Swepy(os.getcwd(), ul=[66, -145], lr=[73, -166])
     setattr(
         s1,
         "sub19list",
@@ -464,7 +464,7 @@ def test_concat():
 
 
 def test_clean_dirs():
-    s1 = swepy(os.getcwd())
+    s1 = Swepy(os.getcwd())
     try:
         s1.clean_dirs()
         list1 = glob.glob("*nc")
@@ -474,7 +474,7 @@ def test_clean_dirs():
 
 
 def test_final_concat_fail():
-    s1 = swepy(os.getcwd())
+    s1 = Swepy(os.getcwd())
     res = s1.final_concat()
     assert res == ("all_days_19H.nc", "all_days_37H.nc")
 
