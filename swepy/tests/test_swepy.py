@@ -484,7 +484,3 @@ def test_final_concat_fail():
 #     s1 = swepy(os.getcwd(), start = date, end = date,ul = 'N', lr = 'N', username = 'test', password='test')
 #     res = s1.scrape_all()
 #     assert res == ['all_days_19H.nc', 'all_days_37H.nc']
-
-
-# def test_scrape_retry():
-#     s1 = swepy(os.getcwd(), f)
