@@ -17,14 +17,6 @@ SWEpy also contains tools to aid in the initial processing of passive microwave 
    :maxdepth: 2
    :caption: Contents:
 
-   get-started
-   example-use
-   example-datasets
-   Data Access 
-   Data Processing 
-   SWE Analysis 
-   Custom Use Cases
-
 
 
 Indices and tables
