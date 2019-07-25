@@ -507,7 +507,9 @@ class Swepy:
         """
 
         if self.subBool is False:
-            self.sub19list = self.down19list
+            self.sub19list = (
+                self.down19list
+            )  # sublist is getting reset back to the full download list
             self.sub37list = self.down37list
             os.chdir(self.wget)
         outname19 = self.outfile_19 if outname19 is None else outname19
@@ -518,6 +520,7 @@ class Swepy:
             for file in self.sub19list:
                 os.remove(file)
             self.sub19list = []
+            self.down19list = []
             if all:
                 self.concat19list.append(outname19)
             else:
@@ -530,6 +533,7 @@ class Swepy:
             for file in self.sub37list:
                 os.remove(file)
             self.sub37list = []
+            self.down37list = []
             if all:
                 self.concat37list.append(outname37)
             else:
@@ -576,7 +580,6 @@ class Swepy:
             list of dates to scrape from
         """
 
-        # make sure we are ready to scrape
         if self.local_session is False:
             if self.check_params() is False:
                 return
