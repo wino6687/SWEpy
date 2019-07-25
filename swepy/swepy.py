@@ -335,7 +335,8 @@ class Swepy:
                 name19 = "temp19_" + str(count) + ".nc"
                 name37 = "temp37_" + str(count) + ".nc"
                 self.scrape(subList)
-                self.subset()
+                if self.subBool:
+                    self.subset()
                 self.concatenate(name19, name37, all=True)
             return self.final_concat()
 
