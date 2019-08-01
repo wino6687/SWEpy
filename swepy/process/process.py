@@ -132,15 +132,6 @@ def apply_filter_mphelper(cube):
             )
 
 
-"""
-Test Cases:
-- apply_filter_mphelper:
-    - ensure ValueError is thrown when array is smaller than # of cores
-    - ensure no Error thrown when array is large enough
-    - test that the array produced is the same size as the original
-"""
-
-
 def auto_filter(file19, file37):  # filter_swe is either filter on tb or swe
     """
     Clean missing values and apply sav gol filter, return SWE cube
