@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>swepy.nsidcDownloader: &#8212; swepy 1.3.4 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Process:" href="swepy.process.html" />
+    <link rel="prev" title="Swepy:" href="swepy.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="swepy-nsidcdownloader">
+<h1>swepy.nsidcDownloader:<a class="headerlink" href="#swepy-nsidcdownloader" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader">
+<em class="property">class </em><code class="sig-prename descclassname">swepy.nsidcDownloader.nsidcDownloader.</code><code class="sig-name descname">nsidcDownloader</code><span class="sig-paren">(</span><em class="sig-param">username=None</em>, <em class="sig-param">password=None</em>, <em class="sig-param">folder='.'</em>, <em class="sig-param">no_auth=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.defaults">
+<code class="sig-name descname">defaults</code><em class="property"> = {'algorithm': 'SIR', 'datapool': 'MEASURES', 'dataset': 'NSIDC-0630', 'dataversion': 'v1.3', 'grid': 'N', 'input': 'CSU', 'pass': 'M', 'projection': 'EASE2', 'protocol': 'https', 'server': 'n5eil01u.ecs.nsidc.org', 'version': '001'}</em><a class="headerlink" href="#swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.defaults" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.download_file">
+<code class="sig-name descname">download_file</code><span class="sig-paren">(</span><em class="sig-param">folder=None</em>, <em class="sig-param">overwrite=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.download_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download a file of particular kwargs</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.download_range">
+<code class="sig-name descname">download_range</code><span class="sig-paren">(</span><em class="sig-param">date</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.download_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download a range of dates for a particular sensor - to be deprecated</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.get_auth">
+<code class="sig-name descname">get_auth</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.get_auth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get download authentication</p>
+<p>How authentication works:
+(1) request to some sort of NSIDC URL
+(2) get HTTP 302 response redirecting to urs.earthdata.nasa.gov OAuth
+(3) login at urs.earthdata.nasa.gov oauth
+(4) use oauth tokens from urs.earthdata.nasa.gov to request any download url</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.set_defaults">
+<code class="sig-name descname">set_defaults</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.set_defaults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set defaults for url template</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.url_template">
+<code class="sig-name descname">url_template</code><em class="property"> = '{protocol}://{server}/{datapool}/{dataset}.{version}/{date1:%Y.%m.%d}/{dataset}-{projection}_{grid}{resolution}-{platform}_{sensor}-{date2:%Y%j}-{channel}-{pass}-{algorithm}-{input}-{dataversion}.nc'</em><a class="headerlink" href="#swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.url_template" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">swepy</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Package Reference:</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="swepy.html">Swepy:</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">swepy.nsidcDownloader:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="swepy.process.html">Process:</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../api.html">Package Reference:</a><ul>
+      <li>Previous: <a href="swepy.html" title="previous chapter">Swepy:</a></li>
+      <li>Next: <a href="swepy.process.html" title="next chapter">Process:</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, will norris.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/api/swepy.nsidcDownloader.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
