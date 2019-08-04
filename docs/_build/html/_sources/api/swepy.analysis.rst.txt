@@ -1,7 +1,7 @@
-Swepy:
-========
+Analysis:
+=========
 
-.. automodule:: swepy.swepy
+.. automodule:: swepy.analysis
     :members:
     :undoc-members:
     :show-inheritance:

@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>swepy.process: &#8212; swepy 1.3.4 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="swepy.nsidcDownloader:" href="swepy.nsidcDownloader.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="swepy-process">
+<h1>swepy.process:<a class="headerlink" href="#swepy-process" title="Permalink to this headline">¶</a></h1>
+<p>The process module in SWEpy is meant to help you smooth erroneous spikes in SWE time series generated in the resampling process and through the inherent error associated with passive microwave sensors.</p>
+<span class="target" id="module-swepy.process.process"></span><dl class="function">
+<dt id="swepy.process.process.apply_filter">
+<code class="sig-prename descclassname">swepy.process.process.</code><code class="sig-name descname">apply_filter</code><span class="sig-paren">(</span><em class="sig-param">cube</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.process.process.apply_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>–Data Processing–
+Apply a sav-gol filter from scipy to time vector’s of cube
+Can be used with either tb files or differences SWE values</p>
+<dl class="simple">
+<dt>cube: np.array(t,x,y)</dt><dd><p>np array time cube of swe for passive microwave data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="swepy.process.process.get_array">
+<code class="sig-prename descclassname">swepy.process.process.</code><code class="sig-name descname">get_array</code><span class="sig-paren">(</span><em class="sig-param">file19</em>, <em class="sig-param">file37</em>, <em class="sig-param">high=True</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.process.process.get_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>–Data Processing–
+Take 19H and 37H netCDF files, open and store tb
+data in np arrays</p>
+<dl class="simple">
+<dt>file19: str</dt><dd><p>filename for 19H file</p>
+</dd>
+<dt>file37: str</dt><dd><p>filename for 37H file</p>
+</dd>
+<dt>high: bool</dt><dd><p>true = high resolution imagery (3.125km/6.25km)
+false = low resolution imagery (25km)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="swepy.process.process.get_count">
+<code class="sig-prename descclassname">swepy.process.process.</code><code class="sig-name descname">get_count</code><span class="sig-paren">(</span><em class="sig-param">classes</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.process.process.get_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given class  boundaries, return a dict of counts within
+each class</p>
+<dl class="simple">
+<dt>classes: list</dt><dd><p>list of class boundaries to compute counts on</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="swepy.process.process.get_df">
+<code class="sig-prename descclassname">swepy.process.process.</code><code class="sig-name descname">get_df</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">year</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.process.process.get_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>–Yearly Analysis–
+Given full time series df, subset and return only
+the data from a given year</p>
+<p>Parameters:
+df: pd.DataFrame</p>
+<blockquote>
+<div><p>full time series to subset</p>
+</div></blockquote>
+<dl class="simple">
+<dt>year: int</dt><dd><p>year to subset dataframe on</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="swepy.process.process.pandas_fill">
+<code class="sig-prename descclassname">swepy.process.process.</code><code class="sig-name descname">pandas_fill</code><span class="sig-paren">(</span><em class="sig-param">arr</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.process.process.pandas_fill" title="Permalink to this definition">¶</a></dt>
+<dd><p>–INEFFICIENT–
+–Data Processing–
+Given 2d array, convert to pd dataframe
+and ffill missing values in place</p>
+<dl class="simple">
+<dt>arr: np.array</dt><dd><p>Ideally time vector of swe cube</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="swepy.process.process.vector_clean">
+<code class="sig-prename descclassname">swepy.process.process.</code><code class="sig-name descname">vector_clean</code><span class="sig-paren">(</span><em class="sig-param">cube</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.process.process.vector_clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>–Data Processing–
+Clean erroneous spikes out of 37Ghz cube</p>
+<p>Parameters:
+cube: np.array(t,x,y)</p>
+<blockquote>
+<div><p>np array time cube of 37GHz tb data
+Note: can be used with other arrays,
+but is looking for patterns in 37H files</p>
+</div></blockquote>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">swepy</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Package Reference:</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="swepy.html">Swepy:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="swepy.nsidcDownloader.html">swepy.nsidcDownloader:</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">swepy.process:</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../api.html">Package Reference:</a><ul>
+      <li>Previous: <a href="swepy.nsidcDownloader.html" title="previous chapter">swepy.nsidcDownloader:</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, will norris.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/api/swepy.process.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
