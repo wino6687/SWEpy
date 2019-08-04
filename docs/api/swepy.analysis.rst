@@ -1,0 +1,4 @@
+.. automodule:: swepy.analysis
+    :members:
+    :undoc-members:
+    :show-inheritance:
