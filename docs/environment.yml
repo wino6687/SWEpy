@@ -2,16 +2,11 @@ name: swepy_docs
 channels:
 - conda-forge
 dependencies:
-- pytest-cov
 - codecov
-- matplotlib
 - python=3.6
-- pytest
-- pandas
 - requests
 - tqdm
 - pynco
 - gdal
 - scikit-image
-- scikit-learn
 - netCDF4
