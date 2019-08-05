@@ -20,7 +20,7 @@ def get_array(file19, file37, high=True):
     Take 19H and 37H netCDF files, open and store tb
     data in np arrays
 
-    Parameters:
+    Parameters
     -----------
     file19: str
         filename for 19H file
@@ -44,7 +44,7 @@ def pandas_fill(arr):
     Given 2d array, convert to pd dataframe
     and ffill missing values in place
 
-    Parameters:
+    Parameters
     -----------
     arr: np.array
         Ideally time vector of swe cube
@@ -59,7 +59,7 @@ def vector_clean(cube):
     """
     Clean erroneous spikes out of 37Ghz cube
 
-    Parameters:
+    Parameters
     -----------
     cube: np.array(t,x,y)
         np array time cube of 37GHz tb data
@@ -81,7 +81,7 @@ def apply_filter(cube):
     Apply a sav-gol filter from scipy to time vector's of cube
     Can be used with either tb files or differences SWE values
 
-    Parameters:
+    Parameters
     -----------
     cube: np.array(t,x,y)
         np array time cube of swe for passive microwave data
@@ -114,7 +114,7 @@ def apply_filter_mphelper(cube):
     Helper function to apply the filter function in a parralel fashion
     Makes use of a Pool to process on every available core
 
-    Parameters:
+    Parameters
     -----------
     cube: np.array
         numpy array of data, should be 3d (x,x,x)
@@ -141,7 +141,7 @@ def auto_filter(file19, file37):  # filter_swe is either filter on tb or swe
     """
     Clean missing values and apply sav gol filter, return SWE cube
 
-    Parameters:
+    Parameters
     -----------
     cube19: np.array
         size = (x,x,x)
