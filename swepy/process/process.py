@@ -79,7 +79,6 @@ def vector_clean(cube):
 def apply_filter(cube):
     """
     Apply a sav-gol filter from scipy to time vector's of cube
-    Can be used with either tb files or differences SWE values
 
     Parameters
     -----------
