@@ -1,7 +1,6 @@
 name: swepy_env
 channels:
   - conda-forge
-  - wino6687
   - defaults
 dependencies:
   # core python
