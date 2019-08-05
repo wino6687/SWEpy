@@ -16,3 +16,4 @@ dependencies:
 - pynco=1.0.0
 - gdal
 - affine=2.2.2
+- tqdm=4.32.2
