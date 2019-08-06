@@ -45,7 +45,7 @@ def pandas_fill(arr):
     and ffill missing values in place
 
     Parameters
-    -----------
+    ----------
     arr: np.array
         Ideally time vector of swe cube
     """
