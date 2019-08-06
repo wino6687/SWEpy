@@ -104,7 +104,7 @@ class Swepy:
         """
         Set date range using start and end datetime objects
 
-        Parameters:
+        Parameters
         ----------
         start: datetime
             start date for scraping
@@ -123,7 +123,7 @@ class Swepy:
         """
         Set login credentials and login to earth data
 
-        Parameters:
+        Parameters
         ----------
         username: String
             Earthdata username
@@ -149,8 +149,8 @@ class Swepy:
         """
         Set grid corners, and convert to xy
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         ul: char or [float,float]
             upper left bounding coordinates or grid name (N,S,T)
         lr: [float, float]
@@ -180,8 +180,8 @@ class Swepy:
         Check which regions the lats fall into. Based on the grid, instantiate the ease
         grid conversion object.
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         lat1: int
             Upper Left Latitude
         lat2: int
@@ -214,8 +214,8 @@ class Swepy:
         Given a working directory, create data
         directories if non-existent
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         path: str
             working directory to create data directories
         """
@@ -235,7 +235,7 @@ class Swepy:
         Use nsidc scripts to convert user inputted
         lat/lon into Ease grid 2.0 coordinates
 
-        Parameters:
+        Parameters
         -----------
 
         ll_ul: [float, float]
@@ -263,8 +263,8 @@ class Swepy:
         and subset them geographically based on
         coords from constructor
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
 
         scrape: Boolean
             Under the hood variable to allow for auto workflow
@@ -574,8 +574,8 @@ class Swepy:
         """
         Wrapper function to interface between swepy and nD
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         dates: List(datetime*)
             list of dates to scrape from
         """
