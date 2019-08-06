@@ -344,8 +344,8 @@ class Swepy:
         """
         Helper function to return optimal sensor for a given date
 
-        PARAMETERS:
-        ----------
+        Parameters
+        -----------
         date: datetime.date()
             date to find sensor information
         """
@@ -433,7 +433,7 @@ class Swepy:
         """
         Function that uses date and channel to find optimal file composition
         and return the file params for the web scraper's use.
-        Parameters:
+        Parameters
         ----------
         date: datetime
             date to find file path for
@@ -497,13 +497,13 @@ class Swepy:
         Function to concatenate files in the subsetted data folders.
         Input parameter is simply to allow for nesting of functions.
 
-        Parameters:
-        -----------
-        outname19: str
+        Parameters
+        ----------
+        outname19 : str
             output file name for 19Ghz
-        outname37: str
+        outname37 : str
             output file name for 37GHz
-        all: Boolean
+        all : Boolean
         """
 
         if self.subBool is False:
