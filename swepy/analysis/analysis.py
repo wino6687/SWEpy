@@ -63,7 +63,7 @@ class Analysis:
         Count the date that each pixel reaches zero for first time of season on a given date.
         Useful for comparison between years of a given region.
 
-        PARAMETERS
+        Parameters
         ----------
         swe: np.array
             swe cube (should be clean and relatively smooth)
@@ -94,8 +94,8 @@ class Analysis:
 
         Parralelize on the 2nd axis (spatially)
 
-        Returns:
-        --------
+        Returns
+        -------
         df: pandas DataFrame
                 Count of melt dates of every pixel in image
         """
@@ -165,7 +165,7 @@ class Analysis:
         """
         Find the average change in summer length by pixel and overall
 
-        PARAMETERS:
+        Parameters
         ----------
         summer_dict: dict
             dictionary containing the summer lengths of each year by pixel
@@ -255,11 +255,3 @@ class Analysis:
         else:
             plt.show()
         return fig
-
-    # def summer_length_helper(self):
-    #     cpus = cpu_count()
-    #     swe_parts = np.array_split(self.swe, cpus, axis=2)
-    #     with Pool(cpus) as p:
-    #         parts = p.map(self.summer_length, swe_parts)
-    #         return parts[0]
-    # it doesn't really make sense to parralelize this functionality because it will break the hashing functionality
