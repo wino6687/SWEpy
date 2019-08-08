@@ -27,7 +27,20 @@ class Analysis:
     def make_df(self, time=None, columns=["time", "count"]):
         """
         Given a time array, create dateframe with time and count columns
-        MELT ONSET
+
+        Tool for melt onset workflow
+
+        Parameters
+        ----------
+        time: pd.series
+            time series of datetime.date() objects
+        columns: list (Optional)
+            column names to add in returned dataframe
+
+        Returns
+        -------
+        df: pd.DataFrame
+            dataframe with time and count for melt onset analysis
         """
         if time is None:
             time = self.time
@@ -39,7 +52,11 @@ class Analysis:
     def create_year_splits(self):
         """
         Take time array from class and create an array of year split indexes
-        MELT ONSET (PLUS)
+
+        Returns
+        -------
+        year_splits: list
+            list of julian dates for the start of each year in time series
         """
         years = set(self.time.year)
         years = list(years)
@@ -89,8 +106,11 @@ class Analysis:
 
     def count_melt_onset_mp(self):  # RENAME, get rid of mp
         """
+        Count the date that each pixel reaches zero for first time of season on a given date.
+        Useful for comparison between years of a given region.
+
         Helper function to manage multi-processing pool for counting
-        melt onset date.
+        melt onset date. Use __count to use a single core
 
         Parralelize on the 2nd axis (spatially)
 
@@ -111,6 +131,13 @@ class Analysis:
     def mask_year_df(self, df, year):
         """
         Mask single year out of pandas dataframe based on "time" column
+
+        Parameters
+        ----------
+        df: pd.DataFrame
+            dataframe containing a "time" column
+        year: datetime.date
+            desired year to get from df
         """
         mask = df["time"].dt.year == year
         return df[mask]
@@ -119,6 +146,16 @@ class Analysis:
         """
         Grab the counts of each year and stick them in own key of dictionary
         Makes for easy comparison of melt times each year.
+
+        Parameters
+        ----------
+        df: pd.DataFrame
+            dataframe with columns ["time", "count"]
+
+        Returns
+        -------
+        counts_dict: dict
+            dictionary with key=year : value=sum(count in year)
         """
         df_dict = {}
         counts_dict = {}
@@ -131,6 +168,16 @@ class Analysis:
         """
         Function to track summer length for a pixel over each year
         Generates hash table of key:value = (x,y): summer length in days
+
+        Parameters
+        ----------
+        smooth_cube: np.array
+            smoothed (temporally) swe cube
+
+        Returns
+        -------
+        store: dict
+            dict using tuple (x,y) as hash key and list of summer lengths by year as key
         """
         shape = np.shape(smooth_cube)
         store = {}
@@ -192,7 +239,12 @@ class Analysis:
 
     def display_summer_change(self, interactive=False):
         """
-        Potentially stick in a plotting module???
+        Simple built in function for displaying the generated summer change heat map
+
+        Parameters
+        ----------
+        interactive: bool
+            boolean switch for unit testing to help close plots (would like to remove)
         """
         im = plt.imshow(self.diffmap)
         plt.colorbar()
@@ -208,6 +260,23 @@ class Analysis:
     def display_melt_onset_change(self, dict, year1, year2, interactive=False):
         """
         CURRENTLY ONLY WORKS IF FULL YEARS ARE SCRAPED
+        Given a dictionary of melt onset counts by date, viz two years against eachother
+
+        Parameters
+        ----------
+        dict: dict
+            dictionary of year:list(counts by year) pairs
+        year1: datetime.date
+            first year to plot on bar graph
+        year2: datetime.date
+            second year to plot on bar graph
+        interactive: bool
+            Unit testing parameter to help closing plots
+
+        Returns
+        -------
+        fig: matplotlib.figure.Figure
+            figure for future viz if desired
         """
         len1 = 366 if year1 in self.leap_years else 365
         len2 = 366 if year2 in self.leap_years else 365
