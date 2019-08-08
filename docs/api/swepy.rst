@@ -1,5 +1,5 @@
-Swepy:
-========
+swepy.Swepy:
+============
 
 .. automodule:: swepy.swepy
     :members:
