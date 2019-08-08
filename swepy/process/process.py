@@ -63,8 +63,7 @@ def vector_clean(cube):
     -----------
     cube: np.array(t,x,y)
         np array time cube of 37GHz tb data
-        Note: can be used with other arrays,
-        but is looking for patterns in 37H files
+    Note: "cube" can be used with other arrays but is looking for patterns in 37H files
     """
     cube[cube == 0] = np.nan
     for i in range(np.shape(cube)[0]):
