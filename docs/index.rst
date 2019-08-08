@@ -13,7 +13,8 @@ passive microwave data into proxy SWE information
 .. toctree::
    :maxdepth: 3
    :caption: Contents:
-   
+
+   installing_swepy
    api
 
 
