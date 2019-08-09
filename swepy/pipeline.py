@@ -412,6 +412,9 @@ class Swepy:
             sensor = "F08"
             ssmi_s = "SSMI"
 
+        if datetime(1991, 3, 10) == date:
+            sensor = "F08"
+
         if not self.high_res:
             if date in [datetime(2003, 11, 6), datetime(2004, 4, 9)]:
                 sensor = "F14"
