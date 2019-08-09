@@ -1,5 +1,5 @@
-Data Pipeline:
-==============
+Data Pipeline: swepy.pipeline
+=============================
 
 .. automodule:: swepy.pipeline
     :members:
