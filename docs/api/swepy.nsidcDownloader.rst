@@ -1,7 +1,7 @@
 swepy.nsidcDownloader:
 ======================
 
-.. autoclass:: swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader
+.. autoclass:: swepy.nsidcDownloader.nsidcDownloader
     :members:
     :undoc-members:
     :show-inheritance:
