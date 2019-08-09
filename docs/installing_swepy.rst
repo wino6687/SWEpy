@@ -15,4 +15,14 @@ or
 
 ``conda activate swepy_env``
 
-Now in Python you will be able to import SWEpy and its submodules.  
+Importing SWEpy in Python
+-------------------------
+
+Now in Python you will be able to import SWEpy and its submodules. 
+
+    >>> import swepy
+    >>> import swepy.pipeline as pipe
+    >>> import swepy.process as sp
+    >>> import swepy.analysis as sa
+    >>> import swepy.nsidcDownloader as sd
+
