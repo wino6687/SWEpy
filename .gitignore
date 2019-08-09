@@ -13,4 +13,5 @@ swepy/nsidcDownloader/__pycache__
 conda_upload.sh
 dist/
 meta.yaml
+docs/_build/
 
