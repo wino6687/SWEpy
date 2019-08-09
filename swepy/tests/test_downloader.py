@@ -25,7 +25,7 @@ def test_nD_local():
         "input": "CSU",
         "dataversion": "v1.3",
     }
-    nD = nsidcDownloader.nsidcDownloader(no_auth=True)
+    nD = nsidcDownloader(no_auth=True)
     nD.download_file(**file)
     list1 = glob.glob("*.nc")
     assert (
@@ -36,7 +36,7 @@ def test_nD_local():
 
 def test_get_auth():
     with pytest.raises(PermissionError):
-        nsidcDownloader.nsidcDownloader("room", "backend")
+        nsidcDownloader("room", "backend")
 
 
 def test_file_not_found():
@@ -60,5 +60,5 @@ def test_file_not_found():
             "input": "CSU",
             "dataversion": "v1.3",
         }
-        nD = nsidcDownloader.nsidcDownloader(no_auth=True)
+        nD = nsidcDownloader(no_auth=True)
         nD.download_file(**file)

@@ -11,7 +11,7 @@ from skimage.measure import block_reduce
 import math
 from scipy.signal import savgol_filter
 from scipy.cluster.vq import *
-from swepy.swepy import Swepy
+from swepy.pipeline import Swepy
 from multiprocessing import Pool, Process, cpu_count
 
 

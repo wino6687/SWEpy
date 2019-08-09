@@ -1,5 +1,5 @@
-from swepy.swepy import Swepy
-from swepy.process import process
+from swepy.pipeline import Swepy
+import swepy.process as process
 import datetime
 import os
 import pytest

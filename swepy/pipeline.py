@@ -1,7 +1,7 @@
 # author: Will Norris --> wino6687@colorado.edu, Earth Lab, CU Boulder
 from datetime import datetime, timedelta
-from swepy.nsidcDownloader import nsidcDownloader
-from swepy.ease2Transform import ease2Transform
+import swepy.nsidcDownloader as nsidcDownloader
+import swepy.ease2Transform as ease2Transform
 import numpy as np
 from netCDF4 import Dataset
 from skimage.measure import block_reduce
