@@ -1,5 +1,20 @@
-Installing SWEpy:
-=================
+Getting started with SWEpy
+==========================
+
+SWEpy is comprised of 4 modules: 
+
+-``swepy.pipeline`` 
+    The primary data processing module for swepy. It managed the downloading, subsetting, and concatenation of passive microwave data.
+- ``swepy.process``
+    The processing module for SWEpy. It allows users to smooth spikes generated from the resampling process in the dataset.
+- ``swepy.analysis``
+    The analysis module for SWEpy. It allows users to find quick information about their study area, like understanding how the intial date of total melt changes through the time series
+- ``swepy.nsidcDownloader``
+    The web scraping module that powers the ``pipeline`` module. It can be used independently, but is completley interfaced in ``swepy.pipeline`` so there is little need to use it directly.
+
+
+Installing SWEpy
+----------------
 
 SWEpy is published and maintained on both ``pip`` and ``conda-forge``.
 
