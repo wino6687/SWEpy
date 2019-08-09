@@ -1,7 +1,7 @@
-swepy:
-======
+Data Pipeline:
+==============
 
-.. automodule:: swepy.swepy
+.. automodule:: swepy.pipeline
     :members:
     :undoc-members:
     :show-inheritance:
