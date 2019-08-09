@@ -12,11 +12,12 @@ SWEpy is comprised of 4 modules:
 ``swepy.nsidcDownloader``
     The web scraping module that powers the ``pipeline`` module. It can be used independently, but is completley interfaced in ``swepy.pipeline`` so there is little need to use it directly.
 
+There are more in depth explanations of each module under their respective documentation page.
 
 Installing SWEpy
 ----------------
 
-SWEpy is published and maintained on both ``pip`` and ``conda-forge``.
+SWEpy is published and maintained on both ``pip`` and ``conda-forge``. It is reccomended that you stick with ``conda-forge`` as dependency issues can be a problem in pip.
 
 You can create a conda environemnt using the provided yml file, ``swepy_env.yml`` to get up and running right away. 
 

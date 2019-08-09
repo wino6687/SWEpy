@@ -1,19 +1,18 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
-    <title>Swepy: &#8212; swepy 1.5.2 documentation</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Data Pipeline: &#8212; swepy 1.5.2 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="swepy.analysis:" href="swepy.analysis.html" />
@@ -25,9 +24,6 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
         <li class="right" >
           <a href="swepy.analysis.html" title="swepy.analysis:"
              accesskey="N">next</a> |</li>
@@ -44,229 +40,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-swepy.swepy">
-<span id="swepy"></span><h1>Swepy:<a class="headerlink" href="#module-swepy.swepy" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="swepy.swepy.swepy">
-<em class="property">class </em><code class="sig-prename descclassname">swepy.swepy.</code><code class="sig-name descname">swepy</code><span class="sig-paren">(</span><em class="sig-param">working_dir=None</em>, <em class="sig-param">start=None</em>, <em class="sig-param">end=None</em>, <em class="sig-param">ul=None</em>, <em class="sig-param">lr=None</em>, <em class="sig-param">username=None</em>, <em class="sig-param">password=None</em>, <em class="sig-param">outfile19='all_days_19H.nc'</em>, <em class="sig-param">outfile37='all_days_37H.nc'</em>, <em class="sig-param">high_res=True</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Class to facilitate the processing of tB files for SWE analysis.</p>
-<dl class="method">
-<dt id="swepy.swepy.swepy.check_params">
-<code class="sig-name descname">check_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.check_params" title="Permalink to this definition">¶</a></dt>
-<dd><p>Helper function to check that all the class members are set before
-attempting to web scrape or subset.</p>
-<p>Used by test suite and to check params are set before scraping.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.classify">
-<code class="sig-name descname">classify</code><span class="sig-paren">(</span><em class="sig-param">value</em>, <em class="sig-param">breaks</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.classify" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.clean_dirs">
-<code class="sig-name descname">clean_dirs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.clean_dirs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete files in directory
-Useful for cleaning up with repeated testing</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.concatenate">
-<code class="sig-name descname">concatenate</code><span class="sig-paren">(</span><em class="sig-param">outname19=None</em>, <em class="sig-param">outname37=None</em>, <em class="sig-param">all=False</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.concatenate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to concatenate files in the subsetted data
-folders. Input parameter is simply to allow for nesting of
-functions.</p>
-<dl class="simple">
-<dt>outname19: str</dt><dd><p>output file name for 19Ghz</p>
-</dd>
-<dt>outname37: str</dt><dd><p>output file name for 37GHz</p>
-</dd>
-</dl>
-<p>all: Boolean</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.final_concat">
-<code class="sig-name descname">final_concat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.final_concat" title="Permalink to this definition">¶</a></dt>
-<dd><p>Manage the final concatenation for scrape_all</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.get_array">
-<code class="sig-name descname">get_array</code><span class="sig-paren">(</span><em class="sig-param">file19</em>, <em class="sig-param">file37</em>, <em class="sig-param">high=True</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.get_array" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.get_count">
-<code class="sig-name descname">get_count</code><span class="sig-paren">(</span><em class="sig-param">classes</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.get_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.get_df">
-<code class="sig-name descname">get_df</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">year</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.get_df" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.get_directories">
-<code class="sig-name descname">get_directories</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.get_directories" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a working directory, create data
-directories if non-existent</p>
-<dl class="simple">
-<dt>path: str</dt><dd><p>working directory to create data directories</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.get_file">
-<code class="sig-name descname">get_file</code><span class="sig-paren">(</span><em class="sig-param">date</em>, <em class="sig-param">channel</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.get_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function that uses date and channel to
-find optimal file composition and return the
-file params for the web scraper’s use.</p>
-<dl class="simple">
-<dt>date: datetime</dt><dd><p>date to find file path for</p>
-</dd>
-<dt>channel: str</dt><dd><p>19H vs 37H channel</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.get_grid">
-<code class="sig-name descname">get_grid</code><span class="sig-paren">(</span><em class="sig-param">lat1</em>, <em class="sig-param">lat2</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.get_grid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check which regions the lats fall into. Based
-on the grid, instantiate the ease grid conversion object.</p>
-<dl class="simple">
-<dt>lat1: int</dt><dd><p>Upper Left Latitude</p>
-</dd>
-<dt>lat2: int</dt><dd><p>Lower Right Latitude</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.get_xy">
-<code class="sig-name descname">get_xy</code><span class="sig-paren">(</span><em class="sig-param">ll_ul</em>, <em class="sig-param">ll_lr</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.get_xy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Use nsidc scripts to convert user inputted
-lat/lon into Ease grid 2.0 coordinates</p>
-<dl class="simple">
-<dt>ll_ul: [float, float]</dt><dd><p>Latitude and longitude for upper left coordinates</p>
-</dd>
-<dt>ll_lr: [float, float]</dt><dd><p>Latitude and longitude for lower right coordinates</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.goodness_of_variance_fit">
-<code class="sig-name descname">goodness_of_variance_fit</code><span class="sig-paren">(</span><em class="sig-param">array</em>, <em class="sig-param">classes</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.goodness_of_variance_fit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.open_swe">
-<code class="sig-name descname">open_swe</code><span class="sig-paren">(</span><em class="sig-param">tb19</em>, <em class="sig-param">tb37</em>, <em class="sig-param">high=True</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.open_swe" title="Permalink to this definition">¶</a></dt>
-<dd><p>Open 19 and 37 files, block reduce the 37ghz to match,
-then safe subtract the two to get SWE, tb19, and tb37 returned</p>
-<dl class="simple">
-<dt>tb19: str</dt><dd><p>netCDF file containing 19GHz imagery</p>
-</dd>
-<dt>tb37: str</dt><dd><p>netCDF file containing 37Ghz imagery</p>
-</dd>
-<dt>high: boolean</dt><dd><p>high or low resolution imagery (default: True)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.pandas_fill">
-<code class="sig-name descname">pandas_fill</code><span class="sig-paren">(</span><em class="sig-param">arr</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.pandas_fill" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.safe_subtract">
-<code class="sig-name descname">safe_subtract</code><span class="sig-paren">(</span><em class="sig-param">tb19</em>, <em class="sig-param">tb37</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.safe_subtract" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check size of each file, often the 19 and 37
-matrices are one unit off of eachother.</p>
-<p>Chops the larger matrix to match the smaller matrix</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.scrape">
-<code class="sig-name descname">scrape</code><span class="sig-paren">(</span><em class="sig-param">dates=None</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.scrape" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wrapper function to interface between swepy and nD</p>
-<dl class="simple">
-<dt>dates: List(datetime*)</dt><dd><p>list of dates to scrape from</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.scrape_all">
-<code class="sig-name descname">scrape_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.scrape_all" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to ensure we subset and concatenate every year!</p>
-<p>Implements the whole workflow!</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.set_dates">
-<code class="sig-name descname">set_dates</code><span class="sig-paren">(</span><em class="sig-param">start=None</em>, <em class="sig-param">end=None</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.set_dates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set date range using start and end datetime objects</p>
-<dl class="simple">
-<dt>start: datetime</dt><dd><p>start date for scraping</p>
-</dd>
-<dt>end: datetime</dt><dd><p>end date for scraping</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.set_grid">
-<code class="sig-name descname">set_grid</code><span class="sig-paren">(</span><em class="sig-param">ul=None</em>, <em class="sig-param">lr=None</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.set_grid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set grid corners, and convert to xy</p>
-<dl class="simple">
-<dt>ul: char or [float,float]</dt><dd><p>upper left bounding coordinates or grid name (N,S,T)</p>
-</dd>
-<dt>lr: [float, float]</dt><dd><p>lower right bounding coordinates (not needed for entire grid)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.set_login">
-<code class="sig-name descname">set_login</code><span class="sig-paren">(</span><em class="sig-param">username=None</em>, <em class="sig-param">password=None</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.set_login" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set login credentials and login to earth data</p>
-<dl class="simple">
-<dt>username: String</dt><dd><p>Earthdata username</p>
-</dd>
-<dt>password: String</dt><dd><p>Earthdata password</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="swepy.swepy.swepy.subset">
-<code class="sig-name descname">subset</code><span class="sig-paren">(</span><em class="sig-param">scrape=False</em>, <em class="sig-param">in_dir=None</em>, <em class="sig-param">out_dir19=None</em>, <em class="sig-param">out_dir37=None</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.swepy.swepy.subset" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the files from wget directory
-and subset them geographically based on
-coords from constructor</p>
-<dl class="simple">
-<dt>scrape: Boolean</dt><dd><p>Under the hood variable to allow for auto workflow</p>
-</dd>
-<dt>in_dir: str</dt><dd><p>(Optional) directory with wget data stored in it.
-Default: “working_dir/data/wget”</p>
-</dd>
-<dt>out_dir19: str</dt><dd><p>(Optional) directory to store output 19GHz files
-Default: “working_dir/data/Subsetted_19H/”</p>
-</dd>
-<dt>out_dir37: str</dt><dd><p>(Optional) directory to store output 37GHz files
-Default: “working_dir/data/Subsetted_37H”</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+  <div class="section" id="data-pipeline">
+<h1>Data Pipeline:<a class="headerlink" href="#data-pipeline" title="Permalink to this headline">¶</a></h1>
 </div>
 
 
@@ -289,11 +64,13 @@ Default: “working_dir/data/Subsetted_37H”</p>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
+  <h3>Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -309,9 +86,6 @@ Default: “working_dir/data/Subsetted_37H”</p>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="swepy.analysis.html" title="swepy.analysis:"
              >next</a> |</li>
         <li class="right" >
@@ -323,7 +97,7 @@ Default: “working_dir/data/Subsetted_37H”</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, will norris.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
     </div>
   </body>
 </html>

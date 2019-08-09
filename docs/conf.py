@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 
-project = "swepy"
+project = "SWEpy"
 copyright = "2019, will norris"
 author = "will norris"
 

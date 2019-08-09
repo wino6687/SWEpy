@@ -1,5 +1,5 @@
-Welcome to the SWEpy Documentation!
-===================================
+SWEpy: A Python Library for Analyzing SWE via Passive Microwave Imagery
+=======================================================================
 
 SWEpy is a Python library designed to simplify access to a passive
 microwave brightness temperature dataset available at the National

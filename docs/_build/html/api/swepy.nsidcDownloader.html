@@ -1,19 +1,18 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>swepy.nsidcDownloader: &#8212; swepy 1.5.2 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="swepy.process:" href="swepy.process.html" />
@@ -25,9 +24,6 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
         <li class="right" >
           <a href="swepy.process.html" title="swepy.process:"
              accesskey="N">next</a> |</li>
@@ -46,51 +42,6 @@
             
   <div class="section" id="swepy-nsidcdownloader">
 <h1>swepy.nsidcDownloader:<a class="headerlink" href="#swepy-nsidcdownloader" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader">
-<em class="property">class </em><code class="sig-prename descclassname">swepy.nsidcDownloader.nsidcDownloader.</code><code class="sig-name descname">nsidcDownloader</code><span class="sig-paren">(</span><em class="sig-param">username=None</em>, <em class="sig-param">password=None</em>, <em class="sig-param">folder='.'</em>, <em class="sig-param">no_auth=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="attribute">
-<dt id="swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.defaults">
-<code class="sig-name descname">defaults</code><em class="property"> = {'algorithm': 'SIR', 'datapool': 'MEASURES', 'dataset': 'NSIDC-0630', 'dataversion': 'v1.3', 'grid': 'N', 'input': 'CSU', 'pass': 'M', 'projection': 'EASE2', 'protocol': 'https', 'server': 'n5eil01u.ecs.nsidc.org', 'version': '001'}</em><a class="headerlink" href="#swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.defaults" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.download_file">
-<code class="sig-name descname">download_file</code><span class="sig-paren">(</span><em class="sig-param">folder=None</em>, <em class="sig-param">overwrite=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.download_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Download a file of particular kwargs</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.download_range">
-<code class="sig-name descname">download_range</code><span class="sig-paren">(</span><em class="sig-param">date</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.download_range" title="Permalink to this definition">¶</a></dt>
-<dd><p>Download a range of dates for a particular sensor - to be deprecated</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.get_auth">
-<code class="sig-name descname">get_auth</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.get_auth" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get download authentication</p>
-<p>How authentication works:
-(1) request to some sort of NSIDC URL
-(2) get HTTP 302 response redirecting to urs.earthdata.nasa.gov OAuth
-(3) login at urs.earthdata.nasa.gov oauth
-(4) use oauth tokens from urs.earthdata.nasa.gov to request any download url</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.set_defaults">
-<code class="sig-name descname">set_defaults</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.set_defaults" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set defaults for url template</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.url_template">
-<code class="sig-name descname">url_template</code><em class="property"> = '{protocol}://{server}/{datapool}/{dataset}.{version}/{date1:%Y.%m.%d}/{dataset}-{projection}_{grid}{resolution}-{platform}_{sensor}-{date2:%Y%j}-{channel}-{pass}-{algorithm}-{input}-{dataversion}.nc'</em><a class="headerlink" href="#swepy.nsidcDownloader.nsidcDownloader.nsidcDownloader.url_template" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 </div>
 
 
@@ -113,11 +64,13 @@
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
+  <h3>Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -133,9 +86,6 @@
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="swepy.process.html" title="swepy.process:"
              >next</a> |</li>
         <li class="right" >
@@ -147,7 +97,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, will norris.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
     </div>
   </body>
 </html>
