@@ -1,6 +1,6 @@
 # Unit Testing for SWEpy
 import os
-from swepy.swepy import Swepy
+from swepy.pipeline import Swepy
 from swepy.nsidcDownloader import nsidcDownloader
 import glob
 import pytest
@@ -14,7 +14,7 @@ def set_login_test(self, username="test", password="test"):
         Monkey patched set_login function
     """
     self.local_session = True
-    self.nD = nsidcDownloader.nsidcDownloader(folder=os.getcwd(), no_auth=True)
+    self.nD = nsidcDownloader(folder=os.getcwd(), no_auth=True)
     self.nD.username = "test"
     self.nD.password = "test"
 
