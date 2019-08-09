@@ -1,5 +1,5 @@
-swepy.nsidcDownloader:
-======================
+Web Scraper: swepy.nsidcDownloader
+==================================
 
 .. autoclass:: swepy.nsidcDownloader.nsidcDownloader
     :members:
