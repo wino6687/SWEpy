@@ -29,5 +29,6 @@ else
     conda config --add channels conda-forge
     conda env create -f test.yml
     conda activate swepy_env
+    conda update --all
     python setup.py install
 fi
