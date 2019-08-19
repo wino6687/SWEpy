@@ -14,7 +14,7 @@ dependencies:
   - tqdm
   # geo libraries
   - pynco
-  - gdal=3.0.0
+  - gdal==2.4.2
   - scikit-image
   - affine
   - netCDF4 
