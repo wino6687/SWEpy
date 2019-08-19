@@ -24,11 +24,10 @@ else
     echo "conda activate base" >> ~/.bashrc
     source $HOME/miniconda/bin/activate
     conda config --set always_yes yes --set changeps1 no
-    conda update conda
-    conda info -a
+    conda update -q conda
     conda config --add channels conda-forge
+    conda info -a
     conda env create -f test.yml
     conda activate swepy_env
-    conda update --all
     python setup.py install
 fi
