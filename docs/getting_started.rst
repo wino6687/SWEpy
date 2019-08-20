@@ -14,14 +14,15 @@ SWEpy needs four key things to be instantiated:
 
 4. Earthdata username and password 
 
-Basic Use for Scraping Area of Interest Cubes: 
-----------------------------------------------
+Basic Use for Scraping Area of Interest Cubes
+---------------------------------------------
 
 The ``swepy.pipeline`` module contains the ``Swepy`` class, which is our main tool for getting and subsetting SWE data. 
 
 In order to scrape, subset, and concatenate imagery into a single time cube, we only need to give ``Swepy`` the four parameters listed above.  
 
 .. code-block:: python 
+    from swepy.pipeline import Swepy
 
     upper_left = [lon_upleft, lat_upleft]
     lower_right = [lon_lowright, lat_lowright]
@@ -34,11 +35,11 @@ In order to scrape, subset, and concatenate imagery into a single time cube, we 
     username = <username>
     password = <password>
 
-    swepy = swepy(path, start, end, upper_left, lower_right, username, password, high_res = True)
+    swepy = Swepy(path, start, end, upper_left, lower_right, username, password, high_res = True)
 
 
-Scraping Entire Grid Imagery: 
------------------------------
+Scraping Entire Grid Imagery
+----------------------------
 Instead of subsetting data based on an area of interest, SWEpy also supports scraping entire grids instead.
 In order to do this, all you need to change is set the bounding corners to the grid name: 
 
@@ -54,8 +55,8 @@ In order to do this, all you need to change is set the bounding corners to the g
     lower_right = "N"
 
 
-Preset Information Stored in SWEpy: 
------------------------------------
+Preset Information Stored in SWEpy
+----------------------------------
 
 SWEpy is optimized to get SWE data in the hands of researchers as quickly as possible.
 This means that in order to reduce the number of parameters you need to pass to the class
