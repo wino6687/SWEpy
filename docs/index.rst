@@ -18,6 +18,7 @@ passive microwave data into proxy SWE information
    api
    getting_started
    pipeline_walkthrough
+   advanced_use
 
 
 Indices and tables
