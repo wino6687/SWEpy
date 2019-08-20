@@ -45,3 +45,8 @@ or
 
 .. code-block:: python
     swepy.scrape_all()
+
+
+The key difference of using ``scrape_all()`` versus each individual function is that
+``scrape_all()`` is desinged to manage disc space. It will always stop scraping to subset and concatenate every
+300 days. This will keep disc impact below 10Gb at all times, which makes scraping on a local machine much easier.
