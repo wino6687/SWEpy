@@ -17,6 +17,7 @@ passive microwave data into proxy SWE information
    installing_swepy
    api
    getting_started
+   pipeline_walkthrough
 
 
 Indices and tables
