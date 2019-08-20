@@ -37,7 +37,8 @@ Like we have seen before, in order to use SWEpy, we must first instantiate our c
 
 Once your class is instantiated we can do two things: 
 
-.. code-block:: python 
+.. code-block:: python
+
     swepy.scrape()
     swepy.subset()
     swepy.concatentate()
@@ -45,6 +46,7 @@ Once your class is instantiated we can do two things:
 or
 
 .. code-block:: python
+
     swepy.scrape_all()
 
 
