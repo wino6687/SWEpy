@@ -16,6 +16,7 @@ passive microwave data into proxy SWE information
 
    installing_swepy
    api
+   getting_started
 
 
 Indices and tables
