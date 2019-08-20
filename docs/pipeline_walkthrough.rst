@@ -19,6 +19,7 @@ scraping, subsetting, and concatenating data into a single cube.
 Like we have seen before, in order to use SWEpy, we must first instantiate our class: 
 
 .. code-block:: python 
+
     from swepy.pipeline import Swepy
 
     upper_left = [lon_upleft, lat_upleft]
