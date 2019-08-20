@@ -22,6 +22,7 @@ The ``swepy.pipeline`` module contains the ``Swepy`` class, which is our main to
 In order to scrape, subset, and concatenate imagery into a single time cube, we only need to give ``Swepy`` the four parameters listed above.  
 
 .. code-block:: python 
+
     from swepy.pipeline import Swepy
 
     upper_left = [lon_upleft, lat_upleft]
