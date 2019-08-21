@@ -1,7 +1,0 @@
-Process:
-========
-
-.. automodule:: swepy.process.process
-    :members:
-    :undoc-members:
-    :show-inheritance:
