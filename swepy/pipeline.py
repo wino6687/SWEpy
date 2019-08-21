@@ -319,7 +319,7 @@ class Swepy:
         Function to ensure we subset and concatenate every year!
         Implements the whole workflow!
         """
-
+        # can't scrape all unless all parameters entered
         if self.check_params() is False:
             return
         if len(self.dates) <= 300:
