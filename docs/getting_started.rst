@@ -70,7 +70,6 @@ we had to make some decisions for you:
 - SWEpy will choose a grid (N,S,T) based on the provided bounding coordinates 
 
 - Optimal Sensor (Nimbus7 through F19) for each year will be used 
-
     - Many years have more than one available sensor, and they vary in quality
 
 
