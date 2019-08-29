@@ -19,3 +19,4 @@ dependencies:
   - affine
   - netCDF4 
   - xarray
+  - fsspec
