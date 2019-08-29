@@ -10,6 +10,8 @@ from nco import Nco
 import os
 from tqdm import tqdm
 import glob
+import xarray
+import fsspec
 
 nco = Nco()
 
@@ -339,6 +341,28 @@ class Swepy:
                     self.subset()
                 self.concatenate(name19, name37, all=True)
             return self.final_concat()
+
+    def convert_netcdf_zarr(self, outname19="zarr19", outname37="zarr37"):
+        """
+        Convert netCDF files into zarr directories for storage in S3
+
+        Parameters
+        ----------
+        outname19: string (optional)
+            name of the directory to store 19H file
+        outname37: string (optional)
+            name of the directory to store 37H file
+
+        Returns
+        -------
+        dict: {outname19:zarr_obj, outname37:zarr_obj}
+            dictionary with filename as key and the zarr object generated as the value
+        """
+        ds19 = xarray.open_dataset(self.outfile_19, engine="netcdf4")
+        ds37 = xarray.open_dataset(self.outfile_37, engine="netcdf4")
+        self.zarr19 = ds19.to_zarr(outname19, "w")
+        self.zarr37 = ds37.to_zarr(outname37, "w")
+        return {outname19: self.zarr19, outname37: self.zarr37}
 
     def get_sensor(self, date):
         """
