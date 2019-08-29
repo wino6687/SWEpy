@@ -18,3 +18,4 @@ dependencies:
   - scikit-image
   - affine
   - netCDF4 
+  - xarray

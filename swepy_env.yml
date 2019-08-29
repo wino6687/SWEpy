@@ -21,11 +21,5 @@ dependencies:
   - scikit-learn
   - netCDF4
   - swepy
-  # COG libraries
-  - rasterio 
   - xarray
-  - structlog 
-  - datacube 
-  - mpi4py
-  - colorama
     
