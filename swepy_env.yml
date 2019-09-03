@@ -22,4 +22,5 @@ dependencies:
   - netCDF4
   - swepy
   - xarray
+  - fsspec
     
