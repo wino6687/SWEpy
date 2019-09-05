@@ -21,6 +21,8 @@ dependencies:
   - scikit-learn
   - netCDF4
   - swepy
+  # aws libraries 
+  - boto3
   - xarray
   - fsspec
     
