@@ -13,6 +13,7 @@ from scipy.signal import savgol_filter
 from scipy.cluster.vq import *
 from swepy.pipeline import Swepy
 from multiprocessing import Pool, Process, cpu_count
+from jenks import jenks
 
 
 def get_array(file19, file37, high=True):
@@ -151,3 +152,63 @@ def auto_filter(file19, file37):  # filter_swe is either filter on tb or swe
     clean37 = vector_clean(cube37)
     swe = Swepy.safe_subtract(clean19, clean37)
     return apply_filter_mphelper(swe)
+
+
+def govf(array, classes):
+    # get break points
+    classes = jenks(array, classes)
+    # do classificaton
+    classified = np.array([classify(i, classes) for i in array])
+    # max value of zones
+    maxz = max(classified)
+    # nested list of zone indices
+    zone_indices = [
+        [idx for idx, val in enumerate(classified) if zone + 1 == val]
+        for zone in range(maxz)
+    ]
+    # sum of squared deviations from array mean
+    sdam = np.sum((array - array.mean()) ** 2)
+    # sorted polygon stats
+    array_sort = [
+        np.array([array[index] for index in zone]) for zone in zone_indices
+    ]
+    # sum of squared deviations of class means
+    sdcm = sum(
+        [
+            np.sum((classified - classified.mean()) ** 2)
+            for classified in array_sort
+        ]
+    )
+    # goodness of variance fit
+    gvf = (sdam - sdcm) / sdam
+    return gvf
+
+
+def classify(value, breaks):
+    for i in range(1, len(breaks)):
+        if value < breaks[i]:
+            return i
+    return len(breaks) - 1
+
+
+def mask_ocean_winter(swe_matrix, day=0, nclasses=3):
+    """
+    Use a winter day to mask ocean pixels out of coastal imagery in arctic.
+
+    There is a clear difference between winter land pixels and ocean pixels
+    that classification can sort out for us using a simple jenks classification.
+    Data should have already moved through "vector_clean" and "apply_filter"
+
+    Parameters
+    ----------
+    swe_matrix: np.array
+        swe time cube
+    day: int
+        julian date of time series to use for classification (should be winter)
+    nclasses: int
+        number of classes to use in jenks classification, defaults to 3
+    """
+    classes_jenk = jenks(swe_matrix[day, :, :].ravel(), nclasses)
+    mask = classes_jenk == 1
+    swe_matrix[mask] = np.nan
+    return swe_matrix

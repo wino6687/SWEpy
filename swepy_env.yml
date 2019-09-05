@@ -21,8 +21,11 @@ dependencies:
   - scikit-learn
   - netCDF4
   - swepy
+  - mapboxgl
   # aws libraries 
   - boto3
   - xarray
   - fsspec
+  - pip
+    - "--editable=git+https://github.com/perrygeo/jenks.git#egg=jenks"
     
