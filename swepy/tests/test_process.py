@@ -96,6 +96,14 @@ def test_apply_filter_mp_fail():
         process.apply_filter_mphelper(tb19)
 
 
-# def test_auto_filter(scraped_files):
-#     swe = process.auto_filter(scraped_files[0], scraped_files[1])
-#     assert swe.min() == 0
+def test_govf():
+    np.random.seed(1)
+    array = np.random.rand(1, 10, 10)
+    res = process.govf(array.ravel(), 4)
+    assert res == 0.9476204544544236
+
+
+def test_ocean_mask():
+    array = np.ones((1, 142, 130))
+    arr = process.mask_ocean_winter(array)
+    assert type(arr) is np.ndarray
