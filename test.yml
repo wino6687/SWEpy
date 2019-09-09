@@ -22,4 +22,4 @@ dependencies:
   - fsspec
   - mapboxgl
   - pip:
-    - "--editable=git+https://github.com/perrygeo/jenks.git"
+    - "--editable=git+https://github.com/perrygeo/jenks.git#egg=jenks"
