@@ -713,11 +713,17 @@ class Swepy:
             )
         return proceed
 
-    def plot_a_day(self, token):
+    def plot_a_day(self, token, files=None, inday=None):
         """read tb,x,y data from final files,
         with the purpose of plotting."""
-        fid_19H = Dataset(self.concatlist[0], "r", format="NETCDF4")
-        fid_37H = Dataset(self.concatlist[1], "r", format="NETCDF4")
+        day = 0 if inday is None else inday
+        # if no files passed, use final concatenated cubes
+        if files is None:
+            fid_19H = Dataset(self.concatlist[0], "r", format="NETCDF4")
+            fid_37H = Dataset(self.concatlist[1], "r", format="NETCDF4")
+        else:
+            fid_19H = Dataset(files[0], "r", format="NETCDF4")
+            fid_37H = Dataset(files[1], "r", format="NETCDF4")
 
         x = fid_19H.variables["x"][:]
         y = fid_19H.variables["y"][:]
@@ -732,7 +738,7 @@ class Swepy:
         grid = ease2Transform.ease2Transform(
             gridname=fid_19H.variables["crs"].long_name
         )
-        one_day = tb[0, :, :]
+        one_day = tb[day, :, :]
         df = pd.DataFrame(columns=["lat", "lon", "swe"])
         for i, xi in enumerate(x):
             for j, yj in enumerate(y):
