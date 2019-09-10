@@ -714,8 +714,20 @@ class Swepy:
         return proceed
 
     def plot_a_day(self, token, files=None, inday=None):
-        """read tb,x,y data from final files,
-        with the purpose of plotting."""
+        """Plot swe subset with mapbox for confirmation of study area
+
+        Takes final files from workflow, opens them, dumps info into geojson
+        and plots via mapbox. It is recommended to use a jupyter notebook for viewing.
+
+        Parameters
+        ----------
+        token: string
+            mapbox token
+        files: list
+            list of file names ['19H', '37H']
+        inday: int
+            day of time series to plot on
+        """
         day = 0 if inday is None else inday
         # if no files passed, use final concatenated cubes
         if files is None:
