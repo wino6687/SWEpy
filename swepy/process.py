@@ -208,7 +208,11 @@ def mask_ocean_winter(swe_matrix, day=0, nclasses=3):
     nclasses: int
         number of classes to use in jenks classification, defaults to 3
     """
-    classes_jenk = jenks(swe_matrix[day, :, :].ravel(), nclasses)
+    winter_day = swe_matrix[day, :, :]
+    classes_jenk = jenks(winter_day.ravel(), nclasses)
     mask = classes_jenk == 1
-    swe_matrix[mask] = np.nan
+    winter_day[mask] = -8888
+    matrix_mask = np.zeros(swe_matrix.shape, dtype=bool)
+    matrix_mask[:, :, :] = winter_day[np.newaxis, :, :] == -8888
+    swe_matrix[matrix_mask] = -8888
     return swe_matrix
