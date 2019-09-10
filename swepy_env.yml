@@ -26,6 +26,6 @@ dependencies:
   - boto3
   - xarray
   - fsspec
-  - pip
+  - pip:
     - "--editable=git+https://github.com/perrygeo/jenks.git#egg=jenks"
     
