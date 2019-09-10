@@ -740,7 +740,6 @@ class Swepy:
                 lat, lon = grid.grid_to_geographic(row, col)
                 lats[j, i] = lat
                 lons[j, i] = lon
-                # df = df.append({'lat': lats[j][i], 'lon': lons[j][i], 'swe':one_day[j-2][i-2]}, ignore_index = True)
         for i in range(len(one_day[:, 1])):
             for j in range(len(one_day[1, :])):
                 df = df.append(
