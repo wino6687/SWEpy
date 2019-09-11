@@ -13,7 +13,7 @@ from scipy.signal import savgol_filter
 from scipy.cluster.vq import *
 from swepy.pipeline import Swepy
 from multiprocessing import Pool, Process, cpu_count
-from jenks import jenks
+import jenkspy
 
 
 def get_array(file19, file37, high=True):
@@ -156,7 +156,7 @@ def auto_filter(file19, file37):  # filter_swe is either filter on tb or swe
 
 def govf(array, classes):
     # get break points
-    classes = jenks(array, classes)
+    classes = jenkspy.jenks_breaks(array, classes)
     # do classificaton
     classified = np.array([classify(i, classes) for i in array])
     # max value of zones
@@ -209,7 +209,7 @@ def mask_ocean_winter(swe_matrix, day=0, nclasses=3):
         number of classes to use in jenks classification, defaults to 3
     """
     winter_day = swe_matrix[day, :, :]
-    classes_jenk = jenks(winter_day.ravel(), nclasses)
+    classes_jenk = jenkspy.jenks_breaks(winter_day.ravel(), nclasses)
     mask = classes_jenk == 1
     winter_day[mask] = -8888
     matrix_mask = np.zeros(swe_matrix.shape, dtype=bool)

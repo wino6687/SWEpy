@@ -22,10 +22,10 @@ dependencies:
   - netCDF4
   - swepy
   - mapboxgl
+  - jenkspy
   # aws libraries 
   - boto3
   - xarray
   - fsspec
-  - pip:
-    - "--editable=git+https://github.com/perrygeo/jenks.git#egg=jenks"
+
     
