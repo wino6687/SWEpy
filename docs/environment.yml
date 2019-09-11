@@ -20,5 +20,4 @@ dependencies:
 - xarray=0.12.0
 - fsspec=0.4.3
 - mapboxgl=0.10.2
-- pip:
-    - "--editable=git+https://github.com/perrygeo/jenks.git#egg=jenks"
+- jenkspy=0.1.4
