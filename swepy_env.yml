@@ -25,6 +25,7 @@ dependencies:
   - jenkspy
   # aws libraries 
   - boto3
+  - s3fs
   - xarray
   - fsspec
 
