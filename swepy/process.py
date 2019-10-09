@@ -12,8 +12,9 @@ import math
 from scipy.signal import savgol_filter
 from scipy.cluster.vq import *
 from swepy.pipeline import Swepy
-from multiprocessing import Pool, Process, cpu_count
 import jenkspy
+import numpy.ma as ma
+from multiprocessing import Pool, Process, cpu_count
 
 
 def get_array(file19, file37, high=True):
@@ -36,8 +37,9 @@ def get_array(file19, file37, high=True):
     tb_19H = fid_19H.variables["TB"][:]
     tb_37H = fid_37H.variables["TB"][:]
     if high:
+        tb_37H[tb_37H.mask] = 0.00001
         tb_37H = block_reduce(tb_37H, block_size=(1, 2, 2), func=np.mean)
-    return tb_19H, tb_37H
+    return tb_19H, ma.masked_values(tb_37H, 0.00001)
 
 
 def pandas_fill(arr):
