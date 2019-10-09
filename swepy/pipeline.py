@@ -14,6 +14,8 @@ import xarray
 import fsspec
 from mapboxgl.utils import create_color_stops, df_to_geojson
 from mapboxgl.viz import CircleViz
+import numpy.ma as ma
+
 
 nco = Nco()
 
@@ -318,7 +320,15 @@ class Swepy:
         self.down37list = []
         return
 
+    '''
     def scrape_all(self):
+        """
+        Function to parralelize scraping with nsidcDownloader
+
+        generate complete list of files to scrape, then divide into process pool
+    '''
+
+    def scrape_all(self):  # rename to be related to 'full workflow'
         """
         Function to ensure we subset and concatenate every year!
         Implements the whole workflow!
@@ -726,7 +736,7 @@ class Swepy:
         files: list
             list of file names ['19H', '37H']
         inday: int
-            day of time series to plot on
+            day of time series to plot on, defaults to 0
         """
         day = 0 if inday is None else inday
         # if no files passed, use final concatenated cubes
@@ -737,13 +747,16 @@ class Swepy:
             fid_19H = Dataset(files[0], "r", format="NETCDF4")
             fid_37H = Dataset(files[1], "r", format="NETCDF4")
 
+        # extract x,y, and tb from cubes
         x = fid_19H.variables["x"][:]
         y = fid_19H.variables["y"][:]
 
         tb_19H = fid_19H.variables["TB"][:]
         tb_37H = fid_37H.variables["TB"][:]
-        if self.high_res is True:
+        if self.high_res is True:  # downsample tb37
+            tb_37H[tb_37H.mask] = 0.00001
             tb_37H = block_reduce(tb_37H, block_size=(1, 2, 2), func=np.mean)
+            tb_37H = ma.masked_values(tb_37H, 0.00001)
         tb = self.safe_subtract(tb_19H, tb_37H)
         lats = np.zeros((len(y), len(x)), dtype=np.float64)
         lons = np.zeros((len(y), len(x)), dtype=np.float64)
