@@ -28,9 +28,8 @@ def test_nodir():
 
 
 def test_check_params_false():
-    start = datetime.date(2010, 1, 1)
     ul = [66, -145]
-    s1 = Swepy(os.getcwd(), start, start, ul)
+    s1 = Swepy(os.getcwd(), ul, ul)
     assert s1.check_params() is False
 
 

@@ -145,8 +145,8 @@ class Swepy:
                 "No credentials given, please use 'set_login' to login when ready."
             )
             self.nD = None
-            self.username = username
-            self.password = password
+            self.username = None
+            self.password = None
         return
 
     def set_grid(self, ul=None, lr=None):
