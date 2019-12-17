@@ -4,15 +4,20 @@ Getting Started with SWEpy
 SWEpy has a range of functionality, but the main use case is obtaining SWE data within a given study region
 without needing massive amounts of disc space. 
 
-SWEpy needs four key things to be instantiated: 
+SWEpy needs two key things to be instantiated: 
 
 1. Upper Left and Lower Right Bounding Coordinates (EASE Grid 2.0 orientation)
 
-2. Start and End Dates 
+    - These can be entire grid names ("N" = North grid)
 
-3. Working Directory Path
 
-4. Earthdata username and password 
+2. Working Directory Path
+
+If you would like to scrape data from EarthData, SWEpy also needs: 
+
+1. Username and Password for EarthData
+
+2. Start and End Date of Desired Time Series
 
 Basic Use for Scraping Area of Interest Cubes
 ---------------------------------------------
