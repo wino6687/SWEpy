@@ -23,8 +23,7 @@ Swepy.set_login = set_login_test
 
 
 def test_nodir():
-    start = datetime.date(2010, 1, 1)
-    s1 = Swepy(None, start, start)
+    s1 = Swepy(None)
     assert s1.working_dir == os.getcwd()
 
 
@@ -39,34 +38,32 @@ def test_check_params_true():
     start = datetime.date(2010, 1, 1)
     ul = [66, -145]
     lr = [76, -166]
-    s1 = Swepy(
-        os.getcwd(), start, start, ul, lr, username="test", password="test"
-    )
+    s1 = Swepy(os.getcwd(), ul, lr)
+    s1.set_login("test", "test")
+    s1.set_dates(start, start)
     assert s1.check_params() is True
 
 
 def test_set_params_bounds():
     start = datetime.date(2010, 1, 1)
-    s1 = Swepy(os.getcwd(), start, start, username="test", password="test")
+    s1 = Swepy(os.getcwd())
+    s1.set_dates(start, start)
+    s1.set_login("test", "test")
     s1.set_grid(ul=[66, -145], lr=[73, -166])
     assert s1.check_params() is True
 
 
 def test_set_params_auth():
     start = datetime.date(2010, 1, 1)
-    s1 = Swepy(os.getcwd(), start, start, ul=[66, -145], lr=[73, -166])
+    s1 = Swepy(os.getcwd(), ul=[66, -145], lr=[73, -166])
+    s1.set_dates(start, start)
     s1.set_login(username="test", password="test")
     assert s1.check_params() is True
 
 
 def test_set_params_dates():
-    s1 = Swepy(
-        os.getcwd(),
-        ul=[66, -145],
-        lr=[73, -166],
-        username="test",
-        password="test",
-    )
+    s1 = Swepy(os.getcwd(), ul=[66, -145], lr=[73, -166])
+    s1.set_login("test", "test")
     s1.set_dates(
         start=datetime.date(2010, 1, 1), end=datetime.date(2010, 1, 1)
     )
