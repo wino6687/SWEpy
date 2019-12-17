@@ -156,3 +156,5 @@ texinfo_documents = [
         "Miscellaneous",
     )
 ]
+
+autodoc_mock_imports = ["gdal", "scikit-image", "pynco", "netcdf4"]
