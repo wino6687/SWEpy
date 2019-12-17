@@ -88,8 +88,7 @@ class Swepy:
         self.grid = None
         self.username = None
         self.password = None
-        self.set_dates()
-        self.set_login()
+        self.dates = None
 
         self.set_grid(ul, lr)
 
@@ -140,6 +139,8 @@ class Swepy:
                 folder=self.wget, username=username, password=password
             )
             print("Successfully logged in!")
+            self.nD.username = username
+            self.nD.password = password
             self.username = username
             self.password = password
         else:
