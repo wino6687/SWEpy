@@ -32,8 +32,6 @@ class Swepy:
         end=None,
         ul=None,
         lr=None,
-        username=None,
-        password=None,
         outfile19="all_days_19H.nc",
         outfile37="all_days_37H.nc",
         high_res=True,
@@ -103,8 +101,6 @@ class Swepy:
         self.concatlist = [None, None]
         self.concat19list = []
         self.concat37list = []
-
-        self.set_login(username, password)
 
     def set_dates(self, start=None, end=None):
         """
@@ -351,7 +347,9 @@ class Swepy:
                 self.scrape(subList)
                 if self.subBool:
                     self.subset()
-                self.concatenate(name19, name37, all=True)
+                self.concatenate(
+                    name19, name37, all=True
+                )  # CAN I PARALLELIZE HERE
             return self.final_concat()
 
     def convert_netcdf_zarr(self, outname19="zarr19", outname37="zarr37"):
