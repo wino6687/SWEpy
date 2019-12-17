@@ -28,8 +28,6 @@ class Swepy:
     def __init__(
         self,
         working_dir=None,
-        start=None,
-        end=None,
         ul=None,
         lr=None,
         outfile19="all_days_19H.nc",
@@ -85,12 +83,11 @@ class Swepy:
 
         self.outfile_19 = outfile19
         self.outfile_37 = outfile37
-
         self.ease = None
         self.geo_list = None
         self.grid = None
-
-        self.set_dates(start, end)
+        self.set_dates()
+        self.set_login()
 
         self.set_grid(ul, lr)
 
@@ -116,6 +113,7 @@ class Swepy:
 
         try:
             self.dates = pd.date_range(start, end)
+            print("Dates set successfully...")
         except ValueError:
             self.dates = None
             print("No valid dates given")
@@ -139,12 +137,16 @@ class Swepy:
             self.nD = nsidcDownloader.nsidcDownloader(
                 folder=self.wget, username=username, password=password
             )
-            print("Success!")
+            print("Successfully logged in!")
+            self.username = username
+            self.password = password
         else:
             print(
                 "No credentials given, please use 'set_login' to login when ready."
             )
             self.nD = None
+            self.username = username
+            self.password = password
         return
 
     def set_grid(self, ul=None, lr=None):
@@ -331,7 +333,7 @@ class Swepy:
         """
         # can't scrape all unless all parameters entered
         if self.check_params() is False:
-            return
+            return None, None
         if len(self.dates) <= 300:
             self.scrape()
             if self.subBool:
@@ -697,26 +699,21 @@ class Swepy:
         """
 
         proceed = True
-        try:
-            params = {
-                "dates": self.dates,
-                "bounding coordinates": self.geo_list,
-                "grid": self.grid,
-                "username": self.nD.username,
-                "password": self.nD.password,
-            }
-        except AttributeError:
-            print(
-                "You are not logged in! Please enter your EarthData credentials with 'set_login()'"
-            )
-            return False
+
+        params = {
+            "dates": self.dates,
+            "bounding coordinates": self.geo_list,
+            "grid": self.grid,
+            "username": self.username,
+            "password": self.password,
+        }
         for key, value in params.items():
             if value is None:
                 print("{} needs to be set by 'set_params'".format(key))
                 proceed = False
         if proceed is False:
             print(
-                "Please use the set_() functions to set missing parameters,\
+                "Please use the set_...() functions to set missing parameters,\
                     see the documentation for guidance"
             )
         return proceed
