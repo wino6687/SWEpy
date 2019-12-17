@@ -86,6 +86,8 @@ class Swepy:
         self.ease = None
         self.geo_list = None
         self.grid = None
+        self.username = None
+        self.password = None
         self.set_dates()
         self.set_login()
 
@@ -145,8 +147,6 @@ class Swepy:
                 "No credentials given, please use 'set_login' to login when ready."
             )
             self.nD = None
-            self.username = None
-            self.password = None
         return
 
     def set_grid(self, ul=None, lr=None):
