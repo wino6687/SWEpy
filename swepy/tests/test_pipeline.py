@@ -142,7 +142,7 @@ def test_get_xy_none():
 
 def test_get_file_high():
     s1 = Swepy(os.getcwd(), ul="N", lr="N")
-    # No login needed here
+    s1.set_login()
     date = datetime.datetime(2010, 1, 1)
     file = s1.get_file(date, "19H")
     assert file == {
@@ -165,6 +165,7 @@ def test_get_file_high():
 
 def test_get_file_low():
     s1 = Swepy(os.getcwd(), ul="N", lr="N", high_res=False)
+    s1.set_login()
     date = datetime.datetime(2010, 1, 1)
     file = s1.get_file(date, "19H")
     assert file == {
@@ -187,6 +188,7 @@ def test_get_file_low():
 
 def test_gf_low_var1():
     s1 = Swepy(os.getcwd(), ul="N", lr="N", high_res=False)
+    s1.set_login()
     date = datetime.datetime(2003, 11, 6)
     file = s1.get_file(date, "19H")
     assert file == {
@@ -209,6 +211,7 @@ def test_gf_low_var1():
 
 def test_gf_low_var2():
     s1 = Swepy(os.getcwd(), ul="N", lr="N", high_res=False)
+    s1.set_login()
     date = datetime.datetime(2006, 11, 4)
     file = s1.get_file(date, "19H")
     assert file == {
@@ -231,6 +234,7 @@ def test_gf_low_var2():
 
 def test_gf_low_TA():
     s1 = Swepy(os.getcwd(), ul="T", lr="T", high_res=False)
+    s1.set_login()
     date = datetime.datetime(2006, 11, 4)
     file = s1.get_file(date, "19H")
     assert file == {
@@ -253,6 +257,7 @@ def test_gf_low_TA():
 
 def test_df_smmr():
     s1 = Swepy(os.getcwd(), ul="N", lr="N")
+    s1.set_login()
     date = datetime.datetime(1979, 1, 1)
     file = s1.get_file(date, "19H")
     assert file == {
@@ -275,6 +280,7 @@ def test_df_smmr():
 
 def test_gs_1987():
     s1 = Swepy(os.getcwd(), ul="N", lr="N")
+    s1.set_login()
     date = datetime.datetime(1987, 8, 21)
     file = s1.get_file(date, "19H")
     assert file == {
@@ -297,6 +303,7 @@ def test_gs_1987():
 
 def test_gs_2008_edge():
     s1 = Swepy(os.getcwd(), ul="N", lr="N")
+    s1.set_login()
     date = datetime.datetime(2008, 3, 7)
     file = s1.get_file(date, "19H")
     assert file == {
@@ -319,6 +326,7 @@ def test_gs_2008_edge():
 
 def test_gs_evening_edge():
     s1 = Swepy(os.getcwd(), ul="N", lr="N")
+    s1.set_login()
     date = datetime.datetime(2005, 5, 12)
     file = s1.get_file(date, "19H")
     assert file == {
