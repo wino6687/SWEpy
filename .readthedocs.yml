@@ -3,6 +3,7 @@ formats: []
 conda:
   environment: docs/environment.yml
 python:
+   setup_py_install: true
    version: 3.7
    install:
       - requirements: requirements-dev.txt
