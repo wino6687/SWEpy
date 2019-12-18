@@ -13,5 +13,4 @@ dependencies:
 - tqdm=4.32.2
 - fsspec=0.4.3
 - mapboxgl=0.10.2
-- jenkspy=0.1.4
 - pandas
