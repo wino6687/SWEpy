@@ -20,7 +20,7 @@ Like we have seen before, in order to use SWEpy, we must first instantiate our c
 
 .. code-block:: python 
 
-    from swepy.pipeline import Swepy
+    from swepy import pipeline
 
     upper_left = [lon_upleft, lat_upleft]
     lower_right = [lon_lowright, lat_lowright]
@@ -33,7 +33,9 @@ Like we have seen before, in order to use SWEpy, we must first instantiate our c
     username = <username>
     password = <password>
 
-    swepy = Swepy(path, start, end, upper_left, lower_right, username, password, high_res = True)
+    swepy = Swepy(path, upper_left, lower_right, high_res = True)
+    swepy.set_login(username, password)
+    swepy.set_dates(start, end)
 
 Once your class is instantiated we can do two things: 
 

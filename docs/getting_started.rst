@@ -28,7 +28,7 @@ In order to scrape, subset, and concatenate imagery into a single time cube, we 
 
 .. code-block:: python 
 
-    from swepy.pipeline import Swepy
+    from swepy import pipeline
 
     upper_left = [lon_upleft, lat_upleft]
     lower_right = [lon_lowright, lat_lowright]
@@ -41,7 +41,9 @@ In order to scrape, subset, and concatenate imagery into a single time cube, we 
     username = <username>
     password = <password>
 
-    swepy = Swepy(path, start, end, upper_left, lower_right, username, password, high_res = True)
+    swepy = Swepy(path, upper_left, lower_right, high_res = True)
+    swepy.set_login(username, password)
+    swepy.set_dates(start, end)
 
 
 Scraping Entire Grid Imagery

@@ -158,11 +158,11 @@ texinfo_documents = [
 ]
 
 autodoc_mock_imports = [
-    "gdal",
     "scikit-image",
     "pynco",
     "netcdf4",
     "affine",
     "geopandas",
     "xarray",
+    "gdal",
 ]
