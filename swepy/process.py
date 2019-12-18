@@ -6,7 +6,6 @@ import numpy as np
 from numpy import newaxis
 from numpy import shape
 import pandas as pd
-from netCDF4 import Dataset
 from skimage.measure import block_reduce
 import math
 from scipy.signal import savgol_filter
@@ -14,6 +13,7 @@ from scipy.cluster.vq import *
 from swepy.pipeline import Swepy
 import jenkspy
 import numpy.ma as ma
+from netCDF4 import Dataset
 from multiprocessing import Pool, Process, cpu_count
 
 
@@ -58,7 +58,7 @@ def pandas_fill(arr):
     return out
 
 
-def vector_clean(cube):
+def vector_clean(cube):  # rename to ffill_array(cube)
     """
     Clean erroneous spikes out of 37Ghz cube
 

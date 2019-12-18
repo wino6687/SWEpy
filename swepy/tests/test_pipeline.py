@@ -17,6 +17,8 @@ def set_login_test(self, username="test", password="test"):
     self.nD = nsidcDownloader(folder=os.getcwd(), no_auth=True)
     self.nD.username = "test"
     self.nD.password = "test"
+    self.username = username
+    self.password = password
 
 
 Swepy.set_login = set_login_test
