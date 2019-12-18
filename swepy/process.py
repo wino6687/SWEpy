@@ -17,7 +17,7 @@ from netCDF4 import Dataset
 from multiprocessing import Pool, Process, cpu_count
 
 
-def get_array(file19, file37, high=True):
+def get_array(file, high=True):
     """
     Take 19H and 37H netCDF files, open and store tb
     data in np arrays
@@ -32,14 +32,14 @@ def get_array(file19, file37, high=True):
         true = high resolution imagery (3.125km/6.25km)
         false = low resolution imagery (25km)
     """
-    fid_19H = Dataset(file19, "r", format="NETCDF4")
-    fid_37H = Dataset(file37, "r", format="NETCDF4")
-    tb_19H = fid_19H.variables["TB"][:]
-    tb_37H = fid_37H.variables["TB"][:]
-    if high:
-        tb_37H[tb_37H.mask] = 0.00001
-        tb_37H = block_reduce(tb_37H, block_size=(1, 2, 2), func=np.mean)
-    return tb_19H, ma.masked_values(tb_37H, 0.00001)
+    fid = Dataset(file, "r", format="NETCDF4")
+    tb = fid.variables["TB"][:]
+    if fid.variables["crs"].long_name == "EASE2_N3.125km" and high is True:
+        tb[tb.mask] = 0.00001
+        tb = block_reduce(tb, block_size=(1, 2, 2), func=np.mean)
+        return ma.masked_values(tb, 0.00001)
+    else:
+        return tb
 
 
 def pandas_fill(arr):

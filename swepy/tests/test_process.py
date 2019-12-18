@@ -18,7 +18,8 @@ def scraped_files():
 
 @pytest.fixture
 def arrays(scraped_files):
-    tb19, tb37 = process.get_array(scraped_files[0], scraped_files[1])
+    tb19 = process.get_array(scraped_files[0])
+    tb37 = process.get_array(scraped_files[1])
     return (tb19, tb37)
 
 
