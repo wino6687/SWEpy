@@ -15,4 +15,3 @@ dependencies:
 - mapboxgl=0.10.2
 - jenkspy=0.1.4
 - pandas
-- gdal 
