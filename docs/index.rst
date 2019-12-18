@@ -3,12 +3,16 @@ SWEpy: A Python Library for Analyzing SWE via Passive Microwave Imagery
 
 SWEpy is a Python library designed to simplify access to a passive
 microwave brightness temperature dataset available at the National
-Snow and Ice Data Center (NSIDC). This dataset contains Northern and
-Southern hemisphere imagery along with Equatorial imagery, and can be
+Snow and Ice Data Center (NSIDC). This dataset contains Northern/Southern 
+hemisphere imagery and Equatorial imagery, and can be
 quite useful in analyzing snow water equivalent (SWE) over large spatial extents.
 SWEpy contains tools to web scrape, geographically subset, and concatenate files
 into time cubes. SWEpy also contains tools to aid in the initial processing of
-passive microwave data into proxy SWE information
+passive microwave data into proxy SWE information. 
+
+SWEpy can be used as a full data pipeline for downloading, subsetting, and concatenating imagery.
+However, SWEpy can also be used to accomplish any of these steps individually. See below for 
+example usage of SWEpy on several different scenarios. 
 
 .. toctree::
    :maxdepth: 3

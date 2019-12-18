@@ -4,7 +4,7 @@ Getting started with SWEpy
 SWEpy is comprised of 4 modules: 
 
 ``swepy.pipeline`` 
-    The primary data processing module for swepy. It manages the downloading, subsetting, and concatenation of passive microwave data.
+    The primary data pipeline for swepy. It manages the downloading, subsetting, and concatenation of passive microwave data.
 ``swepy.process``
     The processing module for SWEpy. It allows users to smooth spikes generated from the resampling process in the dataset.
 ``swepy.analysis``
@@ -25,11 +25,11 @@ In your terminal, navigate to the directory containing your yml file and run the
 
 ``conda env create -f swepy_env.yml``
 
-``source activate swepy_env``
+``conda activate swepy_env``
 
 or 
 
-``conda activate swepy_env``
+``source activate swepy_env``
 
 Importing SWEpy in Python
 -------------------------
@@ -37,8 +37,8 @@ Importing SWEpy in Python
 Now in Python you will be able to import SWEpy and its submodules. 
 
     >>> import swepy
-    >>> import swepy.pipeline as pipe
-    >>> import swepy.process as sp
-    >>> import swepy.analysis as sa
-    >>> import swepy.nsidcDownloader as sd
+    >>> from swepy import pipeline
+    >>> from swepy import process
+    >>> from swepy import analysis
+    >>> from swepy import nsidcDownloader
 
