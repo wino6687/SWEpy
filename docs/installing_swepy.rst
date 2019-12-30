@@ -1,5 +1,5 @@
-Getting started with SWEpy
-==========================
+Installing SWEpy
+================
 
 SWEpy is comprised of 4 modules: 
 
