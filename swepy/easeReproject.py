@@ -33,7 +33,7 @@ class EaseReproject:
         N25grid = EaseReproject("EASE2_N25km")
         """
         self.gridname = gridname
-        g = re.match(r"(EASE_[NST])([0-9\.]+)km", gridname)
+        g = re.match(r"(EASE2_[NST])([0-9\.]+)km", gridname)
         if g is None:
             print(
                 "%s: error parsing gridname %s" % (__name__, gridname),
