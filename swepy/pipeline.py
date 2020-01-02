@@ -1,7 +1,7 @@
 # author: Will Norris --> wino6687@colorado.edu, Earth Lab, CU Boulder
 from datetime import datetime, timedelta
 import swepy.nsidcDownloader as nsidcDownloader
-import swepy.ease2Transform as ease2Transform
+import swepy.easeReproject as easeReproject
 import numpy as np
 from netCDF4 import Dataset
 from skimage.measure import block_reduce
@@ -197,15 +197,15 @@ class Swepy:
             lat1 > -50 and lat2 > -50
         ):  # mid lat
             self.grid = "T"
-            self.ease = ease2Transform.ease2Transform("EASE2_T3.125km")
+            self.ease = easeReproject.EaseReproject("EASE2_T3.125km")
         elif (lat1 > 40 and lat2 > 40) and (lat1 < 90 and lat2 < 90):  # north
             self.grid = "N"
-            self.ease = ease2Transform.ease2Transform("EASE2_N3.125km")
+            self.ease = easeReproject.EaseReproject("EASE2_N3.125km")
         elif (lat1 < -40 and lat2 < -40) and (
             lat1 > -90 and lat2 > -90
         ):  # South
             self.grid = "S"
-            self.ease = ease2Transform.ease2Transform("EASE2_S3.125km")
+            self.ease = easeReproject.EaseReproject("EASE2_S3.125km")
         else:
             print(
                 "SWEpy currently only supports subsetting study areas with a study area in the North, South, or Equatorial imagery \
@@ -756,7 +756,7 @@ class Swepy:
         tb = self.safe_subtract(tb_19H, tb_37H)
         lats = np.zeros((len(y), len(x)), dtype=np.float64)
         lons = np.zeros((len(y), len(x)), dtype=np.float64)
-        grid = ease2Transform.ease2Transform(
+        grid = easeReproject.EaseReproject(
             gridname=fid_19H.variables["crs"].long_name
         )
         one_day = tb[day, :, :]
