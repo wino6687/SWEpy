@@ -8,7 +8,7 @@ resolutions = ["25", "12.5", "6.25", "3.125"]
 
 class EaseReproject:
     gridname = None
-    epsg4326Proj4text = "+proj=longlat +ellps=WGS84 +datum=WSG84 +no_defs"
+    epsg4326Proj4text = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
 
     def __init__(self, gridname=None, verbose=False):
         """
