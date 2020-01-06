@@ -1,19 +1,6 @@
 Installing SWEpy
 ================
 
-SWEpy is comprised of 4 modules: 
-
-``swepy.pipeline`` 
-    The primary data pipeline for swepy. It manages the downloading, subsetting, and concatenation of passive microwave data.
-``swepy.process``
-    The processing module for SWEpy. It allows users to smooth spikes generated from the resampling process in the dataset.
-``swepy.analysis``
-    The analysis module for SWEpy. It allows users to find quick information about their study area, like understanding how the intial date of total melt changes through the time series
-``swepy.nsidcDownloader``
-    The web scraping module that powers the ``pipeline`` module. It can be used independently, but is completley interfaced in ``swepy.pipeline`` so there is little need to use it directly.
-
-There are more in depth explanations of each module under their respective documentation page.
-
 Installing SWEpy
 ----------------
 
@@ -41,4 +28,21 @@ Now in Python you will be able to import SWEpy and its submodules.
     >>> from swepy import process
     >>> from swepy import analysis
     >>> from swepy import nsidcDownloader
+    
 
+Installation Troubleshooting
+----------------------------
+
+Many of the issues that can arise when importing SWEpy for the first time are related to dependency conflicts in your conda environment. 
+GDAL in particular tends to produce dependency issues. Since open source python libraries are always evolving, it is common for the "links" between the to be broken after updates occur. 
+
+To solve this, activate your conda environment: 
+
+``conda activate swepy_env``
+
+Then update all of the libraries in your environment: 
+
+``conda update --all``
+
+Generally this will solve most dependency issues, but if it does not, try checking if any critical dependencies have been updated recently. 
+If something was recently updated, rolling it back to the second latest release may fix issues in your environment. 

@@ -10,14 +10,13 @@ from skimage.measure import block_reduce
 import math
 from scipy.signal import savgol_filter
 from scipy.cluster.vq import *
-from swepy.pipeline import Swepy
 import jenkspy
 import numpy.ma as ma
 from netCDF4 import Dataset
 from multiprocessing import Pool, Process, cpu_count
 
 
-def get_array(file, high=True):
+def get_array(file):
     """
     Take 19H and 37H netCDF files, open and store tb
     data in np arrays
@@ -34,7 +33,8 @@ def get_array(file, high=True):
     """
     fid = Dataset(file, "r", format="NETCDF4")
     tb = fid.variables["TB"][:]
-    if fid.variables["crs"].long_name == "EASE2_N3.125km" and high is True:
+    fid.close()
+    if fid.variables["crs"].long_name == "EASE2_N3.125km":
         tb[tb.mask] = 0.00001
         tb = block_reduce(tb, block_size=(1, 2, 2), func=np.mean)
         return ma.masked_values(tb, 0.00001)
@@ -152,7 +152,7 @@ def auto_filter(file19, file37):  # filter_swe is either filter on tb or swe
     cube19, cube37 = get_array(file19, file37)
     clean19 = vector_clean(cube19)
     clean37 = vector_clean(cube37)
-    swe = Swepy.safe_subtract(clean19, clean37)
+    swe = safe_subtract(clean19, clean37)
     return apply_filter_mphelper(swe)
 
 
@@ -218,3 +218,29 @@ def mask_ocean_winter(swe_matrix, day=0, nclasses=3):
     matrix_mask[:, :, :] = winter_day[np.newaxis, :, :] == -8888
     swe_matrix[matrix_mask] = -8888
     return swe_matrix
+
+
+def safe_subtract(tb19, tb37):
+    """
+    Check size of each file, often the 19 and 37
+    matrices are one unit off of eachother.
+
+    Chops the larger matrix to match the smaller matrix
+    """
+
+    shape1 = np.shape(tb19)
+    shape2 = np.shape(tb37)
+    s1 = [shape1[0], shape1[1], shape1[2]]
+    s2 = [shape2[0], shape2[1], shape2[2]]
+    if s1[1] < s2[1]:
+        s2[1] = s1[1]
+    elif s1[1] > s2[1]:
+        s1[1] = s2[1]
+    if s1[2] < s2[2]:
+        s2[2] = s1[2]
+    elif s1[2] > s2[2]:
+        s1[2] = s2[2]
+    tb19 = tb19[:, : s1[1] - 1, : s1[2] - 1]
+    tb37 = tb37[:, : s2[1] - 1, : s2[2] - 1]
+    tb = tb19 - tb37
+    return tb
