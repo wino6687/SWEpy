@@ -31,7 +31,7 @@ def get_array(file, high=True):
         true = high resolution imagery (3.125km/6.25km)
         false = low resolution imagery (25km)
     """
-    fid = Dataset(file, "r", format="NETCDF4")
+    fid = Dataset(file, "r")
     tb = fid.variables["TB"][:]
     fid.close()
     if fid.variables["crs"].long_name == "EASE2_N3.125km" and high is True:
