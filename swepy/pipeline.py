@@ -719,6 +719,8 @@ class Swepy:
             )
         return proceed
 
+
+'''
     def plot_a_day(self, token, files=None, inday=None):
         """Plot swe subset with mapbox for confirmation of study area
 
@@ -737,11 +739,11 @@ class Swepy:
         day = 0 if inday is None else inday
         # if no files passed, use final concatenated cubes
         if files is None:
-            fid_19H = Dataset(self.concatlist[0], "r", format="NETCDF4")
-            fid_37H = Dataset(self.concatlist[1], "r", format="NETCDF4")
+            tb_19 = process.get_array(self.concatlist[0], "r", format="NETCDF4")
+            tb_37 = process.get_array(self.concatlist[1], "r", format="NETCDF4")
         else:
-            fid_19H = Dataset(files[0], "r", format="NETCDF4")
-            fid_37H = Dataset(files[1], "r", format="NETCDF4")
+            tb_19 = process.get_array(files[0], "r", format="NETCDF4")
+            fid_37H = process.get_array(files[1], "r", format="NETCDF4")
 
         # extract x,y, and tb from cubes
         x = fid_19H.variables["x"][:]
@@ -753,6 +755,7 @@ class Swepy:
             tb_37H[tb_37H.mask] = 0.00001
             tb_37H = block_reduce(tb_37H, block_size=(1, 2, 2), func=np.mean)
             tb_37H = ma.masked_values(tb_37H, 0.00001)
+
         tb = self.safe_subtract(tb_19H, tb_37H)
         lats = np.zeros((len(y), len(x)), dtype=np.float64)
         lons = np.zeros((len(y), len(x)), dtype=np.float64)
@@ -802,3 +805,4 @@ class Swepy:
         )
 
         viz.show()
+'''
