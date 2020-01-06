@@ -16,7 +16,7 @@ from netCDF4 import Dataset
 from multiprocessing import Pool, Process, cpu_count
 
 
-def get_array(file):
+def get_array(file, high=True):
     """
     Take 19H and 37H netCDF files, open and store tb
     data in np arrays
@@ -34,7 +34,7 @@ def get_array(file):
     fid = Dataset(file, "r", format="NETCDF4")
     tb = fid.variables["TB"][:]
     fid.close()
-    if fid.variables["crs"].long_name == "EASE2_N3.125km":
+    if fid.variables["crs"].long_name == "EASE2_N3.125km" and high is True:
         tb[tb.mask] = 0.00001
         tb = block_reduce(tb, block_size=(1, 2, 2), func=np.mean)
         return ma.masked_values(tb, 0.00001)
