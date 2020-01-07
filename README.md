@@ -65,9 +65,12 @@ python -m ipykernel install --user --name <env name> --display-name "<display na
 from swepy.swepy import swepy
 ```
 
-2. Instantiate the class with working directory, date range, bounding coordinates, and earthdata username and password
+2. Instantiate the class with working directory and bounding coordinates
+- To scrape data you must also set your Earthdata login and desired date range
 
 	```{python}
+	from swepy import pipeline
+
 	upper_left = [lon_upleft, lat_upleft]
 	lower_right = [lon_lowright, lat_lowright]
 
@@ -79,7 +82,9 @@ from swepy.swepy import swepy
 	username = "username"
 	password = "password"
 
-	swe = swepy(path, start, end, upper_left, lower_right, username, password, high_res = True)
+	swe = pipeline.Swepy(path, upper_left, lower_right, high_res = True)
+	swe.set_login(username, password)
+	swe.set_dates(start, end)
 	```
 
 3. Don't forget to orient your upper-left and lower-right bounding coordinates with the EASE Grid 2.0 Orientation:
@@ -101,14 +106,14 @@ from swepy.swepy import swepy
 	```
  	b. Or, use ```scrape_all``` to avoid massive file sizes:
 	```{python}
-	swepy.scrape_all()
+	swe.scrape_all()
 	```
 	This limits the number of full-size images on your disk at one time.
 
 
-6. If you need to give the class more information, or change information it already has, use the ```set_params``` function:
+6. If you need to give the class more information, or change information it already has, use one of the ```set_``` functions:
 	```{python}
-	swe.set_params(ul = [-145,66], lr = [-166, -16])
+	swe.set_grid(ul = [-145,66], lr = [-166, -16])
 	```
 
 ## Using SWEpy's Web Scraper Alone:
