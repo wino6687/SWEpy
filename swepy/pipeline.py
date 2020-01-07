@@ -709,7 +709,11 @@ class Swepy:
         }
         for key, value in params.items():
             if value is None:
-                print("{} needs to be set by 'set_params'".format(key))
+                print(
+                    "{} needs to be set by the appropriate 'set_' function".format(
+                        key
+                    )
+                )
                 proceed = False
         if proceed is False:
             print(
