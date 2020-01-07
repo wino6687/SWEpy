@@ -29,8 +29,8 @@ requirements:
 
 about:
   home: https://github.com/wino6687/SWEpy
-  license: LGPLv3
-  license_familY: GPL
+  license: MIT
+  license_familY: MIT
   license_file: LICENSE
   summary: "Easy, quick access to CETB files for SWE analysis"
 
