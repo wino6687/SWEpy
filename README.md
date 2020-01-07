@@ -8,7 +8,7 @@
 ## SWEpy
 ![conda downloads](https://img.shields.io/conda/dn/conda-forge/swepy?label=conda-forge%20downloads)
 ![conda-forge Version](https://img.shields.io/conda/v/conda-forge/swepy)
-![[PyPI version](https://badge.fury.io/py/swepy.svg)](https://badge.fury.io/py/swepy)  
+![PyPI version](https://badge.fury.io/py/swepy.svg) 
 ![Python Version](https://img.shields.io/pypi/pyversions/Django.svg)[![codecov](https://codecov.io/gh/wino6687/SWEpy/branch/master/graph/badge.svg)](https://codecov.io/gh/wino6687/SWEpy)
 
 # SWEpy Quick Start Guide
