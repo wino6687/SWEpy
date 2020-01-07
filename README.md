@@ -1,6 +1,6 @@
 [![PyPI version](https://badge.fury.io/py/swepy.svg)](https://badge.fury.io/py/swepy)      [![Build Status](https://travis-ci.org/wino6687/SWEpy.svg?branch=master)](https://travis-ci.org/wino6687/SWEpy)
 [![Documentation Status](https://readthedocs.org/projects/swepy/badge/?version=latest)](https://swepy.readthedocs.io/en/latest/?badge=latest)
-[![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
+[![license](https://img.shields.io/badge/license-MIT-brightgreen)]
 ![OS](https://img.shields.io/badge/OS-Linux64%2C%20MacOS-green.svg)
 [![DOI](https://zenodo.org/badge/132654953.svg)](https://zenodo.org/badge/latestdoi/132654953)
 ![Python Version](https://img.shields.io/pypi/pyversions/Django.svg)[![codecov](https://codecov.io/gh/wino6687/SWEpy/branch/master/graph/badge.svg)](https://codecov.io/gh/wino6687/SWEpy)
