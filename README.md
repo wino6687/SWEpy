@@ -1,5 +1,6 @@
-[![Build Status](https://travis-ci.org/wino6687/SWEpy.svg?branch=master)](https://travis-ci.org/wino6687/SWEpy)
-[![Documentation Status](https://readthedocs.org/projects/swepy/badge/?version=latest)](https://swepy.readthedocs.io/en/latest/?badge=latest)
+![Build Status](https://travis-ci.org/wino6687/SWEpy.svg?branch=master)
+![codecov](https://codecov.io/gh/wino6687/SWEpy/branch/master/graph/badge.svg)
+![Documentation Status](https://readthedocs.org/projects/swepy/badge/?version=latest)(https://swepy.readthedocs.io/en/latest/?badge=latest)
 ![license](https://img.shields.io/badge/license-MIT-brightgreen)
 ![OS](https://img.shields.io/badge/OS-Linux64%2C%20MacOS-green.svg)
 [![DOI](https://zenodo.org/badge/132654953.svg)](https://zenodo.org/badge/latestdoi/132654953)
@@ -9,7 +10,8 @@
 ![conda downloads](https://img.shields.io/conda/dn/conda-forge/swepy?label=conda-forge%20downloads)
 ![conda-forge Version](https://img.shields.io/conda/v/conda-forge/swepy)
 ![PyPI version](https://badge.fury.io/py/swepy.svg) 
-![Python Version](https://img.shields.io/pypi/pyversions/Django.svg)[![codecov](https://codecov.io/gh/wino6687/SWEpy/branch/master/graph/badge.svg)](https://codecov.io/gh/wino6687/SWEpy)
+![Python Version](https://img.shields.io/pypi/pyversions/Django.svg)
+
 
 # SWEpy Quick Start Guide
 ### For Full Documentation, Please see the [Read The Docs](https://swepy.readthedocs.io/en/latest/)!
