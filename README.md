@@ -1,6 +1,6 @@
 ![Build Status](https://travis-ci.org/wino6687/SWEpy.svg?branch=master)
 ![codecov](https://codecov.io/gh/wino6687/SWEpy/branch/master/graph/badge.svg)
-![Documentation Status](https://readthedocs.org/projects/swepy/badge/?version=latest)
+[![Documentation Status](https://readthedocs.org/projects/swepy/badge/?version=latest)](https://swepy.readthedocs.io/en/latest/?badge=latest)
 ![license](https://img.shields.io/badge/license-MIT-brightgreen)
 ![OS](https://img.shields.io/badge/OS-Linux64%2C%20MacOS-green.svg)
 [![DOI](https://zenodo.org/badge/132654953.svg)](https://zenodo.org/badge/latestdoi/132654953)
