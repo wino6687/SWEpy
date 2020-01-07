@@ -6,14 +6,14 @@
 [![DOI](https://zenodo.org/badge/132654953.svg)](https://zenodo.org/badge/latestdoi/132654953)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-## SWEpy
+# SWEpy
 ![conda downloads](https://img.shields.io/conda/dn/conda-forge/swepy?label=conda-forge%20downloads)
 ![conda-forge Version](https://img.shields.io/conda/v/conda-forge/swepy)
 ![PyPI version](https://badge.fury.io/py/swepy.svg) 
 ![Python Version](https://img.shields.io/pypi/pyversions/Django.svg)
 
 
-# SWEpy Quick Start Guide
+# Quick Start Guide
 ### For Full Documentation, Please see the [Read The Docs](https://swepy.readthedocs.io/en/latest/)!
 
 SWEpy is a Python library designed to simplify access to a [passive microwave brightness temperature dataset](https://doi.org/10.5067/MEASURES/CRYOSPHERE/NSIDC-0630.001) available at the National Snow and Ice Data Center (NSIDC). This dataset contains Northern and Southern hemisphere imagery along with Equatorial imagery, and can be quite useful in analyzing snow water equivalent (SWE) over large spatial extents. SWEpy contains tools to web scrape, geographically subset, and concatenate files into time cubes. There is an automated workflow to scrape long time series while periodically stopping to geographically subset and concatenate files in order to reduce disk impact.
