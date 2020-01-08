@@ -62,6 +62,23 @@ In order to do this, all you need to change is set the bounding corners to the g
     upper_left = "N"
     lower_right = "N"
 
+SWEpy ``set_`` functions
+------------------------
+When you instantiate the ``Swepy`` class you provide your desired bounding coordinates and whether you would like to scrape high
+resolution imagery or not. However, in order to scrape imagery we also need your Earthdata login and a date range.
+
+- Setting Dates: ``swe.set_dates(start_date, end_date)``
+
+    - Dates are datetime objects 
+
+- Setting Login: ``swe.set_login("username", "password")``
+
+While SWEpy asks you to set your bounding coordinates when you instantiate your class, you can always reset it: 
+
+- Setting Grid: ``swe.set_grid(upper_left, lower_right)``
+
+    - Each coordinate is a list of two floats: [lat, lon]
+
 
 Preset Information Stored in SWEpy
 ----------------------------------
