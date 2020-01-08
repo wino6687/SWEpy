@@ -175,7 +175,8 @@ autodoc_mock_imports = [
     "gdal",
     "osgeo",
     "jenkspy",
-    "scikit-image",
+    "skimage",
+    "nco",
 ]
 
 sys.modules.update((mod_name, Mock()) for mod_name in autodoc_mock_imports)
