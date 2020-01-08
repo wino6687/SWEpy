@@ -18,7 +18,8 @@
 # sys.path.insert(0, os.path.abspath("../.."))
 
 # -- Project information -----------------------------------------------------
-
+import sys
+from unittest.mock import MagicMock
 
 project = "SWEpy"
 copyright = "2019, will norris"
@@ -157,6 +158,17 @@ texinfo_documents = [
     )
 ]
 
+
+class Mock(MagicMock):
+    @classmethod
+    def __getattr__(cls, name):
+        return MagicMock()
+
+
+class BaseGeometry(object):
+    pass
+
+
 autodoc_mock_imports = [
     "scikit-image",
     "pynco",
@@ -168,3 +180,5 @@ autodoc_mock_imports = [
     "jenkspy",
     "scikit-image",
 ]
+
+sys.modules.update((mod_name, Mock()) for mod_name in autodoc_mock_imports)
