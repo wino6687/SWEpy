@@ -176,6 +176,7 @@ autodoc_mock_imports = [
     "jenkspy",
     "skimage",
     "nco",
+    "scipy",
 ]
 
 sys.modules.update((mod_name, Mock()) for mod_name in autodoc_mock_imports)
