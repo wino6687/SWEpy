@@ -166,7 +166,6 @@ class Mock(MagicMock):
 
 
 autodoc_mock_imports = [
-    "scikit-image",
     "pynco",
     "netCDF4",
     "affine",
