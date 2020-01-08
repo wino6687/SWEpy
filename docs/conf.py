@@ -22,8 +22,8 @@ import sys
 from unittest.mock import MagicMock
 
 project = "SWEpy"
-copyright = "2019, will norris"
-author = "will norris"
+copyright = "2019, William Norris"
+author = "Will Norris"
 
 # The short X.Y version
 version = ""
