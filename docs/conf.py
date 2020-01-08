@@ -165,10 +165,6 @@ class Mock(MagicMock):
         return MagicMock()
 
 
-class BaseGeometry(object):
-    pass
-
-
 autodoc_mock_imports = [
     "scikit-image",
     "pynco",
@@ -177,6 +173,7 @@ autodoc_mock_imports = [
     "geopandas",
     "xarray",
     "gdal",
+    "osgeo",
     "jenkspy",
     "scikit-image",
 ]
