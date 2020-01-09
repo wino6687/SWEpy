@@ -1,5 +1,5 @@
-Getting Started with SWEpy
-==========================
+Instantiating SWEpy Class
+=========================
 
 SWEpy has a range of functionality, but the main use case is obtaining SWE data within a given study region
 without needing massive amounts of disc space. 
@@ -46,21 +46,6 @@ In order to scrape, subset, and concatenate imagery into a single time cube, we 
     swepy.set_dates(start, end)
 
 
-Scraping Entire Grid Imagery
-----------------------------
-Instead of subsetting data based on an area of interest, SWEpy also supports scraping entire grids instead.
-In order to do this, all you need to change is set the bounding corners to the grid name: 
-
-- North: "N"
-
-- South: "S"
-
-- Equator: "T"
-
-.. code-block:: python 
-
-    upper_left = "N"
-    lower_right = "N"
 
 SWEpy ``set_`` functions
 ------------------------
@@ -78,6 +63,23 @@ While SWEpy asks you to set your bounding coordinates when you instantiate your 
 - Setting Grid: ``swe.set_grid(upper_left, lower_right)``
 
     - Each coordinate is a list of two floats: [lat, lon]
+
+
+Scraping Entire Grid Imagery
+----------------------------
+Instead of subsetting data based on an area of interest, SWEpy also supports scraping entire grids instead.
+In order to do this, all you need to change is set the bounding corners to the grid name: 
+
+- North: "N"
+
+- South: "S"
+
+- Equator: "T"
+
+.. code-block:: python 
+
+    upper_left = "N"
+    lower_right = "N"
 
 
 Preset Information Stored in SWEpy
