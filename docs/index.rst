@@ -32,10 +32,10 @@ There are more in depth explanations of each module under their respective docum
    :caption: Contents:
 
    installing_swepy
-   api
    getting_started
    pipeline_walkthrough
    advanced_use
+   api
 
 
 Indices and tables
