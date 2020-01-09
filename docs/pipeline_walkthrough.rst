@@ -1,8 +1,8 @@
-Obtaining, Subsetting, Concatenating Data
-=========================================
+Accessing Data with SWEpy ``pipeline``
+======================================
 
-SWEpy's Pipeline
-----------------
+Obtaining, Subsetting, Concatenating Data
+-----------------------------------------
 
 SWEpy's data ``pipeline`` is built around three functions: 
 
