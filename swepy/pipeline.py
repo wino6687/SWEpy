@@ -11,8 +11,6 @@ from tqdm import tqdm
 import glob
 import xarray
 import fsspec
-from mapboxgl.utils import create_color_stops, df_to_geojson
-from mapboxgl.viz import CircleViz
 import numpy.ma as ma
 
 

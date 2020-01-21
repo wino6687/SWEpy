@@ -23,10 +23,8 @@ def get_array(file):
 
     Parameters
     -----------
-    file19: str
-        filename for 19H file
-    file37: str
-        filename for 37H file
+    file: str
+        filename for 19H or 37H file
     high: bool
         true = high resolution imagery (3.125km/6.25km)
         false = low resolution imagery (25km)

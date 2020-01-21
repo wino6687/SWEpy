@@ -7,9 +7,33 @@ import os
 import swepy.easeReproject as easeReproject
 import pandas as pd
 import numpy.ma as ma
+from netCDF4 import Dataset
 
 
-def plot_a_day(self, token, files, inday=None):
+def extract_arrays(file):
+    """
+    Extract TB, x, y arrays from either 19H or 37H files.
+
+    Parameters
+    ----------
+    file: str
+        filename for 19H or 37H file
+    """
+    fid = Dataset(file, "r", format="NETCDF4")
+    tb = fid.variables["TB"][:]
+    x = fid.variables["x"][:]
+    y = fid.variables["y"][:]
+    if fid.variables["crs"].long_name == "EASE2_N3.125km":
+        tb[tb.mask] = 0.00001
+        tb = block_reduce(tb, block_size=(1, 2, 2), func=np.mean)
+        fid.close()
+        return ma.masked_values(tb, 0.00001)
+    else:
+        fid.close()
+        return tb, x, y
+
+
+def plot_a_day(token, files, working_dir=os.getcwd(), inday=None):
     """Plot swe subset with mapbox for confirmation of study area
 
     Takes final files from workflow, opens them, dumps info into geojson
@@ -21,32 +45,25 @@ def plot_a_day(self, token, files, inday=None):
         mapbox token
     files: list
         list of file names ['19H', '37H']
+    working_dir: str
+        the location you would like to store geojson data
     inday: int
         day of time series to plot on, defaults to 0
     """
+    # DATE SETUP
     day = 0 if inday is None else inday
-    # if no files passed, use final concatenated cubes
-    fid_19H = process.get_array(files[0])
-    fid_37H = process.get_array(files[1])
 
-    # extract x,y, and tb from cubes
-    x = fid_19H.variables["x"][:]
-    y = fid_19H.variables["y"][:]
+    tb19, x, y = extract_arrays(files[0])
+    tb37 = extract_arrays(files[1])
 
-    tb_19H = fid_19H.variables["TB"][:]
-    tb_37H = fid_37H.variables["TB"][:]
-    if self.high_res is True:  # downsample tb37
-        tb_37H[tb_37H.mask] = 0.00001
-        tb_37H = block_reduce(tb_37H, block_size=(1, 2, 2), func=np.mean)
-        tb_37H = ma.masked_values(tb_37H, 0.00001)
-
-    tb = self.safe_subtract(tb_19H, tb_37H)
+    tb = process.safe_subtract(tb19, tb37)
     lats = np.zeros((len(y), len(x)), dtype=np.float64)
     lons = np.zeros((len(y), len(x)), dtype=np.float64)
-    grid = easeReproject.EaseReproject(
-        gridname=fid_19H.variables["crs"].long_name
-    )
+    grid = easeReproject.EaseReproject(gridname="EASE2_N6.25km")
     one_day = tb[day, :, :]
+    row_c, col_c = grid.map_to_grid(x[0], y[0])
+    lat_c, lon_c = grid.grid_to_geographic(row_c, col_c)
+    # DATAFRAME CREATION (SLOW)
     df = pd.DataFrame(columns=["lat", "lon", "swe"])
     for i, xi in enumerate(x):
         for j, yj in enumerate(y):
@@ -60,7 +77,9 @@ def plot_a_day(self, token, files, inday=None):
                 {"lat": lats[i][j], "lon": lons[i][j], "swe": one_day[i][j]},
                 ignore_index=True,
             )
-    os.chdir(self.working_dir)
+
+    # SAVE DATAFRAME AS GEOJSON
+    os.chdir(working_dir)
     df_to_geojson(
         df,
         filename="swe_1day.geojson",
@@ -79,7 +98,7 @@ def plot_a_day(self, token, files, inday=None):
         access_token=token,
         color_property="swe",
         color_stops=color_stops,
-        center=(self.center),
+        center=(lon_c, lat_c),  # FIX CENTER, GET FROM INPUT FILES
         zoom=3,
         below_layer="waterway-label",
     )
