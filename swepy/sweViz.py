@@ -77,7 +77,6 @@ def plot_a_day(token, files, working_dir=os.getcwd(), inday=None):
                 {"lat": lats[i][j], "lon": lons[i][j], "swe": one_day[i][j]},
                 ignore_index=True,
             )
-
     # SAVE DATAFRAME AS GEOJSON
     os.chdir(working_dir)
     df_to_geojson(

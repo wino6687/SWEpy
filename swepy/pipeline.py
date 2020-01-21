@@ -272,7 +272,7 @@ class Swepy:
             Under the hood variable to allow for auto workflow
 
         in_dir: str
-            (Optional) directory with wget data stored in it.
+            (Optional) directory with input data stored in it.
             Default: "working_dir/data/wget"
 
         out_dir19: str
@@ -285,6 +285,13 @@ class Swepy:
         """
 
         os.chdir(self.working_dir + "/data")
+
+        if in_dir:
+            os.chdir(in_dir)
+            self.down19list = glob.glob("*19H*")
+            self.down37list = glob.glob("*37H*")
+            os.chdir("..")
+
         for file in tqdm(self.down19list):
             outfile = (
                 self.path19 + file if out_dir19 is None else out_dir19 + file
