@@ -266,6 +266,13 @@ def test_gf_low_TA():
     }
 
 
+def test_df_low_2008(swepy_obj):
+    swepy_obj.set_login()
+    date = datetime.datetime(2008, 3, 10)
+    result_file = swepy_obj.get_file(date, "19H")
+    assert result_file["platform"] == "F17"
+
+
 def test_df_smmr():
     s1 = Swepy(os.getcwd(), ul="N", lr="N")
     s1.set_login()
