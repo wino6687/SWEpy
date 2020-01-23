@@ -63,6 +63,7 @@ def plot_a_day(token, files, working_dir=os.getcwd(), inday=None):
     one_day = tb[day, :, :]
     row_c, col_c = grid.map_to_grid(x[0], y[0])
     lat_c, lon_c = grid.grid_to_geographic(row_c, col_c)
+
     # DATAFRAME CREATION (SLOW)
     df = pd.DataFrame(columns=["lat", "lon", "swe"])
     for i, xi in enumerate(x):
@@ -79,7 +80,7 @@ def plot_a_day(token, files, working_dir=os.getcwd(), inday=None):
             )
     # SAVE DATAFRAME AS GEOJSON
     os.chdir(working_dir)
-    df_to_geojson(
+    data = df_to_geojson(
         df,
         filename="swe_1day.geojson",
         properties=["swe"],
@@ -93,7 +94,7 @@ def plot_a_day(token, files, working_dir=os.getcwd(), inday=None):
     color_stops = create_color_stops(color_breaks, colors="YlGnBu")
     # Create the viz from the dataframe
     viz = CircleViz(
-        "swe_1day.geojson",
+        data,
         access_token=token,
         color_property="swe",
         color_stops=color_stops,
