@@ -78,7 +78,7 @@ def test_set_params_dates():
 
 
 def test_set_dates_valerror(swepy_obj):
-    with pytest.raises(ValueError):
+    with pytest.raises(Exception):
         swepy_obj.set_dates("day1", "1-1-2014")
 
 
