@@ -35,10 +35,10 @@ def test_nodir():
     assert s1.working_dir == os.getcwd()
 
 
-def test_check_params_false():
-    ul = [66, -145]
-    s1 = Swepy(os.getcwd(), ul, ul)
-    assert s1.check_params() is False
+def test_check_params_false(swepy_obj):
+    # ul = [66, -145]
+    # s1 = Swepy(os.getcwd(), ul, ul)
+    assert swepy_obj.check_params() is False
 
 
 def test_check_params_true():
