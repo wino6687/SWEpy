@@ -358,6 +358,16 @@ def test_gs_evening_edge():
     }
 
 
+def test_get_file_1991(swepy_obj):
+    """
+    get_sensor has an edge case on (1991, 3, 10)
+    """
+    swepy_obj.set_login()
+    date = datetime.datetime(1991, 3, 10)
+    result_file = swepy_obj.get_file(date, "19H")
+    assert result_file["platform"] == "F08"
+
+
 def test_safe_subtract1():
     s1 = Swepy(os.getcwd())
     tb19 = np.ones((1, 152, 153))
