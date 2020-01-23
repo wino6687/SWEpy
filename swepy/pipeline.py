@@ -115,6 +115,7 @@ class Swepy:
         except ValueError:
             self.dates = None
             print("No valid dates given")
+            return ValueError
         return
 
     def set_login(self, username=None, password=None):
