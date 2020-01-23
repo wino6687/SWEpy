@@ -270,7 +270,7 @@ def test_df_low_2008():
     s1 = Swepy(os.getcwd(), ul="N", lr="N", high_res=False)
     s1.set_login()
     date = datetime.datetime(2008, 3, 10)
-    result_file = swepy_obj.get_file(date, "19H")
+    result_file = s1.get_file(date, "19H")
     assert result_file["platform"] == "F17"
 
 
@@ -460,12 +460,12 @@ def test_concat_grid():
     s1 = Swepy(os.getcwd(), ul="N", lr="N")
     setattr(
         s1,
-        "sub19list",
+        "down19list",
         ["NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc"],
     )
     setattr(
         s1,
-        "sub37list",
+        "down37list",
         ["NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc"],
     )
     s1.concatenate()
