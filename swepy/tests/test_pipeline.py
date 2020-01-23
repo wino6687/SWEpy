@@ -62,14 +62,14 @@ def test_set_params_bounds():
 
 def test_set_params_auth():
     start = datetime.date(2010, 1, 1)
-    s1 = Swepy(os.getcwd(), ul=[66, -145], lr=[73, -166])
+    s1 = Swepy(os.getcwd(), ul=[66, -145], lr=[73, -166])  # swe_object
     s1.set_dates(start, start)
     s1.set_login(username="test", password="test")
     assert s1.check_params() is True
 
 
 def test_set_params_dates():
-    s1 = Swepy(os.getcwd(), ul=[66, -145], lr=[73, -166])
+    s1 = Swepy(os.getcwd(), ul=[66, -145], lr=[73, -166])  # swe_object
     s1.set_login("test", "test")
     s1.set_dates(
         start=datetime.date(2010, 1, 1), end=datetime.date(2010, 1, 1)
@@ -79,7 +79,7 @@ def test_set_params_dates():
 
 def test_set_dates_valerror(swepy_obj):
     with pytest.raises(ValueError):
-        swepy_obj.set_dates(1, 4)
+        swepy_obj.set_dates("day1", "1-1-2014")
 
 
 def test_get_grid_N():
