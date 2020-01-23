@@ -78,8 +78,8 @@ def test_set_params_dates():
 
 
 def test_set_dates_valerror(swepy_obj):
-    with pytest.raises(Exception):
-        swepy_obj.set_dates("day1", "1-1-2014")
+    result = swepy_obj.set_dates("day1", "1-1-2014")
+    assert result == ValueError
 
 
 def test_get_grid_N():
