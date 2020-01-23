@@ -1,4 +1,4 @@
-# Unit Testing for SWEpy
+# Unit Testing for SWEpy pipeline
 import os
 from swepy.pipeline import Swepy
 from swepy.nsidcDownloader import nsidcDownloader
@@ -7,12 +7,6 @@ import pytest
 import datetime
 import numpy as np
 from shutil import copy
-
-
-def test_login():
-    s1 = Swepy()
-    s1.set_login(None, None)
-    assert s1.nD is None
 
 
 def set_login_test(self, username="test", password="test"):
@@ -25,6 +19,12 @@ def set_login_test(self, username="test", password="test"):
     self.nD.password = "test"
     self.username = username
     self.password = password
+
+
+@pytest.fixture
+def swepy_obj():
+    s1 = Swepy(os.getcwd(), ul=[66, -145], lr=[73, -166])
+    return s1
 
 
 Swepy.set_login = set_login_test
@@ -75,6 +75,11 @@ def test_set_params_dates():
         start=datetime.date(2010, 1, 1), end=datetime.date(2010, 1, 1)
     )
     assert s1.check_params() is True
+
+
+def test_set_dates_valerror(swepy_obj):
+    with pytest.raises(ValueError):
+        swepy_obj.set_dates(1, 4)
 
 
 def test_get_grid_N():
