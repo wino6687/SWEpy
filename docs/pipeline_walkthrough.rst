@@ -55,3 +55,30 @@ or
 The key difference of using ``scrape_all()`` versus each individual function is that
 ``scrape_all()`` is desinged to manage disc space. It will always stop scraping to subset and concatenate every
 300 days. This will keep disc impact below 10Gb at all times, which makes scraping on a local machine much easier.
+
+Subsetting Existing Data
+------------------------
+
+Sometimes we need to subset data that we have previously stored. This means SWEpy doesn't have the filepaths saved from scraping them.
+The important step of subsetting files on your machine is to put them in a folder inside your data directory. See the following example: 
+
+Data Directory: 
+
+.. code-block::
+    data/
+        wget/
+        Subsetted_19H/
+        Subsetted_37H/
+        <Your_Data_Here>/
+
+**Your data can go in two places:**
+1. Existing ''wget/'' folder 
+2. New folder you've created
+
+Example use after data is put in ``wget/`` folder:
+
+.. code-block:: python
+    ul = [60,-133]
+    lr = [69,-147]
+    swe = pipe.Swepy(ul=ul, lr=lr)
+    swe.subset(in_dir='wget/')
