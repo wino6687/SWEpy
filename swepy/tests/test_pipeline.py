@@ -9,6 +9,12 @@ import numpy as np
 from shutil import copy
 
 
+def test_login():
+    s1 = Swepy()
+    s1.set_login(None, None)
+    assert s1.nD is None
+
+
 def set_login_test(self, username="test", password="test"):
     """
         Monkey patched set_login function
