@@ -478,7 +478,7 @@ def test_concat():
 def test_convert_zarr():
     s1 = Swepy(os.getcwd())
     res = s1.convert_netcdf_zarr()
-    assert res == dict
+    assert type(res) == dict
 
 
 def test_clean_dirs():
