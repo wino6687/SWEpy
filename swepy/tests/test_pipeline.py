@@ -9,6 +9,16 @@ import numpy as np
 from shutil import copy
 
 
+@pytest.fixture
+def scraped_files():
+    date = datetime.date(2010, 1, 1)
+    s1 = Swepy(os.getcwd(), ul="N", lr="N")
+    s1.set_dates(date, date)
+    s1.set_login("test", "test")
+    files = s1.scrape()
+    return (files[0][0], files[1][0])
+
+
 def set_login_test(self, username="test", password="test"):
     """
         Monkey patched set_login function
@@ -479,6 +489,12 @@ def test_final_concat_fail():
     s1 = Swepy(os.getcwd())
     res = s1.final_concat()
     assert res == ("all_days_19H.nc", "all_days_37H.nc")
+
+
+def test_convert_zarr():
+    s1 = Swepy(os.getcwd())
+    res = s1.convert_netcdf_zarr()
+    assert res == dict
 
 
 # def test_scrape_all():
