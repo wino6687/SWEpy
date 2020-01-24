@@ -35,9 +35,14 @@ class nsidcDownloader:
         """
         Snow Water Equivalence downloader.
 
-        :param username: NASA Earthdata username
-        :param password: NASA Earthdata password
-        :param kwargs: keys to use as default in url_template
+        Parameters
+        ----------
+        username: str
+            NASA Earthdata username
+        password: str
+            NASA Earthdata password
+        kwargs: dict
+            keys to use as default in url_template
         """
 
         # Get formatting keys of url_template
