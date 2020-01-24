@@ -16,7 +16,7 @@ def test_ease_incorrect_res():
 
 def test_ease_incorrect_proj():
     with pytest.raises(ValueError):
-        EaseReproject("EASE3_W25km")
+        EaseReproject("EASE2_W25km")
 
 
 def test_grid_to_geo():
