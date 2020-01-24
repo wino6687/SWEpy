@@ -475,6 +475,12 @@ def test_concat():
 #     s1.concatenate()
 
 
+def test_convert_zarr():
+    s1 = Swepy(os.getcwd())
+    res = s1.convert_netcdf_zarr()
+    assert res == dict
+
+
 def test_clean_dirs():
     s1 = Swepy(os.getcwd())
     try:
@@ -489,12 +495,6 @@ def test_final_concat_fail():
     s1 = Swepy(os.getcwd())
     res = s1.final_concat()
     assert res == ("all_days_19H.nc", "all_days_37H.nc")
-
-
-def test_convert_zarr():
-    s1 = Swepy(os.getcwd())
-    res = s1.convert_netcdf_zarr()
-    assert res == dict
 
 
 # def test_scrape_all():
