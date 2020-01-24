@@ -102,3 +102,17 @@ def test_ocean_mask():
     array = np.ones((1, 142, 130))
     arr = process.mask_ocean_winter(array)
     assert type(arr) is np.ndarray
+
+
+def test_safe_subtract1():
+    tb19 = np.ones((1, 152, 153))
+    tb37 = np.ones((1, 154, 153))
+    tb = process.safe_subtract(tb19, tb37)
+    assert np.shape(tb) == (1, 151, 152)
+
+
+def test_safe_subtract2():
+    tb19 = np.ones((1, 154, 152))
+    tb37 = np.ones((1, 152, 153))
+    tb = process.safe_subtract(tb19, tb37)
+    assert np.shape(tb) == (1, 151, 151)
