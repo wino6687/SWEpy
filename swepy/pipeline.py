@@ -391,9 +391,13 @@ class Swepy:
         encoding37 = {
             vname: {"compressor": compressor} for vname in ds37.data_vars
         }
-        ds19.to_zarr(store=outname19, encoding=encoding19, consolidated=True)
-        ds37.to_zarr(store=outname37, encoding=encoding37, consolidated=True)
-        return
+        self.zarr19 = ds19.to_zarr(
+            store=outname19, encoding=encoding19, consolidated=True
+        )
+        self.zarr37 = ds37.to_zarr(
+            store=outname37, encoding=encoding37, consolidated=True
+        )
+        return {outname19: self.zarr19, outname37: self.zarr37}
 
     def get_sensor(self, date):
         """
