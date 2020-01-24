@@ -377,11 +377,6 @@ class Swepy:
         dict: {outname19:zarr_obj, outname37:zarr_obj}
             dictionary with filename as key and the zarr object generated as the value
         """
-        # ds19 = xarray.open_dataset(self.outfile_19, engine="netcdf4")
-        # ds37 = xarray.open_dataset(self.outfile_37, engine="netcdf4")
-        # self.zarr19 = ds19.to_zarr(outname19, "w")
-        # self.zarr37 = ds37.to_zarr(outname37, "w")
-        # return {outname19: self.zarr19, outname37: self.zarr37}
         ds19 = xarray.open_dataset(self.outfile_19)
         ds37 = xarray.open_dataset(self.outfile_37)
         compressor = zarr.Blosc(cname="zstd", clevel=3)
