@@ -456,17 +456,6 @@ def test_concat():
     assert "all_days_19H.nc" in list1
 
 
-def test_concat_grid():
-    date = datetime.date(2010, 1, 1)
-    s1 = Swepy(os.getcwd(), ul="N", lr="N")
-    s1.set_login("test", "test")
-    s1.set_dates(date, date)
-    s1.scrape()
-    s1.concatenate()
-    list1 = glob.glob("*all*")
-    assert "all_days_19H.nc" in list1
-
-
 # def test_concat_subFalse():
 #     s1 = swepy(os.getcwd(), ul='N',lr='N')
 #     copy('NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc', '/wget/NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc')
@@ -497,14 +486,3 @@ def test_final_concat_fail():
 #     s1 = swepy(os.getcwd(), start = date, end = date,ul = 'N', lr = 'N', username = 'test', password='test')
 #     res = s1.scrape_all()
 #     assert res == ['all_days_19H.nc', 'all_days_37H.nc']
-
-"""setattr(
-        s1,
-        "down19list",
-        ["NSIDC-0630-EASE2_N6.25km-F17_SSMIS-2010001-19H-M-SIR-CSU-v1.3.nc"],
-    )
-    setattr(
-        s1,
-        "down37list",
-        ["NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010001-37H-M-SIR-CSU-v1.3.nc"],
-)"""
