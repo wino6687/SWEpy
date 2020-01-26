@@ -33,6 +33,9 @@ def set_login_test(self, username="test", password="test"):
 
 @pytest.fixture
 def swepy_obj():
+    """
+    swepy object for testing
+    """
     s1 = Swepy(os.getcwd(), ul=[66, -145], lr=[73, -166])
     return s1
 
@@ -41,17 +44,24 @@ Swepy.set_login = set_login_test
 
 
 def test_nodir():
+    """
+    assert working directoy is set to current working directory when nothing is given to class
+    """
     s1 = Swepy(None)
     assert s1.working_dir == os.getcwd()
 
 
 def test_check_params_false(swepy_obj):
-    # ul = [66, -145]
-    # s1 = Swepy(os.getcwd(), ul, ul)
+    """
+    ensure check_params returns false when the class is not ready to scrape
+    """
     assert swepy_obj.check_params() is False
 
 
 def test_check_params_true():
+    """
+    ensure check params returns true when the class is prepared to scrape files
+    """
     start = datetime.date(2010, 1, 1)
     ul = [66, -145]
     lr = [76, -166]
@@ -62,6 +72,9 @@ def test_check_params_true():
 
 
 def test_set_params_bounds():
+    """
+    test the ability to set grid bounds after class instantiation
+    """
     start = datetime.date(2010, 1, 1)
     s1 = Swepy(os.getcwd())
     s1.set_dates(start, start)
@@ -71,6 +84,9 @@ def test_set_params_bounds():
 
 
 def test_set_params_auth():
+    """
+    ensure ability to login to Earth Data
+    """
     start = datetime.date(2010, 1, 1)
     s1 = Swepy(os.getcwd(), ul=[66, -145], lr=[73, -166])  # swe_object
     s1.set_dates(start, start)
@@ -79,6 +95,9 @@ def test_set_params_auth():
 
 
 def test_set_params_dates():
+    """
+    ensure ability to set date range after class instantiation
+    """
     s1 = Swepy(os.getcwd(), ul=[66, -145], lr=[73, -166])  # swe_object
     s1.set_login("test", "test")
     s1.set_dates(
@@ -88,11 +107,17 @@ def test_set_params_dates():
 
 
 def test_set_dates_valerror(swepy_obj):
+    """
+    assert valueerror is received when incorrect dates are given
+    """
     result = swepy_obj.set_dates("day1", "1-1-2014")
     assert result == ValueError
 
 
 def test_get_grid_N():
+    """
+    assert proper grid is determined from lat/lon in North Hemi
+    """
     s1 = Swepy(os.getcwd())
     lat1 = 45
     lat2 = 80
@@ -100,6 +125,9 @@ def test_get_grid_N():
 
 
 def test_get_grid_T():
+    """
+    assert proper grid is determined from lat/lon in Mid lats
+    """
     s1 = Swepy(os.getcwd())
     lat1 = 30
     lat2 = 30
@@ -107,6 +135,9 @@ def test_get_grid_T():
 
 
 def test_get_grid_S():
+    """
+    assert proper grid is determined from lat/lon in South Hemi
+    """
     s1 = Swepy(os.getcwd())
     lat1 = -50
     lat2 = -80
@@ -114,6 +145,9 @@ def test_get_grid_S():
 
 
 def test_get_grid_fails():
+    """
+    assert exception is raised when lat/lon are incorrect
+    """
     s1 = Swepy(os.getcwd())
     lat1 = -62
     lat2 = 70
@@ -122,6 +156,9 @@ def test_get_grid_fails():
 
 
 def test_get_xy_N():
+    """
+    ensure proper x/y conversion occurs from given lat/lon in North grid
+    """
     ll_ul = [62, -140]
     ll_lr = [73, -166]
     s1 = Swepy(os.getcwd(), ul=ll_ul, lr=ll_lr)
@@ -138,6 +175,9 @@ def test_get_xy_N():
 
 
 def test_get_xy_S():
+    """
+    ensure proper x/y conversion occurs from given lat/lon in south grid
+    """
     ll_lr = [-80, 9]
     ll_ul = [-69, -16]
     s1 = Swepy(os.getcwd(), ul=ll_ul, lr=ll_lr)
@@ -154,6 +194,9 @@ def test_get_xy_S():
 
 
 def test_get_xy_none():
+    """
+    Ensure that exception is raised when provided lat/lon are None
+    """
     ll_lr = None
     ll_ul = None
     s1 = Swepy(os.getcwd())
@@ -162,6 +205,9 @@ def test_get_xy_none():
 
 
 def test_get_file_high():
+    """
+    Ensure high res, normal date (no edge case) gets proper file information
+    """
     s1 = Swepy(os.getcwd(), ul="N", lr="N")
     s1.set_login()
     date = datetime.datetime(2010, 1, 1)
@@ -185,6 +231,9 @@ def test_get_file_high():
 
 
 def test_get_file_low():
+    """
+    Ensure low res, normal date (no edge case) returns proper file information
+    """
     s1 = Swepy(os.getcwd(), ul="N", lr="N", high_res=False)
     s1.set_login()
     date = datetime.datetime(2010, 1, 1)
@@ -208,6 +257,14 @@ def test_get_file_low():
 
 
 def test_gf_low_var1():
+    """
+    Ensure first edge case, low res, retreives proper file
+
+    Edge Case
+    ---------
+    When: Between 2001,11,6 and 2004, 4, 9
+        F15 not avaialable, must scrape F14
+    """
     s1 = Swepy(os.getcwd(), ul="N", lr="N", high_res=False)
     s1.set_login()
     date = datetime.datetime(2003, 11, 6)
@@ -231,6 +288,14 @@ def test_gf_low_var1():
 
 
 def test_gf_low_var2():
+    """
+    Ensure second edge case, low res, retreives proper file
+
+    Edge Case
+    ---------
+    When: (2006, 11, 4), (2006, 12, 1), (2008, 2, 26)
+        F16 not avaialable, must scrape F15 on these days
+    """
     s1 = Swepy(os.getcwd(), ul="N", lr="N", high_res=False)
     s1.set_login()
     date = datetime.datetime(2006, 11, 4)
@@ -254,6 +319,9 @@ def test_gf_low_var2():
 
 
 def test_gf_low_TA():
+    """
+    Ensure mid lats, low res, retrieves proper file
+    """
     s1 = Swepy(os.getcwd(), ul="T", lr="T", high_res=False)
     s1.set_login()
     date = datetime.datetime(2006, 11, 4)
@@ -276,15 +344,12 @@ def test_gf_low_TA():
     }
 
 
-def test_df_low_2008():
-    s1 = Swepy(os.getcwd(), ul="N", lr="N", high_res=False)
-    s1.set_login()
-    date = datetime.datetime(2008, 3, 10)
-    result_file = s1.get_file(date, "19H")
-    assert result_file["platform"] == "F17"
+def test_gf_smmr():
+    """
+    Ensure pre-1980 days are properly scraped
 
-
-def test_df_smmr():
+    Pre 1980 data uses the smmr sensor
+    """
     s1 = Swepy(os.getcwd(), ul="N", lr="N")
     s1.set_login()
     date = datetime.datetime(1979, 1, 1)
@@ -307,7 +372,31 @@ def test_df_smmr():
     }
 
 
-def test_gs_1987():
+def test_sensor_low_2008_edge():
+    """
+    Ensure low res, third edge case, proper sensor retrieved
+
+    Edge Case
+    ---------
+    When: Between (2008, 3, 6) and (2008, 12, 31)
+        F18 not avaialable, must scrape F17
+    """
+    s1 = Swepy(os.getcwd(), ul="N", lr="N", high_res=False)
+    s1.set_login()
+    date = datetime.datetime(2008, 3, 10)
+    result_file = s1.get_file(date, "19H")
+    assert result_file["platform"] == "F17"
+
+
+def test_sensor_1987_edge():
+    """
+    Ensure low res, 4th edge case, proper sensor retrieved
+
+    Edge Case
+    ---------
+    When: Between (1987, 8, 21) and (1988, 1, 1)
+        NIMBUS drops off on aug 21, 1987 and F08 starts
+    """
     s1 = Swepy(os.getcwd(), ul="N", lr="N")
     s1.set_login()
     date = datetime.datetime(1987, 8, 21)
@@ -331,6 +420,14 @@ def test_gs_1987():
 
 
 def test_gs_2008_edge():
+    """
+    Ensure low res, 5th edge case, proper sensor retrieved
+
+    Edge Case
+    ---------
+    When: Between (1987, 8, 21) and (1988, 1, 1)
+        NIMBUS drops off on aug 21, 1987 and F08 starts
+    """
     s1 = Swepy(os.getcwd(), ul="N", lr="N")
     s1.set_login()
     date = datetime.datetime(2008, 3, 7)
@@ -353,7 +450,16 @@ def test_gs_2008_edge():
     }
 
 
-def test_gs_evening_edge():
+def test_gf_evening_edge():
+    """
+    Ensure proper file is retreived for certain dates
+    that require evening imagery
+
+    Edge Case
+    ---------
+    When: (2005, 5, 12), (2006, 2, 4), (2008, 1, 2), (2008, 2, 26)
+        Must use an evening pass on these dates, no morning available
+    """
     s1 = Swepy(os.getcwd(), ul="N", lr="N")
     s1.set_login()
     date = datetime.datetime(2005, 5, 12)
@@ -378,7 +484,12 @@ def test_gs_evening_edge():
 
 def test_get_file_1991(swepy_obj):
     """
-    get_sensor has an edge case on (1991, 3, 10)
+    Ensure proper sensor, 6th edge case, retrieved
+
+    Edge Case
+    ---------
+    When: (1991, 3, 10)
+        F10 unavailable, must use F08
     """
     swepy_obj.set_login()
     date = datetime.datetime(1991, 3, 10)
@@ -387,6 +498,9 @@ def test_get_file_1991(swepy_obj):
 
 
 def test_safe_subtract1():
+    """
+    Test axis s1[1] < s2[1] & s1[2] == s2[2]
+    """
     s1 = Swepy(os.getcwd())
     tb19 = np.ones((1, 152, 153))
     tb37 = np.ones((1, 154, 153))
@@ -395,6 +509,9 @@ def test_safe_subtract1():
 
 
 def test_safe_subtract2():
+    """
+    Test s1[1] > s2[1] & s1[2] < s1[2]
+    """
     s1 = Swepy(os.getcwd())
     tb19 = np.ones((1, 154, 152))
     tb37 = np.ones((1, 152, 153))
@@ -403,6 +520,9 @@ def test_safe_subtract2():
 
 
 def test_scrape_fail():
+    """
+    Ensure files are not in directory before calling scrape
+    """
     list1 = glob.glob("*.nc")
     assert list1 != [
         "NSIDC-0630-EASE2_N3.125km-F17_SSMIS-2010002-37H-M-SIR-CSU-v1.3.nc",
@@ -411,6 +531,9 @@ def test_scrape_fail():
 
 
 def test_scrape():
+    """
+    Ensure files now exist once scrape has been called
+    """
     date = datetime.date(2010, 1, 1)
     s1 = Swepy(os.getcwd(), ul="N", lr="N")
     s1.set_login("test", "test")
@@ -427,6 +550,9 @@ def test_scrape():
 
 
 def test_subset():
+    """
+    Ensure files are moved to sub directory and have been reduced in size
+    """
     if not os.path.exists("sub"):
         os.mkdir("sub")
     s1 = Swepy(os.getcwd(), ul=[66, -145], lr=[71, -166])
@@ -450,6 +576,9 @@ def test_subset():
 
 
 def test_concat():
+    """
+    Ensure files are renamed after concatenation occurs
+    """
     s1 = Swepy(os.getcwd(), ul=[66, -145], lr=[73, -166])
     setattr(
         s1,
@@ -476,12 +605,18 @@ def test_concat():
 
 
 def test_convert_zarr():
+    """
+    Ensure that a dictionary is returned (this could be more meaningful)
+    """
     s1 = Swepy(os.getcwd())
     res = s1.convert_netcdf_zarr()
     assert type(res) == dict
 
 
 def test_clean_dirs():
+    """
+    Ensure that directory is indeed emptied
+    """
     s1 = Swepy(os.getcwd())
     try:
         s1.clean_dirs()
