@@ -8,6 +8,7 @@ import numpy as np
 
 @pytest.fixture
 def scraped_files():
+
     date = datetime.date(2010, 1, 1)
     s1 = Swepy(os.getcwd(), ul="N", lr="N")
     s1.set_dates(date, date)
@@ -32,10 +33,16 @@ def swe(arrays):
 
 
 def test_get_array(arrays):
+    """
+    Ensure proper object is created by arrays fixture
+    """
     assert type(arrays[0]) == np.ma.core.MaskedArray
 
 
 def test_vector_clean(arrays):
+    """
+    Ensure vector clean removes all nan's from arrays
+    """
     cleantb19 = process.vector_clean(arrays[0])
     bool1 = True
     if not np.isnan(cleantb19.all()):
@@ -44,6 +51,9 @@ def test_vector_clean(arrays):
 
 
 def test_pandas_fill(arrays):
+    """
+    Ensure pands_fill removes missing values from arrays
+    """
     clean = process.pandas_fill(arrays[0][:, 1, 1])
     bool1 = True
     if not np.isnan(clean).all():
@@ -52,6 +62,9 @@ def test_pandas_fill(arrays):
 
 
 def test_apply_filter_success(arrays):
+    """
+    Ensure arrays processed with apply_filter have a min of 0
+    """
     tb19 = process.vector_clean(arrays[0])
     tb37 = process.vector_clean(arrays[1])
     swe = Swepy.safe_subtract(tb19=tb19, tb37=tb37)
@@ -68,30 +81,46 @@ def test_apply_filter_success(arrays):
 
 
 def test_apply_filter_fail(arrays):
+    """
+    Ensure an uncleaned array returns ValueError when processed
+    with apply_filter
+    """
     tb19 = process.vector_clean(arrays[0])
     clean19 = process.apply_filter(tb19)
     assert clean19 == ValueError
 
 
 def test_apply_filter_large():
+    """
+    Ensure apply_filter properly preserves array size when len > 51
+    """
     tb19 = np.zeros((100, 5, 5))
     clean19 = process.apply_filter(tb19)
     assert np.shape(clean19) == (100, 5, 5)
 
 
 def test_apply_filter_mp():
+    """
+    ensure array is preserved when fed into multiprocessing apply_filter
+    """
     tb19 = np.zeros((100, 50, 50))
     clean19 = process.apply_filter_mphelper(tb19)
     assert np.shape(clean19) == (100, 50, 50)
 
 
 def test_apply_filter_mp_fail():
+    """
+    Ensure array with len(shape) < 3 raises Exception in mp filter
+    """
     tb19 = np.zeros((100, 1))
     with pytest.raises(Exception):
         process.apply_filter_mphelper(tb19)
 
 
 def test_govf():
+    """
+    Ensure proper result from savgol filter
+    """
     np.random.seed(1)
     array = np.random.rand(1, 10, 10)
     res = process.govf(array.ravel(), 4)
@@ -99,12 +128,18 @@ def test_govf():
 
 
 def test_ocean_mask():
+    """
+    Ensure proper type is returned by ocean mask
+    """
     array = np.ones((1, 142, 130))
     arr = process.mask_ocean_winter(array)
     assert type(arr) is np.ndarray
 
 
 def test_safe_subtract1():
+    """
+    Test axis s1[1] < s2[1] & s1[2] == s2[2]
+    """
     tb19 = np.ones((1, 152, 153))
     tb37 = np.ones((1, 154, 153))
     tb = process.safe_subtract(tb19, tb37)
@@ -112,6 +147,9 @@ def test_safe_subtract1():
 
 
 def test_safe_subtract2():
+    """
+    Test s1[1] > s2[1] & s1[2] < s1[2]
+    """
     tb19 = np.ones((1, 154, 152))
     tb37 = np.ones((1, 152, 153))
     tb = process.safe_subtract(tb19, tb37)
