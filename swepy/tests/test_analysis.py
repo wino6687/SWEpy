@@ -24,6 +24,9 @@ def test_make_df_time():
 
 
 def test_make_df_type():
+    """
+    Ensure make_df creates a proper dataframe (could be more meaningful)
+    """
     swe = np.zeros((3000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
     t = a.make_df()
@@ -31,6 +34,9 @@ def test_make_df_type():
 
 
 def test_create_splits():
+    """
+    Ensure proper date splits are generated given specific date and size of array
+    """
     swe = np.zeros((3000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
     years = a.create_year_splits()
@@ -49,6 +55,9 @@ def test_count_melt_onset_mp():
 
 
 def test_mask_year_df():
+    """
+    Ensure proper structure of dataframe given a mask on 1994
+    """
     swe = np.zeros((1000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
     df = a.make_df()
@@ -57,6 +66,9 @@ def test_mask_year_df():
 
 
 def test_melt_date_year():
+    """
+    Ensure a dictionary is returned for counting melt date by year
+    """
     swe = np.zeros((1000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
     df = a.make_df()
@@ -65,6 +77,9 @@ def test_melt_date_year():
 
 
 def test_count_index():
+    """
+    Ensure dataframe is returned by count_melt_onset_index (could be more meaningful?)
+    """
     swe = np.zeros((1000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
     c = a.count_melt_onset_index(swe)
@@ -72,6 +87,9 @@ def test_count_index():
 
 
 def test_summer_length():
+    """
+    Ensure summer length info is returned in a dictionary
+    """
     swe = np.zeros((1000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
     c = a.summer_length(swe)
@@ -79,6 +97,9 @@ def test_summer_length():
 
 
 def test_summer_length2():
+    """
+    Ensure proper dict of dicts from summer_length
+    """
     swe = np.zeros((1000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
     c = a.summer_length(swe)
@@ -86,6 +107,9 @@ def test_summer_length2():
 
 
 def test_summer_diff1():
+    """
+    Ensure summer length difference is close to zero on test array
+    """
     swe = np.zeros((1000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
     c = a.summer_length(swe)
@@ -96,6 +120,9 @@ def test_summer_diff1():
 
 
 def test_summer_diff2():
+    """
+    Make sure heatmap is proper size
+    """
     swe = np.zeros((1000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
     c = a.summer_length(swe)
@@ -104,6 +131,9 @@ def test_summer_diff2():
 
 
 def test_display_diffmap():
+    """
+    Ensure proper image type returned for summer diff map
+    """
     swe = np.zeros((3000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
     c = a.summer_length(swe)
@@ -113,6 +143,9 @@ def test_display_diffmap():
 
 
 def test_display_melt():
+    """
+    Ensure proper figure type returned for summer diff map
+    """
     swe = np.zeros((3000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
     melt = a.melt_date_year(a.count_melt_onset_mp())
@@ -121,6 +154,9 @@ def test_display_melt():
 
 
 def test_display_melt_fail1():
+    """
+    Ensure excpetion raised when dates are in reverse order
+    """
     swe = np.zeros((3000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
     melt = a.melt_date_year(a.count_melt_onset_mp())
@@ -129,6 +165,9 @@ def test_display_melt_fail1():
 
 
 def test_display_melt_fail2():
+    """
+    Ensure exception is raised when dates are nonsensical
+    """
     swe = np.zeros((3000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
     melt = a.melt_date_year(a.count_melt_onset_mp())
@@ -137,6 +176,10 @@ def test_display_melt_fail2():
 
 
 def test_create_splits_mid_year():
+    """
+    Make sure that year splits are properly generated when not using first day of year
+    as start of time series
+    """
     swe = np.zeros((3000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 5, 1), swe)
     years = a.create_year_splits()
