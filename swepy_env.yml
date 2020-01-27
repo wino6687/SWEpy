@@ -23,6 +23,7 @@ dependencies:
   - swepy
   - mapboxgl
   - jenkspy
+  - zarr
   # aws libraries 
   - boto3
   - s3fs
