@@ -14,7 +14,7 @@ regarding scraping any data from MEaSUREs using the included tool.
 # ----------------------------
 #
 # .. note::
-#   The example below will show you how to use the ''swepy.scrape()``
+#   The example below will show you how to use the ''swepy.pipeline.scrape_all()``
 #   function to donwload data from MEaSUREs directly. This function is
 #   designed to only grab files that pertain to estimating SWE (19H and 37H).
 #   This workflow has been optimized to find the cleanest and most accurate files
@@ -75,3 +75,6 @@ swe.set_login("username", "password")
 # on area of interest size, which is fine for most laptops.
 
 swe.scrape_all()
+
+# Now your ``data`` directory will have two files in it: ``all_days_19H.nc`` and ``all_days_37H.nc``.
+# To pre-process these files, see the next example script titled ``processing_data.py``
