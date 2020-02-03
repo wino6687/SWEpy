@@ -62,7 +62,7 @@ def test_mask_year_df():
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
     df = a.make_df()
     df = a.mask_year_df(df, 1994)
-    assert df.iloc[0].time.year == 1994
+    assert df.iloc[0].year == 1994
 
 
 def test_melt_date_year():
