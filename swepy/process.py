@@ -14,9 +14,10 @@ import jenkspy
 import numpy.ma as ma
 from netCDF4 import Dataset
 from multiprocessing import Pool, Process, cpu_count
+import netCDF4
 
 
-def get_array(file):
+def get_array(file, downsample=True):
     """
     Take 19H and 37H netCDF files, open and store tb
     data in np arrays
@@ -31,7 +32,7 @@ def get_array(file):
     """
     fid = Dataset(file, "r", format="NETCDF4")
     tb = fid.variables["TB"][:]
-    if fid.variables["crs"].long_name == "EASE2_N3.125km":
+    if downsample and fid.variables["crs"].long_name == "EASE2_N3.125km":
         tb[tb.mask] = 0.00001
         tb = block_reduce(tb, block_size=(1, 2, 2), func=np.mean)
         fid.close()
@@ -243,3 +244,45 @@ def safe_subtract(tb19, tb37):
     tb37 = tb37[:, : s2[1] - 1, : s2[2] - 1]
     tb = tb19 - tb37
     return tb
+
+
+def save_file(metafile, array, outname):
+    """
+    Save processed array back out to a new netCDF file
+
+    Metadata is copied from the un-processed file
+
+    Parameters
+    ----------
+    metafile: str
+        old file to copy metadata from
+    array: np.array
+        processed TB array
+    outname: str
+        name for output file
+    """
+    toexclude = ["TB"]
+    # Open old file and get info
+    with netCDF4.Dataset(metafile) as src, netCDF4.Dataset(
+        outname, "w"
+    ) as dst:
+        # copy global atributes all at once via dict
+        dst.setncatts(src.__dict__)
+        # copy dimensions
+        for name, dimension in src.dimensions.items():
+            dst.createDimension(
+                name, (len(dimension) if not dimension.isunlimited() else None)
+            )
+        # copy all file data
+        for name, variable in src.variables.items():
+            if name not in toexclude:
+                dst.createVariable(
+                    name, variable.datatype, variable.dimensions
+                )
+                dst[name][:] = src[name][:]
+                # copy variable attributes all at once via dict
+                dst[name].setncatts(src[name].__dict__)
+        dst.createVariable(
+            "TB", src.variables["TB"].datatype, src.variables["TB"].dimensions
+        )
+        dst["TB"][:] = array[:]
