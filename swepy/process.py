@@ -286,3 +286,4 @@ def save_file(metafile, array, outname):
             "TB", src.variables["TB"].datatype, src.variables["TB"].dimensions
         )
         dst["TB"][:] = array[:]
+    return outname

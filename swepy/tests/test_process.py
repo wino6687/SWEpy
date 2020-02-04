@@ -4,6 +4,7 @@ import datetime
 import os
 import pytest
 import numpy as np
+from netCDF4 import Dataset
 
 
 @pytest.fixture
@@ -154,3 +155,12 @@ def test_safe_subtract2():
     tb37 = np.ones((1, 152, 153))
     tb = process.safe_subtract(tb19, tb37)
     assert np.shape(tb) == (1, 151, 151)
+
+
+def test_save(arrays, scraped_files):
+    """
+    Test saving files results in proper structure
+    """
+    out = process.save_file(scraped_files[0], arrays[0], "process19.nc")
+    fid = Dataset(out)
+    assert fid.variables["TB"][:].all() == arrays[0].all()
