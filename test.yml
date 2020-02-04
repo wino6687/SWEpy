@@ -9,7 +9,7 @@ dependencies:
   - matplotlib
   - python=3.6
   - pytest
-  - pandas
+  - pandas==0.25.3
   - requests
   - tqdm
   # geo libraries
