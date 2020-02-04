@@ -62,7 +62,9 @@ def test_mask_year_df():
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
     df = a.make_df()
     df = a.mask_year_df(df, 1994)
-    assert df.iloc[0].year == 1994
+    assert df.iloc[0].time.year == 1994
+    #### For some reason this is reading as a numpy datetime object and not pandas datetime!!!
+    ##### Play around with the values returned here, where is it being converted to numpy?
 
 
 def test_melt_date_year():
