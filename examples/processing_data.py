@@ -34,9 +34,11 @@ import swepy.process as proc
 #
 # The 37H band is a higher resolution (3.125km) compared to the 19H band (6.25km)
 # SWEpy automatically downsamples the 37H band to match the size of the 19H band.
+#
+# We have to specify ``downsample=False`` for saving the file back out later
 
 tb19 = proc.get_array("data/all_days_19H.nc")
-tb37 = proc.get_array("data/all_days_37H.nc")
+tb37 = proc.get_array("data/all_days_37H.nc", downsample=False)
 
 ########################################################################################
 # Forward fill missing data in the array
@@ -79,8 +81,14 @@ tb37 = proc.apply_filter_mphelper(tb37)
 swe = proc.safe_subtract(tb19, tb37)
 
 ########################################################################################
-# Reconstruct new NETCDF4 file from SWE array
+# Save processed TB files back out to netCDF
 #
 # This step isn't mandatory, but to prevent repeating all of this compuation, we can
-# save the array back to a NETCDF file. For this we copy the needed metadata from the 19H
-# file since it has the same geographic coordinates as our new swe file.
+# save the arrays back to NETCDF files. For this we copy the needed metadata from the
+# original files.
+#
+# We save the TB files because when downsampling the 37H file, we lost our metadata x/y
+# grid. Contructing this downsample nc file is in the works for future versions.
+
+file19 = proc.save_file("data/all_days_19H.nc", tb19, "data/processed_19H.nc")
+file37 = proc.save_file("data/all_days_37Hnc", tb37, "data/processed_37H.nc")
