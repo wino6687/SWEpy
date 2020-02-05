@@ -195,9 +195,16 @@ class Analysis:
                             firstofyear = False
                         if val != 0 and firstofyear is False and lastofyear:
                             summerlength = ((index - 1) % 365) - f
-                            lengths[math.floor((index / 365) + 1993)] = (
+                            lengths[
+                                math.floor(
+                                    (index / 365) + self.start_date.year
+                                )
+                            ] = (
                                 lengths.get(
-                                    math.floor((index / 365) + 1993), 0
+                                    math.floor(
+                                        (index / 365) + self.start_date.year
+                                    ),
+                                    0,
                                 )
                                 + summerlength
                             )

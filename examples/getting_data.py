@@ -57,9 +57,11 @@ swe = pipe.Swepy(os.getcwd(), ul=[60, -133], lr=[69, -147])
 #
 # These functions aren't a part of class instantiation to simplify the process
 # of changing them later.
+#
+# In order to run these scripts, you will need to edit the username and password below
 
 start = datetime.date(2005, 1, 1)
-end = datetime.date(2006, 1, 1)
+end = datetime.date(2005, 5, 1)
 swe.set_dates(start, end)
 
 swe.set_login("username", "password")
