@@ -37,18 +37,10 @@ class Swepy:
         ----------
         working_dir: str
             directory to store data directory
-        start: datetime
-            start date for scraping
-        end: datetime
-            end date for scraping
         ul: List[int, int]
             upper left bounding coordinates [lat, lon]
         lr: List[int, int]
             lower right bounding coordinates [lat,lon]
-        username: str
-            username for Earth Data login
-        password: str
-            password for Earth Data login
         outfile19: str
             name of final output file, 19 19GHz
         outfile37: str
