@@ -250,7 +250,7 @@ def save_file(metafile, array, outname):
     """
     Save processed array back out to a new netCDF file
 
-    Metadata is copied from the un-processed file
+    Metadata is copied from the un-processed file, evertyhing but TB
 
     Parameters
     ----------
