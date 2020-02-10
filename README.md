@@ -7,10 +7,15 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # SWEpy
+
 ![conda-forge Version](https://img.shields.io/conda/v/conda-forge/swepy)
 ![PyPI version](https://badge.fury.io/py/swepy.svg) 
 ![Python Version](https://img.shields.io/pypi/pyversions/Django.svg)
 ![conda downloads](https://img.shields.io/conda/dn/conda-forge/swepy?label=conda-forge%20downloads)
+
+| Name | Downloads | Version | Platforms |
+| --- | --- | --- | --- |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-swepy-green.svg)](https://anaconda.org/conda-forge/swepy) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/swepy.svg)](https://anaconda.org/conda-forge/swepy) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/swepy.svg)](https://anaconda.org/conda-forge/swepy) [![PyPI version](https://badge.fury.io/py/swepy.svg)] | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/swepy.svg)](https://anaconda.org/conda-forge/swepy) |
 
 
 # Quick Start Guide
