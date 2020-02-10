@@ -28,6 +28,7 @@ information by smoothing temporally.
 # To begin, import needed packages.
 
 import swepy.process as proc
+import matplotlib.pyplot as plt
 
 ########################################################################################
 # Open arrays into memory using swepy's built in functionality
@@ -79,6 +80,18 @@ tb37 = proc.apply_filter_mphelper(tb37)
 # this function will chop off one or two rows to match the two arrays properly.
 
 swe = proc.safe_subtract(tb19, tb37)
+
+########################################################################################
+# Verify Images Look Okay
+#
+# While these functions have been tested quite a lot, there can always be issues when
+# working with raw data. In order to verify everything worked as expected, simply plot
+# a couple days in matplotlib.
+#
+# You will quickly be able to see if the smoothing worked well or not. If the data is
+# smooth with no hard lines and boundaries, then things went well!
+
+plt.imshow(swe[40, :, :])
 
 ########################################################################################
 # Save processed TB files back out to netCDF
