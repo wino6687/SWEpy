@@ -15,7 +15,7 @@
 
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-swepy-green.svg)](https://anaconda.org/conda-forge/swepy) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/swepy.svg)](https://anaconda.org/conda-forge/swepy) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/swepy.svg)](https://anaconda.org/conda-forge/swepy) [![PyPI version](https://badge.fury.io/py/swepy.svg)] | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/swepy.svg)](https://anaconda.org/conda-forge/swepy) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-swepy-green.svg)](https://anaconda.org/conda-forge/swepy) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/swepy.svg)](https://anaconda.org/conda-forge/swepy) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/swepy.svg)](https://anaconda.org/conda-forge/swepy) ![PyPI version](https://badge.fury.io/py/swepy.svg) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/swepy.svg)](https://anaconda.org/conda-forge/swepy) |
 
 
 # Quick Start Guide
