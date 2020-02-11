@@ -138,24 +138,6 @@ def apply_filter_mphelper(cube):
             )
 
 
-def auto_filter(file19, file37):  # filter_swe is either filter on tb or swe
-    """
-    Clean missing values and apply sav gol filter, return SWE cube
-
-    Parameters
-    -----------
-    cube19: np.array
-        size = (x,x,x)
-    cube37: np.array
-        size = (x,x,x)
-    """
-    cube19, cube37 = get_array(file19, file37)
-    clean19 = vector_clean(cube19)
-    clean37 = vector_clean(cube37)
-    swe = safe_subtract(clean19, clean37)
-    return apply_filter_mphelper(swe)
-
-
 def mask_ocean_winter(swe_matrix, day=0, nclasses=3):
     """
     Use a winter day to mask ocean pixels out of coastal imagery in arctic.
