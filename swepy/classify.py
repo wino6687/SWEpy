@@ -52,7 +52,7 @@ def classify(value, breaks):
     """
     Helper function for govf
 
-    Assign pixels to classes
+    Assign pixels to classes based on jenks breaks
 
     Paramaters
     ----------
@@ -74,7 +74,7 @@ def optimal_jenk(image, threshold, gvf=0.0, nclasses=2):
 
     Parameters
     ----------
-    image: np.array
+    image: np.array shape = (x,x).ravel()
         input image from spatial slice of swe cube
     threshold: float
         cutoff value for how high to optimize gvf
@@ -89,7 +89,7 @@ def optimal_jenk(image, threshold, gvf=0.0, nclasses=2):
     return nclasses
 
 
-def plot_jenks(image, gvt):
+def plot_jenks(image, gvt, interactive=False):
     list_colors = [
         "blue",
         "green",
@@ -119,4 +119,12 @@ def plot_jenks(image, gvt):
         origin="lower",
     )
     plt.colorbar(kmp, cmap=cmap, ticks=bounds, ax=ax, orientation="vertical")
-    plt.show()
+    if interactive:
+        plt.ion()
+        plt.show()
+        plt.pause(0.001)
+        plt.close()
+    else:
+        plt.show()
+
+    return fig
