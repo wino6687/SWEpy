@@ -50,7 +50,7 @@ def test_count_melt_onset_mp():
     """
     swe = np.zeros((1000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
-    c = a.count_melt_onset_mp()
+    c = a.count_melt_onset()
     assert type(c) == pd.DataFrame
 
 
@@ -148,7 +148,7 @@ def test_display_melt():
     """
     swe = np.zeros((3000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
-    melt = a.melt_date_year(a._count_melt())
+    melt = a.melt_date_year(a._count_melt(swe))
     fig = a.display_melt_onset_change(melt, 1993, 1995, True)
     assert type(fig) == matplotlib.figure.Figure
 
@@ -159,7 +159,7 @@ def test_display_melt_fail1():
     """
     swe = np.zeros((3000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
-    melt = a.melt_date_year(a._count_melt())
+    melt = a.melt_date_year(a._count_melt(swe))
     with pytest.raises(Exception):
         a.display_melt_onset_change(melt, 1944, 1993)
 
@@ -170,7 +170,7 @@ def test_display_melt_fail2():
     """
     swe = np.zeros((3000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
-    melt = a.melt_date_year(a._count_melt())
+    melt = a.melt_date_year(a._count_melt(swe))
     with pytest.raises(Exception):
         a.display_melt_onset_change(melt, 1993, 1944)
 
