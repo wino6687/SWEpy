@@ -118,16 +118,6 @@ def test_apply_filter_mp_fail():
         process.apply_filter_mphelper(tb19)
 
 
-def test_govf():
-    """
-    Ensure proper result from savgol filter
-    """
-    np.random.seed(1)
-    array = np.random.rand(1, 10, 10)
-    res = process.govf(array.ravel(), 4)
-    assert res == 0.9476204544544236
-
-
 def test_ocean_mask():
     """
     Ensure proper type is returned by ocean mask
