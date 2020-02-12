@@ -28,7 +28,7 @@ author = "Will Norris"
 # The short X.Y version
 version = ""
 # The full version, including alpha/beta/rc tags
-release = "1.9.2"
+release = "1.9.3"
 
 
 # -- General configuration ---------------------------------------------------
