@@ -2,11 +2,13 @@ import numpy as np
 import swepy.classify as classify
 import pytest
 import matplotlib
+import os
 
 
 @pytest.fixture
 def swe():
-    swe = np.load("swe_testfile.npy")
+    print(os.listdir())
+    swe = np.load("swepy/tests/swe_testfile.npy")
     return swe
 
 
