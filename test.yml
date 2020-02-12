@@ -15,7 +15,6 @@ dependencies:
   # geo libraries
   - pynco
   - gdal
-  - scikit-image
   - affine
   - netCDF4 
   - xarray

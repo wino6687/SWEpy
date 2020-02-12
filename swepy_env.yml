@@ -17,7 +17,6 @@ dependencies:
   # geo libraries
   - pynco
   - gdal
-  - scikit-image
   - scikit-learn
   - netCDF4
   - swepy

@@ -6,7 +6,7 @@ import numpy as np
 from numpy import newaxis
 from numpy import shape
 import pandas as pd
-from skimage.measure import block_reduce
+import swepy.downsample as down
 import math
 from scipy.signal import savgol_filter
 from scipy.cluster.vq import *
@@ -34,7 +34,7 @@ def get_array(file, downsample=True):
     tb = fid.variables["TB"][:]
     if downsample and fid.variables["crs"].long_name == "EASE2_N3.125km":
         tb[tb.mask] = 0.00001
-        tb = block_reduce(tb, block_size=(1, 2, 2), func=np.mean)
+        tb = down.downsample(tb, block_size=(1, 2, 2), func=np.mean)
         fid.close()
         return ma.masked_values(tb, 0.00001)
     else:
