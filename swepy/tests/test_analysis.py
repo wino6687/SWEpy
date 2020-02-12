@@ -82,7 +82,7 @@ def test_count_melt():
     """
     swe = np.zeros((1000, 50, 50))
     a = analysis.Analysis(datetime.date(1993, 1, 1), swe)
-    c = a.__count_melt(swe)
+    c = a._count_melt(swe)
     assert type(c) == pd.DataFrame
 
 
