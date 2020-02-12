@@ -13,4 +13,4 @@ def swe():
 
 def test_tuple_block_fail(swe):
     with pytest.raises(TypeError):
-        downsample.downsample(swe, [1, 2, 2], np.mean)
+        downsample.downsample(swe, ([1, 2, 2]), np.mean)

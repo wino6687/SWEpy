@@ -75,7 +75,7 @@ class Analysis:
             year_splits[-1] = np.shape(self.swe)[0]
         return year_splits
 
-    def __count_melt(self, swe):  # RENAME __COUNT
+    def _count_melt(self, swe):  # RENAME __COUNT
         """
         Count the date that each pixel reaches zero for first time of season on a given date.
         Useful for comparison between years of a given region.
@@ -122,7 +122,7 @@ class Analysis:
         cpus = cpu_count()
         swe_parts = np.array_split(self.swe, cpus, axis=2)
         with Pool(cpus) as p:
-            parts = p.map(self.__count_melt, swe_parts)
+            parts = p.map(self._count_melt, swe_parts)
             df = parts[0]  # recombine parts
             for i in range(1, len(parts)):
                 df["count"] = df["count"].add(parts[i]["count"])
