@@ -12,6 +12,7 @@ dependencies:
   - pandas==0.25.3
   - requests
   - tqdm
+  - scipy
   # geo libraries
   - pynco
   - gdal
