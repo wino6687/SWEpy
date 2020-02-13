@@ -75,21 +75,46 @@ def optimal_jenk(image, threshold, gvf=0.0, nclasses=2):
     Parameters
     ----------
     image: np.array shape = (x,x).ravel()
-        input image from spatial slice of swe cube
+        unrolled input image from spatial slice of swe cube
     threshold: float
         cutoff value for how high to optimize gvf
     gvf: float
         initial gvf value (default = 0.0)
     nclasses: int
         how many classes to start with
+
+    Returns
+    -------
+    [nclasses, bounds]
+    nclasses: int
+        optimal number of classes
+    bounds: list
+        Generated jenks boundaries for given image
     """
     while gvf < threshold:
         gvf = govf(image, nclasses)
         nclasses += 1
-    return nclasses
+    bounds = jenkspy.jenks_breaks(image, nclasses)
+    return nclasses, bounds
 
 
 def plot_jenks(image, gvt, interactive=False):
+    """
+    Given swe image, classify using jenks classication.
+
+    Uses goodness of variance fit to optimize number of classes
+    given a threshold to maximize to.
+
+    Paramters
+    ---------
+    image: np.array
+        2-d image of swe values to be classified
+    gvt: float
+        goodness of variance threshold value. Optimize
+        gvf until this value is reached.
+
+        Values between 0-1, generally around 0.8
+    """
     list_colors = [
         "blue",
         "green",

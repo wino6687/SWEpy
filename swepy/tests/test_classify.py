@@ -28,7 +28,21 @@ def test_optimal_jenk(swe):
     on test image that has been verified.
     """
     n_classes = classify.optimal_jenk(swe.ravel(), 0.8)
-    assert n_classes == 4
+    assert n_classes[0] == 4
+
+
+def test_optimal_jenk_bounds(swe):
+    """
+    Ensure the correct class bounds are found for test swe image
+    """
+    info = classify.optimal_jenk(swe.ravel(), 0.8)
+    assert info[1] == [
+        22.024993896484375,
+        27.162506103515625,
+        30.257492065429688,
+        33.41499328613281,
+        38.93499755859375,
+    ]
 
 
 def test_plot_jenk(swe):
