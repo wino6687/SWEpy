@@ -126,7 +126,7 @@ def plot_jenks(image, gvt, interactive=False):
         "yellow",
     ]
     classes_jenk = jenkspy.jenks_breaks(
-        image.ravel(), optimal_jenk(image.ravel(), gvt)
+        image.ravel(), optimal_jenk(image.ravel(), gvt)[0]
     )
     classes = np.digitize(image, classes_jenk)
     nclasses = len(classes_jenk)

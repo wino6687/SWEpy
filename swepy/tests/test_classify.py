@@ -7,7 +7,6 @@ import os
 
 @pytest.fixture
 def swe():
-    print(os.listdir())
     swe = np.load("swepy/tests/swe_testfile.npy")
     return swe
 
@@ -37,11 +36,11 @@ def test_optimal_jenk_bounds(swe):
     """
     info = classify.optimal_jenk(swe.ravel(), 0.8)
     assert info[1] == [
-        22.024993896484375,
-        27.162506103515625,
-        30.257492065429688,
-        33.41499328613281,
-        38.93499755859375,
+        13.257644653320312,
+        16.314910888671875,
+        18.693313598632812,
+        21.749465942382812,
+        28.034332275390625,
     ]
 
 
