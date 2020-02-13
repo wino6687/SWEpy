@@ -25,9 +25,11 @@ import numpy as np
 # The 37H band is a higher resolution (3.125km) compared to the 19H band (6.25km)
 # SWEpy automatically downsamples the 37H band to match the size of the 19H band.
 
-tb19 = np.load("ex_data/filtered19", allow_pickle=True)
-tb37 = np.load("ex_data/filtered37", allow_pickle=True)
 
+# tb19 = np.load("ex_data/filtered19.npy", allow_pickle=True)
+# tb37 = np.load("ex_data/filtered37.npy", allow_pickle=True)
+tb19 = proc.get_array("ex_data/processed_19.nc")
+tb37 = proc.get_array("ex_data/processed_37.nc")
 ########################################################################################
 # Create a smoothed version of one time vector in swe
 #
@@ -43,7 +45,7 @@ tb19_filtered = proc.apply_filter_mphelper(tb19)
 tb37_filtered = proc.apply_filter_mphelper(tb37)
 
 swe_filtered = proc.safe_subtract(tb19_filtered, tb37_filtered)
-
+print(np.shape(swe_filtered))
 ########################################################################################
 # Visualize difference in raw and smoothed data
 #
