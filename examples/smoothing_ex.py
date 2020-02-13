@@ -25,8 +25,8 @@ import numpy as np
 # The 37H band is a higher resolution (3.125km) compared to the 19H band (6.25km)
 # SWEpy automatically downsamples the 37H band to match the size of the 19H band.
 
-tb19 = np.load("ex_data/filtered19", allow_pickle=True)
-tb37 = np.load("ex_data/filtered37", allow_pickle=True)
+tb19 = np.load("ex_data/filtered19.npy", allow_pickle=True)
+tb37 = np.load("ex_data/filtered37.npy", allow_pickle=True)
 
 ########################################################################################
 # Create a smoothed version of one time vector in swe
