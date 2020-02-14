@@ -60,6 +60,10 @@ since there is more correlation between the same pixel through time than there i
 To smooth this data, we use a savitsky-golay filter, which uses the linear least squares method to fit a low-degree polynomial 
 to successive windows of the data. 
 
+NOTE: 
+    - ``apply_filter`` automatically uses multiprocessing to spread the problem across all available cores on your machine. 
+    - If you need a single core solution, use ``process.__filter()``
+
 .. code-block:: python
 
     tb19_filtered = process.apply_fiter(tb19_clean)

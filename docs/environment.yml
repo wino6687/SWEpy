@@ -11,3 +11,4 @@ dependencies:
 - sphinx-gallery=0.2.0
 - tqdm=4.32.2
 - fsspec=0.4.3
+- numpy=1.17.5
