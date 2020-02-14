@@ -143,7 +143,7 @@ nD.download_file(**file)
 - gdal
 - affine
 - requests
-- scikit-image
+- scipy
 - pynco
 - netCDF4
 - datetime
