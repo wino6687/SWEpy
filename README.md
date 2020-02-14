@@ -60,17 +60,15 @@ python -m ipykernel install --user --name <env name> --display-name "<display na
 
 ## Using SWEpy for analyzing SWE:
 
-1. Import the Library:
+1. Import SWEpy's data pipeline:
 ```{python}
-from swepy.swepy import swepy
+import swepy.pipeline as pipeline
 ```
 
 2. Instantiate the class with working directory and bounding coordinates
 - To scrape data you must also set your Earthdata login and desired date range
 
 	```{python}
-	from swepy import pipeline
-
 	upper_left = [lon_upleft, lat_upleft]
 	lower_right = [lon_lowright, lat_lowright]
 
