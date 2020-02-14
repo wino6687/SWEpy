@@ -33,10 +33,10 @@ Importing SWEpy in Python
 Now in Python you will be able to import SWEpy and its submodules. 
 
     >>> import swepy
-    >>> from swepy import pipeline
-    >>> from swepy import process
-    >>> from swepy import analysis
-    >>> from swepy import nsidcDownloader
+    >>> import swepy.pipeline as pipeline
+    >>> import swepy.process as process
+    >>> import swepy.analysis as analysis
+    >>> import swepy.nsidcDownloader as nD
     
 
 Installation Troubleshooting

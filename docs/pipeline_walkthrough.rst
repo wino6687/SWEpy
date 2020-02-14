@@ -20,7 +20,7 @@ Like we have seen before, in order to use SWEpy, we must first instantiate our c
 
 .. code-block:: python 
 
-    from swepy import pipeline
+    import swepy.pipeline as pipe
 
     upper_left = [lon_upleft, lat_upleft]
     lower_right = [lon_lowright, lat_lowright]
