@@ -180,6 +180,7 @@ autodoc_mock_imports = [
     "zarr",
     "pandas",
     "tqdm",
+    "numpy",
 ]
 
 sys.modules.update((mod_name, Mock()) for mod_name in autodoc_mock_imports)

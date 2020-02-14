@@ -10,4 +10,3 @@ dependencies:
 - m2r=0.2.1
 - sphinx-gallery=0.2.0
 - fsspec=0.4.3
-- numpy=1.17.5
