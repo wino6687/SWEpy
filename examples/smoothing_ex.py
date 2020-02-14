@@ -28,6 +28,10 @@ import numpy as np
 tb19 = np.load("ex_data/filtered19.npy", allow_pickle=True)
 tb37 = np.load("ex_data/filtered37.npy", allow_pickle=True)
 
+# tb19 = np.load("ex_data/filtered19.npy", allow_pickle=True)
+# tb37 = np.load("ex_data/filtered37.npy", allow_pickle=True)
+# tb19 = proc.get_array("ex_data/processed_19.nc")
+# tb37 = proc.get_array("ex_data/processed_37.nc")
 ########################################################################################
 # Create a smoothed version of one time vector in swe
 #
@@ -43,7 +47,7 @@ tb19_filtered = proc.apply_filter_mphelper(tb19)
 tb37_filtered = proc.apply_filter_mphelper(tb37)
 
 swe_filtered = proc.safe_subtract(tb19_filtered, tb37_filtered)
-
+print(np.shape(swe_filtered))
 ########################################################################################
 # Visualize difference in raw and smoothed data
 #

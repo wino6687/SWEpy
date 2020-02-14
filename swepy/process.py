@@ -78,7 +78,7 @@ def vector_clean(cube):  # rename to ffill_array(cube)
     return cube
 
 
-def apply_filter(cube):
+def __filter(cube):
     """
     Apply a sav-gol filter from scipy to time vector's of cube
 
@@ -110,9 +110,9 @@ def apply_filter(cube):
     return smooth_cube
 
 
-def apply_filter_mphelper(cube):
+def apply_filter(cube):
     """
-    Helper function to apply the filter function in a parralel fashion
+    Function to apply the filter function in a parralel fashion
     Makes use of a Pool to process on every available core
 
     Parameters
@@ -128,7 +128,7 @@ def apply_filter_mphelper(cube):
             "Array Provided does not have a 2nd axis to split on. Please provide a 3 dimensional cube."
         )
     with Pool(cpus) as p:
-        parts = p.map(apply_filter, swe_parts)
+        parts = p.map(__filter, swe_parts)
         try:
             return np.concatenate(parts, axis=2)  # recombine split cube
         except ValueError:

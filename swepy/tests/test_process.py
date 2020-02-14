@@ -77,7 +77,7 @@ def test_apply_filter_success(arrays):
         axis=0,
     )
     swe = swe[:, 1:2, 1:2]
-    swe = process.apply_filter(swe)
+    swe = process.__filter(swe)
     assert swe.min() == 0
 
 
@@ -87,7 +87,7 @@ def test_apply_filter_fail(arrays):
     with apply_filter
     """
     tb19 = process.vector_clean(arrays[0])
-    clean19 = process.apply_filter(tb19)
+    clean19 = process.__filter(tb19)
     assert clean19 == ValueError
 
 
@@ -96,7 +96,7 @@ def test_apply_filter_large():
     Ensure apply_filter properly preserves array size when len > 51
     """
     tb19 = np.zeros((100, 5, 5))
-    clean19 = process.apply_filter(tb19)
+    clean19 = process.__filter(tb19)
     assert np.shape(clean19) == (100, 5, 5)
 
 
@@ -105,7 +105,7 @@ def test_apply_filter_mp():
     ensure array is preserved when fed into multiprocessing apply_filter
     """
     tb19 = np.zeros((100, 50, 50))
-    clean19 = process.apply_filter_mphelper(tb19)
+    clean19 = process.apply_filter(tb19)
     assert np.shape(clean19) == (100, 50, 50)
 
 
@@ -115,7 +115,7 @@ def test_apply_filter_mp_fail():
     """
     tb19 = np.zeros((100, 1))
     with pytest.raises(Exception):
-        process.apply_filter_mphelper(tb19)
+        process.apply_filter(tb19)
 
 
 def test_ocean_mask():

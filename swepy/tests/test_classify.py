@@ -7,7 +7,6 @@ import os
 
 @pytest.fixture
 def swe():
-    print(os.listdir())
     swe = np.load("swepy/tests/swe_testfile.npy")
     return swe
 
@@ -28,7 +27,21 @@ def test_optimal_jenk(swe):
     on test image that has been verified.
     """
     n_classes = classify.optimal_jenk(swe.ravel(), 0.8)
-    assert n_classes == 4
+    assert n_classes[0] == 4
+
+
+def test_optimal_jenk_bounds(swe):
+    """
+    Ensure the correct class bounds are found for test swe image
+    """
+    info = classify.optimal_jenk(swe.ravel(), 0.8)
+    assert info[1] == [
+        13.257644653320312,
+        16.314910888671875,
+        18.693313598632812,
+        21.749465942382812,
+        28.034332275390625,
+    ]
 
 
 def test_plot_jenk(swe):
