@@ -58,7 +58,7 @@ def pandas_fill(arr):
     return out
 
 
-def vector_clean(cube):  # rename to ffill_array(cube)
+def vector_clean(cube):
     """
     Clean erroneous spikes out of 37Ghz cube
 

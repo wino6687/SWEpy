@@ -43,7 +43,7 @@ tb19_filtered = proc.apply_filter(tb19)
 tb37_filtered = proc.apply_filter(tb37)
 
 swe_filtered = proc.safe_subtract(tb19_filtered, tb37_filtered)
-print(np.shape(swe_filtered))
+
 ########################################################################################
 # Visualize difference in raw and smoothed data
 #
@@ -55,7 +55,7 @@ x = np.array(range(len(swe_clean)))
 start = 320
 end = 600
 
-fig, ax = plt.subplots(1, 1, figsize=(30, 15))
+fig, ax = plt.subplots(1, 1, figsize=(15, 8))
 plt.plot(x[start:end], swe_clean[start:end, 4, 4])
 plt.plot(x[start:end], swe_filtered[start:end, 4, 4], color="red")
 plt.grid(0.25, zorder=3)
