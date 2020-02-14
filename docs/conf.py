@@ -179,6 +179,7 @@ autodoc_mock_imports = [
     "scipy",
     "zarr",
     "pandas",
+    "tqdm",
 ]
 
 sys.modules.update((mod_name, Mock()) for mod_name in autodoc_mock_imports)
