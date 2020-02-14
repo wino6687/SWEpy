@@ -34,6 +34,7 @@ There are more in depth explanations of each module under their respective docum
    installing_swepy
    getting_started
    pipeline_walkthrough
+   processing_data
    advanced_use
    api
 

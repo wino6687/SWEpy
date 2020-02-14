@@ -1,5 +1,5 @@
-Instantiating SWEpy Class
-=========================
+Getting Started with SWEpy ``pipeline``
+=======================================
 
 SWEpy has a range of functionality, but the main use case is obtaining SWE data within a given study region
 without needing massive amounts of disc space. 
@@ -28,7 +28,7 @@ In order to scrape, subset, and concatenate imagery into a single time cube, we 
 
 .. code-block:: python 
 
-    from swepy import pipeline
+    import swepy.pipeline as pipeline
 
     upper_left = [lon_upleft, lat_upleft]
     lower_right = [lon_lowright, lat_lowright]
