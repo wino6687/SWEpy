@@ -21,11 +21,12 @@ to match the other anytime we want to find SWE.
 
 In order to save time, ``get_array`` looks at metadata of a given file to determine whether to donwsample or not.
 This way, with one function call we can extract the temperature brightness and immediatly begin working with our data.
+In this example, we will avoid downsampling until we need to so that we can preserve metadata for saving the files later.
 
 .. code-block:: python 
 
     tb19 = process.get_array("my_19ghz_file.nc")
-    tb37 = process.get_array("my_37ghz_file.nc")
+    tb37 = process.get_array("my_37ghz_file.nc", downsample=False)
 
 
 Cleaning Erroneous Data Values in TB Arrays
@@ -65,9 +66,12 @@ NOTE:
     - If you need a single core solution, use ``process.__filter()``
 
 .. code-block:: python
+    import swepy.downsample as down
 
     tb19_filtered = process.apply_fiter(tb19_clean)
     tb37_filtered = process.apply_fiter(tb37_clean)
+
+    tb37_filtered = down.downsample(tb37_filtered, block_size=(1,2,2), func=np.mean)
 
     swe = process.safe_subtract(tb19_filtered, tb37_filtered)
 
@@ -75,6 +79,21 @@ Finally, we can see the result in the figure below!
 
 .. image:: smoothing.png
 
+
+Saving TB files Back to netCDF
+------------------------------
+
+Now that you have clean temperature brightness files, we can save them back to netCDF to store for later.
+
+The save function works by copying all spatial metadata from the original file, and replacing the original
+``TB`` array with our clean version. 
+
+NOTE: In order to copy the metadata from the original files, we can't downsample our tb37 array.
+
+.. code-block:: python
+
+    process.save_file("my_19ghz_file.nc", tb19_filtered, "my_19ghz_filtered.nc")
+    process.save_file("my_37ghz_file.nc", tb37_filtered, "my_37ghz_filtered.nc")
 
 Masking Ocean Pixels from Imagery
 ---------------------------------
