@@ -70,3 +70,17 @@ to successive windows of the data.
 Finally, we can see the result in the figure below!
 
 .. image:: smoothing.png
+
+
+Masking Ocean Pixels from Imagery
+---------------------------------
+
+Many useful areas of interest contain ocean pixels, which may not be desireable for a given analysis. 
+
+A simple solution to solve this is to mask them away. In order to determine which pixels to mask, SWEpy
+takes a winter day and performs a jenks classification on the image. If there is snow on the ground then 
+sea ice should be the first class since sea ice pixels have lower values than land pixels. 
+
+.. code-block:: python 
+
+    masked_cube = process.mask_ocean_winter(swe_cube, day=0, nclasses=3)
