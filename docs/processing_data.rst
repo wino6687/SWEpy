@@ -4,11 +4,9 @@ Cleaning and Filtering SWE Data with ``process``
 SWEpy's ``process`` module is built to allow fast access to your temperature brightness files.
 It also facilitates the cleaning of missing values and smoothing of messy data. 
 
-We can see from the image below that the SWE curve for a single pixel can be quite messy. This 
+We can see from the image at the bottom of the page that the SWE curve for a single pixel can be quite messy. This 
 is no suprise considering the nature of passive microwave senors. However, to glean as much useful
 information as we can from this data, we want to increase the signal to noise ration as much as possible.
-
-.. image:: un_smooth_swe.png
 
 Obtaining smoother SWE imagery will allow us to easily derive metrics such as rate of accumulation or melt.
 
