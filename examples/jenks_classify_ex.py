@@ -35,6 +35,9 @@ swe = np.load("ex_data/swe_lg_img.npy")
 # between 0 and 1.
 #
 # Here we will demonstrate the different optimal number of classes for varying threshold values
+#
+# When the threshold is set very high, like 0.99, it takes much longer to optimize, and returns
+# significantly more classes!
 
 print(classify.optimal_jenk(swe.ravel(), 0.5))
 
@@ -45,6 +48,8 @@ print(classify.optimal_jenk(swe.ravel(), 0.7))
 print(classify.optimal_jenk(swe.ravel(), 0.8))
 
 print(classify.optimal_jenk(swe.ravel(), 0.9))
+
+print(classify.optimal_jenk(swe.ravel(), 0.99))
 
 
 ########################################################################################
