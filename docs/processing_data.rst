@@ -64,6 +64,7 @@ NOTE:
     - If you need a single core solution, use ``process.__filter()``
 
 .. code-block:: python
+
     import swepy.downsample as down
 
     tb19_filtered = process.apply_fiter(tb19_clean)

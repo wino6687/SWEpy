@@ -65,6 +65,7 @@ The important step of subsetting files on your machine is to put them in a folde
 Data Directory: 
 
 .. code-block::
+
     data/
         wget/
         Subsetted_19H/
@@ -78,6 +79,7 @@ Data Directory:
 Example use after data is put in ``wget/`` folder:
 
 .. code-block:: python
+
     ul = [60,-133]
     lr = [69,-147]
     swe = pipe.Swepy(ul=ul, lr=lr)
